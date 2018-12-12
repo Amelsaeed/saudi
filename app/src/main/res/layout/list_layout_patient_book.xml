@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:id="@+id/doctor_photo_b"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter" />
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/doctor_name_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Name"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+               />
+
+            <TextView
+                android:id="@+id/doctor_specialty_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_name_b"
+                android:text="specialty"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/doctor_city_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_specialty_b"
+                android:text="City"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black" />
+            <TextView
+            android:id="@+id/doctor_date_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/doctor_city_b"
+            android:text="date"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:longClickable="true"
+            android:textIsSelectable="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/doctor_period_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_date_b"
+                android:text="period"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/doctor_current_date_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_period_b"
+                android:text="current date"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_city"
+                android:id="@+id/r"
+                >
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/doctor_photo1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_circle"
+            android:scaleType="fitXY" />
+            <TextView
+                android:id="@+id/arrange"
+
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="45"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textSize="40sp"
+                android:textStyle="bold"
+
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

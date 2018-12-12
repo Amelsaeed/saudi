@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_marginTop="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/user_photo"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/user_logo_m" />
+                <ProgressBar
+                    android:id="@+id/progressbar_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text=" Your name"
+                        android:textColor="#000"
+                        android:layout_marginBottom="15dp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+
+                        />
+                    <TextView
+                        android:id="@+id/edit1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Edit"
+                        android:textColor="#0826e7"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/user_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Your phone No."
+                        android:textColor="#000"
+                        android:layout_marginBottom="15dp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+
+                        />
+                    <TextView
+                        android:id="@+id/edit2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Edit"
+                        android:textColor="#0826e7"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/user_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Your Birthday."
+                        android:textColor="#000"
+                        android:layout_marginBottom="15dp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+
+                        />
+                    <TextView
+                        android:id="@+id/edit3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Edit"
+                        android:textColor="#0826e7"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

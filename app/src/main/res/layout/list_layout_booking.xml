@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+
+    android:layout_marginLeft="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Ex: from 15:00 to 18:00"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/Adress_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Adress"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+
+                android:textColor="#000" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/image_book"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Book"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:background="@drawable/button_round_blue" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/sat1"
+            android:button="@drawable/cal_checkbox_selector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="s"/>
+
+        <CheckBox
+            android:id="@+id/sun1"
+            android:button="@drawable/cal_checkbox_selector"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="s"/>
+        <CheckBox
+            android:id="@+id/mon1"
+            android:button="@drawable/cal_checkbox_selector"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="m"/>
+        <CheckBox
+            android:id="@+id/tus1"
+            android:button="@drawable/cal_checkbox_selector"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="t"/>
+        <CheckBox
+            android:id="@+id/wed1"
+            android:button="@drawable/cal_checkbox_selector"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="w"/>
+        <CheckBox
+            android:id="@+id/thu1"
+            android:button="@drawable/cal_checkbox_selector"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="t"/>
+        <CheckBox
+            android:id="@+id/fri1"
+            android:button="@drawable/cal_checkbox_selector"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="#000"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="f"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">The Clinic</string>
+
+
+    <string-array name="countries_array">
+        <item>Dammam</item>
+        <item>Khobar</item>
+        <item>Riyadh</item>
+    </string-array>
+
+    <string-array name="type_array">
+        <item>User</item>
+        <item>Doctor</item>
+        <item>Hospital</item>
+    </string-array>
+
+    <string-array name="spiciality_array">
+        <item>bones</item>
+        <item>tooth</item>
+        <item>ayes</item>
+    </string-array>
+
+    <string-array name="insurance_array">
+        <item>Boba</item>
+        <item>Njom</item>
+        <item>Star</item>
+        <item>Shark</item>
+        <item>Smsma</item>
+        <item>Saudi</item>
+    </string-array>
+
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+</resources>

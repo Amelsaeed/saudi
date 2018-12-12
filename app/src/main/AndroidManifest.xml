@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ahmedmagdy.theclinic">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".classes.My_self"
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_logo"
+        android:label="My Clinic"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.RegisterPatientActivity" />
+        <activity android:name=".activities.RegisterDoctorActivity" />
+        <activity android:name=".activities.RegisterHospitalActivity" />
+        <activity android:name=".activities.AllDoctorActivity" />
+        <activity android:name=".activities.AddDoctorActivity" />
+        <activity android:name=".activities.DoctorProfileActivity" />
+        <activity android:name=".activities.UserProfileActivity" />
+        <activity android:name=".activities.DoctorBookingsActivity" />
+        <activity android:name=".activities.FavActivity" />
+        <activity android:name=".activities.StartCahtRoom" />
+        <activity android:name=".activities.MessageActivity" />
+        <activity android:name=".activities.NoteActivity" />
+
+        <service
+            android:name=".Notifications.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".Notifications.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activities.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".activities.DoctorDatabaseActivity" />
+        <activity android:name=".activities.UserBookingActivity" />
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home" />
+        <activity android:name=".activities.RegestrationPathActivity"></activity>
+    </application>
+
+</manifest>

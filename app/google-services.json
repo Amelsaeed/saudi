@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "906520432576",
+    "firebase_url": "https://the-clinic-66fa1.firebaseio.com",
+    "project_id": "the-clinic-66fa1",
+    "storage_bucket": "the-clinic-66fa1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906520432576:android:4e002f9f07085111",
+        "android_client_info": {
+          "package_name": "com.example.ahmedmagdy.theclinic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906520432576-vqqqunr7f02n6377js7ki6t27gtpofl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP5Oz01n8sqNncAl0CAM5JMTHk0NGTAPo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

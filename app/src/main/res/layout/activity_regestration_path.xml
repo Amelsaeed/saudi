@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="com.example.ahmedmagdy.theclinic.activities.RegestrationPathActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/splashbackground"
+        android:scaleType="centerCrop"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/splash_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+           android:gravity="center_horizontal"
+            android:layout_marginTop="42dp"
+            android:src="@drawable/tmycliniclogo" />
+
+    <ImageView
+        android:id="@+id/Pataint_logo_r"
+        android:layout_marginTop="42dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_account_u"
+        android:layout_gravity="center_horizontal"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"/>
+
+        <ImageView
+            android:id="@+id/doctor_logo_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_work" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Doctor"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"/>
+
+        <ImageView
+            android:id="@+id/hospital_logo_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_account_balance" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hospital"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"/>
+
+
+
+
+    </LinearLayout>
+</RelativeLayout>
+</RelativeLayout>
+

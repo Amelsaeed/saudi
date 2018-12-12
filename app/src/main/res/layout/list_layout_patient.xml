@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:id="@+id/p_photo"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/p_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:longClickable="true"
+                android:text="Name"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:textIsSelectable="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/p_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/p_name"
+                android:text="phone"
+                android:longClickable="true"
+                android:textIsSelectable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/p_phone"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="last seen: "
+                    android:longClickable="true"
+                    android:textIsSelectable="true"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    />
+                <TextView
+                    android:id="@+id/p_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/p_phone"
+                    android:text="date"
+                    android:longClickable="true"
+                    android:textIsSelectable="true"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_city"
+                android:id="@+id/r"
+                >
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

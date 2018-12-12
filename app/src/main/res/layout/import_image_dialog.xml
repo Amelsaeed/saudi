@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="#efefef"
+    >
+
+
+
+        <TextView
+            android:id="@+id/gallery_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gallery"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/roundwhite"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <TextView
+            android:id="@+id/open_camera_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Open Camera"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/roundwhite"
+            android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dismiss_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:padding="8dp"
+        android:textSize="16sp"
+        android:gravity="right"
+        android:layout_marginRight="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        />
+
+</LinearLayout>
