@@ -179,6 +179,11 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(iii);
                     finish();
                 } else {
+                    Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(iii);
+                    finish();
                 }
 
 

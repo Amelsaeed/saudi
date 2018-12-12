@@ -104,19 +104,23 @@ public class SplashActivity extends AppCompatActivity {
 
 
                 if(usertype .equals("User") ) {
-                    Intent iii= new Intent(SplashActivity.this,FavActivity.class);
+                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(SplashActivity.this,DoctorBookingsActivity.class);
+                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(iii);
                     finish();
                 }else{
-
+                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(iii);
+                    finish();
                 }
 
 
