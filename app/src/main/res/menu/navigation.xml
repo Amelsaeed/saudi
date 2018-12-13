@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/home_icon"
         android:title="Home" />
 
     <item
@@ -10,17 +10,13 @@
         android:icon="@drawable/ic_favorite_black_24dp"
         android:title="favorite" />
 
-    <item
-        android:id="@+id/navigation_search"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="search" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/shape"
         android:title="acount" />
     <item
-        android:id="@+id/navigation_Dates"
-        android:icon="@drawable/ic_rate_review_black_24dp"
+        android:id="@+id/navigation_menu"
+        android:icon="@drawable/menu1"
         android:title="My Date" />
 </menu>

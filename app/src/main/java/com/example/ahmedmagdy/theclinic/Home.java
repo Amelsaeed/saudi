@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import com.example.ahmedmagdy.theclinic.Fragments.LoginAFragment;
 import com.example.ahmedmagdy.theclinic.Fragments.RegisterFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,20 +33,16 @@ public class Home extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    //  fragment = new AllDoctorActivity();
+                  fragment = new AllDoctorfragment();
 
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_favorite:
-                    //      fragment = new FavActivity();
+                       fragment = new FavFragment();
 
                     loadFragment(fragment);
                     return true;
-                case R.id.navigation_search:
-                    //   fragment = new FavActivity();
 
-                    loadFragment(fragment);
-                    return true;
                 case R.id.navigation_profile:
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user == null) {
@@ -55,7 +53,7 @@ public class Home extends AppCompatActivity {
                         loadFragment(fragment);
                     }
                     return true;
-                case R.id.navigation_Dates:
+                case R.id.navigation_menu:
                     return true;
             }
             return false;
