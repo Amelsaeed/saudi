@@ -57,6 +57,9 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctorname = (TextView) listViewItem.findViewById(R.id.doctor_name);
         final TextView adoctorspecialty = (TextView) listViewItem.findViewById(R.id.doctor_specialty);
         final TextView adoctorcity = (TextView) listViewItem.findViewById(R.id.doctor_city);
+        final ImageView Book = (ImageView) listViewItem.findViewById(R.id.book123);
+        final ImageView ChatRoom = (ImageView) listViewItem.findViewById(R.id.chatroom);
+
 
         final CheckBox favcheckbox = (CheckBox) listViewItem.findViewById(R.id.fav_checkbox);
         mAuth = FirebaseAuth.getInstance();
@@ -69,74 +72,79 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         favcheckbox.setChecked(doctorclass.getChecked());
         favcheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-           @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if(mAuth.getCurrentUser()== null){
-                   Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
-                   buttonView.setChecked(false);
-               }else {
-                   DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-                   DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                           .child(mAuth.getCurrentUser().getUid());
-                   DoctorFirebaseClass doctorclass = doctorList.get(position);
-                   if (isChecked) {
-                       // update database
-                       // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
-                       databaseDoctorFav.child(doctorclass.getcId()).child("cId").setValue(doctorclass.getcId());
-                       databaseDoctorFav.child(doctorclass.getcId()).child("checked").setValue(isChecked);
-                       // Toast.makeText(context,doctorclass.getcId() , Toast.LENGTH_LONG).show();
-                       // databaseDoctorFav.setValue(doctorclass);
-                       //databaseDoctorFav.child("checked").setValue(isChecked);
-
-                       Toast.makeText(context, doctorclass.getcName() + " is added to your fav.", Toast.LENGTH_LONG).show();
-                      // Intent intent = new Intent(context, FavActivity.class);
-                       //context.startActivity(intent);
-//return;
-                   } else {
-                       // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
-                       databaseDoctorFav.child(doctorclass.getcId()).setValue(null);
-
-                       Toast.makeText(context,  "Removed", Toast.LENGTH_LONG).show();
-                       Intent intent = new Intent(context, FavActivity.class);
-                       context.startActivity(intent);
-                   }
-               }
-           }
-          });
-
-        adoctorname.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                DoctorFirebaseClass doctorclass = doctorList.get(position);
-                Intent uIntent = new Intent(context, DoctorProfileActivity.class);
-                uIntent.putExtra("DoctorID", doctorclass.getcId());
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mAuth.getCurrentUser() == null) {
+                    Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+                    buttonView.setChecked(false);
+                } else {
+                    DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+                    DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
+                            .child(mAuth.getCurrentUser().getUid());
+                    DoctorFirebaseClass doctorclass = doctorList.get(position);
+                    if (isChecked) {
+                        // update database
+                        // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
+                        databaseDoctorFav.child(doctorclass.getcId()).child("cId").setValue(doctorclass.getcId());
+                        databaseDoctorFav.child(doctorclass.getcId()).child("checked").setValue(isChecked);
+                        // Toast.makeText(context,doctorclass.getcId() , Toast.LENGTH_LONG).show();
+                        // databaseDoctorFav.setValue(doctorclass);
+                        //databaseDoctorFav.child("checked").setValue(isChecked);
 
-                uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(uIntent);
-                // context.finish();
+                        Toast.makeText(context, doctorclass.getcName() + " is added to your fav.", Toast.LENGTH_LONG).show();
+                        // Intent intent = new Intent(context, FavActivity.class);
+                        //context.startActivity(intent);
+//return;
+                    } else {
+                        // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
+                        databaseDoctorFav.child(doctorclass.getcId()).setValue(null);
+
+                        Toast.makeText(context, "Removed", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(context, FavActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
             }
         });
 
-        adoctorphoto.setOnClickListener(new View.OnClickListener() {
+        Book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mAuth.getCurrentUser()== null){
+                if ((mAuth.getCurrentUser() == null)) {
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
+                    DoctorFirebaseClass doctorclass = doctorList.get(position);
+                    Intent uIntent = new Intent(context, DoctorProfileActivity.class);
+                    uIntent.putExtra("DoctorID", doctorclass.getcId());
+
+                    uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(uIntent);
+                    // context.finish();
+                }
+            }
+        });
+
+        ChatRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAuth.getCurrentUser() == null) {
+                    Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+                } else {
                     DoctorFirebaseClass doctorclasss = doctorList.get(position);
                     Intent intent = new Intent(context, MessageActivity.class);
-
                     intent.putExtra("userid", doctorclasss.getcId());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
+
+
             }
         });
 
         adoctorname.setText(doctorclass.getcName());
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
-       // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
+        // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
 
 
         a1 = doctorclass.getcUri();

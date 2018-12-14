@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:11.0.4'
     // zoomImageView
     implementation 'com.github.chrisbanes:PhotoView:1.2.6'
+    implementation 'com.android.support:cardview-v7:26.1.0'
 }
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ahmedmagdy.theclinic">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,7 +17,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -30,7 +32,6 @@
         <activity android:name=".activities.RegisterPatientActivity" />
         <activity android:name=".activities.RegisterDoctorActivity" />
         <activity android:name=".activities.RegisterHospitalActivity" />
-        <activity android:name=".activities.AllDoctorActivity" />
         <activity android:name=".activities.AddDoctorActivity" />
         <activity android:name=".activities.DoctorProfileActivity" />
         <activity android:name=".activities.UserProfileActivity" />
@@ -76,7 +77,8 @@
         <activity android:name=".activities.UserBookingActivity" />
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home" />
+            android:label="@string/title_activity_home"
+            android:theme="@style/SplashTheme"/>
         <activity android:name=".activities.RegestrationPathActivity"></activity>
     </application>
 

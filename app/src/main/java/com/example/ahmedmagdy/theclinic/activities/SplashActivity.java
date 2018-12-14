@@ -13,7 +13,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ahmedmagdy.theclinic.Home;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
+import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,7 +79,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (user != null) {
                     getallData();
                 } else {
-                    Intent intent=new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    Intent intent=new Intent(SplashActivity.this,AllDoctorfragment.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -104,19 +106,19 @@ public class SplashActivity extends AppCompatActivity {
 
 
                 if(usertype .equals("User") ) {
-                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    Intent iii= new Intent(SplashActivity.this,Home.class);
                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    Intent iii= new Intent(SplashActivity.this,Home.class);
                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(iii);
                     finish();
                 }else{
-                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    Intent iii= new Intent(SplashActivity.this,Home.class);
                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(iii);
