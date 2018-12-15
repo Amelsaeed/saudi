@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AllDoctorfragment extends Fragment {
+public class AllDoctorfragment extends Fragment implements View.OnClickListener{
     ImageView addDoctorButton;
 
     private FirebaseAuth mAuth;
@@ -63,55 +63,30 @@ public class AllDoctorfragment extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_all_doctor, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        addDoctorButton = (ImageView) getActivity().findViewById(R.id.adddoctor);
+        View rootView = inflater.inflate(R.layout.activity_all_doctor, container, false);
+        addDoctorButton = (ImageView) rootView.findViewById(R.id.adddoctor);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        progressBar = (ProgressBar)  getActivity().findViewById(R.id.home_progress_bar);
+        progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= (ListView) getActivity().findViewById(R.id.list_view_doctor);
-        searchView = (SearchView)  getActivity().findViewById(R.id.search);
+        listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
+        searchView = (SearchView)  rootView.findViewById(R.id.search);
         doctorList=new ArrayList<>();
         favList=new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
-        btnproceed= (ImageView)  getActivity().findViewById(R.id.map);
-
-        btnproceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(getActivity(),MapsActivity.class);
-                startActivity(i);
-            }
-        });
-
-        addDoctorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fuser != null) {
-                    Intent it = new Intent(getActivity(), FavActivity.class);
-                    startActivity(it);
-                } else {
-                    Toast.makeText(getActivity(), "You should log in firstly", Toast.LENGTH_LONG).show();
-                    Intent it = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(it);
-                }
-            }
-        });
-//        updateToken(FirebaseInstanceId.getInstance().getToken());
+        btnproceed= (ImageView)  rootView.findViewById(R.id.map);
+        btnproceed.setOnClickListener(this);
+        return rootView;
     }
+
     /**  private void updateToken(String token){
      DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
      Token token1 = new Token(token);
@@ -250,4 +225,13 @@ public class AllDoctorfragment extends Fragment {
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.map:
+                Intent i=new Intent(getActivity(),MapsActivity.class);
+                startActivity(i);
+                break;
+    }
+}
 }
