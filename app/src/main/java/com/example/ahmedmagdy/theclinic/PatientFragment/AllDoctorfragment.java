@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -229,8 +230,10 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.map:
-                Intent i=new Intent(getActivity(),MapsActivity.class);
-                startActivity(i);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+              FragmentTransaction replace = transaction.replace(R.id.frame_container, new MapsActivity());
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
     }
 }
