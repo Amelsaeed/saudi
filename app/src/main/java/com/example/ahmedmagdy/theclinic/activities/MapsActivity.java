@@ -78,6 +78,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback,Locatio
 
         mMap = googleMap;
         googleMap.setOnMarkerClickListener(this);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
           mMap.getUiSettings().setZoomGesturesEnabled(true);
         databaseMap.addListenerForSingleValueEvent(new ValueEventListener() {
 
