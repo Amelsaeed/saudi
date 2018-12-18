@@ -1,7 +1,6 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -9,11 +8,10 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.Home;
+import com.example.ahmedmagdy.theclinic.HospitalHome;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.R;
@@ -79,7 +77,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (user != null) {
                     getallData();
                 } else {
-                    Intent intent=new Intent(SplashActivity.this,AllDoctorfragment.class);
+                    Intent intent=new Intent(SplashActivity.this,PatientHome.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -95,36 +93,29 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getallData() {
 
-        DatabaseReference databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Doctordb");
         //**************************************************//
         // private void getallData();
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cType").getValue(String.class);
 
 
                 if(usertype .equals("User") ) {
-                    Intent iii= new Intent(SplashActivity.this,Home.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
+                    Intent iii= new Intent(SplashActivity.this,PatientHome.class);
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(SplashActivity.this,Home.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
+                    Intent iii= new Intent(SplashActivity.this,PatientHome.class);
                     startActivity(iii);
                     finish();
-                }else{
-                    Intent iii= new Intent(SplashActivity.this,Home.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
+                }else if(usertype .equals("Hospital")){
+                    Intent iii= new Intent(SplashActivity.this,HospitalHome.class);
                     startActivity(iii);
                     finish();
                 }
-
 
             }
 
@@ -133,7 +124,7 @@ public class SplashActivity extends AppCompatActivity {
                 // Getting Post failed, log a message
             }
         };
-        databaseChat .addValueEventListener(postListener1);
+        database.addValueEventListener(postListener1);
     }
     private void updateToken(String token) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");

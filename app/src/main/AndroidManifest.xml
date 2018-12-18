@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".Home"
+            android:name=".PatientHome"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,14 +70,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-
         <activity android:name=".activities.DoctorDatabaseActivity" />
         <activity android:name=".activities.UserBookingActivity" />
         <activity
             android:name=".activities.SplashActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/SplashTheme"/>
-        <activity android:name=".activities.RegestrationPathActivity"></activity>
+            android:theme="@style/SplashTheme" />
+        <activity android:name=".activities.RegestrationPathActivity" />
+        <activity android:name=".HospitalHome"
+            android:theme="@style/SplashTheme"></activity>
     </application>
 
 </manifest>

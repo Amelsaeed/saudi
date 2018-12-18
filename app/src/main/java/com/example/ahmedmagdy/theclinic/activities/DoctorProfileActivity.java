@@ -41,7 +41,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.Adapters.BookingAdapter;
-import com.example.ahmedmagdy.theclinic.Fragments.APIService;
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
 import com.example.ahmedmagdy.theclinic.Notifications.Client;
 import com.example.ahmedmagdy.theclinic.Notifications.Data;
 import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;

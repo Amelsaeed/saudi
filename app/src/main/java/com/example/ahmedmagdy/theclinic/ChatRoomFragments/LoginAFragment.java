@@ -1,4 +1,4 @@
-package com.example.ahmedmagdy.theclinic.Fragments;
+package com.example.ahmedmagdy.theclinic.ChatRoomFragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

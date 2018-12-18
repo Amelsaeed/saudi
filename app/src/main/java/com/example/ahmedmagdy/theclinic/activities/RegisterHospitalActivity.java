@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
@@ -381,7 +382,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
-                            Intent intend = new Intent(RegisterHospitalActivity.this, AllDoctorActivity.class);
+                            Intent intend = new Intent(RegisterHospitalActivity.this, HospitalHome.class);
                             intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
                             startActivity(intend);

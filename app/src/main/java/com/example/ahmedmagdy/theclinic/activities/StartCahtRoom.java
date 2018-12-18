@@ -24,9 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.ahmedmagdy.theclinic.Fragments.ChatsFragment;
-import com.example.ahmedmagdy.theclinic.Fragments.ProfileFragment;
-import com.example.ahmedmagdy.theclinic.Fragments.UsersFragment;
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.ChatsFragment;
 import com.example.ahmedmagdy.theclinic.Model.Chat;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;

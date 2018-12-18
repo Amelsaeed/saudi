@@ -1,4 +1,4 @@
-package com.example.ahmedmagdy.theclinic.Fragments;
+package com.example.ahmedmagdy.theclinic.ChatRoomFragments;
 
 import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;
 import com.example.ahmedmagdy.theclinic.Notifications.Sender;

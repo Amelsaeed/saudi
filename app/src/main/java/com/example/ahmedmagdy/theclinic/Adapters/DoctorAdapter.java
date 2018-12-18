@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.activities.FavActivity;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MessageActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,6 +76,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (mAuth.getCurrentUser() == null) {
+                    context.startActivity(new Intent(context,LoginActivity.class));
+                    context.finish();
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                     buttonView.setChecked(false);
                 } else {
@@ -111,6 +114,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onClick(View v) {
                 if ((mAuth.getCurrentUser() == null)) {
+                    context.startActivity(new Intent(context,LoginActivity.class));
+                    context.finish();
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                 } else {
                     DoctorFirebaseClass doctorclass = doctorList.get(position);
@@ -128,6 +133,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onClick(View v) {
                 if (mAuth.getCurrentUser() == null) {
+                    context.startActivity(new Intent(context,LoginActivity.class));
+                    context.finish();
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                 } else {
                     DoctorFirebaseClass doctorclasss = doctorList.get(position);

@@ -1,4 +1,4 @@
-package com.example.ahmedmagdy.theclinic.Fragments;
+package com.example.ahmedmagdy.theclinic.ChatRoomFragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;

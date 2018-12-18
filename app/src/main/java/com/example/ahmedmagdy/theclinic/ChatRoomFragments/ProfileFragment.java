@@ -1,4 +1,4 @@
-package com.example.ahmedmagdy.theclinic.Fragments;
+package com.example.ahmedmagdy.theclinic.ChatRoomFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

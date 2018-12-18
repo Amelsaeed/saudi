@@ -5,18 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.ahmedmagdy.theclinic.Fragments.LoginAFragment;
-import com.example.ahmedmagdy.theclinic.Fragments.RegisterFragment;
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.LoginAFragment;
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.RegisterFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Home extends AppCompatActivity {
+public class PatientHome extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
