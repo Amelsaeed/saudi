@@ -35,4 +35,13 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="empty_name_field_msg">Please enter the name</string>
+    <string name="empty_age_field_msg">Please enter the age</string>
+    <string name="empty_address_field_msg">Please set the address</string>
+    <string name="empty_time_field_msg">Please set the time</string>
+    <string name="empty_day_field_msg">Please enter the day</string>
+    <string name="network_connection_msg">Please check the network connection</string>
+    <string name="full_name">Full Name</string>
+    <string name="no_working_hours_msg">You didn\'t add the working hours yet.\nPlease add them from your account profile </string>
+    <string name="calendar">Calendar</string>
 </resources>

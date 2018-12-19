@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splashbackground"
+    android:padding="8dp">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/full_name_tv"
+    android:text="@string/full_name"
+    android:textSize="16sp"
+    android:textColor="@color/colorPrimaryDark"
+    android:textStyle="bold"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="8dp"
+
+    />
+    <EditText
+        android:id="@+id/pat_name_et"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/white_rect"
+        android:hint="@string/full_name"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/full_name_tv"
+        android:padding="8dp"
+       />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/age_tv"
+        android:text="Age"
+        android:textSize="16sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_below="@id/pat_name_et"
+        />
+
+    <EditText
+        android:id="@+id/pat_age_et"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/white_rect"
+        android:hint="Age"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/age_tv"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_address_tv"
+        android:text="Booking address"
+        android:textSize="16sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_below="@id/pat_age_et"
+        />
+    <Spinner
+        android:id="@+id/address_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_below="@id/book_address_tv"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_day_tv"
+        android:text="Booking Time"
+        android:textSize="16sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_below="@id/address_sp"
+        />
+
+    <Spinner
+        android:id="@+id/booking_time_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:layout_below="@id/book_day_tv"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_date_tv"
+        android:text="Booking date"
+        android:textSize="16sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_below="@id/booking_time_sp"
+        />
+
+    <TextView
+        android:id="@+id/booking_day_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="26-11-2018"
+        android:padding="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:drawableRight="@drawable/ic_expand_more"
+        android:background="@drawable/white_rect"
+        android:layout_below="@id/book_date_tv"
+
+        />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/error_msg_tv"
+        android:layout_below="@id/booking_day_tv"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="#ea3232"
+        android:textSize="16sp"
+        android:text=""
+        android:visibility="gone"
+        />
+
+
+</RelativeLayout>

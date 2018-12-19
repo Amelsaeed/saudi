@@ -4,268 +4,350 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splashbackground"
     tools:context="com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/edit_photo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/doctor_logo_m" />
+
+    <TextView
+        android:id="@+id/pname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_photo"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="10dp"
+        android:text="Name"
+
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="#000"
+        android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/name_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:layout_marginLeft="8dp"
+        android:scaleType="center"
+        android:background="@drawable/button_round_blue"
+        android:layout_toRightOf="@id/pname"
+        android:layout_below="@id/edit_photo"
+
+        />
+
+    <TextView
+        android:id="@+id/doctor_email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pname"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:padding="8dp"
+        android:text="hgfhfgfh@ghgfhffh"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/doc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:background="@drawable/button_round_blue"
+        android:onClick="chat"
+        android:text="chat"
+        android:visibility="gone" />
 
-
-            <TextView
-                android:id="@+id/pname"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="Name"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-
-                />
-        <Button
-            android:id="@+id/doc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="chat"
-            android:text="chat"
-            android:background="@drawable/button_round_blue"/>
-
-
-    <LinearLayout
+    <Button
+        android:id="@+id/working_hours_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/pname"
-        android:id="@+id/lin">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/gradient_rect_button"
+        android:text="Working hours"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black" />
 
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1">
+    <ProgressBar
+        android:id="@+id/progressbar_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/edit_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:layout_marginTop="30dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/doctor_logo_m" />
-            <ProgressBar
-                android:id="@+id/progressbar_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:visibility="gone" />
-        </RelativeLayout>
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="2">
+    <ScrollView
+        android:layout_below="@id/doctor_email_tv"
+        android:layout_above="@id/working_hours_btn"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              >
+    <TextView
+        android:id="@+id/price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/white_rect"
+        android:padding="8dp"
+        android:text="Detection Price"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <TextView
+        android:id="@+id/pprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/price_tv"
+        android:background="@color/colorAccent"
+        android:padding="8dp"
+        android:text="Detection price"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <ImageView
+        android:id="@+id/price_edit"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:scaleType="center"
+        android:layout_toRightOf="@id/pprice"
+        android:background="@drawable/button_round_blue"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/city_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price_tv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/white_rect"
+        android:padding="8dp"
+        android:text="State/ City"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
 
-            android:layout_margin="15dp"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/ppcity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pprice"
+        android:layout_toRightOf="@id/city_tv"
+        android:background="@color/colorPrimary"
+        android:padding="8dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="10dp"
+        android:text="State/ City"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <ImageView
+        android:id="@+id/city_edit"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:scaleType="center"
+        android:background="@drawable/button_round_blue"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/ppcity"
+        android:layout_below="@id/price_edit"
+        android:layout_marginTop="8dp"
+        />
+    <TextView
+        android:id="@+id/speciality_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city_tv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/white_rect"
+        android:padding="8dp"
+        android:text="Speciality"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
 
-                <TextView
-                    android:id="@+id/ppcity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="6dp"
-                    android:text="State/ City"
-                    android:textColor="#000"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    />
+    <TextView
+        android:id="@+id/pspeciality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent"
+        android:padding="8dp"
+        android:text="Specialty"
+        android:layout_below="@id/ppcity"
+        android:layout_toRightOf="@id/speciality_tv"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <ImageView
+        android:id="@+id/speciality_edit"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:scaleType="center"
+        android:background="@drawable/button_round_blue"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/pspeciality"
+        android:layout_below="@id/city_tv"
+        android:layout_marginTop="8dp"
+        />
+    <TextView
+        android:id="@+id/degree_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/speciality_tv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/white_rect"
+        android:padding="8dp"
+        android:text="Degree"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <TextView
+        android:id="@+id/pdegree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent"
+        android:layout_below="@id/speciality_tv"
+        android:layout_toRightOf="@id/degree_tv"
+        android:padding="8dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="10dp"
+        android:text="Degree"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000"
+        />
+    <ImageView
+        android:id="@+id/degree_edit"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:scaleType="center"
+        android:background="@drawable/button_round_blue"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/pdegree"
+        android:layout_below="@id/speciality_edit"
+        android:layout_marginTop="8dp"
+        />
+    <TextView
+        android:id="@+id/phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/degree_tv"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/white_rect"
+        android:padding="8dp"
+        android:text="Phone Number"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <TextView
+        android:id="@+id/pphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent"
+        android:padding="8dp"
+        android:layout_below="@id/pdegree"
+        android:layout_toRightOf="@id/phone_tv"
+        android:text="Phone Number"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000"
+        />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e6dede"
-                />
+    <ImageView
+        android:id="@+id/phone_edit"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:scaleType="center"
+        android:background="@drawable/button_round_blue"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/pphone"
+        android:layout_below="@id/degree_edit"
+        android:layout_marginTop="8dp"
+        />
+          </RelativeLayout>
+    </ScrollView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Average detection time:"
+        android:visibility="gone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#000"
 
-                <TextView
-                    android:id="@+id/pspeciality"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="6dp"
-                    android:text="Specialty"
-                    android:textColor="#000"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    />
+        />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e6dede"
-                />
+    <TextView
+        android:id="@+id/ptime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="10 min"
+        android:visibility="gone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#000"
 
-                <TextView
-                    android:id="@+id/pdegree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="6dp"
+        />
 
-                    android:text="Degree"
-                    android:textColor="#000"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+    <EditText
+        android:id="@+id/peditbox"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/textboxx"
+        android:gravity="start"
+        android:hint="What about you"
+        android:inputType="text"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:visibility="gone" />
 
-                    />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e6dede"
-                />
-                <TextView
-                    android:id="@+id/pphone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="6dp"
-
-                    android:text="Phone Number"
-                    android:textColor="#000"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-
-                    />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e6dede"
-                />
-
-
-                <TextView
-                    android:id="@+id/pprice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="Detection price"
-                    android:textColor="#000"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-
-                    />
+    <TextView
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Add"
+        android:visibility="gone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#0826e7" />
 
 
-
-
-        </LinearLayout>
-        </ScrollView>
-
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e6dede"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="Average detection time:"
-                android:textColor="#000"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-
-                />
-            <TextView
-                android:id="@+id/ptime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="10 min"
-                android:textColor="#000"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-
-                />
-
-        </LinearLayout>
-        <EditText
-            android:id="@+id/peditbox"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:maxLines="5"
-            android:inputType="text"
-            android:gravity="start"
-            android:padding="10dp"
-            android:layout_margin="15dp"
-            android:background="@drawable/textboxx"
-            android:hint="What about you" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="Working hours"
-                android:textColor="#838384"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                />
-            <TextView
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="Add"
-                android:textColor="#0826e7"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                />
-        </LinearLayout>
-    <RelativeLayout
+    <ListView
+        android:id="@+id/list_view_booking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/add_book"
-        >
-           <ListView
-            android:id="@+id/list_view_booking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-               android:paddingLeft="10dp"
-               />
-
-        <Button
-            android:id="@+id/test_show_booking_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="19dp"
-            android:text="test show booking"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@color/colorPrimaryDark"/>
-        <ProgressBar
-            android:id="@+id/booking_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            />
-    </RelativeLayout>
+        android:paddingLeft="10dp"
+        android:visibility="gone" />
 
 
-    </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/booking_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

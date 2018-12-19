@@ -1,18 +1,14 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (user != null) {
                     getallData();
                 } else {
-                    Intent intent=new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -110,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(SplashActivity.this,AllDoctorActivity.class);
+                    Intent iii= new Intent(SplashActivity.this,Doctor_home_activity.class);
                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(iii);

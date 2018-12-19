@@ -164,7 +164,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         paddbook = (TextView) findViewById(R.id.add);
 
         // Test only
-        Button testBtn = findViewById(R.id.test_show_booking_list);
+        Button testBtn = findViewById(R.id.working_hours_btn);
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,10 +1,16 @@
-package com.example.ahmedmagdy.theclinic.activities;
+package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
@@ -13,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.ahmedmagdy.theclinic.Adapters.BookingExpandableListAdapter;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.AddPatient;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,14 +36,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class DoctorBookingsActivity extends AppCompatActivity {
+public class BookingFragment extends Fragment {
 
-
+    View rootView;
     BookingExpandableListAdapter expandableListAdapter;
     ExpandableListView expandableListView;
     RelativeLayout calendarPick;
     ProgressBar progressBar;
     TextView dateView,dayView;
+    FloatingActionButton addPatient;
     private DatabaseReference mBookingRef;
     private ValueEventListener mBookingListener;
     private FirebaseAuth mAuth;
@@ -44,26 +52,27 @@ public class DoctorBookingsActivity extends AppCompatActivity {
     String selectedDate;
     ArrayList<BookingTimesClass> mBookingsGroupList;
     HashMap<BookingTimesClass, List<BookingTimesClass>> mBookingsChildList;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_bookings);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        expandableListView = findViewById(R.id.booking_expandable_list);
-        calendarPick =  findViewById(R.id.calendar_pick);
+        rootView = getLayoutInflater().inflate(R.layout.activity_doctor_bookings,container,false);
+
+        expandableListView =  rootView.findViewById(R.id.booking_expandable_list);
+        calendarPick =  rootView.findViewById(R.id.calendar_pick);
 
 
-        progressBar =  findViewById(R.id.dr_booking_pb);
-        dateView =  findViewById(R.id.booking_date);
-        dayView =  findViewById(R.id.booking_day);
-
+        progressBar =  rootView.findViewById(R.id.dr_booking_pb);
+        dateView =  rootView.findViewById(R.id.booking_date);
+        dayView =  rootView.findViewById(R.id.booking_day);
+        addPatient =  rootView.findViewById(R.id.add_patient_fb);
         mBookingsGroupList= new ArrayList<>();
         mBookingsChildList = new HashMap<>();
 
         mAuth = FirebaseAuth.getInstance();
 
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
-        mBookingRef.keepSynced(true);
         selectedDate = UtilClass.getInstanceDate();
         try {
             selectedDay = UtilClass.getDayNameFromDate(selectedDate);
@@ -77,16 +86,32 @@ public class DoctorBookingsActivity extends AppCompatActivity {
         calendarPick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              openCalendarPicker();
+                openCalendarPicker();
 
             }
         });
+
+
+        addPatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),AddPatient.class);
+                startActivity(intent);
+
+            }
+        });
+        return rootView;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
     }
 
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
        progressBar.setVisibility(View.VISIBLE);
      makeTable();
@@ -95,7 +120,7 @@ public class DoctorBookingsActivity extends AppCompatActivity {
 
     private void makeTable() {
 
-        if (UtilClass.isNetworkConnected(DoctorBookingsActivity.this)) {
+        if (UtilClass.isNetworkConnected(getContext())) {
 
           mBookingListener =  new ValueEventListener() {
 
@@ -150,11 +175,11 @@ public class DoctorBookingsActivity extends AppCompatActivity {
                         }
                     }
 
-                    expandableListAdapter = new BookingExpandableListAdapter(DoctorBookingsActivity.this, mBookingsGroupList,mBookingsChildList);
+                    expandableListAdapter = new BookingExpandableListAdapter(getContext(), mBookingsGroupList,mBookingsChildList);
                     expandableListView.setAdapter(expandableListAdapter);
                     progressBar.setVisibility(View.GONE);
 
-                    TextView emptyListView = (TextView) findViewById(R.id.empty_list_tv);
+                    TextView emptyListView = rootView.findViewById(R.id.empty_list_tv);
                     expandableListView.setEmptyView(emptyListView);
                 }
 
@@ -170,7 +195,7 @@ public class DoctorBookingsActivity extends AppCompatActivity {
     }
 
     private void openCalendarPicker() {
-        ImageGenerator mImageGenerator = new ImageGenerator(DoctorBookingsActivity.this);
+        ImageGenerator mImageGenerator = new ImageGenerator(getContext());
 
 // Set the icon size to the generated in dip.
         mImageGenerator.setIconSize(50, 50);
@@ -194,7 +219,7 @@ public class DoctorBookingsActivity extends AppCompatActivity {
         int year=mCurrentDate.get(Calendar.YEAR);
         int month=mCurrentDate.get(Calendar.MONTH);
         int day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog mPickerDialog =  new DatePickerDialog(DoctorBookingsActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog mPickerDialog =  new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
 
@@ -223,11 +248,19 @@ public class DoctorBookingsActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (mBookingListener != null){
             mBookingRef.removeEventListener(mBookingListener);
         }
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (mBookingListener != null){
+            mBookingRef.removeEventListener(mBookingListener);
+        }
     }
 }

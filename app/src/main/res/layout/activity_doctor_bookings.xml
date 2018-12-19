@@ -5,40 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.DoctorBookingsActivity">
+    android:background="@drawable/splashbackground"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/calendar_pick"
+        android:background="@drawable/gradient_rect_button"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        >
+        <TextView
+            android:id="@+id/cal_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calendar"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_calender"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@id/cal_tv"
+            android:layout_marginRight="8dp"
+            />
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@drawable/white_rect"
         >
-     <Button
-         android:id="@+id/calendar_btn"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_margin="8dp"
-         android:text="calendar"
-         android:layout_alignParentLeft="true"
-         />
-   <TextView
-       android:id="@+id/booking_day"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_toRightOf="@id/calendar_btn"
-       android:layout_margin="8dp"
-       android:text="Today"
-       android:textStyle="bold"
-       android:textSize="16sp"
-       />
+        <TextView
+            android:id="@+id/booking_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Today"
+            android:layout_marginTop="4dp"
+            android:textColor="@android:color/black"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
         <TextView
             android:id="@+id/booking_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/calendar_btn"
             android:layout_below="@id/booking_day"
-            android:layout_marginLeft="8dp"
+            android:layout_centerHorizontal="true"
             android:textStyle="bold"
             android:text="25-10-2018"
+            android:layout_marginBottom="4dp"
             android:textSize="16sp"
             />
         <Button
@@ -47,48 +71,48 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="all Doctors"
+            android:visibility="gone"
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <ExpandableListView
-        android:id="@+id/booking_expandable_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <Button
-        android:id="@+id/add_patient_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:text="Add patient"
-        android:visibility="gone"
-        />
+        android:layout_height="match_parent"
+        >
 
-    <ProgressBar
-        android:id="@+id/dr_booking_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
+        <ExpandableListView
+            android:id="@+id/booking_expandable_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/empty_list_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No data"
-        android:textSize="16sp"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
 
-  </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/dr_booking_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/empty_list_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No data"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_patient_fb"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            app:backgroundTint="#efa931"
+            app:srcCompat = "@drawable/ic_person_add"
+            android:tint="#fff"
+            />
+    </RelativeLayout>
 </LinearLayout>
