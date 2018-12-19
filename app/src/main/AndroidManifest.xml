@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ahmedmagdy.theclinic">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,7 +20,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".PatientHome"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,25 +81,24 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
+
         <activity android:name=".activities.DoctorDatabaseActivity" />
         <activity android:name=".activities.UserBookingActivity" />
         <activity
-            android:name=".Home"
-            android:label="@string/title_activity_home" />
+            android:name=".activities.SplashActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/SplashTheme" />
         <activity android:name=".activities.RegestrationPathActivity" />
+        <activity android:name=".HospitalHome"
+            android:theme="@style/SplashTheme"></activity>
+
         <activity android:name=".activities.WorkingHoursActivity"
             android:parentActivityName=".activities.Doctor_home_activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Doctor_home_activity" />
-
         </activity>
-            android:name=".activities.SplashActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/SplashTheme" />
+
 
     </application>
 
