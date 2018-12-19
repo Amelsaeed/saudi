@@ -1,13 +1,11 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,12 +15,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.FavActivity;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,82 +33,73 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllDoctorFragment extends Fragment {
+public class AllDoctorFragment extends Fragment implements View.OnClickListener{
     ImageView addDoctorButton;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor;
+    private DatabaseReference databaseDoctor,databaseDoctorFav;
     FirebaseUser fuser;
     private ImageView btnproceed;
-	
+
     SearchView searchView;
-   // Button addTrampButton;
+    // Button addTrampButton;
     private ProgressBar progressBar;
 
     ListView listViewDoctor;
     private List<DoctorFirebaseClass> doctorList;
+    private List<DoctorFirebaseClass> favList;
 
-    @Nullable
+    public AllDoctorFragment() {
+        // Required empty public constructor
+    }
+
+
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-       View rootView = getLayoutInflater().inflate(R.layout.activity_all_doctor,container,false);
-
-        addDoctorButton = rootView.findViewById(R.id.adddoctor);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_all_doctor, container, false);
+        addDoctorButton = (ImageView) rootView.findViewById(R.id.adddoctor);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        progressBar = rootView.findViewById(R.id.home_progress_bar);
+        progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
-
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= rootView.findViewById(R.id.list_view_doctor);
-        searchView = rootView.findViewById(R.id.search);
+        listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
+        searchView = (SearchView)  rootView.findViewById(R.id.search);
         doctorList=new ArrayList<>();
+        favList=new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
-        btnproceed= rootView.findViewById(R.id.map);
-
-        btnproceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(getContext(),MapsActivity.class);
-                startActivity(i);
-            }
-        });
-
-        addDoctorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fuser != null) {
-                    Intent it = new Intent(getContext(), FavActivity.class);
-                    startActivity(it);
-                } else {
-                    Toast.makeText(getContext(), "You should log in firstly", Toast.LENGTH_LONG).show();
-                    Intent it = new Intent(getContext(), LoginActivity.class);
-                    startActivity(it);
-                }
-            }
-        });
-
+        btnproceed= (ImageView)  rootView.findViewById(R.id.map);
+        btnproceed.setOnClickListener(this);
         return rootView;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-  /**  private void updateToken(String token){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
-        Token token1 = new Token(token);
-        reference.child(fuser.getUid()).setValue(token1);
-    }**/
-    @Override
+    /**  private void updateToken(String token){
+     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+     Token token1 = new Token(token);
+     reference.child(fuser.getUid()).setValue(token1);
+     }**/
     public void onStart() {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
-        maketable();
+
+
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits").child(mAuth.getCurrentUser().getUid());
+            databaseDoctorFav.keepSynced(true);
+
+            maketableoffav();
+        } else {
+            maketableofall();
+        }
+
+
     }
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -125,51 +111,84 @@ public class AllDoctorFragment extends Fragment {
         }
     }
 
-    private void maketable() {
+    private void maketableofall() {
 
-        if (isNetworkConnected()) {
-         //   if(country != null &&  type != null) {
+        // if (isNetworkConnected()) {
 
+        databaseDoctor.addListenerForSingleValueEvent(new ValueEventListener() {
 
-              /**  if (type.equals("User")){
-                    addTrampButton.setVisibility(View.GONE);
-                } else {
-                    addTrampButton.setVisibility(View.VISIBLE);
-                }**/
-                //databaseTramp.child(country).child("Individual").child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                databaseDoctor/**.child(country).child(type).child("users")**/.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        doctorList.clear();
-                        for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
-                           DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
-                            doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                doctorList.clear();
+                for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
+                    DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
 
-
-                    }
-                        // }
-                        //}
-                        DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
-                        //adapter.notifyDataSetChanged();
-                        listViewDoctor.setAdapter(adapter);
-                        setupSearchView();
-                        progressBar.setVisibility(View.GONE);
-                        // listViewTramp.setAdapter(adapter);
-
+                    if (isFavourite(doctorclass)) {
+                        doctorclass.checked = true;
                     }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                    doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                }
+
+                DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
+                //adapter.notifyDataSetChanged();
+                listViewDoctor.setAdapter(adapter);
+                setupSearchView();
+                progressBar.setVisibility(View.GONE);
+                // listViewTramp.setAdapter(adapter);
 
             }
-      /**  } else {
-            Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
-        }**/
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        //  }// network
+        /**  } else {
+         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+         }**/
     }
+    private void maketableoffav() {
+
+        // if (isNetworkConnected()) {
+
+        databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressBar.setVisibility(View.GONE);
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                        DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
+                        favList.add(0, doctorclass);// i= 0  (index)to start from top
+                    }
+                }
+                maketableofall();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        //  }// network
+        /**  } else {
+         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+         }**/
+    }
+
+
+    private boolean isFavourite(DoctorFirebaseClass doctorclass) {
+        for (DoctorFirebaseClass f : favList) {
+            if (f.cId.equals(doctorclass.cId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void setupSearchView() {
         searchView.setIconifiedByDefault(false);
@@ -196,6 +215,18 @@ public class AllDoctorFragment extends Fragment {
         searchView.clearFocus();
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.map:
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction replace = transaction.replace(R.id.frame_container, new MapsActivity());
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+        }
     }
 
 }

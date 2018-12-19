@@ -32,8 +32,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.Fragments.APIService;
-import com.example.ahmedmagdy.theclinic.Notifications.Client;
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.WorkingHoursActivity;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
@@ -73,7 +72,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     String mTrampPhotoUrl = "";
     double latitude;
     double longitude;
-    String arrange;
+    String doctorId, arrange;
 
     byte[] byteImageData;
     private FirebaseAuth mAuth;
@@ -84,7 +83,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     private FirebaseUser fUser;
     private ValueEventListener doctorEventListener;
 
-    String uid, mDate, picuri;
+    String  mDate, picuri;
     final int theRequestCodeForLocation = 1;
     private FusedLocationProviderClient mFusedLocationClient;
     Boolean isPermissionGranted;
@@ -101,8 +100,11 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
         mAuth = FirebaseAuth.getInstance();
         fUser = mAuth.getCurrentUser();
+        if (fUser != null){
+            doctorId = fUser.getUid();
+        }
 
-        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
 
 
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
@@ -140,25 +142,18 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
 
 
-        Button testBtn = rootView.findViewById(R.id.working_hours_btn);
-        testBtn.setOnClickListener(new View.OnClickListener() {
+        Button workingHours = rootView.findViewById(R.id.working_hours_btn);
+        workingHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WorkingHoursActivity.class);
+                intent.putExtra("doctorId",doctorId);
                 startActivity(intent);
             }
         });
 
         drEmail.setText(fUser.getEmail());
-        FirebaseUser user = mAuth.getCurrentUser();//mAuth.getCurrentUser().getUid()
-        if (user != null) {
-            if (user.getUid() != null) {
-                uid = user.getUid();
-                // Toast.makeText(DoctorProfileActivity.this, uid, Toast.LENGTH_LONG).show();
 
-            }
-
-        }
 
 
         getallData();
@@ -456,37 +451,37 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     private void getRegData(final String editfield1, final String whatdata) {
 
         if (whatdata.equals("Name")) {
-            databaseDoctor.child(fUser.getUid()).child("cName").setValue(editfield1);
-            databaseChat.child(fUser.getUid()).child("cName").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cName").setValue(editfield1);
+            databaseChat.child(doctorId).child("cName").setValue(editfield1);
             databaseMap.child(idm).child("cmname").setValue(editfield1);
             pname.setText(editfield1);
 
         } else if (whatdata.equals("State/ City/ Region")) {
-            databaseDoctor.child(uid).child("cCity").setValue(editfield1);
-            databaseChat.child(uid).child("cCity").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cCity").setValue(editfield1);
+            databaseChat.child(doctorId).child("cCity").setValue(editfield1);
             pcity.setText(editfield1);
 
         } else if (whatdata.equals("Specialty")) {
-            databaseDoctor.child(uid).child("cSpecialty").setValue(editfield1);
-            databaseChat.child(uid).child("cSpecialty").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cSpecialty").setValue(editfield1);
+            databaseChat.child(doctorId).child("cSpecialty").setValue(editfield1);
             databaseMap.child(idm).child("cmdoctorspecialty").setValue(editfield1);
             pspeciality.setText(editfield1);
 
         } else if (whatdata.equals("Degree")) {
-            databaseDoctor.child(uid).child("cDegree").setValue(editfield1);
-            databaseChat.child(uid).child("cDegree").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cDegree").setValue(editfield1);
+            databaseChat.child(doctorId).child("cDegree").setValue(editfield1);
             pdegree.setText(editfield1);
 
         } else if (whatdata.equals("Phone Number")) {
-            databaseDoctor.child(uid).child("cPhone").setValue(editfield1);
-            databaseChat.child(uid).child("cPhone").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cPhone").setValue(editfield1);
+            databaseChat.child(doctorId).child("cPhone").setValue(editfield1);
             pphone.setText(editfield1);
 
         } else if (whatdata.equals("Detection price")) {
-            databaseDoctor.child(uid).child("cPrice").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cPrice").setValue(editfield1);
             pprice.setText(editfield1);
         } else if (whatdata.equals("Average detection time in min")) {
-            databaseDoctor.child(uid).child("cTime").setValue(editfield1);
+            databaseDoctor.child(doctorId).child("cTime").setValue(editfield1);
         }
 
         //**************************************************//
@@ -495,13 +490,13 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String DoctorName = dataSnapshot1.child(uid).child("cName").getValue(String.class);
-                String DoctorCity = dataSnapshot1.child(uid).child("cCity").getValue(String.class);
-                String DoctorSpecialty = dataSnapshot1.child(uid).child("cSpecialty").getValue(String.class);
-                String DoctorDegree = dataSnapshot1.child(uid).child("cDegree").getValue(String.class);
-                String DoctorPhone = dataSnapshot1.child(uid).child("cPhone").getValue(String.class);
-                String DoctorPrice = dataSnapshot1.child(uid).child("cPrice").getValue(String.class);
-                String DoctorTime = dataSnapshot1.child(uid).child("cTime").getValue(String.class);
+                String DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
+                String DoctorCity = dataSnapshot1.child(doctorId).child("cCity").getValue(String.class);
+                String DoctorSpecialty = dataSnapshot1.child(doctorId).child("cSpecialty").getValue(String.class);
+                String DoctorDegree = dataSnapshot1.child(doctorId).child("cDegree").getValue(String.class);
+                String DoctorPhone = dataSnapshot1.child(doctorId).child("cPhone").getValue(String.class);
+                String DoctorPrice = dataSnapshot1.child(doctorId).child("cPrice").getValue(String.class);
+                String DoctorTime = dataSnapshot1.child(doctorId).child("cTime").getValue(String.class);
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
                 } else {
@@ -565,15 +560,15 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String DoctorName = dataSnapshot1.child(uid).child("cName").getValue(String.class);
-                String DoctorCity = dataSnapshot1.child(uid).child("cCity").getValue(String.class);
-                String DoctorSpecialty = dataSnapshot1.child(uid).child("cSpecialty").getValue(String.class);
-                String DoctorDegree = dataSnapshot1.child(uid).child("cDegree").getValue(String.class);
-                String DoctorPhone = dataSnapshot1.child(uid).child("cPhone").getValue(String.class);
-                String DoctorPrice = dataSnapshot1.child(uid).child("cPrice").getValue(String.class);
-                String DoctorTime = dataSnapshot1.child(uid).child("cTime").getValue(String.class);
-                String DoctorAbout = dataSnapshot1.child(uid).child("cAbout").getValue(String.class);
-                String DoctorPic = dataSnapshot1.child(uid).child("cUri").getValue(String.class);
+                String DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
+                String DoctorCity = dataSnapshot1.child(doctorId).child("cCity").getValue(String.class);
+                String DoctorSpecialty = dataSnapshot1.child(doctorId).child("cSpecialty").getValue(String.class);
+                String DoctorDegree = dataSnapshot1.child(doctorId).child("cDegree").getValue(String.class);
+                String DoctorPhone = dataSnapshot1.child(doctorId).child("cPhone").getValue(String.class);
+                String DoctorPrice = dataSnapshot1.child(doctorId).child("cPrice").getValue(String.class);
+                String DoctorTime = dataSnapshot1.child(doctorId).child("cTime").getValue(String.class);
+                String DoctorAbout = dataSnapshot1.child(doctorId).child("cAbout").getValue(String.class);
+                String DoctorPic = dataSnapshot1.child(doctorId).child("cUri").getValue(String.class);
 
 
                 if (DoctorName != null) {
