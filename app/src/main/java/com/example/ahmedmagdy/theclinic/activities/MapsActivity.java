@@ -3,15 +3,22 @@ package com.example.ahmedmagdy.theclinic.activities;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.Mapinfo;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -28,29 +35,42 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends Fragment implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener {
     private GoogleMap mMap;
     private ChildEventListener mChildEventListener;
     private DatabaseReference databaseMap;
     Marker marker;
     List<Mapinfo> venueList;
+    private MapView mapView;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_maps, container, false);
+
         GoogleMapOptions options = new GoogleMapOptions();
         options.mapType(GoogleMap.MAP_TYPE_NORMAL)
                 .compassEnabled(false)
                 .rotateGesturesEnabled(true)
                 .tiltGesturesEnabled(false);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+  //      SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
+    //            .findFragmentById(R.id.map);
+       //mapFragment.getMapAsync(this);
         ChildEventListener mChildEventListener;
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
         venueList = new ArrayList<>();
         databaseMap.push().setValue(marker);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mapView = (MapView) view.findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        mapView.getMapAsync(this);//when you already implement OnMapReadyCallback in your fragment
     }
 
     @Override
@@ -58,8 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
         googleMap.setOnMarkerClickListener(this);
-        //   mMap.getUiSettings().setZoomGesturesEnabled(true);
-        //   mMap.getUiSettings().setRotateGesturesEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+          mMap.getUiSettings().setZoomGesturesEnabled(true);
         databaseMap.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
@@ -70,7 +90,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     String DoctorName = s.child("cmname").getValue(String.class);
                     String Doctorspecialty = s.child("cmdoctorspecialty").getValue(String.class);
-                    //  String Doctordata=DoctorName+" ("+ Doctorspecialty+")";
                     Double latitude = Double.parseDouble(s.child("cmlatitude").getValue(String.class));
                     Double longitude = Double.parseDouble(s.child("cmlongitude").getValue(String.class));
                     String Doctorpic = s.child("cmdoctorpic").getValue(String.class);

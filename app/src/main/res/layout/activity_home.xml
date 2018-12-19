@@ -5,11 +5,13 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home">
+
+    tools:context=".PatientHome">
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/splashbackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
@@ -18,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/colorPrimary"
         app:itemBackground="@color/colorPrimary"
         android:foreground="?attr/selectableItemBackground"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/patient_navigation" />
 
 </android.support.design.widget.CoordinatorLayout>

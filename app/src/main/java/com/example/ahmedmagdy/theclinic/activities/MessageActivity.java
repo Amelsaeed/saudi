@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.ahmedmagdy.theclinic.Adapters.MessageAdapter;
-import com.example.ahmedmagdy.theclinic.Fragments.APIService;
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
 import com.example.ahmedmagdy.theclinic.Model.Chat;
 import com.example.ahmedmagdy.theclinic.Notifications.Client;
 import com.example.ahmedmagdy.theclinic.Notifications.Data;

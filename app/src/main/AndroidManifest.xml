@@ -16,7 +16,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -95,6 +96,10 @@
                 android:value=".activities.Doctor_home_activity" />
 
         </activity>
+            android:name=".activities.SplashActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/SplashTheme" />
+
     </application>
 
 </manifest>

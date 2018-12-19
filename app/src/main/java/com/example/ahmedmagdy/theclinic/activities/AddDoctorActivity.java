@@ -327,7 +327,7 @@ public class AddDoctorActivity extends AppCompatActivity {
         databaseDoctor.child(country).child(type)
                 .child("users")
                 .child(id).setValue(doctorfirebaseclass);**/
-        // Database for Home Activity
+        // Database for PatientHome Activity
        // databaseHome.child(country).child(id).setValue(homefirebaseclass);
       //  Log.v("Data"," 3-User id :"+ mUserId);
 
