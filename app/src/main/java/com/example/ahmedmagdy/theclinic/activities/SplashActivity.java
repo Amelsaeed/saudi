@@ -73,8 +73,8 @@ public class SplashActivity extends AppCompatActivity {
     }
     private void initAuthStateListener() {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
+       // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (fuser != null) {
                     getallData();
                 } else {
                     Intent intent=new Intent(SplashActivity.this,PatientHome.class);
