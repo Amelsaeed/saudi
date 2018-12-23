@@ -1,19 +1,18 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.DoctorHome;
 import com.example.ahmedmagdy.theclinic.HospitalHome;
-import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
-import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -108,7 +107,7 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(SplashActivity.this,PatientHome.class);
+                    Intent iii= new Intent(SplashActivity.this, DoctorHome.class);
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Hospital")){

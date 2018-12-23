@@ -46,6 +46,11 @@
     <string name="full_name">Full Name</string>
     <string name="no_working_hours_msg">You didn\'t add the working hours yet.\nPlease add them from your account profile </string>
     <string name="calendar">Calendar</string>
+    <string name="my_patients">My patients</string>
+    <string name="home">Home</string>
+    <string name="my_reservations">My reservations</string>
+    <string name="profile">Profile</string>
+    <string name="menu">Menu</string>
 
 
 </resources>

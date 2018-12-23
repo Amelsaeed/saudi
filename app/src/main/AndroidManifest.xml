@@ -47,8 +47,7 @@
         <activity android:name=".activities.StartCahtRoom" />
         <activity android:name=".activities.MessageActivity" />
         <activity android:name=".activities.NoteActivity" />
-
-
+        <activity android:name=".DoctorHome" />
         <activity
             android:name=".activities.AddPatient"
             android:parentActivityName=".activities.Doctor_home_activity">
