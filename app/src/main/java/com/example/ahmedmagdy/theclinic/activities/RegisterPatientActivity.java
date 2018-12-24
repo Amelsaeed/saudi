@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
@@ -347,7 +348,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                             databaseUserReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatauser);
 
 
-                        Intent intend = new Intent(RegisterPatientActivity.this, AllDoctorActivity.class);
+                        Intent intend = new Intent(RegisterPatientActivity.this, PatientHome.class);
                         intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         finish();
                         startActivity(intend);

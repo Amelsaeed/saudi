@@ -8,13 +8,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.ahmedmagdy.theclinic.ChatRoomFragments.LoginAFragment;
-import com.example.ahmedmagdy.theclinic.ChatRoomFragments.RegisterFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
-import com.example.ahmedmagdy.theclinic.PatientFragment.DoctorBookingsFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.ahmedmagdy.theclinic.PatientFragment.LoginAFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 
 public class PatientHome extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -37,10 +34,13 @@ public class PatientHome extends AppCompatActivity {
                     return true;
 
                 case R.id.navigation_profile:
-                        fragment = new DoctorBookingsFragment();
+                        fragment = new UserBookingFragment();
                         loadFragment(fragment);
                     return true;
                 case R.id.navigation_menu:
+                        fragment = new LoginAFragment();
+                        loadFragment(fragment);
+
                     return true;
             }
             return false;
