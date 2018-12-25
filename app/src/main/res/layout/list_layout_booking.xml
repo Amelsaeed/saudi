@@ -20,16 +20,46 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/time_book"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Ex: from 15:00 to 18:00"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="from: "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000" />
 
-                android:textColor="#000" />
+                <TextView
+                    android:id="@+id/time_book_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" to: "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000" />
+                <TextView
+                    android:id="@+id/time_book_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000" />
+
+
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/Adress_book"

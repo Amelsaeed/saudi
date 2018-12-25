@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
 import com.example.ahmedmagdy.theclinic.activities.FavActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
@@ -86,6 +87,8 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
         btnproceed= (ImageView)  rootView.findViewById(R.id.map);
         btnproceed.setOnClickListener(this);
         return rootView;
+
+
     }
 
     /**  private void updateToken(String token){

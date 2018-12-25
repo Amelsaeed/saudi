@@ -21,7 +21,27 @@
     </string-array>
 
     <string-array name="insurance_array">
-        <item>Boba</item>
+        <item>ACIG</item>
+        <item>amana</item>
+        <item>AL ALAMIYA</item>
+        <item>AXA</item>
+        <item>alnima tokio</item>
+        <item>AL-ETIHAD</item>
+        <item>Arabian Shield Insurance</item>
+        <item>Al Rajhi Takaful</item>
+        <item>ALSAGR</item>
+        <item>Allianz</item>
+        <item>Bupa</item>
+        <item>BURUJ</item>
+        <item>ENAYA</item>
+        <item>GGI</item>
+        <item>GULF</item>
+        <item>MetLife</item>
+        <item>malath</item>
+        <item>MEDGULF</item>
+        <item>SALAMA</item>
+        <item>SOLIDARITY</item>
+        <item>Walaa</item>
         <item>Njom</item>
         <item>Star</item>
         <item>Shark</item>

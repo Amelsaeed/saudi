@@ -6,6 +6,8 @@
     <color name="colorText">#0b0b0b</color>
     <color name="colorTextHint">#fff</color>
     <color name="colorBackground">#ffffff</color>
+    <color name="colorCardDefault">#a7a7a7</color>
+
 
 
     <!--

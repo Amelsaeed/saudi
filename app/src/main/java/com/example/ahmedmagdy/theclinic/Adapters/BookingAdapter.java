@@ -53,7 +53,9 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         LayoutInflater inflater = context.getLayoutInflater();
         final View listViewItem = inflater.inflate(R.layout.list_layout_booking, null, true);
 
-        final TextView abookingtime = (TextView) listViewItem.findViewById(R.id.time_book);
+        final TextView abookingtimestart = (TextView) listViewItem.findViewById(R.id.time_book_start);
+        final TextView abookingtimeend = (TextView) listViewItem.findViewById(R.id.time_book_end);
+
         final TextView abookingaddress = (TextView) listViewItem.findViewById(R.id.Adress_book);
 
 
@@ -65,7 +67,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         CheckBox dthucheckbox = (CheckBox) listViewItem.findViewById(R.id.thu1);
         CheckBox dfricheckbox = (CheckBox) listViewItem.findViewById(R.id.fri1);
 
-        final ImageView abookingphoto = (ImageView) listViewItem.findViewById(R.id.image_book);
+       // final ImageView abookingphoto = (ImageView) listViewItem.findViewById(R.id.image_book);
 
         BookingClass bookingclass = bookingList.get(position);
         //asize = trampList.size();
@@ -112,7 +114,9 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         });**/
         ///***********************calender***********************************************//
 
-        abookingtime.setText(bookingclass.getCbtime());
+        abookingtimestart.setText(bookingclass.getCbtimestart());
+        abookingtimeend.setText(bookingclass.getCbtimeend());
+
         abookingaddress.setText(bookingclass.getCbaddress());
 
 

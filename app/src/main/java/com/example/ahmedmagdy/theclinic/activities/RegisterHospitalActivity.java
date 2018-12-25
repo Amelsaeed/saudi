@@ -171,48 +171,55 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
 
             }
         });
+        final LinearLayout linearInsurance=(LinearLayout)this.findViewById(R.id.spinner_insurance);
+        textInsurance= findViewById(R.id.text_insurance);
+        listItems= getResources().getStringArray(R.array.insurance_array);
+        checkedItems = new Boolean[listItems.length];
+
+        linearInsurance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterHospitalActivity.this);
+                mBuilder.setTitle("SELECT Insurance");
+
+                mBuilder.setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        if(isChecked){
+                            mInsuranceItems.add(position);
+                        }else{
+                            mInsuranceItems.remove((Integer.valueOf(position)));
+                        }
+                    }
+                });
+
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+
+                        String item = "";
+                        for (int i = 0; i < mInsuranceItems.size(); i++) {
+                            if (i ==0) {item="";}
+                            item = item + listItems[mInsuranceItems.get(i)];
+                            if (i != mInsuranceItems.size() - 1) {item = item + ", ";}
+
+                        }
+                        textInsurance.setText(item);
+                        mInsuranceItems.clear();
+                    }
+                });
+
+
+                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
 /**
- final LinearLayout linearInsurance=(LinearLayout)this.findViewById(R.id.spinner_insurance);
- textInsurance= findViewById(R.id.text_insurance);
- listItems= getResources().getStringArray(R.array.insurance_array);
- checkedItems = new Boolean[listItems.length];
- // listItems= new String[] {"a", "b"};
- //checkedItems= new Boolean[] {true, false};
- linearInsurance.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View view) {
-AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterDoctorActivity.this);
-mBuilder.setTitle("SELECT ITEMS");
-mBuilder.setMultiChoiceItems(listItems,checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-@Override
-public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-
-}
-});
-
-mBuilder.setCancelable(false);
-mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialogInterface, int which) {
-String item = "";
-for (int i = 0; i < mInsuranceItems.size(); i++) {
-item = item + listItems[mInsuranceItems.get(i)];
-if (i != mInsuranceItems.size() - 1) {
-item = item + ", ";
-}
-}
-textInsurance.setText(item);
-}
-});
-
-mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialogInterface, int i) {
-dialogInterface.dismiss();
-}
-});
-
-mBuilder.setNeutralButton("clear_all", new DialogInterface.OnClickListener() {
+ mBuilder.setNeutralButton("clear_all", new DialogInterface.OnClickListener() {
 @Override
 public void onClick(DialogInterface dialogInterface, int which) {
 for (int i = 0; i < checkedItems.length; i++) {
@@ -223,10 +230,11 @@ textInsurance.setText("");
 }
 });
 
-AlertDialog mDialog = mBuilder.create();
-mDialog.show();
-}
-});**/
+ **/
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
         // spinner for cities
         ArrayAdapter<CharSequence> adapterc = ArrayAdapter.createFromResource(
                 RegisterHospitalActivity.this, R.array.countries_array, android.R.layout.simple_spinner_item);

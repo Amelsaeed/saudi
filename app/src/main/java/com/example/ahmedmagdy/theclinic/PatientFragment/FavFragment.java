@@ -82,8 +82,7 @@ public class FavFragment extends Fragment {
         progressBar = (ProgressBar)getActivity(). findViewById(R.id.fav_progress_bar);
         mAuth = FirebaseAuth.getInstance();
 
-        databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                .child(mAuth.getCurrentUser().getUid());databaseDoctorFav.keepSynced(true);
+
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
@@ -128,7 +127,9 @@ public class FavFragment extends Fragment {
     public void onStart() {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
-        maketable();
+
+            maketable();
+
     }
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -141,11 +142,12 @@ public class FavFragment extends Fragment {
     }
 
     private void maketable() {
-
+      //  if (mAuth.getCurrentUser().getUid() != null) {
         // if (isNetworkConnected()) {
         // databaseDoctorFav.keepSynced(true);
         // databaseDoctor.keepSynced(true);
-
+        databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
+                .child(mAuth.getCurrentUser().getUid());databaseDoctorFav.keepSynced(true);
         databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -194,7 +196,7 @@ public class FavFragment extends Fragment {
             }
         });databaseDoctorFav.keepSynced(true);
 
-        // }
+     //  }
 
     }
 

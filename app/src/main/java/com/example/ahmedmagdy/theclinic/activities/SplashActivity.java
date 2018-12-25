@@ -93,14 +93,14 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getallData() {
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Doctordb");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("ChatRoom");
         //**************************************************//
         // private void getallData();
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cType").getValue(String.class);
+                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
 
 
                 if(usertype .equals("User") ) {

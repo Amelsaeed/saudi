@@ -26,7 +26,7 @@ public class BookingTimesClass {
 
     public  BookingTimesClass(){}
 
-
+    ///////////////////////////////userid, patientName, patientBirthday, mDate, DoctorAddress,onewordclass.getWord() , picuri,timeID,datedmy
 
     public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String cttimeid,String ctbookingdate) {
         this.ctid = ctid;
@@ -38,7 +38,7 @@ public class BookingTimesClass {
         this.ctpicuri = ctpicuri;
         this.cttimeid = cttimeid;
         this.ctbookingdate = ctbookingdate;
-        this.ctArrangement = ctArrangement;
+
     }
     public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctPeriod, String ctpicuri, Boolean checked,String cttimeid,String ctbookingdate) {
         this.ctid = ctid;

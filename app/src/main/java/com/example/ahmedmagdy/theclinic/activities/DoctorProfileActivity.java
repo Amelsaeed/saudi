@@ -100,6 +100,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
     private final int CAMERA_REQUEST_CODE = 2;
     String address, idm;
     String mTrampPhotoUrl = "";
+    String DoctorName;
     boolean satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate;
     double latitude;
     double longitude;
@@ -163,15 +164,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         ppicuri = (ImageView) findViewById(R.id.edit_photo);
         paddbook = (TextView) findViewById(R.id.add);
 
-        // Test only
-        Button testBtn = findViewById(R.id.working_hours_btn);
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DoctorProfileActivity.this,DoctorDatabaseActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         FirebaseUser user = mAuth.getCurrentUser();//mAuth.getCurrentUser().getUid()
         if (user != null) {
@@ -187,9 +180,27 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         // Toast.makeText(DoctorProfileActivity.this, DoctorID, Toast.LENGTH_LONG).show();
 
         if(!DoctorID.equals(uid)){paddbook.setVisibility(View.GONE);}
+        // Test only
+        Button testBtn = findViewById(R.id.working_hours_btn);
+
+
         getallData();
 
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DoctorProfileActivity.this,BookingListActivity.class);
+                intent.putExtra("DoctorID", DoctorID);
+                intent.putExtra("DoctorName", DoctorName);
 
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+
+
+
+            }
+        });
         pname.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View view) {
                 if(DoctorID.equals(uid)){
@@ -1002,7 +1013,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
         dialogAddress.setEnabled(false);
 
 
-        final EditText dialogTime = (EditText) dialog.findViewById(R.id.dialog_time);
+        //final EditText dialogTime = (EditText) dialog.findViewById(R.id.dialog_time);
 
         TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
         TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
@@ -1069,7 +1080,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
 
 
 
-
+/**
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1084,11 +1095,11 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
                     dialogTime.setError("Please fill the times");
                     dialogTime.requestFocus();
                     return;}
-
+**/
                 DatabaseReference reference = databaseBooking.push();
                 String id = reference.getKey();
                 //Log.v("Data"," 2-User id :"+ mUserId);
-                BookingClass bookingclass = new BookingClass(id, gettime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
+              /**  BookingClass bookingclass = new BookingClass(id, gettime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
                 // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                 // Database for Account Activity
                 databaseBooking.child(id).setValue(bookingclass);
@@ -1197,7 +1208,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String DoctorName = dataSnapshot1.child(DoctorID).child("cName").getValue(String.class);
+                 DoctorName = dataSnapshot1.child(DoctorID).child("cName").getValue(String.class);
                 String DoctorCity = dataSnapshot1.child(DoctorID).child("cCity").getValue(String.class);
                 String DoctorSpecialty = dataSnapshot1.child(DoctorID).child("cSpecialty").getValue(String.class);
                 String DoctorDegree = dataSnapshot1.child(DoctorID).child("cDegree").getValue(String.class);

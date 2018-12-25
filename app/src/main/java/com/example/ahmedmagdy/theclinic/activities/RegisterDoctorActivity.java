@@ -180,22 +180,26 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
             }
         });
-/**
         final LinearLayout linearInsurance=(LinearLayout)this.findViewById(R.id.spinner_insurance);
         textInsurance= findViewById(R.id.text_insurance);
         listItems= getResources().getStringArray(R.array.insurance_array);
         checkedItems = new Boolean[listItems.length];
-       // listItems= new String[] {"a", "b"};
-        //checkedItems= new Boolean[] {true, false};
+
         linearInsurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterDoctorActivity.this);
-                mBuilder.setTitle("SELECT ITEMS");
-                mBuilder.setMultiChoiceItems(listItems,checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
 
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterDoctorActivity.this);
+                mBuilder.setTitle("SELECT Insurance");
+
+                mBuilder.setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        if(isChecked){
+                            mInsuranceItems.add(position);
+                        }else{
+                            mInsuranceItems.remove((Integer.valueOf(position)));
+                        }
                     }
                 });
 
@@ -203,16 +207,19 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                 mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
+
                         String item = "";
                         for (int i = 0; i < mInsuranceItems.size(); i++) {
+                            if (i ==0) {item="";}
                             item = item + listItems[mInsuranceItems.get(i)];
-                            if (i != mInsuranceItems.size() - 1) {
-                                item = item + ", ";
-                            }
+                            if (i != mInsuranceItems.size() - 1) {item = item + ", ";}
+
                         }
                         textInsurance.setText(item);
+                        mInsuranceItems.clear();
                     }
                 });
+
 
                 mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
                     @Override
@@ -220,22 +227,23 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                         dialogInterface.dismiss();
                     }
                 });
+/**
+ mBuilder.setNeutralButton("clear_all", new DialogInterface.OnClickListener() {
+@Override
+public void onClick(DialogInterface dialogInterface, int which) {
+for (int i = 0; i < checkedItems.length; i++) {
+checkedItems[i] = false;
+mInsuranceItems.clear();
+textInsurance.setText("");
+}
+}
+});
 
-                mBuilder.setNeutralButton("clear_all", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedItems.length; i++) {
-                            checkedItems[i] = false;
-                            mInsuranceItems.clear();
-                            textInsurance.setText("");
-                        }
-                    }
-                });
-
+ **/
                 AlertDialog mDialog = mBuilder.create();
                 mDialog.show();
             }
-        });**/
+        });
         // spinner for cities
         ArrayAdapter<CharSequence> adapterc = ArrayAdapter.createFromResource(
                 RegisterDoctorActivity.this, R.array.countries_array, android.R.layout.simple_spinner_item);

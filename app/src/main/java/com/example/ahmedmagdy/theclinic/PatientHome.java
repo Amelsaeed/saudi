@@ -1,5 +1,6 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,12 +13,16 @@ import com.example.ahmedmagdy.theclinic.ChatRoomFragments.LoginAFragment;
 import com.example.ahmedmagdy.theclinic.ChatRoomFragments.RegisterFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
+import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
+import com.example.ahmedmagdy.theclinic.activities.RegestrationPathActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class PatientHome extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -30,16 +35,24 @@ public class PatientHome extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_favorite:
+                    if (user == null) {
+                        // fragment = new RegisterFragment();
+                        // loadFragment(fragment);
+                        Intent it = new Intent(PatientHome.this, LoginActivity.class);
+                        startActivity(it);
+                    } else {
                        fragment = new FavFragment();
 
-                    loadFragment(fragment);
+                    loadFragment(fragment);}
                     return true;
 
                 case R.id.navigation_profile:
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user == null) {
-                         fragment = new RegisterFragment();
-                        loadFragment(fragment);
+                        // fragment = new RegisterFragment();
+                       // loadFragment(fragment);
+                        Intent it = new Intent(PatientHome.this, RegestrationPathActivity.class);
+                        startActivity(it);
                     } else {
                           fragment = new LoginAFragment();
                         loadFragment(fragment);

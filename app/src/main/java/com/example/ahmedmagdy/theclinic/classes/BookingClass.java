@@ -7,6 +7,8 @@ package com.example.ahmedmagdy.theclinic.classes;
 public class BookingClass {
     private String cbid;
     private String cbtime;
+    private String cbtimestart;
+    private String cbtimeend;
     private String cbaddress;
     private String cbdoctorid;
     private String cblatitude;
@@ -20,9 +22,10 @@ public class BookingClass {
     private Boolean frichecked;
 
     public  BookingClass(){}
-    public BookingClass(String cbid, String cbtime, String cbaddress, String cbdoctorid, String cblatitude, String cblongitude, Boolean satchecked, Boolean sunchecked, Boolean monchecked, Boolean tuschecked, Boolean wedchecked, Boolean thuchecked, Boolean frichecked) {
+    public BookingClass(String cbid, String cbtimestart,String cbtimeend, String cbaddress, String cbdoctorid, String cblatitude, String cblongitude, Boolean satchecked, Boolean sunchecked, Boolean monchecked, Boolean tuschecked, Boolean wedchecked, Boolean thuchecked, Boolean frichecked) {
         this.cbid = cbid;
-        this.cbtime = cbtime;
+        this.cbtimestart = cbtimestart;
+        this.cbtimeend = cbtimeend;
         this.cbaddress = cbaddress;
         this.cbdoctorid = cbdoctorid;
         this.cblatitude = cblatitude;
@@ -50,6 +53,22 @@ public class BookingClass {
         this.wedchecked = wedchecked;
         this.thuchecked = thuchecked;
         this.frichecked = frichecked;**/
+    }
+
+    public String getCbtimestart() {
+        return cbtimestart;
+    }
+
+    public void setCbtimestart(String cbtimestart) {
+        this.cbtimestart = cbtimestart;
+    }
+
+    public String getCbtimeend() {
+        return cbtimeend;
+    }
+
+    public void setCbtimeend(String cbtimeend) {
+        this.cbtimeend = cbtimeend;
     }
 
     public String getCbid() {
