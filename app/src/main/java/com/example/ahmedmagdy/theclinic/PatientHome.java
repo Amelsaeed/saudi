@@ -9,8 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.ahmedmagdy.theclinic.ChatRoomFragments.LoginAFragment;
-import com.example.ahmedmagdy.theclinic.ChatRoomFragments.RegisterFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
 import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
@@ -18,6 +16,8 @@ import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.RegestrationPathActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.example.ahmedmagdy.theclinic.PatientFragment.LoginAFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 
 public class PatientHome extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -30,7 +30,7 @@ public class PatientHome extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                  fragment = new AllDoctorfragment();
+                    fragment = new AllDoctorfragment();
 
                     loadFragment(fragment);
                     return true;
@@ -57,8 +57,12 @@ public class PatientHome extends AppCompatActivity {
                           fragment = new LoginAFragment();
                         loadFragment(fragment);
                     }
+
                     return true;
                 case R.id.navigation_menu:
+                        fragment = new LoginAFragment();
+                        loadFragment(fragment);
+
                     return true;
             }
             return false;
@@ -78,16 +82,15 @@ public class PatientHome extends AppCompatActivity {
                     new AllDoctorfragment()).commit();
         }
     }
+
     private void loadFragment(Fragment fragment)
     // load fragment
-    { FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
         transaction.addToBackStack(null);
-        transaction.commit();}
-
-
-
-
+        transaction.commit();
+    }
 
 
 }

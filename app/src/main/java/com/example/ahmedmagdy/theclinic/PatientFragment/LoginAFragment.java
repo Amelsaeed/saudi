@@ -1,9 +1,10 @@
-package com.example.ahmedmagdy.theclinic.ChatRoomFragments;
+package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,8 +20,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
+import com.example.ahmedmagdy.theclinic.activities.RegestrationPathActivity;
+import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,37 +48,26 @@ public class LoginAFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.activity_login, container, false);
+        View view = inflater.inflate(R.layout.activity_login, container, false);
 
-        //Get Firebase auth instance
-        mAuth = FirebaseAuth.getInstance();
-
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
 
-        editTextemail = getActivity().findViewById(R.id.edit_email);
-        editTextPassword = getActivity().findViewById(R.id.edit_password);
-        singin = getActivity().findViewById(R.id.getstarted);
-        create = getActivity().findViewById(R.id.create);
-        forget = getActivity().findViewById(R.id.forget);
-        progressBar = getActivity().findViewById(R.id.progressbar);
+        editTextemail = view.findViewById(R.id.edit_email);
+        editTextPassword =  view.findViewById(R.id.edit_password);
+        singin =  view.findViewById(R.id.getstarted);
+        create =  view.findViewById(R.id.create);
+        forget =  view.findViewById(R.id.forget);
+        progressBar =  view.findViewById(R.id.progressbar);
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 Intent it = new Intent(LoginActivity.this, RegisterPatientActivity.class);
-                 it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                 finish();
-                 startActivity(it);
-                 **/
+                Intent it = new Intent(getActivity(), RegestrationPathActivity.class);
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+             getActivity().finish();
+                startActivity(it);
+
             }
         });
 
@@ -94,8 +89,8 @@ public class LoginAFragment extends Fragment {
         });
 
         // to keep user logged in
-        initAuthStateListener();
-
+        //  initAuthStateListener();
+        return view;
     }
     private void userLogin() {
         String mEmail = editTextemail.getText().toString().trim();
@@ -141,12 +136,18 @@ public class LoginAFragment extends Fragment {
                          startActivity(intend);**/
                         /*  updateToken(FirebaseInstanceId.getInstance().getToken());*/
 
-                        getallData();
+                        Intent iii = new Intent(getActivity(), SplashActivity.class);
+                        iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        getActivity().finish();
+                   startActivity(iii);
+                        getActivity().finish();
 
                     } else {
+                        Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
                         // Log.e(TAG, task.getException().getMessage());
                         //Log.e(TAG, "SIGNIN ERROR");
-                        Toast.makeText(getActivity(), "SIGNIN ERROR", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(LoginActivity.this, "SIGNIN ERROR", Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -164,9 +165,9 @@ public class LoginAFragment extends Fragment {
         reference.child(fuser.getUid()).setValue(token1);
     }
 
-    private void getallData() {
+  /*  private void getallData() {
         DatabaseReference databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        //**************************************************//
+
         // private void getallData();
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
@@ -176,22 +177,23 @@ public class LoginAFragment extends Fragment {
 
 
                 if (usertype.equals("User")) {
-                    /**
-                     Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
-                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                     finish();
-                     startActivity(iii);
-                     finish();
-                     **/
+                    Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(iii);
+                    finish();
                 } else if (usertype.equals("Doctor")) {
-                    /**
-                     Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
-                     iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                     finish();
-                     startActivity(iii);
-                     finish();
-                     **/
+                    Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(iii);
+                    finish();
                 } else {
+                    Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(iii);
+                    finish();
                 }
 
 
@@ -203,37 +205,78 @@ public class LoginAFragment extends Fragment {
             }
         };
         databaseChat.addValueEventListener(postListener1);
-    }
+    }*/
 
     // to keep user logged when you leave app
     private void initAuthStateListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-/**
- Intent iii = new Intent(LoginActivity.this, AllDoctorActivity.class);
- iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
- finish();
- startActivity(iii);
- **/
-                    // Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    // Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            getallData12();
+                /*    Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(iii);*/
+            // Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+        } else {
+
+            // User is signed out
+            // Log.d(TAG, "onAuthStateChanged:signed_out");
+        }
     }
 
 
+    private void getallData12() {
+
+        DatabaseReference databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        //**************************************************//
+        // private void getallData();
+        final ValueEventListener postListener1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+
+
+                if(usertype .equals("User") ) {
+                    Intent iii= new Intent(getActivity(),PatientHome.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getActivity().onBackPressed();
+                            startActivity(iii);
+                    getActivity().onBackPressed();
+                }else if(usertype .equals("Doctor")){
+                    Intent iii= new Intent(getActivity(),PatientHome.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getActivity().onBackPressed();
+                    startActivity(iii);
+                    getActivity().onBackPressed();
+                }else if(usertype .equals("Hospital")){
+                    Intent iii= new Intent(getActivity(),HospitalHome.class);
+                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getActivity().onBackPressed();
+                    startActivity(iii);
+                    getActivity().onBackPressed();
+                }else{
+
+                }
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+        databaseChat .addValueEventListener(postListener1);
+    }
+
+/*
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+*/
 
     //  check if network is connected
     private boolean isNetworkConnected() {
@@ -327,4 +370,5 @@ public class LoginAFragment extends Fragment {
 
         dialog.show();
     }
-}
+
+    }

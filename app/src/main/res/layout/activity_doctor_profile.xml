@@ -26,7 +26,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:paddingLeft="10dp"
-        android:text="Name"
+        android:text="User"
 
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="#000"
@@ -50,9 +50,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/pname"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimary"
+        android:background="#3ACCE1"
         android:padding="8dp"
-        android:text="hgfhfgfh@ghgfhffh"
+        android:hint="Email"
         android:textColor="@android:color/white" />
 
     <Button
@@ -91,6 +91,7 @@
         android:layout_below="@id/doctor_email_tv"
         android:layout_above="@id/working_hours_btn"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
           <RelativeLayout
@@ -115,10 +116,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
+        android:maxLines="1"
         android:layout_toRightOf="@id/price_tv"
-        android:background="@color/colorAccent"
+        android:background="#3ACCE1"
         android:padding="8dp"
-        android:text="Detection price"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="#000" />
     <ImageView
@@ -152,11 +153,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/pprice"
         android:layout_toRightOf="@id/city_tv"
-        android:background="@color/colorPrimary"
+        android:background="#3ACCE1"
+        android:maxLines="1"
         android:padding="8dp"
         android:paddingBottom="6dp"
         android:paddingLeft="10dp"
-        android:text="State/ City"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="#000" />
     <ImageView
@@ -189,9 +190,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/colorAccent"
+        android:background="#3ACCE1"
+        android:maxLines="1"
         android:padding="8dp"
-        android:text="Specialty"
         android:layout_below="@id/ppcity"
         android:layout_toRightOf="@id/speciality_tv"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -225,13 +226,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/colorAccent"
+        android:background="#3ACCE1"
+        android:maxLines="1"
         android:layout_below="@id/speciality_tv"
         android:layout_toRightOf="@id/degree_tv"
         android:padding="8dp"
         android:paddingBottom="6dp"
         android:paddingLeft="10dp"
-        android:text="Degree"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="#000"
         />
@@ -264,11 +265,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/colorAccent"
+        android:background="#3ACCE1"
         android:padding="8dp"
+        android:maxLines="1"
         android:layout_below="@id/pdegree"
         android:layout_toRightOf="@id/phone_tv"
-        android:text="Phone Number"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="#000"
         />
@@ -285,6 +286,44 @@
         android:layout_below="@id/degree_edit"
         android:layout_marginTop="8dp"
         />
+              <TextView
+                  android:id="@+id/insurance_tv"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/phone_tv"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginTop="8dp"
+                  android:background="@drawable/white_rect"
+                  android:padding="8dp"
+                  android:text="Medical insurance"
+                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                  android:textColor="#000" />
+              <TextView
+                  android:id="@+id/insur"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="8dp"
+                  android:background="#3ACCE1"
+                  android:padding="8dp"
+                  android:maxLines="1"
+                  android:layout_below="@id/pphone"
+                  android:layout_toRightOf="@id/insurance_tv"
+                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                  android:textColor="#000"
+                  />
+
+              <ImageView
+                  android:id="@+id/insur_edit"
+                  android:layout_width="36dp"
+                  android:layout_height="36dp"
+                  app:srcCompat="@drawable/ic_edit"
+                  android:scaleType="center"
+                  android:background="@drawable/button_round_blue"
+                  android:layout_marginLeft="8dp"
+                  android:layout_toRightOf="@id/insur"
+                  android:layout_below="@id/phone_edit"
+                  android:layout_marginTop="8dp"
+                  />
           </RelativeLayout>
     </ScrollView>
     <TextView

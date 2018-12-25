@@ -73,11 +73,7 @@ public class DatabaseFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     public void onStart() {

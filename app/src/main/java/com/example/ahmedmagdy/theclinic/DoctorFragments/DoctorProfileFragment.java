@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,12 +29,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.WorkingHoursActivity;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,15 +48,13 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
 public class DoctorProfileFragment extends Fragment implements OnRequestPermissionsResultCallback {
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice;
-    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, paddbook, drEmail;
+    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
+    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
     EditText peditbox;
     private ProgressBar progressBarImage;
     Button Doc;
@@ -72,23 +65,19 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     String mTrampPhotoUrl = "";
     double latitude;
     double longitude;
-    String doctorId, arrange;
+    String doctorId;
 
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
     private DatabaseReference databaseDoctor, databaseChat, databaseMap;
-    private DatabaseReference databaseUserReg;
-    private DatabaseReference databasetimeBooking;
     private FirebaseUser fUser;
     private ValueEventListener doctorEventListener;
 
-    String  mDate, picuri;
+    String picuri;
     final int theRequestCodeForLocation = 1;
     private FusedLocationProviderClient mFusedLocationClient;
     Boolean isPermissionGranted;
-    APIService apiService;
-
 
 
     @Nullable
@@ -100,18 +89,11 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
         mAuth = FirebaseAuth.getInstance();
         fUser = mAuth.getCurrentUser();
-        if (fUser != null){
+        if (fUser != null) {
             doctorId = fUser.getUid();
         }
-
-
-
-
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
         DatabaseReference reference = databaseMap.push();
@@ -120,15 +102,17 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         progressBarImage = rootView.findViewById(R.id.progressbar_image);
 
 
-
         editName = rootView.findViewById(R.id.name_edit);
         editCity = rootView.findViewById(R.id.city_edit);
         editPhone = rootView.findViewById(R.id.phone_edit);
         editDegree = rootView.findViewById(R.id.degree_edit);
+        insuranceView = rootView.findViewById(R.id.insur);
+        insuranceEdit = rootView.findViewById(R.id.insur_edit);
         editSpeciality = rootView.findViewById(R.id.speciality_edit);
         editPrice = rootView.findViewById(R.id.price_edit);
         drEmail = rootView.findViewById(R.id.doctor_email_tv);
         pname = rootView.findViewById(R.id.pname);
+
         pcity = rootView.findViewById(R.id.ppcity);
         pspeciality = rootView.findViewById(R.id.pspeciality);
         pdegree = rootView.findViewById(R.id.pdegree);
@@ -138,8 +122,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         Doc = rootView.findViewById(R.id.doc);
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
-        paddbook = rootView.findViewById(R.id.add);
-
 
 
         Button workingHours = rootView.findViewById(R.id.working_hours_btn);
@@ -147,13 +129,12 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WorkingHoursActivity.class);
-                intent.putExtra("doctorId",doctorId);
+                intent.putExtra("doctorId", doctorId);
                 startActivity(intent);
             }
         });
 
         drEmail.setText(fUser.getEmail());
-
 
 
         getallData();
@@ -162,89 +143,63 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         editName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatdata = "Name";
-                editDialog(whatdata);
+                String whatData = "Name";
+                editDialog(whatData);
             }
         });
 
         editCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatdata = "State/ City/ Region";
-                editDialog(whatdata);
+                String whatData = "State/ City/ Region";
+                editDialog(whatData);
             }
         });
 
         editPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatdata = "Detection price";
-                editDialog(whatdata);
+                String whatData = "Detection price";
+                editDialog(whatData);
             }
         });
 
         editSpeciality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatdata = "Specialty";
-                editDialog(whatdata);
+                String whatData = "Specialty";
+                editDialog(whatData);
             }
         });
 
         editDegree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatdata = "Degree";
-                editDialog(whatdata);
+                String whatData = "Degree";
+                editDialog(whatData);
             }
         });
+
 
         editPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatdata = "Phone Number";
-                editDialog(whatdata);
+                String whatData = "Phone Number";
+                editDialog(whatData);
             }
         });
 
-
-        //--------Gps---------------------
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        requestPermission();
-
-        paddbook.setOnClickListener(new View.OnClickListener() {
+        insuranceEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                //--------Gps---------------------
-                if (isPermissionGranted) {
-
-                    getLocation();
-                } else {
-                    requestPermission();
-                    if (isPermissionGranted) {
-                        //We have it, Get the location.
-                        getLocation();
-                    } else {
-                        Toast.makeText(getContext(), "Please Give us permission so you can use the app", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                //--------------------------------------
-                //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
-
+            public void onClick(View view) {
+                String whatData = "medical insurance";
+                editDialog(whatData);
             }
         });
-
-        ////////////////////////////////
-        //--------Gps---------------------
-
-
         ppicuri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses image
-
                 displayImportImageDialog();
             }
         });
@@ -257,7 +212,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         super.onCreate(savedInstanceState);
 
     }
-
 
     private void displayImportImageDialog() {
 
@@ -329,8 +283,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                         compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                         byteImageData = baos.toByteArray();
                         uploadImage();
-
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -347,14 +299,9 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                 byteImageData = baos.toByteArray();
                 uploadImage();
-
-
             }
         }
-
-
     }
-
 
     private void uploadImage() {
 
@@ -385,15 +332,12 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                                     Toast.makeText(getContext(), "Upload end", Toast.LENGTH_LONG).show();
 
                                 }
-
-
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 progressBarImage.setVisibility(View.GONE);
-
                                 Toast.makeText(getContext(), "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
 
                             }
@@ -403,8 +347,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             Toast.makeText(getContext(), "please check the network connection", Toast.LENGTH_LONG).show();
         }
     }
-
-
     ////////////////////////////////////////////
     private void editDialog(final String whatdata) {
 
@@ -482,6 +424,8 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             pprice.setText(editfield1);
         } else if (whatdata.equals("Average detection time in min")) {
             databaseDoctor.child(doctorId).child("cTime").setValue(editfield1);
+        } else if (whatdata.equals("medical insurance")) {
+            databaseDoctor.child(doctorId).child("cInsurance").setValue(editfield1);
         }
 
         //**************************************************//
@@ -497,6 +441,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 String DoctorPhone = dataSnapshot1.child(doctorId).child("cPhone").getValue(String.class);
                 String DoctorPrice = dataSnapshot1.child(doctorId).child("cPrice").getValue(String.class);
                 String DoctorTime = dataSnapshot1.child(doctorId).child("cTime").getValue(String.class);
+                String medInsurance = dataSnapshot1.child(doctorId).child("cInsurance").getValue(String.class);
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
                 } else {
@@ -532,6 +477,11 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 } else {
                     ptime.setText("Not yet");
                 }
+                if (medInsurance != null) {
+                    insuranceView.setText(medInsurance);
+                } else {
+                    insuranceView.setText("Not yet");
+                }
             }
 
             @Override
@@ -540,8 +490,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             }
         };
         //  databaseDoctor .addValueEventListener(postListener1);
-
-
     }
 
     /***-------------------------------------------------***/
@@ -551,11 +499,9 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
     }
 
-
     private void getallData() {
 
         //**************************************************//
-        // private void getallData();
         doctorEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -569,7 +515,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 String DoctorTime = dataSnapshot1.child(doctorId).child("cTime").getValue(String.class);
                 String DoctorAbout = dataSnapshot1.child(doctorId).child("cAbout").getValue(String.class);
                 String DoctorPic = dataSnapshot1.child(doctorId).child("cUri").getValue(String.class);
-
+                String medInsurance = dataSnapshot1.child(doctorId).child("cInsurance").getValue(String.class);
 
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
@@ -606,9 +552,12 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 } else {
                     ptime.setText("Not yet");
                 }
-                if (DoctorAbout != null) {
-                    peditbox.setText(DoctorAbout);
+                if (medInsurance != null) {
+                    insuranceView.setText(medInsurance);
+                } else {
+                    insuranceView.setText("Nothing");
                 }
+
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new RoundedCorners(16));
                 if (DoctorPic != null) {
@@ -691,50 +640,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
     }
 
-    /**
-     * this method gets the location of the user then
-     * Calls the showAddress Method and pass to it the Latitude
-     * and the Longitude
-     */
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, theRequestCodeForLocation);
-        }
-
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    showAddress(latitude, longitude);
-                } else {
-                    Toast.makeText(getActivity(), "Error we didn't get the Location\n Please try again after Few seconds", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-
-    /**
-     * this method shows the User's address to the screen, it calls the getAddress which returns a string
-     * contains the address then changes the TextView text to it.
-     *
-     * @param latitude  is the latitude of the location
-     * @param longitude is the longitude of the location
-     */
-    private void showAddress(double latitude, double longitude) {
-        String msg = "";
-
-        try {
-            msg = getAddress(latitude, longitude);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //pcity.setText(msg);
-//
-    }
-
 
     /**
      * this method is called by android system after we request a permission
@@ -757,34 +662,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
     }
 
-    /**
-     * this method takes the longitude and latitude of the location then convert them into real address
-     * and return it as string
-     *
-     * @param latitude  the Latitude
-     * @param longitude the Longitude
-     * @return the address as String
-     * @throws IOException
-     */
-    private String getAddress(double latitude, double longitude) throws IOException {
 
-        //Geocoder class helps us to convert longitude and latitude into Address
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-        List<Address> addresses;
-        addresses = geocoder.getFromLocation(latitude, longitude, 1);
-
-        address = addresses.get(0).getAddressLine(0);
-        String city = "City: " + addresses.get(0).getLocality();
-        String state = "State:" + addresses.get(0).getAdminArea();
-        String country = "Country: " + addresses.get(0).getCountryName();
-        // String wholeAddress = address + "\n" + city + "\n" + state + "\n" + country;
-        String wholeAddress = address;
-        // pcity.setText(address);
-
-        return wholeAddress;
-
-    }
 
     @Override
     public void onDestroy() {
@@ -802,4 +680,3 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         }
     }
 }
-

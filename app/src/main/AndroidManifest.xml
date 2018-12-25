@@ -16,17 +16,23 @@
         android:label="My Clinic"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_logo"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".PatientHome"
+            android:name=".activities.SplashActivity"
+            android:label="@string/title_activity_home"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".PatientHome"
+            android:theme="@style/SplashTheme">
         </activity>
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterPatientActivity" />
@@ -41,6 +47,7 @@
         <activity android:name=".activities.StartCahtRoom" />
         <activity android:name=".activities.MessageActivity" />
         <activity android:name=".activities.NoteActivity" />
+        <activity android:name=".DoctorHome" />
         <activity
             android:name=".activities.CalenderActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -86,10 +93,7 @@
 
         <activity android:name=".activities.DoctorDatabaseActivity" />
         <activity android:name=".activities.UserBookingActivity" />
-        <activity
-            android:name=".activities.SplashActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/SplashTheme" />
+
         <activity android:name=".activities.RegestrationPathActivity" />
         <activity
             android:name=".HospitalHome"
