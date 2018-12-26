@@ -760,7 +760,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
                 // get age from birthday
                 String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
 
-                BookingTimesClass bookingtimesclass = new BookingTimesClass(userid, patientName, patientAge, mDate, currentBooking.getCbaddress(),currentBooking.getCbtime() , picuri,timeID,datedmy);
+                BookingTimesClass bookingtimesclass = new BookingTimesClass(userid, patientName, patientAge, mDate, currentBooking.getCbaddress(),currentBooking.getCbtime() , picuri,timeID,datedmy,1);
 
                 // Database for Account Activity
                 databasetimeBooking.child(DoctorID).child(timeID)

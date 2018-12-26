@@ -35,9 +35,10 @@ public class CalenderActivity extends AppCompatActivity {
     private HorizontalCalendar horizontalCalendar;
     private TextView timef;
     String updatedTimeprinted;
+    GridView listview;
     String DoctorID;
     String TimeID,DoctorAddress;
-    String selectedDateStr;
+    String selectedDateStr,selectedDateStrForFirebase;
     Boolean Satchecked,Sunchecked,Monchecked,Tuschecked,Wedchecked,Thuchecked,Frichecked;
     Boolean dayAvaliable;
     int month1=-1;
@@ -114,32 +115,32 @@ public class CalenderActivity extends AppCompatActivity {
                 .end()
                 .defaultSelectedDate(defaultSelectedDate)
                 .build();
-
+// caltext=Year+"_"+ (Month+1)+"_"+Day;
         selectedDateStr= DateFormat.format("EEE, MMM d, yyyy", defaultSelectedDate).toString();
         String dayname = DateFormat.format("EEE", defaultSelectedDate).toString();
+        selectedDateStrForFirebase = DateFormat.format("yyyy_MM_d", defaultSelectedDate).toString();
 
-        Toast.makeText(CalenderActivity.this, selectedDateStr+ " selected!", Toast.LENGTH_SHORT).show();
-
+       // Toast.makeText(CalenderActivity.this, selectedDateStr+ " selected!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ " selected!", Toast.LENGTH_SHORT).show();
         checkdate(dayname);
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
 
-
             }
             @Override
-            public void onCalendarScroll(HorizontalCalendarView calendarView,
-                                         int dx, int dy) {
-
+            public void onCalendarScroll(HorizontalCalendarView calendarView,int dx, int dy) {
             }
 
             @Override
             public boolean onDateLongClicked(Calendar date, int position) {
                 selectedDateStr = DateFormat.format("EEE, MMM d, yyyy", date).toString();
+                selectedDateStrForFirebase = DateFormat.format("yyyy_MM_d", date).toString();
 
                 // SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM d, yyyy");
                 //Toast.makeText(CalenderActivity.this, formatter+ " selected!", Toast.LENGTH_SHORT).show();
                 Log.i("onDateSelected", selectedDateStr + " - Position = " + position);
+                Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ " selected!", Toast.LENGTH_SHORT).show();
 
                 String dayname = DateFormat.format("EEE", date).toString();
                 // month = Integer.parseInt(DateFormat.format("MMM", defaultSelectedDate).toString());
@@ -297,8 +298,8 @@ public class CalenderActivity extends AppCompatActivity {
         }
        // timef.setText(updatedTimeprinted);
 
-        OneWordAdapter itemsAdapter =new OneWordAdapter(this, mtimes/**,R.color.colorCardDefault**/,DoctorID,TimeID,DoctorAddress,selectedDateStr,dayAvaliable);
-        GridView listview=findViewById(R.id.timelist);
+        OneWordAdapter itemsAdapter =new OneWordAdapter(this, mtimes/**,R.color.colorCardDefault**/,DoctorID,TimeID,DoctorAddress,selectedDateStrForFirebase,dayAvaliable);
+         listview=findViewById(R.id.timelist);
         listview.setAdapter(itemsAdapter);
 
 

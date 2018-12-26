@@ -20,7 +20,7 @@ public class BookingTimesClass {
     private String ctphone;
     private String ctSpc;
 
-
+    private int ctposition;
 
 
 
@@ -28,7 +28,7 @@ public class BookingTimesClass {
 
     ///////////////////////////////userid, patientName, patientBirthday, mDate, DoctorAddress,onewordclass.getWord() , picuri,timeID,datedmy
 
-    public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String cttimeid,String ctbookingdate) {
+    public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String cttimeid,String ctbookingdate,int ctposition) {
         this.ctid = ctid;
         this.ctname = ctname;
         this.ctage = ctage;
@@ -38,7 +38,7 @@ public class BookingTimesClass {
         this.ctpicuri = ctpicuri;
         this.cttimeid = cttimeid;
         this.ctbookingdate = ctbookingdate;
-
+        this.ctposition = ctposition;
     }
     public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctPeriod, String ctpicuri, Boolean checked,String cttimeid,String ctbookingdate) {
         this.ctid = ctid;
@@ -88,6 +88,14 @@ public BookingTimesClass(String ctid, String ctdate,String ctAddress, String ctP
         this.ctArrangement = ctArrangement;
         this.ctSpc = ctSpc;
 
+    }
+
+    public int getCtposition() {
+        return ctposition;
+    }
+
+    public void setCtposition(int ctposition) {
+        this.ctposition = ctposition;
     }
 
     public String getCtid() {

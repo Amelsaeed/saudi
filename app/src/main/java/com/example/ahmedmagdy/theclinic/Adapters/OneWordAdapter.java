@@ -16,6 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
+import com.example.ahmedmagdy.theclinic.Notifications.Client;
+import com.example.ahmedmagdy.theclinic.Notifications.Data;
+import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;
+import com.example.ahmedmagdy.theclinic.Notifications.Sender;
+import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
@@ -28,10 +34,12 @@ import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,6 +48,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by AHMED MAGDY on 10/23/2018.
@@ -52,8 +64,9 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     private DatabaseReference databasetimeBooking;
     String   picuri,mDate;
     String userid;
-
-
+    private FirebaseUser fuser;
+    boolean notify = false;
+    APIService apiService;
 
 
     private String DoctorID;
@@ -97,6 +110,9 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");databaseUserReg.keepSynced(true);
         databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");databasetimeBooking.keepSynced(true);
         userid = mAuth.getCurrentUser().getUid();
+        fuser = mAuth.getInstance().getCurrentUser();
+
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
 
 
@@ -239,12 +255,12 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                 // get age from birthday
 //                String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
 
-                BookingTimesClass bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, DoctorAddress,onewordclass.getWord() , picuri,TimeID,datedmy);
+                BookingTimesClass bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, DoctorAddress,onewordclass.getWord() , picuri,TimeID,datedmy,position);
 
                 // Database for Account Activity
                 databasetimeBooking.child(DoctorID).child(TimeID)
                         .child(datedmy)
-                        .child(userid).setValue(bookingtimesclass)/**.addOnCompleteListener(
+                        .child(userid).setValue(bookingtimesclass).addOnCompleteListener(
                         new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -259,7 +275,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                                 notify = false;
                             }
                         }
-                )**/;
+                );
               //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(userid).child("checked").setValue(true);
                 //////////////////////*******-----------------
          /**       databasetimeBooking.child(DoctorID).child(timeID) .child(datedmy)
@@ -310,6 +326,57 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     }
 
 
+    private void sendNotifiaction(final String receiver, final String username, final String message) {
 
+        final String rec = receiver;
+
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = tokens.orderByKey().equalTo(receiver);
+
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    final Token token = snapshot.getValue(Token.class);
+                    Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
+                            username + ": " + message, "Booking",
+                            receiver);
+
+                    Sender sender = new Sender(data, token.getToken());
+
+                    System.out.println("D push noti method: token :" + token.getToken() +
+                            ",,,  userid:" + userid +
+                            ",,,  reciever: " + rec +
+                            ",,, fuser-sender : " + fuser.getUid()
+                    );
+
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if (response.code() == 200) {
+                                        if (response.body().success != 1) {
+                                            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                }
+                            });
+                    break;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
 }
