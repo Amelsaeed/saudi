@@ -9,12 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".classes.My_self"
-        android:allowBackup="true"
-        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_logo"
-        android:label="My Clinic"
-        android:largeHeap="true"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
@@ -44,10 +40,13 @@
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.DoctorBookingsActivity" />
         <activity android:name=".activities.FavActivity" />
-        <activity android:name=".activities.StartCahtRoom" />
-        <activity android:name=".activities.MessageActivity" />
+        <activity android:name=".activities.StartCahtRoom"
+            android:theme="@style/SplashTheme"/>
+        <activity android:name=".activities.MessageActivity"
+            android:theme="@style/SplashTheme"/>
         <activity android:name=".activities.NoteActivity" />
-        <activity android:name=".DoctorHome" />
+        <activity android:name=".DoctorHome"
+            android:theme="@style/SplashTheme"/>
         <activity
             android:name=".activities.CalenderActivity"
             android:theme="@style/AppTheme.NoActionBar" />

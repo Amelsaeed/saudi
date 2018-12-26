@@ -71,6 +71,9 @@
     <string name="my_reservations">My reservations</string>
     <string name="profile">Profile</string>
     <string name="menu">Menu</string>
+    <string name="hospital_home">Home</string>
+    <string name="hospital_my_doctor">My Doctor</string>
+    <string name="hospital_menu">Menu</string>
 
 
 </resources>
