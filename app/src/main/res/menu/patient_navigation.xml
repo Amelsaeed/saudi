@@ -12,7 +12,7 @@
 
 
     <item
-        android:id="@+id/navigation_profile"
+        android:id="@+id/Reservations"
         android:icon="@drawable/shape"
         android:title="My Reservations" />
     <item

@@ -36,32 +36,27 @@ public class PatientHome extends AppCompatActivity {
                     return true;
                 case R.id.navigation_favorite:
                     if (user == null) {
-                        // fragment = new RegisterFragment();
-                        // loadFragment(fragment);
                         Intent it = new Intent(PatientHome.this, LoginActivity.class);
                         startActivity(it);
                     } else {
-                       fragment = new FavFragment();
+                        fragment = new FavFragment();
 
-                    loadFragment(fragment);}
+                        loadFragment(fragment);}
                     return true;
 
-                case R.id.navigation_profile:
-                    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                case R.id.Reservations:
                     if (user == null) {
-                        // fragment = new RegisterFragment();
-                       // loadFragment(fragment);
-                        Intent it = new Intent(PatientHome.this, RegestrationPathActivity.class);
+                        Intent it = new Intent(PatientHome.this, LoginActivity.class);
                         startActivity(it);
                     } else {
-                          fragment = new LoginAFragment();
+                        fragment = new UserBookingFragment();
                         loadFragment(fragment);
                     }
 
                     return true;
                 case R.id.navigation_menu:
-                        fragment = new LoginAFragment();
-                        loadFragment(fragment);
+                    fragment = new moreFragment();
+                    loadFragment(fragment);
 
                     return true;
             }
