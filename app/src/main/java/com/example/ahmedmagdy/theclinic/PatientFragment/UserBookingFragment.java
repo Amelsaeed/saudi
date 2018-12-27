@@ -49,7 +49,7 @@ public class UserBookingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_doctor_bookings, container, false);
+        View rootView = inflater.inflate(R.layout.activity_user_booking, container, false);
         usernamef = rootView.findViewById(R.id.user_name_book);
         progressBar = (ProgressBar) rootView.findViewById(R.id.data_progress_bar);
         mAuth = FirebaseAuth.getInstance();

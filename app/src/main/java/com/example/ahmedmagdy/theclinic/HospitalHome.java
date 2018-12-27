@@ -40,9 +40,6 @@ public class HospitalHome extends AppCompatActivity {
                         case R.id.navigation_my_doctor:
                             //selectedFragment = new NotificationFragment();
                             break;
-                        case R.id.navigation_profile_hospital:
-                            //selectedFragment = new ProfileFragment();
-                            break;
                         case R.id.navigation_menu_hospital:
                             //selectedFragment = new ProfileFragment();
                             break;

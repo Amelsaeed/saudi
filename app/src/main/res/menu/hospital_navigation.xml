@@ -3,20 +3,15 @@
     <item
         android:id="@+id/navigation_home_hospital"
         android:icon="@drawable/home_icon"
-        android:title="Home" />
+        android:title="@string/hospital_home" />
 
     <item
         android:id="@+id/navigation_my_doctor"
         android:icon="@drawable/mydoctor"
-        android:title="My Doctor" />
+        android:title="@string/hospital_my_doctor" />
 
-
-    <item
-        android:id="@+id/navigation_profile_hospital"
-        android:icon="@drawable/ic_profile"
-        android:title="My Profile" />
     <item
         android:id="@+id/navigation_menu_hospital"
         android:icon="@drawable/menu1"
-        android:title="Menu" />
+        android:title="@string/hospital_menu" />
 </menu>

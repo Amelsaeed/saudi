@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -99,7 +100,6 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         Toolbar toolbar = findViewById(R.id.toolbarchat);
-        getSupportActionBar().setTitle("");
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
