@@ -2,17 +2,23 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,10 +64,11 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctorname = (TextView) listViewItem.findViewById(R.id.doctor_name);
         final TextView adoctorspecialty = (TextView) listViewItem.findViewById(R.id.doctor_specialty);
         final TextView adoctorcity = (TextView) listViewItem.findViewById(R.id.doctor_city);
+        final TextView adoctorsalary = (TextView) listViewItem.findViewById(R.id.doctor_salary);
         final ImageView Book = (ImageView) listViewItem.findViewById(R.id.book123);
         final ImageView ChatRoom = (ImageView) listViewItem.findViewById(R.id.chatroom);
-
-
+     //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
+        final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
         final CheckBox favcheckbox = (CheckBox) listViewItem.findViewById(R.id.fav_checkbox);
         mAuth = FirebaseAuth.getInstance();
 
@@ -151,9 +158,59 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         adoctorname.setText(doctorclass.getcName());
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
-        // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
+        adoctorsalary.setText(doctorclass.getcPrice());
+       String InsuranceList=doctorclass.getcInsurance();
+       String[] items = InsuranceList.split(",");
+  ////////////***********************************************
+    /**    for (int i = 0; i < items.length; i++) {
+            // Creation row
+            final TableRow tableRow = new TableRow(context);
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
+            // Creation textView
+            final TextView text = new TextView(context);
+            text.setText(items[i]);
+            text.setGravity(Gravity.CENTER);
+            text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
+            tableRow.addView(text);
+          //  tableRow.addView(button);
+
+            tableLayout.addView(tableRow);
+        }**/
+////////////***********************************************
+        /** int totalno= items.length;
+         int r= 7;
+         int c= totalno % r;**/
+        int a = 0;
+        for (int i = 0; i < 7; i++) {
+            // Creation row
+            final TableRow tableRow = new TableRow(context);
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+            for (int j = 0; j < 5; j++) {
+
+                final TextView text = new TextView(context);
+
+                if (a < items.length) {
+                    text.setText("* "+ items[a]);
+                    text.setTextColor(Color.parseColor("#FFFFFF"));
+                    text.setTextSize(10);
+                } else {
+                    text.setText(" ");
+                }
+
+                a++;
+                //text.setGravity(Gravity.CENTER);
+                text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                text.setPadding(10, 0, 10, 1);
+                tableRow.addView(text);
+
+            }
+            tableLayout.addView(tableRow);
+
+        }
+/////////////////************************************
         a1 = doctorclass.getcUri();
         if (a1 != null) {
 

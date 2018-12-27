@@ -95,8 +95,6 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         this.dayAvaliable = dayAvaliable;
     }
 
-
-
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {

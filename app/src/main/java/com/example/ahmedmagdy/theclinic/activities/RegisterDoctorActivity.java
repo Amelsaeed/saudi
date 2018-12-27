@@ -82,7 +82,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
     FirebaseUser fuser;
     String mtype;
-
+    String getmInsuranceItems="";
     String[] listItems;
     Boolean[] checkedItems;
     ArrayList<Integer> mInsuranceItems = new ArrayList<>();
@@ -216,6 +216,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
                         }
                         textInsurance.setText(item);
+                        getmInsuranceItems=item;
                         mInsuranceItems.clear();
                     }
                 });
@@ -311,7 +312,7 @@ textInsurance.setText("");
 
         final String mSpecialty = spinnerspecialty.getSelectedItem().toString().trim();
         final String mCity = spinnercity.getSelectedItem().toString().trim();
-        final String mInsurance = "popa";
+        final String mInsurance = getmInsuranceItems;
 //        final String mInsurance = spinnerinsurance.getSelectedItem().toString().trim();
 /**
  if(mdoctorPhotoUrl.equals("")){
@@ -370,6 +371,11 @@ textInsurance.setText("");
          }
          }
          **/
+        if (getmInsuranceItems.equals("")) {
+            textInsurance.setError("Please insert list of Insurance");
+            textInsurance.requestFocus();
+            return;
+        }
 
 
         // if (mdoctorPhotoUrl.equals("")) {
@@ -424,7 +430,7 @@ textInsurance.setText("");
                         databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                         // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
-                        Intent intend = new Intent(RegisterDoctorActivity.this, AllDoctorActivity.class);
+                        Intent intend = new Intent(RegisterDoctorActivity.this, SplashActivity.class);
                         intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         finish();
                         startActivity(intend);
