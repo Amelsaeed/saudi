@@ -82,9 +82,16 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final ImageView adoctorphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo);
         final DoctorFirebaseClass doctorclass = doctorList.get(position);
         favcheckbox.setChecked(doctorclass.getChecked());
+        final Button singout = (Button) listViewItem.findViewById(R.id.singout);
+        singout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                context.startActivity(new Intent(context,LoginActivity.class));
+            }
+        });
 
-/*
-        if (fuser != null) {
+    /*    if (fuser != null) {
 
             DatabaseReference database = FirebaseDatabase.getInstance().getReference("Doctordb");
             final ValueEventListener postListener1 = new ValueEventListener() {
