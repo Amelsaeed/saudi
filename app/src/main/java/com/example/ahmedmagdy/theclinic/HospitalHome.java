@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.ahmedmagdy.theclinic.ChatRoomFragments.ProfileFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalAllDoctorFragment;
+import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalMyDoctorFragment;
 
 public class HospitalHome extends AppCompatActivity {
 
@@ -38,10 +38,10 @@ public class HospitalHome extends AppCompatActivity {
                             selectedFragment = new HospitalAllDoctorFragment();
                             break;
                         case R.id.navigation_my_doctor:
-                            //selectedFragment = new NotificationFragment();
+                            selectedFragment = new HospitalMyDoctorFragment();
                             break;
                         case R.id.navigation_menu_hospital:
-                            //selectedFragment = new ProfileFragment();
+                         selectedFragment = new moreFragment();
                             break;
                     }
 
