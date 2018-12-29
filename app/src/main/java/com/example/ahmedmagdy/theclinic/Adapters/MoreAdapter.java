@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ahmedmagdy.theclinic.R;
@@ -14,17 +15,20 @@ import java.util.ArrayList;
 public class MoreAdapter extends ArrayAdapter<String> {
     private final Context context;
     ArrayList<String> messages;
+    ArrayList<Integer> icons;
     int font;
     String g_name;
 
 
-    public MoreAdapter(Context context, ArrayList<String> words) {
+    public MoreAdapter(Context context, ArrayList<String> words,ArrayList<Integer> icons) {
         super(context, 0, words);
         this.context = context;
         messages=words;
+        this.icons = icons;
     }
 
     TextView message;
+    ImageView imageIcon;
 
 
     @Override
@@ -40,6 +44,10 @@ public class MoreAdapter extends ArrayAdapter<String> {
         message = (TextView) listItemView.findViewById(R.id.textView1);
 
         message.setText(messages.get(position));
+
+        imageIcon = listItemView.findViewById(R.id.imageView_icon);
+
+        imageIcon.setImageResource(icons.get(position));
 
 
 
