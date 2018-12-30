@@ -28,6 +28,7 @@
         <item>alnima tokio</item>
         <item>AL-ETIHAD</item>
         <item>Arabian Shield Insurance</item>
+
         <item>Al Rajhi Takaful</item>
         <item>ALSAGR</item>
         <item>Allianz</item>
@@ -56,7 +57,8 @@
     <string name="title_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="share_body_link" translatable="false">https://play.google.com/store/apps/details?id=Carnival</string>
+    <string name="share_title_chooser">Share App</string>
     <string name="empty_name_field_msg">Please enter the name</string>
     <string name="empty_age_field_msg">Please enter the age</string>
     <string name="empty_address_field_msg">Please set the address</string>
