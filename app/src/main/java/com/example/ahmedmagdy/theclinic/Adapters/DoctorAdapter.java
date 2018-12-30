@@ -32,6 +32,7 @@ import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.activities.FavActivity;
+import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MessageActivity;
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
@@ -47,6 +48,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -79,8 +81,12 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctorsalary = (TextView) listViewItem.findViewById(R.id.doctor_salary);
         final ImageView Book = (ImageView) listViewItem.findViewById(R.id.book123);
         final ImageView ChatRoom = (ImageView) listViewItem.findViewById(R.id.chatroom);
+
+        final TextView adoctordegree = (TextView) listViewItem.findViewById(R.id.doctor_degree);
+        final TextView adoctorinsurance = (TextView) listViewItem.findViewById(R.id.doctor_Insurance);
+
      //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
-        final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
+       // final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
         final TextView TypeList = (TextView) listViewItem.findViewById(R.id.type_list);
         final CheckBox favcheckbox = (CheckBox) listViewItem.findViewById(R.id.fav_checkbox);
         final RelativeLayout relativeLayoutbook = listViewItem.findViewById(R.id.rilative_book);
@@ -90,6 +96,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final ImageView adoctorphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo);
         final DoctorFirebaseClass doctorclass = doctorList.get(position);
         favcheckbox.setChecked(doctorclass.getChecked());
+        ImageView Insuranceall= (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);
       /**  final Button singout = (Button) listViewItem.findViewById(R.id.singout);
         singout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +139,13 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             database.addValueEventListener(postListener1);
 
         }*/
-        favcheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+
+
+
+
+            favcheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -208,6 +221,22 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
             }
         });
+
+        Insuranceall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    DoctorFirebaseClass doctorclasss = doctorList.get(position);
+                    Intent intent = new Intent(context, InsuranceListActivity.class);
+                    intent.putExtra("InsuranceList",doctorclass.getcInsurance());
+                    intent.putExtra("DoctorName",doctorclass.getcName());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+
+
+            }
+        });
         adoctorcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,10 +251,52 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         adoctorname.setText(doctorclass.getcName());
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
-        adoctorsalary.setText(doctorclass.getcPrice());
-       String InsuranceList=doctorclass.getcInsurance();
-       String[] items = InsuranceList.split(",");
+        if (doctorclass.getcPrice()!= null) {
+            adoctorsalary.setText(doctorclass.getcPrice());
+        }else{adoctorsalary.setText("price not detected");}
+
+        if (doctorclass.getcDegree()!= null) {
+            adoctordegree.setText(doctorclass.getcDegree());
+        }else{adoctordegree.setText("Degree not detected");}
+        String InsuranceList=doctorclass.getcInsurance();
+        final List<String> items = Arrays.asList(InsuranceList.split(","));
+
+      //  final ArrayList<String> items = (ArrayList<String>)Arrays.asList(InsuranceList.split(","));
+       //final String[] items = InsuranceList.split(",");
   ////////////***********************************************
+        if (mAuth.getCurrentUser() != null) {
+            DatabaseReference databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
+                    String userInsurancetype = dataSnapshot1.child(fuser.getUid()).child("cInsurance").getValue(String.class);
+                    for (int i = 0; i < items.size(); i++) {
+                      //  Toast.makeText(context, userInsurancetype, Toast.LENGTH_LONG).show();
+
+                        if (items.get(i).equalsIgnoreCase(userInsurancetype)) {
+                          //  Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
+
+                            adoctorinsurance.setText(items.get(i));
+                            return;
+                        } else {
+                            adoctorinsurance.setText("Other");
+                         //   Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseChat.addValueEventListener(postListener1);
+
+        }else{ adoctorinsurance.setText("Not detected");}
+        /////*//////////////**************************/////
     /**    for (int i = 0; i < items.length; i++) {
             // Creation row
             final TableRow tableRow = new TableRow(context);
@@ -246,7 +317,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         /** int totalno= items.length;
          int r= 7;
          int c= totalno % r;**/
-        int a = 0;
+     /**   int a = 0;
         for (int i = 0; i < 7; i++) {
             // Creation row
             final TableRow tableRow = new TableRow(context);
@@ -256,8 +327,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
                 final TextView text = new TextView(context);
 
-                if (a < items.length) {
-                    text.setText("* "+ items[a]);
+                if (a < items.size()) {
+                    text.setText("* "+ items.get(a));
                     text.setTextColor(Color.parseColor("#FFFFFF"));
                     text.setTextSize(10);
                 } else {
@@ -273,7 +344,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             }
             tableLayout.addView(tableRow);
 
-        }
+        }**/
 /////////////////************************************
         a1 = doctorclass.getcUri();
         if (a1 != null) {

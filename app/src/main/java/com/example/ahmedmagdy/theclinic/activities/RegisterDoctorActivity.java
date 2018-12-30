@@ -212,7 +212,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                         for (int i = 0; i < mInsuranceItems.size(); i++) {
                             if (i ==0) {item="";}
                             item = item + listItems[mInsuranceItems.get(i)];
-                            if (i != mInsuranceItems.size() - 1) {item = item + ", ";}
+                            if (i != mInsuranceItems.size() - 1) {item = item + ",";}
 
                         }
                         textInsurance.setText(item);

@@ -168,7 +168,12 @@ public class FavFragment extends Fragment {
                             String DCity = dataSnapshot1.child(DID).child("cCity").getValue(String.class);
                             String DUri = dataSnapshot1.child(DID).child("cUri").getValue(String.class);
 
-                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,checked);
+                            String DInsurance = dataSnapshot1.child(DID).child("cInsurance").getValue(String.class);
+                            String DPrice = dataSnapshot1.child(DID).child("cPrice").getValue(String.class);
+                            String DDegree = dataSnapshot1.child(DID).child("cDegree").getValue(String.class);
+
+
+                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked);
                             doctorList.add(0,doctorclass);// i= 0  (index)to start from top
 
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);

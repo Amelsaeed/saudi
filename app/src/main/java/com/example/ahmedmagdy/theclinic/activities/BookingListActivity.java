@@ -5,13 +5,16 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -30,6 +33,7 @@ import com.example.ahmedmagdy.theclinic.Notifications.Client;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
 import com.example.ahmedmagdy.theclinic.classes.MapClass;
+import com.example.ahmedmagdy.theclinic.classes.OneWordClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -237,18 +241,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                 mTimePicker = new TimePickerDialog(BookingListActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-///////////*************************to get am-pm value**************************/////////
-                    /**    String am_pm = "";
 
-                        Calendar datetime = Calendar.getInstance();
-                        datetime.set(Calendar.HOUR_OF_DAY, selectedHour);
-                        datetime.set(Calendar.MINUTE, selectedMinute);
-
-                        if (datetime.get(Calendar.AM_PM) == Calendar.AM)
-                            am_pm = "AM";
-                        else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
-                            am_pm = "PM";**/
-///////////*************************to get am-pm value**************************/////////
 
                         startTime=selectedHour + ":" + selectedMinute;
                         startHour=selectedHour;
@@ -275,18 +268,8 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                 mTimePicker1 = new TimePickerDialog(BookingListActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
-///////////*************************to get am-pm value**************************/////////
-                      /**  String am_pm1 = "";
 
-                        Calendar datetime1 = Calendar.getInstance();
-                        datetime1.set(Calendar.HOUR_OF_DAY, selectedHour1);
-                        datetime1.set(Calendar.MINUTE, selectedMinute1);
 
-                        if (datetime1.get(Calendar.AM_PM) == Calendar.AM)
-                            am_pm1 = "AM";
-                        else if (datetime1.get(Calendar.AM_PM) == Calendar.PM)
-                            am_pm1 = "PM";**/
-///////////*************************to get am-pm value**************************/////////
                         endingTime=selectedHour1 + ":" + selectedMinute1;
                         endingHour=selectedHour1;
 
@@ -306,6 +289,15 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
         TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
 
+        final CardView dsatcardview = (CardView) dialog.findViewById(R.id.sat);
+        final CardView dsuncardview = (CardView) dialog.findViewById(R.id.sun);
+        final CardView dmoncardview = (CardView) dialog.findViewById(R.id.mon);
+        final CardView dtuscardview = (CardView) dialog.findViewById(R.id.tus);
+        final CardView dwedcardview = (CardView) dialog.findViewById(R.id.wed);
+        final CardView dthucardview = (CardView) dialog.findViewById(R.id.thu);
+        final CardView dfricardview = (CardView) dialog.findViewById(R.id.fri);
+
+/**
         CheckBox dsatcheckbox = (CheckBox) dialog.findViewById(R.id.sat);
         CheckBox dsuncheckbox = (CheckBox) dialog.findViewById(R.id.sun);
         CheckBox dmoncheckbox = (CheckBox) dialog.findViewById(R.id.mon);
@@ -361,6 +353,97 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             public void onClick(View v) {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
+            }
+        });**/
+
+        dsatcardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dsatcardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dsatcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    satstate =true;
+                }else{
+                    dsatcardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    satstate =false;
+                }
+            }
+        });
+        dsuncardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dsuncardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dsuncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    sunstate =true;
+                }else{
+
+                    dsuncardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    satstate =false;
+                }
+            }
+        });
+        dmoncardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dmoncardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dmoncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    monstate =true;
+                }else{
+
+                    dmoncardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    monstate =false;
+                }
+            }
+        });
+        dtuscardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dtuscardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dtuscardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    tusstate =true;
+                }else{
+
+                    dtuscardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    tusstate =false;
+                }
+            }
+        });
+        dwedcardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dwedcardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dwedcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    wedstate =true;
+                }else{
+
+                    dwedcardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    wedstate =false;
+                }
+            }
+        });
+        dthucardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dthucardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dthucardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    thustate =true;
+                }else{
+
+                    dthucardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    thustate =false;
+                }
+            }
+        });
+        dfricardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dfricardview.getCardBackgroundColor().getDefaultColor()==-1){
+                    dfricardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                    fristate =true;
+                }else{
+
+                    dfricardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fristate =false;
+                }
             }
         });
         ////////////////////

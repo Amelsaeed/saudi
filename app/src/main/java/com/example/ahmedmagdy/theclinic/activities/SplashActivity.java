@@ -29,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser fuser;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    DatabaseReference databaseChat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,8 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_splash);
-
+         databaseChat  = FirebaseDatabase.getInstance().getReference("ChatRoom");
+       databaseChat.keepSynced(true);
         mAuth = FirebaseAuth.getInstance();
         //get my image
         myImageView = (ImageView) findViewById(R.id.splash_logo);
@@ -92,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getallData() {
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("ChatRoom");
+
         //**************************************************//
         // private void getallData();
         final ValueEventListener postListener1 = new ValueEventListener() {
@@ -123,7 +125,7 @@ public class SplashActivity extends AppCompatActivity {
                 // Getting Post failed, log a message
             }
         };
-        database.addValueEventListener(postListener1);
+        databaseChat.addValueEventListener(postListener1);
     }
     private void updateToken(String token) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");

@@ -81,14 +81,14 @@ public class DoctorFirebaseClass implements Serializable {
     }
 
 
-    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,Boolean checked) {
+    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked) {
         this.cId = cId;
         this.cName = cName;
         this.cSpecialty = cSpecialty;
         this.cCity = cCity;
         this.cUri = cUri;
         this.cDegree = cDegree;
-        this.cPhone = cPhone;
+        this.cInsurance = cInsurance;
         this.cPrice = cPrice;
         this.cTime = cTime;
         this.cAbout = cAbout;

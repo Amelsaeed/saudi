@@ -93,105 +93,241 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:orientation="horizontal">
+        android:id="@+id/mainGrid"
+    android:orientation="horizontal"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:padding="5dp"
+     >
+ <!-- Row 1 -->
+        <!-- android:columnCount="7"
+             android:rowCount="1"
+             android:alignmentMode="alignMargins"
+             android:columnOrderPreserved="false" -->
+    <!-- Column 1 -->
+    <android.support.v7.widget.CardView
+        android:id="@+id/sat1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
+        android:gravity="center"
 
-        <CheckBox
-            android:id="@+id/sat1"
-            android:button="@drawable/cal_checkbox_selector"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="s"/>
+        >
 
-        <CheckBox
-            android:id="@+id/sun1"
-            android:button="@drawable/cal_checkbox_selector"
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="s"/>
-        <CheckBox
+
+            <TextView
+                android:id="@+id/sat1_text"
+
+                android:text="Sat"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+    </android.support.v7.widget.CardView>
+
+    <!-- Column 2 -->
+    <android.support.v7.widget.CardView
+        android:id="@+id/sun1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
+        android:gravity="center"
+        >
+
+
+
+            <TextView
+                android:id="@+id/sun1_text"
+                android:text="Sun"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+    </android.support.v7.widget.CardView>
+
+        <!-- Column 3 -->
+        <android.support.v7.widget.CardView
             android:id="@+id/mon1"
-            android:button="@drawable/cal_checkbox_selector"
-
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="m"/>
-        <CheckBox
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            android:gravity="center"
+            >
+
+
+            <TextView
+                android:id="@+id/mon1_text"
+
+                android:text="Mon"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </android.support.v7.widget.CardView>
+
+        <!-- Column 4 -->
+
+        <android.support.v7.widget.CardView
             android:id="@+id/tus1"
-            android:button="@drawable/cal_checkbox_selector"
-
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="t"/>
-        <CheckBox
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            android:gravity="center"
+            >
+
+
+
+            <TextView
+                android:id="@+id/tus1_text"
+
+                android:text="Tus"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </android.support.v7.widget.CardView>
+
+        <!-- Column 5 -->
+
+        <android.support.v7.widget.CardView
             android:id="@+id/wed1"
-            android:button="@drawable/cal_checkbox_selector"
 
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="w"/>
-        <CheckBox
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            android:gravity="center"
+            >
+
+
+
+            <TextView
+                android:id="@+id/wed1_text"
+
+                android:text="Wed"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </android.support.v7.widget.CardView>
+        <!-- Column 6 -->
+
+        <android.support.v7.widget.CardView
             android:id="@+id/thu1"
-            android:button="@drawable/cal_checkbox_selector"
 
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="t"/>
-        <CheckBox
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            android:gravity="center"
+            >
+
+
+            <TextView
+                android:id="@+id/thu1_text"
+
+                android:text="Thu"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </android.support.v7.widget.CardView>
+        <!-- Column 7 -->
+
+        <android.support.v7.widget.CardView
             android:id="@+id/fri1"
-            android:button="@drawable/cal_checkbox_selector"
-
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="f"/>
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            android:gravity="center"
+            >
 
+            <TextView
+                android:id="@+id/fri1_text"
+
+                android:text="Fri"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+
 
 
 </LinearLayout>

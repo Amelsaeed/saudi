@@ -78,7 +78,6 @@
                                 android:id="@+id/doctor_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Saif Amer"
                                 android:textColor="#fff" />
                         </LinearLayout>
 
@@ -99,7 +98,6 @@
                                 android:id="@+id/doctor_city"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Dammam,50.1447,44.50"
                                 android:textColor="#fff" />
                         </LinearLayout>
 
@@ -120,7 +118,6 @@
                                 android:id="@+id/doctor_salary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="100 SAR"
                                 android:textColor="#fff" />
                         </LinearLayout>
 
@@ -141,8 +138,52 @@
                                 android:id="@+id/doctor_specialty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bone Specilalist"
                                 android:textColor="#fff" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:background="@drawable/pencil_icon" />
+
+                            <TextView
+                                android:id="@+id/doctor_degree"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:background="@drawable/pencil_icon" />
+
+                            <TextView
+                                android:id="@+id/doctor_Insurance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff" />
+                            <ImageView
+                                android:id="@+id/doctor_Insurance_all"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:background="@drawable/ic_all_out" />
+                                 />
                         </LinearLayout>
                     </LinearLayout>
 

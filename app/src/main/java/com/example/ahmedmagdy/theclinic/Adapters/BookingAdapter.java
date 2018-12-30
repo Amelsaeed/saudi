@@ -2,8 +2,10 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,60 +61,28 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         final TextView abookingaddress = (TextView) listViewItem.findViewById(R.id.Adress_book);
 
 
-        CheckBox dsatcheckbox = (CheckBox) listViewItem.findViewById(R.id.sat1);
-        CheckBox dsuncheckbox = (CheckBox) listViewItem.findViewById(R.id.sun1);
-        CheckBox dmoncheckbox = (CheckBox) listViewItem.findViewById(R.id.mon1);
-        CheckBox dtuscheckbox = (CheckBox) listViewItem.findViewById(R.id.tus1);
-        CheckBox dwedcheckbox = (CheckBox) listViewItem.findViewById(R.id.wed1);
-        CheckBox dthucheckbox = (CheckBox) listViewItem.findViewById(R.id.thu1);
-        CheckBox dfricheckbox = (CheckBox) listViewItem.findViewById(R.id.fri1);
+        CardView dsatcardview = (CardView) listViewItem.findViewById(R.id.sat1);
+        CardView dsuncardview = (CardView) listViewItem.findViewById(R.id.sun1);
+        CardView dmoncardview = (CardView) listViewItem.findViewById(R.id.mon1);
+        CardView dtuscardview = (CardView) listViewItem.findViewById(R.id.tus1);
+        CardView dwedcardview = (CardView) listViewItem.findViewById(R.id.wed1);
+        CardView dthucardview = (CardView) listViewItem.findViewById(R.id.thu1);
+        CardView dfricardview = (CardView) listViewItem.findViewById(R.id.fri1);
 
-       // final ImageView abookingphoto = (ImageView) listViewItem.findViewById(R.id.image_book);
+        TextView dsattextview = (TextView) listViewItem.findViewById(R.id.sat1_text);
+        TextView dsuntextview = (TextView) listViewItem.findViewById(R.id.sun1_text);
+        TextView dmontextview = (TextView) listViewItem.findViewById(R.id.mon1_text);
+        TextView dtustextview = (TextView) listViewItem.findViewById(R.id.tus1_text);
+        TextView dwedtextview = (TextView) listViewItem.findViewById(R.id.wed1_text);
+        TextView dthutextview = (TextView) listViewItem.findViewById(R.id.thu1_text);
+        TextView dfritextview = (TextView) listViewItem.findViewById(R.id.fri1_text);
+
+
+        // final ImageView abookingphoto = (ImageView) listViewItem.findViewById(R.id.image_book);
 
         BookingClass bookingclass = bookingList.get(position);
-        //asize = trampList.size();
-        ///***********************calender***********************************************//
-        /**
-        ImageGenerator mImageGenerator = new ImageGenerator(context);
 
-// Set the icon size to the generated in dip.
-        mImageGenerator.setIconSize(50, 50);
-
-// Set the size of the date and month font in dip.
-        mImageGenerator.setDateSize(30);
-        mImageGenerator.setMonthSize(10);
-
-// Set the position of the date and month in dip.
-        mImageGenerator.setDatePosition(42);
-        mImageGenerator.setMonthPosition(14);
-
-// Set the color of the font to be generated
-        mImageGenerator.setDateColor(Color.parseColor("#3c6eaf"));
-        mImageGenerator.setMonthColor(Color.WHITE);
-
-        abookingphoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar mCurrentDate = Calendar.getInstance();
-                int year=mCurrentDate.get(Calendar.YEAR);
-                int month=mCurrentDate.get(Calendar.MONTH);
-                int day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog mPickerDialog =  new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
-                       String datedmy= Year+"_"+ (Month+1)+"_"+Day;
-                        Toast.makeText(context, datedmy, Toast.LENGTH_LONG).show();
-                       // Toast.makeText(context, id+doctorID, Toast.LENGTH_LONG).show();
-//getbookdata();
-                        //editTextcal.setText(Year+"_"+ ((Month/10)+1)+"_"+Day);
-                        mCurrentDate.set(Year, ((Month+1)),Day);
-                        //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
-                    }
-                }, year, month, day);
-                mPickerDialog.show();
-            }
-        });**/
-        ///***********************calender***********************************************//
+        ///***********************checkbox**********************************************//
 
         abookingtimestart.setText(bookingclass.getCbtimestart());
         abookingtimeend.setText(bookingclass.getCbtimeend());
@@ -120,15 +90,86 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         abookingaddress.setText(bookingclass.getCbaddress());
 
 
-        dsatcheckbox.setChecked(bookingclass.getSatchecked());
-        dsuncheckbox.setChecked(bookingclass.getSunchecked());
-        dmoncheckbox.setChecked(bookingclass.getMonchecked());
-        dtuscheckbox.setChecked(bookingclass.getTuschecked());
-        dwedcheckbox.setChecked(bookingclass.getWedchecked());
-        dthucheckbox.setChecked(bookingclass.getThuchecked());
-        dfricheckbox.setChecked(bookingclass.getFrichecked());
-        dsatcheckbox.setEnabled(false); dsuncheckbox.setEnabled(false); dmoncheckbox.setEnabled(false); dtuscheckbox.setEnabled(false);
-        dwedcheckbox.setEnabled(false); dthucheckbox.setEnabled(false); dfricheckbox.setEnabled(false);
+        Boolean csatcheckbox=(bookingclass.getSatchecked());
+        Boolean csuncheckbox=(bookingclass.getSunchecked());
+        Boolean cmoncheckbox=(bookingclass.getMonchecked());
+        Boolean ctuscheckbox=(bookingclass.getTuschecked());
+        Boolean cwedcheckbox=(bookingclass.getWedchecked());
+        Boolean cthucheckbox=(bookingclass.getThuchecked());
+        Boolean cfricheckbox=(bookingclass.getFrichecked());
+
+        if (csatcheckbox){
+
+            dsatcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+            }else{
+            dsatcardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dsattextview.setTextColor(Color.parseColor("#ffffff"));
+            }
+            //////////////////***********************
+        if (csuncheckbox){
+
+            dsuncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+        }else{
+            dsuncardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dsuntextview.setTextColor(Color.parseColor("#ffffff"));
+        }
+        //////////////////***********************
+
+        if (cmoncheckbox){
+
+            dmoncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+        }else{
+            dmoncardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dmontextview.setTextColor(Color.parseColor("#ffffff"));
+        }
+        //////////////////***********************
+
+        if (ctuscheckbox){
+
+            dtuscardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+        }else{
+            dtuscardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dtustextview.setTextColor(Color.parseColor("#ffffff"));
+        }
+        //////////////////***********************
+        if (cwedcheckbox){
+
+            dwedcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+        }else{
+            dwedcardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dwedtextview.setTextColor(Color.parseColor("#ffffff"));
+        }
+        //////////////////***********************
+        if (cthucheckbox){
+
+            dthucardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+        }else{
+            dthucardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dthutextview.setTextColor(Color.parseColor("#ffffff"));
+        }
+        //////////////////***********************
+
+        if (cfricheckbox){
+
+            dfricardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+        }else{
+            dfricardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            dfritextview.setTextColor(Color.parseColor("#ffffff"));
+        }
+        //////////////////***********************
+
+
+
+
+       // dsatcheckbox.setEnabled(false); dsuncheckbox.setEnabled(false); dmoncheckbox.setEnabled(false); dtuscheckbox.setEnabled(false);
+      //  dwedcheckbox.setEnabled(false); dthucheckbox.setEnabled(false); dfricheckbox.setEnabled(false);
 
 
         return listViewItem;
