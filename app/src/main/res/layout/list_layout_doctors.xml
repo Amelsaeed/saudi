@@ -140,6 +140,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -159,6 +160,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -177,28 +179,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff" />
+
                             <ImageView
                                 android:id="@+id/doctor_Insurance_all"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"
                                 android:background="@drawable/ic_all_out" />
-                                 />
+                            />
                         </LinearLayout>
                     </LinearLayout>
 
 
-                    <ImageView
-                        android:id="@+id/chatroom"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:layout_marginTop="60dp"
-                        app:srcCompat="@drawable/ic_chat_room" />
-
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:addStatesFromChildren="false"
                         android:gravity="right"
@@ -207,7 +202,8 @@
                         <RelativeLayout
                             android:id="@+id/rilative_book"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp">
 
                             <ImageView
                                 android:id="@+id/book123"
@@ -218,35 +214,51 @@
                                 android:background="@drawable/bg_book" />
                         </RelativeLayout>
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:id="@+id/rilative_fav"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                            <RelativeLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerHorizontal="true"
-                                android:background="@drawable/bg_fav" />
+                                android:paddingLeft="-10dp"
+                                android:paddingRight="-10dp">
 
-                            <CheckBox
-                                android:id="@+id/fav_checkbox"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="20dp"
-                                android:button="@drawable/fav_checkbox_selector" />
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_fav" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="Favorite"
-                                android:textColor="#f90303"
-                                android:textSize="12dp" />
-                        </RelativeLayout>
+                                <CheckBox
+                                    android:id="@+id/fav_checkbox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="20dp"
+                                    android:button="@drawable/fav_checkbox_selector" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="Favorite"
+                                    android:textColor="#f90303"
+                                    android:textSize="12dp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/chatroom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="-10dp"
+                            app:srcCompat="@drawable/ic_chat_room" />
 
                     </LinearLayout>
 
@@ -254,19 +266,19 @@
                 </LinearLayout>
 
             </RelativeLayout>
-<!--
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-                -->
+            <!--
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                            -->
             <TableLayout
                 android:id="@+id/in_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/appBar"
                 android:layout_marginLeft="10dp"
-                 android:layout_marginRight="10dp"
-                android:textColor="#fff"
-                android:layout_below="@+id/appBar" />
+                android:layout_marginRight="10dp"
+                android:textColor="#fff" />
 
             <!--        <Button
                         android:id="@+id/singout"
@@ -274,10 +286,7 @@
                         android:layout_height="wrap_content"
                         android:text="SING OUT" />   -->
         </LinearLayout>
-  </android.support.v7.widget.CardView>
-
-
-
+    </android.support.v7.widget.CardView>
 
 
 </RelativeLayout>

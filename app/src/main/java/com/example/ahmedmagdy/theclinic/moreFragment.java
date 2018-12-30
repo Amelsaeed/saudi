@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.example.ahmedmagdy.theclinic.Adapters.MoreAdapter;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
+import com.example.ahmedmagdy.theclinic.activities.StartCahtRoom;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class moreFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_more, container, false);
 
-        ArrayList<String> words=new ArrayList<String>();
+        ArrayList<String> words = new ArrayList<String>();
         words.add("Map");
         words.add("Chat");
         words.add("Profile");
@@ -46,17 +47,16 @@ public class moreFragment extends Fragment {
         words.add("Email us");
         words.add("Sign out");
         ArrayList<Integer> icons = new ArrayList<>();
-        icons.add(R.drawable.ic_place_black_24dp);
+        icons.add(R.drawable.map_all);
+        icons.add(R.drawable.chat_room);
         icons.add(R.drawable.ic_person);
-        icons.add(R.drawable.ic_chat_black_24dp);
-        icons.add(R.drawable.ic_star_black_24dp);
+        icons.add(R.drawable.rating);
         icons.add(R.drawable.ic_share_black_24dp);
         icons.add(R.drawable.ic_email);
-        icons.add(R.drawable.ic_supervisor_account_black_24dp);
+        icons.add(R.drawable.icn_sign_out);
 
 
-
-        ListView listview =(ListView)rootView.findViewById(R.id.listView1);
+        ListView listview = (ListView) rootView.findViewById(R.id.listView1);
         MoreAdapter adapter = new MoreAdapter(getActivity(), words, icons);
 
         listview.setAdapter(adapter);
@@ -68,7 +68,7 @@ public class moreFragment extends Fragment {
                         mapClicked();
                         break;
                     case 1:
-                        profileClicked();
+                        ChatRoomClicked();
                         break;
                     case 2:
                         profileClicked();
@@ -92,12 +92,18 @@ public class moreFragment extends Fragment {
 
         return rootView;
     }
+
     private void mapClicked() {
     }
 
-    private void profileClicked(){}
+    private void ChatRoomClicked() {
+        startActivity(new Intent(getActivity(), StartCahtRoom.class));
+    }
 
-    private void rateClicked(){
+    private void profileClicked() {
+    }
+
+    private void rateClicked() {
         try {
             Intent rateIntent = rateIntentForUrl("market://details");
             startActivity(rateIntent);
@@ -108,7 +114,7 @@ public class moreFragment extends Fragment {
     }  // handle Rate us
 
     private Intent rateIntentForUrl(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url,getActivity().getPackageName())));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getActivity().getPackageName())));
         int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
         if (Build.VERSION.SDK_INT >= 21) {
             flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
@@ -120,7 +126,7 @@ public class moreFragment extends Fragment {
         return intent;
     } // rate us helper method
 
-    private void shareClicked(){
+    private void shareClicked() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String shareBody = getString(R.string.share_body_link);
@@ -129,7 +135,7 @@ public class moreFragment extends Fragment {
         startActivity(Intent.createChooser(intent, getString(R.string.share_title_chooser)));
     }  // handle share item
 
-    private void emailClicked(){
+    private void emailClicked() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:Al-Souq@gmail.com"));  // only email apps should handle this
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -137,13 +143,13 @@ public class moreFragment extends Fragment {
         }
     } // handle Mail item
 
-    private void signOutClicked(){
+    private void signOutClicked() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
-        
-        Intent intent=new Intent(getActivity(),LoginActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        getActivity().finish();
     }  // handle sign out item
 
 
