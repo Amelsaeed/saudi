@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.ahmedmagdy.theclinic.Adapters.MoreAdapter;
+import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.UserProfileFragment;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
+import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
 import com.example.ahmedmagdy.theclinic.activities.StartCahtRoom;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -94,13 +99,30 @@ public class moreFragment extends Fragment {
     }
 
     private void mapClicked() {
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                new MapsActivity()).addToBackStack(null).commit();
+
     }
 
     private void ChatRoomClicked() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            Intent it = new Intent(getActivity(), LoginActivity.class);
+            startActivity(it);}
+            else
         startActivity(new Intent(getActivity(), StartCahtRoom.class));
     }
 
     private void profileClicked() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            Intent it = new Intent(getActivity(), LoginActivity.class);
+            startActivity(it);}
+        else{
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                new UserProfileFragment()).addToBackStack(null).commit();}
     }
 
     private void rateClicked() {
