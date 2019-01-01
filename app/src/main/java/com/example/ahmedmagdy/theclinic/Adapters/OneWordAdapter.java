@@ -62,6 +62,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseUserReg;
     private DatabaseReference databasetimeBooking;
+    DatabaseReference bookforuser;
     String   picuri,mDate;
     String userid;
     private FirebaseUser fuser;
@@ -109,7 +110,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");databasetimeBooking.keepSynced(true);
         userid = mAuth.getCurrentUser().getUid();
         fuser = mAuth.getInstance().getCurrentUser();
-
+         bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
 
@@ -194,7 +195,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                         databasetimeBooking.child(DoctorID).child(TimeID)
                                 .child(datedmy)
                                 .child(userid).setValue(null);
-
+                       bookforuser.child(userid).child(DoctorID+datedmy).setValue(null);
                         Toast.makeText(context, "Removed", Toast.LENGTH_LONG).show();
                     }
 
@@ -240,8 +241,16 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 mDate = sdf.format(calendar.getTime());
+////////////////***************user booking table**********************
 
-                ////to do/////////-------------------------------------------------------------
+               // DatabaseReference referencea = bookforuser.push();
+               // String randomid = referencea.getKey();
+
+                BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, DoctorAddress,datedmy , datedmy,onewordclass.getWord());
+
+                bookforuser.child(userid).child(DoctorID+datedmy).setValue(bookingtimes);
+
+                ////to do/////////------------doctor booking table-------------------------------------------------
 
                 DatabaseReference reference1 = databasetimeBooking.push();
                 //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
