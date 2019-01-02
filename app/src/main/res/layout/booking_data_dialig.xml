@@ -187,9 +187,9 @@
                android:layout_marginBottom="8dp"
                android:layout_marginLeft="25dp"
                android:layout_marginRight="8dp"
-               android:text="* Be sure GPS is opened"
+               android:text="* Be sure GPS is opened or press Refresh"
                android:textColor="@android:color/holo_red_dark"
-               android:textSize="16sp" />
+               android:textSize="12sp" />
            <LinearLayout
                android:id="@+id/mainGrid_dialog"
                android:orientation="horizontal"
@@ -442,6 +442,16 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="Cancel"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/refresh_tv_e"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Refresh"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
