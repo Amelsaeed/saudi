@@ -55,31 +55,5 @@
         android:visibility="gone"
         />
 
-    <LinearLayout
-        android:id="@+id/Lin_tramp_a"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/all_doc_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:layout_margin="8dp"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:text="all doctors"
-            />
-        <Button
-            android:id="@+id/book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:text="my bookings"
-            />
-    </LinearLayout>
 </RelativeLayout>

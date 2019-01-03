@@ -68,7 +68,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
     private ProgressBar progressBar;
     private Spinner spinnercity, spinnerinsurance;
     DatabaseReference databaseUserReg;
-    DatabaseReference databaseDoctor;
+    DatabaseReference databaseHospital;
     DatabaseReference databaseChat;
     private StorageReference mStorageRef;
     FirebaseAuth mAuth;
@@ -98,7 +98,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
 
         mAuth = FirebaseAuth.getInstance();
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         mStorageRef = FirebaseStorage.getInstance().getReference("workPermits");
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
@@ -367,7 +367,7 @@ public void onNothingSelected(AdapterView<?> parent) {
         }
         uploadImagePP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
     }
-    private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
+    private void makeauth(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
         progressBar.setVisibility(View.VISIBLE);
         if((!mdoctorPhotoUrl.equals(""))&&(!mdoctorWPUrl.equals(""))){
             if (isNetworkConnected()) {
@@ -384,10 +384,10 @@ public void onNothingSelected(AdapterView<?> parent) {
 
                             RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
                             databaseChat.child(Id).setValue(usersChat);
-
+                            mdoctorIDUrl=mPassword;
 
                             DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl);
-                            databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            databaseHospital.child(Id).setValue(doctorfirebaseclass);
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
                             Intent intend = new Intent(RegisterHospitalActivity.this, HospitalHome.class);

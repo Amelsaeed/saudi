@@ -39,6 +39,7 @@ public class RegestrationPathActivity extends AppCompatActivity {
 
                 Intent uIntent = new Intent(RegestrationPathActivity.this, RegisterDoctorActivity.class);
                 uIntent.putExtra("selector", "Doctor");
+                uIntent.putExtra("ComeFrom", "LogIn");
                 uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(uIntent);
                 //finish();

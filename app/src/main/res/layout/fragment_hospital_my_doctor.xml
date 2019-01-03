@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/splashbackground"
     tools:context=".HospitalFragment.HospitalMyDoctorFragment">
@@ -11,22 +12,37 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <SearchView
+        <android.support.v7.widget.SearchView
             android:id="@+id/search_doctor"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="8"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-        </SearchView>
-
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="4dp"
+            app:iconifiedByDefault="false"
+            android:focusable="false"
+            app:queryHint="Search"/>
         <ImageButton
             android:id="@+id/add_doctor"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_person_add" />
     </LinearLayout>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/view_doctor"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</android.support.v7.widget.RecyclerView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <ListView
+        android:id="@+id/list_view_fav"
+        android:layout_below="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:id="@+id/fav_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+</RelativeLayout>
 </LinearLayout>

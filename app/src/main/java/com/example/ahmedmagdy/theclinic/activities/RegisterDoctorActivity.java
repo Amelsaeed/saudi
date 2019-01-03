@@ -67,7 +67,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
     private ProgressBar progressBar;
     private Spinner spinnercity, spinnerinsurance,spinnerspecialty;
     DatabaseReference databaseUserReg;
-    DatabaseReference databaseDoctor;
+    private DatabaseReference databaseDoctor;
+    DatabaseReference databaseHospital;
     DatabaseReference databaseChat;
     private StorageReference mStorageRef;
     FirebaseAuth mAuth;
@@ -81,7 +82,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
     String mdoctorWPUrl = "";
 
     FirebaseUser fuser;
-    String mtype;
+    String mtype,HospitalID,HospitalName,ComeFrom,HospitalPassword,HospitalEmail;
+
     String getmInsuranceItems="";
     String[] listItems;
     Boolean[] checkedItems;
@@ -94,9 +96,9 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_doctor);
 
-
         mAuth = FirebaseAuth.getInstance();
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
+        databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         mStorageRef = FirebaseStorage.getInstance().getReference("workPermits");
@@ -130,7 +132,18 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
         ///**************user type*******************//
         Intent intent = getIntent();
-        mtype = intent.getStringExtra("selector");
+        ComeFrom=intent.getStringExtra("ComeFrom");//, "LogIn");
+        if(ComeFrom.equals("LogIn")) {
+            mtype = intent.getStringExtra("selector");
+        }else{
+            mtype = "Doctor";
+            HospitalName = intent.getStringExtra("HName");
+            HospitalID = intent.getStringExtra("HospitalID");
+            HospitalPassword = intent.getStringExtra("HospitalPassword");
+            HospitalEmail = intent.getStringExtra("HospitalEmail");
+
+
+        }
 
         profilePoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -420,20 +433,56 @@ textInsurance.setText("");
 
                         /* updateToken(FirebaseInstanceId.getInstance().getToken());*/
                         Toast.makeText(RegisterDoctorActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
-                        String Id = mAuth.getCurrentUser().getUid();
+                        final String Id = mAuth.getCurrentUser().getUid();
 
                         RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
                         databaseChat.child(Id).setValue(usersChat);
+///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
+                        if(ComeFrom.equals("LogIn")) {
+
+                            String HospName="non";
+                            String HospID="non";
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID);
+                            databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
+
+                            Intent intend = new Intent(RegisterDoctorActivity.this, SplashActivity.class);
+                            intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intend);
+                        }else{
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID);
+                            databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            //mAuth.signOut();
+
+                            // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
+                         /**   mAuth.createUserWithEmailAndPassword(HospitalEmail, HospitalPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if (task.isSuccessful()) {**/
+                            mAuth.signInWithEmailAndPassword(HospitalEmail, HospitalPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if (task.isSuccessful()) {
+                                        DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
+                                                .child(HospitalID);
+
+                                            // update database
+                                            // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
+                                            databaseDoctorFav.child(Id).child("cId").setValue(Id);
+                                            databaseDoctorFav.child(Id).child("checked").setValue(true);
+
+                            Intent intend = new Intent(RegisterDoctorActivity.this, SplashActivity.class);
+                            intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intend);}
+                                }
+                            });
+                        }
 
 
-                        DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl);
-                        databaseDoctor.child(Id).setValue(doctorfirebaseclass);
-                        // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
-
-                        Intent intend = new Intent(RegisterDoctorActivity.this, SplashActivity.class);
-                        intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        finish();
-                        startActivity(intend);
 
                     } else {
                         //Log.e(TAG, task.getException().getMessage());

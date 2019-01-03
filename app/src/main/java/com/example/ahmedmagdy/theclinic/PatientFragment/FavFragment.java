@@ -76,7 +76,7 @@ public class FavFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         book = (Button) getActivity().findViewById(R.id.book);
-        alldoctors = (Button) getActivity().findViewById(R.id.all_doc_btn);
+      //  alldoctors = (Button) getActivity().findViewById(R.id.all_doc_btn);
         favDoctorButton = (ImageView) getActivity().findViewById(R.id.alldoctor);
         usernamef=getActivity().findViewById(R.id.user_name);
         progressBar = (ProgressBar)getActivity(). findViewById(R.id.fav_progress_bar);

@@ -54,7 +54,7 @@ public class FavActivity extends AppCompatActivity {
 
 
         book = (Button) findViewById(R.id.book);
-        alldoctors = (Button) findViewById(R.id.all_doc_btn);
+       // alldoctors = (Button) findViewById(R.id.all_doc_btn);
         favDoctorButton = (ImageView) findViewById(R.id.alldoctor);
         usernamef=findViewById(R.id.user_name);
         progressBar = (ProgressBar) findViewById(R.id.fav_progress_bar);
@@ -82,7 +82,7 @@ public class FavActivity extends AppCompatActivity {
 
             }
         });
-        alldoctors.setOnClickListener(new View.OnClickListener() {
+    /**    alldoctors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(FavActivity.this, AllDoctorActivity.class);
@@ -90,7 +90,7 @@ public class FavActivity extends AppCompatActivity {
                 startActivity(it);
 
             }
-        });
+        });**/
         favDoctorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
