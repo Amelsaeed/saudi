@@ -390,7 +390,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             databaseHospital.child(Id).setValue(doctorfirebaseclass);
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
-                            Intent intend = new Intent(RegisterHospitalActivity.this, HospitalHome.class);
+                            Intent intend = new Intent(RegisterHospitalActivity.this, SplashActivity.class);
                             intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
                             startActivity(intend);

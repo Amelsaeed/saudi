@@ -50,7 +50,15 @@ public class moreFragment extends Fragment {
         words.add("Rate us");
         words.add("Share This App");
         words.add("Email us");
-        words.add("Sign out");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            words.add("Log in");
+        }else{
+            words.add("Sign out");
+        }
+
+        //words.add("Sign out");
         ArrayList<Integer> icons = new ArrayList<>();
         icons.add(R.drawable.map_all);
         icons.add(R.drawable.chat_room);
@@ -58,7 +66,12 @@ public class moreFragment extends Fragment {
         icons.add(R.drawable.rating);
         icons.add(R.drawable.ic_share_black_24dp);
         icons.add(R.drawable.ic_email);
-        icons.add(R.drawable.icn_sign_out);
+        if (user == null) {
+            icons.add(R.drawable.icn_sign_in);
+        }else{
+            icons.add(R.drawable.icn_sign_out);
+        }
+       // icons.add(R.drawable.icn_sign_out);
 
 
         ListView listview = (ListView) rootView.findViewById(R.id.listView1);

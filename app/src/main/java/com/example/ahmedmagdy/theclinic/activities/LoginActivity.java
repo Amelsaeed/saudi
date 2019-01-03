@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.DoctorHome;
 import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.PatientHome;
@@ -35,11 +36,13 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView singin, create, forget;
+    private TextView singin, create, forget, gotohome;
     private EditText editTextemail, editTextPassword;
     private ProgressBar progressBar;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
+    DatabaseReference databaseChat;
+
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -48,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
+        databaseChat  = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
 
         editTextemail = findViewById(R.id.edit_email);
         editTextPassword = findViewById(R.id.edit_password);
@@ -55,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         create = findViewById(R.id.create);
         forget = findViewById(R.id.forget);
         progressBar = findViewById(R.id.progressbar);
+       
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,26 +211,45 @@ public class LoginActivity extends AppCompatActivity {
 
     // to keep user logged when you leave app
     private void initAuthStateListener() {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    getallData12();
-                /*    Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
-                    startActivity(iii);*/
-                    // Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
 
-                    // User is signed out
-                    // Log.d(TAG, "onAuthStateChanged:signed_out");
+                   // Toast.makeText(LoginActivity.this, "good", Toast.LENGTH_SHORT).show();
+
+                    fuser = FirebaseAuth.getInstance().getCurrentUser();
+                    if(fuser!= null){
+                        String Token=FirebaseInstanceId.getInstance().getToken();
+                        Toast.makeText(LoginActivity.this, Token, Toast.LENGTH_LONG).show();
+
+                        updateToken(Token);
+                        getallData();
+                    }
+
+                } else {
+                 /**  Intent intent=new Intent(LoginActivity.this,PatientHome.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();**/
                 }
             }
+        };
+    }
+
+/**
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }**/
 
 
-    private void getallData12() {
+    private void getallData() {
 
-        DatabaseReference databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+
         //**************************************************//
         // private void getallData();
         final ValueEventListener postListener1 = new ValueEventListener() {
@@ -236,34 +261,26 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(usertype .equals("User") ) {
                     Intent iii= new Intent(LoginActivity.this,PatientHome.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(LoginActivity.this,PatientHome.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
+                    Intent iii= new Intent(LoginActivity.this, DoctorHome.class);
                     startActivity(iii);
                     finish();
                 }else if(usertype .equals("Hospital")){
                     Intent iii= new Intent(LoginActivity.this,HospitalHome.class);
-                    iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
                     startActivity(iii);
                     finish();
-                }else{
-
                 }
 
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
             }
         };
-        databaseChat .addValueEventListener(postListener1);
+        databaseChat.addValueEventListener(postListener1);
     }
 
 /*

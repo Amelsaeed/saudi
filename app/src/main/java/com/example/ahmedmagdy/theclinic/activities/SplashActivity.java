@@ -45,8 +45,11 @@ public class SplashActivity extends AppCompatActivity {
         myImageView = (ImageView) findViewById(R.id.splash_logo);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         if(fuser!= null){
-
-            updateToken(FirebaseInstanceId.getInstance().getToken());
+           String token=FirebaseInstanceId.getInstance().getToken();
+           // updateToken(FirebaseInstanceId.getInstance().getToken());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+            Token token1 = new Token(token);
+            reference.child(fuser.getUid()).setValue(token1);
         }
         // load the animation file (my_anim)
         myAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.myanime);
@@ -56,17 +59,13 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);//5000
+                    if(fuser == null){
+                    Thread.sleep(3000);}else{ Thread.sleep(0000);}
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }finally {
                   initAuthStateListener();
 
-/**
-                    Intent intent=new Intent(SplashActivity.this,AllDoctorActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();**/
                 }
             }
         }) ;

@@ -75,7 +75,7 @@ public class FavFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        book = (Button) getActivity().findViewById(R.id.book);
+        //book = (Button) getActivity().findViewById(R.id.book);
       //  alldoctors = (Button) getActivity().findViewById(R.id.all_doc_btn);
         favDoctorButton = (ImageView) getActivity().findViewById(R.id.alldoctor);
         usernamef=getActivity().findViewById(R.id.user_name);
@@ -94,7 +94,7 @@ public class FavFragment extends Fragment {
         doctorList=new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
-        book.setOnClickListener(new View.OnClickListener() {
+      /**  book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -104,7 +104,7 @@ public class FavFragment extends Fragment {
 
 
             }
-        });
+        });**/
 
         favDoctorButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalAllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalMyDoctorFragment;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HospitalHome extends AppCompatActivity {
 
@@ -44,6 +47,12 @@ public class HospitalHome extends AppCompatActivity {
                             selectedFragment = new HospitalMyDoctorFragment();
                             break;
                         case R.id.navigation_menu_hospital:
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            mAuth.signOut();
+                            Intent intent = new Intent(HospitalHome.this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
                             break;
                     }
 

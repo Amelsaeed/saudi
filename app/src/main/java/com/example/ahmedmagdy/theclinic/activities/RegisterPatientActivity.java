@@ -348,7 +348,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                             databaseUserReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatauser);
 
 
-                        Intent intend = new Intent(RegisterPatientActivity.this, PatientHome.class);
+                        Intent intend = new Intent(RegisterPatientActivity.this, SplashActivity.class);
                         intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         finish();
                         startActivity(intend);

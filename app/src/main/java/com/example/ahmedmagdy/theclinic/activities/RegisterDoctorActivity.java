@@ -455,12 +455,7 @@ textInsurance.setText("");
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             //mAuth.signOut();
 
-                            // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
-                         /**   mAuth.createUserWithEmailAndPassword(HospitalEmail, HospitalPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    progressBar.setVisibility(View.GONE);
-                                    if (task.isSuccessful()) {**/
+
                             mAuth.signInWithEmailAndPassword(HospitalEmail, HospitalPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
