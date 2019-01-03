@@ -40,8 +40,10 @@ public class HospitalHome extends AppCompatActivity {
                         case R.id.navigation_my_doctor:
                             selectedFragment = new HospitalMyDoctorFragment();
                             break;
+                        case R.id.navigation_profile_hpspetal:
+                            selectedFragment = new HospitalMyDoctorFragment();
+                            break;
                         case R.id.navigation_menu_hospital:
-                         selectedFragment = new moreFragment();
                             break;
                     }
 

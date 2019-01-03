@@ -1,6 +1,8 @@
 package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -54,7 +56,7 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
 
         final ImageView apphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo_b);
 
-        BookingTimesClass doctorclass = doctorList.get(position);
+        final BookingTimesClass doctorclass = doctorList.get(position);
         //asize = trampList.size();
 
 
@@ -67,6 +69,14 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
         apperiod.setText(doctorclass.getCtPeriod());
         apcurrentdate.setText(doctorclass.getCtdate());
         aparrange.setText(doctorclass.getCtArrangement());
+        apaddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("google.navigation:q=" + doctorclass.getCtAddress()));
+                context.startActivity(intent);
+            }
+        });
 
 
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase

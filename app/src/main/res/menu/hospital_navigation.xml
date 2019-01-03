@@ -9,6 +9,10 @@
         android:id="@+id/navigation_my_doctor"
         android:icon="@drawable/mydoctor"
         android:title="@string/hospital_my_doctor" />
+    <item
+        android:id="@+id/navigation_profile_hpspetal"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile" />
 
     <item
         android:id="@+id/navigation_menu_hospital"

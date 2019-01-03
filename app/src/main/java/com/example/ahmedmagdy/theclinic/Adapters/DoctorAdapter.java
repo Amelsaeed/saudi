@@ -237,14 +237,14 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
             }
         });
-        adoctorcity.setOnClickListener(new View.OnClickListener() {
+  /*      adoctorcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse("google.navigation:q=" + doctorclass.getcCity()));
                 context.startActivity(intent);
             }
-        });
+        });*/
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
 
         TypeList.setText(doctorclass.getcType());
