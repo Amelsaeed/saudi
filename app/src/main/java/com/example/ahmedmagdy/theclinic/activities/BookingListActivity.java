@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,11 +27,9 @@ import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.BookingAdapter;
 import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
-import com.example.ahmedmagdy.theclinic.Notifications.Client;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
 import com.example.ahmedmagdy.theclinic.classes.MapClass;
-import com.example.ahmedmagdy.theclinic.classes.OneWordClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -176,28 +172,362 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         //--------Gps---------------------
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestPermission();
-
+//adding new booking period
         paddbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //--------Gps---------------------
+
+
+                final DatabaseReference databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);
+                databaseBooking.keepSynced(true);
+
+                final Dialog dialog = new Dialog(BookingListActivity.this);
+                dialog.setContentView(R.layout.booking_data_dialig);
+                //dialog.setTitle("Edit your data");
+                dialog.setCanceledOnTouchOutside(false);
+               //
+                //
+                //--------get location from Gps---------------------
                 if(isPermissionGranted){
 
-                    getLocation();
+                    getLocation(dialog);
                 }else{
                     requestPermission();
                     if(isPermissionGranted){
                         //We have it, Get the location.
-                        getLocation();
+                        getLocation(dialog);
                     }
                     else {
                         Toast.makeText(BookingListActivity.this, "Please Give us permission so you can use the app", Toast.LENGTH_SHORT).show();
                     }
                 }
                 //--------------------------------------
+                //
+                // getLocation();
+                //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
+
+
+
+                final EditText dialogstarttime = dialog.findViewById(R.id.start_time);
+                final EditText dialogendingtime = dialog.findViewById(R.id.ending_time);
+
+                final ImageView dialogstarttimelogo = dialog.findViewById(R.id.timer);
+                final ImageView dialogendingtimelogo = dialog.findViewById(R.id.timer_off);
+
+                dialogstarttimelogo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //is chkIos checked?
+                        Calendar mcurrentTime = Calendar.getInstance();
+                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                        TimePickerDialog mTimePicker;
+                        mTimePicker = new TimePickerDialog(BookingListActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+
+
+                                startTime=selectedHour + ":" + selectedMinute;
+                                startHour=selectedHour;
+                                dialogstarttime.setEnabled(true);
+                                dialogstarttime.setText( selectedHour + ":" + selectedMinute);
+                                dialogstarttime.setEnabled(false);
+
+                            }
+                        }, hour, minute, false);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
+                    }
+                });
+
+                dialogendingtimelogo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //is chkIos checked?
+                        Calendar mcurrentTime1 = Calendar.getInstance();
+                        int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
+                        int minute1 = mcurrentTime1.get(Calendar.MINUTE);
+                        TimePickerDialog mTimePicker1;
+                        mTimePicker1 = new TimePickerDialog(BookingListActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
+
+
+                                endingTime=selectedHour1 + ":" + selectedMinute1;
+                                endingHour=selectedHour1;
+
+                                dialogendingtime.setEnabled(true);
+                                dialogendingtime.setText( selectedHour1 + ":" + selectedMinute1);
+                                dialogendingtime.setEnabled(false);
+
+                            }
+                        }, hour1, minute1, false);//Yes 24 hour time
+                        mTimePicker1.setTitle("Select Time");
+                        mTimePicker1.show();
+
+                    }
+                });
+
+
+                TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
+                TextView refresh = (TextView) dialog.findViewById(R.id.refresh_tv_e);
+                TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+
+                final CardView dsatcardview = (CardView) dialog.findViewById(R.id.sat);
+                final CardView dsuncardview = (CardView) dialog.findViewById(R.id.sun);
+                final CardView dmoncardview = (CardView) dialog.findViewById(R.id.mon);
+                final CardView dtuscardview = (CardView) dialog.findViewById(R.id.tus);
+                final CardView dwedcardview = (CardView) dialog.findViewById(R.id.wed);
+                final CardView dthucardview = (CardView) dialog.findViewById(R.id.thu);
+                final CardView dfricardview = (CardView) dialog.findViewById(R.id.fri);
+
+/**
+ CheckBox dsatcheckbox = (CheckBox) dialog.findViewById(R.id.sat);
+ CheckBox dsuncheckbox = (CheckBox) dialog.findViewById(R.id.sun);
+ CheckBox dmoncheckbox = (CheckBox) dialog.findViewById(R.id.mon);
+ CheckBox dtuscheckbox = (CheckBox) dialog.findViewById(R.id.tus);
+ CheckBox dwedcheckbox = (CheckBox) dialog.findViewById(R.id.wed);
+ CheckBox dthucheckbox = (CheckBox) dialog.findViewById(R.id.thu);
+ CheckBox dfricheckbox = (CheckBox) dialog.findViewById(R.id.fri);
+ //////////////////////////
+ dsatcheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {satstate =true; } else { satstate =false;}
+}
+});
+ dsuncheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {sunstate =true; } else { sunstate =false;}
+}
+});//satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate
+ dmoncheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {monstate =true; } else { monstate =false;}
+}
+});
+ dtuscheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {tusstate =true; } else { tusstate =false;}
+}
+});
+ dwedcheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {wedstate =true; } else { wedstate =false;}
+}
+});
+ dthucheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {thustate =true; } else { thustate =false;}
+}
+});
+ dfricheckbox.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+//is chkIos checked?
+if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
+}
+});**/
+
+                dsatcardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dsatcardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dsatcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            satstate =true;
+                        }else{
+                            dsatcardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            satstate =false;
+                        }
+                    }
+                });
+                dsuncardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dsuncardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dsuncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            sunstate =true;
+                        }else{
+
+                            dsuncardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            satstate =false;
+                        }
+                    }
+                });
+                dmoncardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dmoncardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dmoncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            monstate =true;
+                        }else{
+
+                            dmoncardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            monstate =false;
+                        }
+                    }
+                });
+                dtuscardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dtuscardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dtuscardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            tusstate =true;
+                        }else{
+
+                            dtuscardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            tusstate =false;
+                        }
+                    }
+                });
+                dwedcardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dwedcardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dwedcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            wedstate =true;
+                        }else{
+
+                            dwedcardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            wedstate =false;
+                        }
+                    }
+                });
+                dthucardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dthucardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dthucardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            thustate =true;
+                        }else{
+
+                            dthucardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            thustate =false;
+                        }
+                    }
+                });
+                dfricardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(dfricardview.getCardBackgroundColor().getDefaultColor()==-1){
+                            dfricardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            fristate =true;
+                        }else{
+
+                            dfricardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                            fristate =false;
+                        }
+                    }
+                });
+                ////////////////////
+
+
+
+
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String getaddress = dialogAddress.getText().toString().trim();
+                        final String getstartingtime = dialogstarttime.getText().toString().trim();
+                        final String getendingtime = dialogendingtime.getText().toString().trim();
+
+
+                        if (getaddress.isEmpty()) {
+                            dialogAddress.setError("Please fill the address");
+                            dialogAddress.requestFocus();
+                            return;}
+                        if (getstartingtime.isEmpty()) {
+                            dialogstarttime.setError("Please fill starting time");
+                            dialogstarttime.requestFocus();
+                            return;}
+                        if (getendingtime.isEmpty()) {
+                            dialogendingtime.setError("Please fill ending times");
+                            dialogendingtime.requestFocus();
+                            return;}
+                        if (endingHour<=startHour) {
+                            dialogendingtime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogendingtime.requestFocus();
+                            dialogstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogstarttime.requestFocus();
+                            return;}
+
+
+                        DatabaseReference reference = databaseBooking.push();
+                        String id = reference.getKey();
+                        //Log.v("Data"," 2-User id :"+ mUserId);
+                        BookingClass bookingclass = new BookingClass(id, getstartingtime,getendingtime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
+                        // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
+                        // Database for Account Activity
+                        databaseBooking.child(id).setValue(bookingclass);
+                        //////////////////////////////////////
+                        final ValueEventListener postListener1 = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                                String DoctorName = dataSnapshot1.child(DoctorID).child("cName").getValue(String.class);
+                                String DoctorSpecialty = dataSnapshot1.child(DoctorID).child("cSpecialty").getValue(String.class);
+                                String DoctorPic = dataSnapshot1.child(DoctorID).child("cUri").getValue(String.class);
+                                if (DoctorPic == null){DoctorPic= "https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11";}
+                                // DatabaseReference reference = databaseMap.push();
+                                // String idm = reference.getKey();
+                                //Log.v("Data"," 2-User id :"+ mUserId);
+                                MapClass mapclass = new MapClass(DoctorID,String.valueOf(latitude),String.valueOf(longitude),DoctorName,DoctorSpecialty,DoctorPic);
+                                // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
+                                // Database for Account Activity
+                                databaseMap.child(idm).setValue(mapclass);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Getting Post failed, log a message
+                            }
+                        };
+                        databaseDoctor .addValueEventListener(postListener1);
+
+                        ///////////////////////////////////////////////
+
+                        dialog.dismiss();
+                        //to refresh activity as you need to go back activity and return
+                        finish();
+                        startActivity(getIntent());
+
+                    }
+                });
+                refresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getLocation(dialog);
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setCanceledOnTouchOutside(false);
+
+                dialog.show();
+
                 //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
-                editDialogbook();
+               // editDialogbook();
             }
         });
 
@@ -215,7 +545,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         dialog.setContentView(R.layout.booking_data_dialig);
         //dialog.setTitle("Edit your data");
         dialog.setCanceledOnTouchOutside(false);
-        getLocation();
+        getLocation(dialog);
         //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
 
         dialogAddress = (EditText) dialog.findViewById(R.id.dialog_address);
@@ -558,8 +888,9 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
      * this method gets the location of the user then
      * Calls the showAddress Method and pass to it the Latitude
      * and the Longitude
+     * @param dialog
      */
-    private void getLocation() {
+    private void getLocation(final Dialog dialog) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, theRequestCodeForLocation);
         }
@@ -570,7 +901,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    showAddress(latitude,longitude);
+                    showAddress(latitude,longitude,dialog);
                 }else{
                     Toast.makeText(BookingListActivity.this, "Error we didn't get the Location\n Please try again after Few seconds", Toast.LENGTH_LONG).show();
                 }
@@ -584,12 +915,13 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
      * contains the address then changes the TextView text to it.
      * @param latitude is the latitude of the location
      * @param longitude is the longitude of the location
+     * @param dialog
      */
-    private void showAddress(double latitude, double longitude){
+    private void showAddress(double latitude, double longitude, Dialog dialog){
         String msg = "";
 
         try {
-            msg = getAddress(latitude, longitude);
+            msg = getAddress(latitude, longitude,dialog);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -627,7 +959,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
      * @return the address as String
      * @throws IOException
      */
-    private String getAddress(double latitude, double longitude) throws IOException {
+    private String getAddress(double latitude, double longitude,Dialog dialog) throws IOException {
 
         //Geocoder class helps us to convert longitude and latitude into Address
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -642,7 +974,10 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         // String wholeAddress = address + "\n" + city + "\n" + state + "\n" + country;
         String wholeAddress = address ;
         // pcity.setText(address);
-
+        dialogAddress = (EditText) dialog.findViewById(R.id.dialog_address);
+        dialogAddress.setEnabled(true);
+        dialogAddress.setText(address);
+        dialogAddress.setEnabled(false);
         return  wholeAddress;
 
     }
