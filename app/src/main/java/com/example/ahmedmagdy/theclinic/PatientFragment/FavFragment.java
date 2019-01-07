@@ -189,7 +189,7 @@ public class FavFragment extends Fragment {
                             // Getting Post failed, log a message
                         }
                     };
-                    databaseChat .addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
+                    databaseDoctor.addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
                     //////////////////////////////////////////////////////
                /**
                     final ValueEventListener postListener2 = new ValueEventListener() {
