@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -16,7 +17,10 @@ import android.widget.ListView;
 
 import com.example.ahmedmagdy.theclinic.Adapters.MoreAdapter;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.AllHospitalfragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserProfileFragment;
+import com.example.ahmedmagdy.theclinic.activities.AllHospitalActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
@@ -45,6 +49,7 @@ public class moreFragment extends Fragment {
 
         ArrayList<String> words = new ArrayList<String>();
         words.add("Map");
+
         words.add("Chat");
         words.add("Profile");
         words.add("Rate us");
@@ -57,10 +62,12 @@ public class moreFragment extends Fragment {
         }else{
             words.add("Sign out");
         }
+        words.add("Hospitals");
 
         //words.add("Sign out");
         ArrayList<Integer> icons = new ArrayList<>();
         icons.add(R.drawable.map_all);
+
         icons.add(R.drawable.chat_room);
         icons.add(R.drawable.ic_person);
         icons.add(R.drawable.rating);
@@ -71,6 +78,7 @@ public class moreFragment extends Fragment {
         }else{
             icons.add(R.drawable.icn_sign_out);
         }
+        icons.add(R.drawable.map_all);
        // icons.add(R.drawable.icn_sign_out);
 
 
@@ -103,6 +111,9 @@ public class moreFragment extends Fragment {
                     case 6:
                         signOutClicked();
                         break;
+                    case 7:
+                        HospitalsClicked();
+                        break;
                 }
             }
         });
@@ -116,12 +127,20 @@ public class moreFragment extends Fragment {
                 new MapsActivity()).addToBackStack(null).commit();
 
     }
+    private void HospitalsClicked() {
+        Intent intent = new Intent(getActivity(), AllHospitalActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        getActivity().finish();
+
+    }
 
     private void ChatRoomClicked() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
+            it.putExtra("comefrom", "2");
             startActivity(it);}
             else
         startActivity(new Intent(getActivity(), StartCahtRoom.class));
@@ -132,6 +151,7 @@ public class moreFragment extends Fragment {
 
         if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
+            it.putExtra("comefrom", "2");
             startActivity(it);}
         else{
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
@@ -181,11 +201,29 @@ public class moreFragment extends Fragment {
     private void signOutClicked() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
+
         Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.putExtra("comefrom", "2");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().finish();
+    /**
+        ////////////////delay for starting avtivity
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("comefrom", "2");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        }, 100);
+
     }  // handle sign out item
 
-
+**/
+    }
 }

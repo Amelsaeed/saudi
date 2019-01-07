@@ -37,6 +37,8 @@ public class PatientHome extends AppCompatActivity {
                 case R.id.navigation_favorite:
                     if (user == null) {
                         Intent it = new Intent(PatientHome.this, LoginActivity.class);
+                        it.putExtra("comefrom", "2");
+
                         startActivity(it);
                     } else {
                         fragment = new FavFragment();
@@ -47,6 +49,8 @@ public class PatientHome extends AppCompatActivity {
                 case R.id.Reservations:
                     if (user == null) {
                         Intent it = new Intent(PatientHome.this, LoginActivity.class);
+                        it.putExtra("comefrom", "2");
+
                         startActivity(it);
                     } else {
                         fragment = new UserBookingFragment();

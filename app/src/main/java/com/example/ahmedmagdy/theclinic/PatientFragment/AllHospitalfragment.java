@@ -2,11 +2,9 @@ package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
@@ -18,13 +16,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
-import com.example.ahmedmagdy.theclinic.activities.FavActivity;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,12 +37,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AllDoctorfragment extends Fragment implements View.OnClickListener{
+public class AllHospitalfragment extends Fragment implements View.OnClickListener{
     ImageView addDoctorButton;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor,databaseDoctorFav;
+    private DatabaseReference databaseDoctorFav;
+    DatabaseReference databaseDoctor;
     FirebaseUser fuser;
     private ImageView btnproceed;
 
@@ -60,7 +55,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
     private List<DoctorFirebaseClass> doctorList;
     private List<DoctorFirebaseClass> favList;
 
-    public AllDoctorfragment() {
+    public AllHospitalfragment() {
         // Required empty public constructor
     }
 
@@ -127,7 +122,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
 
         // if (isNetworkConnected()) {
 
-        databaseDoctor.orderByChild("cType").equalTo("Doctor").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseDoctor.orderByChild("cType").equalTo("Hospital").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

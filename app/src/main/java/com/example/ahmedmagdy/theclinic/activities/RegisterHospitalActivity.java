@@ -68,7 +68,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
     private ProgressBar progressBar;
     private Spinner spinnercity, spinnerinsurance;
     DatabaseReference databaseUserReg;
-    DatabaseReference databaseHospital;
+    DatabaseReference databaseHospital,databaseDoctor;
     DatabaseReference databaseChat;
     private StorageReference mStorageRef;
     FirebaseAuth mAuth;
@@ -83,7 +83,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
 
     FirebaseUser fuser;
     String mtype;
-
+    String getmInsuranceItems="";
     String[] listItems;
     Boolean[] checkedItems;
     ArrayList<Integer> mInsuranceItems = new ArrayList<>();
@@ -97,6 +97,8 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
 
 
         mAuth = FirebaseAuth.getInstance();
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
         databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
@@ -207,6 +209,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
 
                         }
                         textInsurance.setText(item);
+                        getmInsuranceItems=item;
                         mInsuranceItems.clear();
                     }
                 });
@@ -285,7 +288,7 @@ public void onNothingSelected(AdapterView<?> parent) {
 
         final String mSpecialty = "all";
         final String mCity = spinnercity.getSelectedItem().toString().trim();
-        final String mInsurance = "popa";
+        final String mInsurance = getmInsuranceItems;
 //        final String mInsurance = spinnerinsurance.getSelectedItem().toString().trim();
 /**
  if(mdoctorPhotoUrl.equals("")){
@@ -344,6 +347,11 @@ public void onNothingSelected(AdapterView<?> parent) {
          }
          }
          **/
+        if (getmInsuranceItems.equals("")) {
+            textInsurance.setError("Please insert list of Insurance");
+            textInsurance.requestFocus();
+            return;
+        }
 
 
         // if (mdoctorPhotoUrl.equals("")) {
@@ -387,10 +395,12 @@ public void onNothingSelected(AdapterView<?> parent) {
                             mdoctorIDUrl=mPassword;
 
                             DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl);
-                            databaseHospital.child(Id).setValue(doctorfirebaseclass);
+                            databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
-                            Intent intend = new Intent(RegisterHospitalActivity.this, SplashActivity.class);
+                            Intent intend = new Intent(RegisterHospitalActivity.this, LoginActivity.class);
+                            intend.putExtra("comefrom", "2");
+
                             intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
                             startActivity(intend);

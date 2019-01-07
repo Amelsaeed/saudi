@@ -18,6 +18,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.RelativeLayout;
@@ -30,6 +31,7 @@ import com.example.ahmedmagdy.theclinic.DoctorHome;
 import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.activities.FavActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
@@ -85,6 +87,11 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctordegree = (TextView) listViewItem.findViewById(R.id.doctor_degree);
         final TextView adoctorinsurance = (TextView) listViewItem.findViewById(R.id.doctor_Insurance);
 
+        final TextView ahospitalname = (TextView) listViewItem.findViewById(R.id.hospital_name);
+        final ImageView ahospitalpic = (ImageView) listViewItem.findViewById(R.id.hospital_pic);
+
+        final LinearLayout lineardoctorsalary = listViewItem.findViewById(R.id.linear_doctor_salary);
+        final LinearLayout lineardoctordegree = listViewItem.findViewById(R.id.linear_doctor_degree);
      //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
        // final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
         final TextView TypeList = (TextView) listViewItem.findViewById(R.id.type_list);
@@ -149,9 +156,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (mAuth.getCurrentUser() == null) {
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                    context.finish();
+                if (fuser == null) {
+
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                     buttonView.setChecked(false);
                 } else {
@@ -177,8 +183,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                         databaseDoctorFav.child(doctorclass.getcId()).setValue(null);
 
                         Toast.makeText(context, "Removed", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(context, FavActivity.class);
-                        context.startActivity(intent);
+
                     }
                 }
             }
@@ -187,18 +192,18 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         Book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((mAuth.getCurrentUser() == null)) {
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                    context.finish();
+
+                if ((fuser == null)) {
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                 } else {
                     DoctorFirebaseClass doctorclass = doctorList.get(position);
-                    Intent uIntent = new Intent(context, DoctorProfileActivity.class);
+                    Intent uIntent = new Intent(context, BookingListActivity.class);
                     uIntent.putExtra("DoctorID", doctorclass.getcId());
+                    uIntent.putExtra("DoctorName", doctorclass.getcName());
 
                     uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(uIntent);
-                    // context.finish();
+
                 }
             }
         });
@@ -206,9 +211,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         ChatRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAuth.getCurrentUser() == null) {
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                    context.finish();
+                if (fuser == null) {
+
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                 } else {
                     DoctorFirebaseClass doctorclasss = doctorList.get(position);
@@ -246,6 +250,17 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             }
         });*/
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
+     /**   if (doctorclass.getcType().equalsIgnoreCase("Hospital")) {
+
+
+            Book.setVisibility(View.GONE);
+            lineardoctorsalary.setVisibility(View.GONE);
+            lineardoctordegree.setVisibility(View.GONE);
+        }else{
+            Book.setVisibility(View.VISIBLE);
+            lineardoctorsalary.setVisibility(View.VISIBLE);
+            lineardoctordegree.setVisibility(View.VISIBLE);
+            }**/
 
         TypeList.setText(doctorclass.getcType());
         adoctorname.setText(doctorclass.getcName());
@@ -260,6 +275,34 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         }else{adoctordegree.setText("Degree not detected");}
         String InsuranceList=doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));
+       // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
+        if (doctorclass.getcHospitalID()!= null) {
+            DatabaseReference databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                    String HospitalName = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cName").getValue(String.class);
+                    String Hospitalpic = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cUri").getValue(String.class);
+                    ahospitalname.setText(HospitalName);
+                  //  Toast.makeText(context, HospitalName+ "/"+Hospitalpic, Toast.LENGTH_LONG).show();
+
+                    Glide.with(context)
+                            .load(Hospitalpic)
+                            .apply(RequestOptions.circleCropTransform())
+                            // .apply(requestOptions)
+                            .into(ahospitalpic);
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseHospital.addValueEventListener(postListener1);
+           // adoctordegree.setText(doctorclass.getcDegree());
+        }//else{adoctordegree.setText("Degree not detected");}
 
       //  final ArrayList<String> items = (ArrayList<String>)Arrays.asList(InsuranceList.split(","));
        //final String[] items = InsuranceList.split(",");

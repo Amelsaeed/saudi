@@ -163,7 +163,7 @@ public class HospitalMyDoctorFragment extends Fragment {
                     final ValueEventListener postListener1 = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot1) {
-
+                            if (DID ==null){return;}
                             String DName = dataSnapshot1.child(DID).child("cName").getValue(String.class);
                             String DSpecialty = dataSnapshot1.child(DID).child("cSpecialty").getValue(String.class);
                             String DCity = dataSnapshot1.child(DID).child("cCity").getValue(String.class);
@@ -174,7 +174,9 @@ public class HospitalMyDoctorFragment extends Fragment {
                             String DDegree = dataSnapshot1.child(DID).child("cDegree").getValue(String.class);
 
 
-                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked);
+                            String HospitalID = dataSnapshot1.child(DID).child("cHospitalID").getValue(String.class);
+
+                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID);
                             doctorList.add(0,doctorclass);// i= 0  (index)to start from top
 
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);

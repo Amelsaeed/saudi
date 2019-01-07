@@ -27,6 +27,7 @@
         <activity
             android:name=".PatientHome"
             android:theme="@style/SplashTheme"></activity>
+        <activity android:name=".activities.AllHospitalActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterPatientActivity" />
         <activity android:name=".activities.RegisterDoctorActivity" />

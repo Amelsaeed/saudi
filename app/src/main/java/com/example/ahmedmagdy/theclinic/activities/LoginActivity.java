@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
     DatabaseReference databaseChat;
-
+    String comefrom;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
-        databaseChat  = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseChat.keepSynced(true);
 
         editTextemail = findViewById(R.id.edit_email);
@@ -60,8 +60,21 @@ public class LoginActivity extends AppCompatActivity {
         create = findViewById(R.id.create);
         forget = findViewById(R.id.forget);
         progressBar = findViewById(R.id.progressbar);
-       
+        gotohome = findViewById(R.id.go_to_home);
 
+        comefrom = getIntent().getStringExtra("comefrom");
+
+        gotohome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(LoginActivity.this, PatientHome.class);
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(it);
+                finish();
+
+            }
+        });
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // to keep user logged in
-      //  initAuthStateListener();
+        initAuthStateListener();
     }
 
     private void userLogin() {
@@ -132,24 +145,27 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         //Log.d(TAG, "SIGNIN SUCCESS");
                         Toast.makeText(LoginActivity.this, "SIGNIN SUCCESS", Toast.LENGTH_SHORT).show();
+                        //  getallData();
+                        fuser = FirebaseAuth.getInstance().getCurrentUser();
+                        initAuthStateListener();
                         /** Intent intend= new Intent(LoginActivity.this, AllDoctorActivity.class);
                          intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                          finish();
                          startActivity(intend);**/
-                      /*  updateToken(FirebaseInstanceId.getInstance().getToken());*/
+                        /*  updateToken(FirebaseInstanceId.getInstance().getToken());*/
 
-                        Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
-                        iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        finish();
-                        startActivity(iii);
-                        finish();
+                        /**Intent iii = new Intent(LoginActivity.this, SplashActivity.class);
+                         iii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                         finish();
+                         startActivity(iii);
+                         finish();**/
 
                     } else {
-                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
                         // Log.e(TAG, task.getException().getMessage());
                         //Log.e(TAG, "SIGNIN ERROR");
-                       // Toast.makeText(LoginActivity.this, "SIGNIN ERROR", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(LoginActivity.this, "SIGNIN ERROR", Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -211,40 +227,46 @@ public class LoginActivity extends AppCompatActivity {
 
     // to keep user logged when you leave app
     private void initAuthStateListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
+        /** mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();**/
+        if (fuser != null) {
+            // User is signed in
 
-                   // Toast.makeText(LoginActivity.this, "good", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(LoginActivity.this, "good", Toast.LENGTH_SHORT).show();
 
-                    fuser = FirebaseAuth.getInstance().getCurrentUser();
-                    if(fuser!= null){
-                        String Token=FirebaseInstanceId.getInstance().getToken();
-                        Toast.makeText(LoginActivity.this, Token, Toast.LENGTH_LONG).show();
+            //  fuser = FirebaseAuth.getInstance().getCurrentUser();
+            String Token = FirebaseInstanceId.getInstance().getToken();
+            //Toast.makeText(LoginActivity.this, Token, Toast.LENGTH_LONG).show();
 
-                        updateToken(Token);
-                        getallData();
-                    }
+            //updateToken(Token);
 
-                } else {
-                 /**  Intent intent=new Intent(LoginActivity.this,PatientHome.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();**/
-                }
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+            Token token1 = new Token(Token);
+            reference.child(fuser.getUid()).setValue(token1);
+
+
+            getallData();
+
+
+        } else {
+            if (comefrom.equals("1")) {
+                Intent intent = new Intent(LoginActivity.this, PatientHome.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
-        };
+        }
+        // }
+        // };
     }
 
-/**
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }**/
+    /**
+     * @Override public void onStart() {
+     * super.onStart();
+     * mAuth.addAuthStateListener(mAuthListener);
+     * }
+     **/
 
 
     private void getallData() {
@@ -258,21 +280,23 @@ public class LoginActivity extends AppCompatActivity {
 
                 String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
 
-
-                if(usertype .equals("User") ) {
-                    Intent iii= new Intent(LoginActivity.this,PatientHome.class);
-                    startActivity(iii);
-                    finish();
-                }else if(usertype .equals("Doctor")){
-                    Intent iii= new Intent(LoginActivity.this, DoctorHome.class);
-                    startActivity(iii);
-                    finish();
-                }else if(usertype .equals("Hospital")){
-                    Intent iii= new Intent(LoginActivity.this,HospitalHome.class);
-                    startActivity(iii);
-                    finish();
+                if (usertype == null) {
+                    initAuthStateListener();
+                } else {
+                    if (usertype.equals("User")) {
+                        Intent iii = new Intent(LoginActivity.this, PatientHome.class);
+                        startActivity(iii);
+                        finish();
+                    } else if (usertype.equals("Doctor")) {
+                        Intent iii = new Intent(LoginActivity.this, DoctorHome.class);
+                        startActivity(iii);
+                        finish();
+                    } else if (usertype.equals("Hospital")) {
+                        Intent iii = new Intent(LoginActivity.this, HospitalHome.class);
+                        startActivity(iii);
+                        finish();
+                    }
                 }
-
             }
 
             @Override

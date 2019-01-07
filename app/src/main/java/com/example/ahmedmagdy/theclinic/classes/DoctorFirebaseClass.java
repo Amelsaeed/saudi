@@ -45,8 +45,8 @@ public class DoctorFirebaseClass implements Serializable {
         this.cUri = cUri;
         this.cUriID = cUriID;
         this.cUriWP = cUriWP;
-        this.cUriWP = cHospitalName;
-        this.cUriWP = cHospitalID;
+        this.cHospitalName = cHospitalName;
+        this.cHospitalID = cHospitalID;
     }
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
@@ -101,7 +101,7 @@ public class DoctorFirebaseClass implements Serializable {
     }
 
 
-    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked) {
+    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID) {
         this.cId = cId;
         this.cName = cName;
         this.cSpecialty = cSpecialty;
@@ -113,7 +113,16 @@ public class DoctorFirebaseClass implements Serializable {
         this.cTime = cTime;
         this.cAbout = cAbout;
         this.checked = checked;
+        this.cHospitalID = cHospitalID;
 
+    }
+
+    public String getcHospitalID() {
+        return cHospitalID;
+    }
+
+    public void setcHospitalID(String cHospitalID) {
+        this.cHospitalID = cHospitalID;
     }
 
     public String getcUriID() {

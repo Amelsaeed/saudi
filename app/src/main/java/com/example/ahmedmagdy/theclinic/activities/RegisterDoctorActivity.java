@@ -438,6 +438,7 @@ textInsurance.setText("");
                         RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
                         databaseChat.child(Id).setValue(usersChat);
 ///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
+                        Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
                         if(ComeFrom.equals("LogIn")) {
 
                             String HospName="non";
@@ -446,7 +447,9 @@ textInsurance.setText("");
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
-                            Intent intend = new Intent(RegisterDoctorActivity.this, SplashActivity.class);
+                            Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
+                            intend.putExtra("comefrom", "2");
+
                             intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
                             startActivity(intend);
@@ -469,8 +472,10 @@ textInsurance.setText("");
                                             databaseDoctorFav.child(Id).child("cId").setValue(Id);
                                             databaseDoctorFav.child(Id).child("checked").setValue(true);
 
-                            Intent intend = new Intent(RegisterDoctorActivity.this, SplashActivity.class);
-                            intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
+                                        intend.putExtra("comefrom", "2");
+
+                                        intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
                             startActivity(intend);}
                                 }

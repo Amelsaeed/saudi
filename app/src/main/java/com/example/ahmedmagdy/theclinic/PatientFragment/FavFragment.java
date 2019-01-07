@@ -47,7 +47,7 @@ public class FavFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctorFav;
+    private DatabaseReference databaseDoctorFav,databaseHospital;
     private DatabaseReference databaseUserReg,databaseDoctor,databaseChat;
     Button alldoctors,book;
 
@@ -86,6 +86,7 @@ public class FavFragment extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
+        databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");databaseHospital.keepSynced(true);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
@@ -171,9 +172,10 @@ public class FavFragment extends Fragment {
                             String DInsurance = dataSnapshot1.child(DID).child("cInsurance").getValue(String.class);
                             String DPrice = dataSnapshot1.child(DID).child("cPrice").getValue(String.class);
                             String DDegree = dataSnapshot1.child(DID).child("cDegree").getValue(String.class);
+                            String HospitalID = dataSnapshot1.child(DID).child("cHospitalID").getValue(String.class);
 
 
-                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked);
+                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID);
                             doctorList.add(0,doctorclass);// i= 0  (index)to start from top
 
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
@@ -187,9 +189,38 @@ public class FavFragment extends Fragment {
                             // Getting Post failed, log a message
                         }
                     };
-                    databaseDoctor .addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
+                    databaseChat .addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
                     //////////////////////////////////////////////////////
+               /**
+                    final ValueEventListener postListener2 = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot2) {
 
+                            String DName = dataSnapshot2.child(DID).child("cName").getValue(String.class);
+                            String DSpecialty = dataSnapshot2.child(DID).child("cSpecialty").getValue(String.class);
+                            String DCity = dataSnapshot2.child(DID).child("cCity").getValue(String.class);
+                            String DUri = dataSnapshot2.child(DID).child("cUri").getValue(String.class);
+
+                            String DInsurance = dataSnapshot2.child(DID).child("cInsurance").getValue(String.class);
+                            String DPrice = dataSnapshot2.child(DID).child("cPrice").getValue(String.class);
+                            String DDegree = dataSnapshot2.child(DID).child("cDegree").getValue(String.class);
+                            String HospitalID = dataSnapshot2.child(DID).child("cHospitalID").getValue(String.class);
+
+                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID);
+                            doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+
+                            DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
+                            listViewDoctor.setAdapter(adapter);
+                            setupSearchView();
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Getting Post failed, log a message
+                        }
+                    };
+                    databaseHospital .addValueEventListener(postListener2);**/
 
 
                 }

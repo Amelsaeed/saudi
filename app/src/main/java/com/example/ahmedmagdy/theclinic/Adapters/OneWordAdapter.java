@@ -120,7 +120,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         atime.setText(onewordclass.getWord());
 
 
-
+        if(dayAvaliable) {
         /////////////*******************************///
         databasetimeBooking.child(DoctorID).child(TimeID)
                 .child(datedmy).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -131,9 +131,11 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                     for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                          bookingtimesclass  = doctorSnapshot.getValue(BookingTimesClass.class);
                         final String CtPeriod = bookingtimesclass.getCtPeriod();
+                       // final String ctbookingdate = bookingtimesclass.getCtbookingdate();
                         final String userIdForAll = bookingtimesclass.getCtid();
                        // positioncolorList.add(0, CtPeriod);// i= 0  (index)to start from top
                       //  if (positioncolorList.get(0).equals(onewordclass.getWord())){
+
                         if (CtPeriod.equals(onewordclass.getWord())){
                             if (userIdForAll.equals(userid)){
                                 cardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
@@ -144,6 +146,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                             }
 
                         }
+
                         //final String DID = bookingtimesclass.getcId();
                         // final boolean checked = bookingtimesclass.getChecked();
                         // Toast.makeText(FavActivity.this, DID, Toast.LENGTH_LONG).show();
@@ -156,6 +159,11 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+////////////////////////////////////////////
+        }else {
+            cardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
+
+            atime.setTextColor(Color.parseColor("#ffffff"));}
         ////***************************************************/////
 
         cardview.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +185,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                                 // Do something after 5s = 5000ms
                                 notifyDataSetChanged();
                             }
-                        }, 1000);
+                        }, 300);
 
 
                         /**  Intent intent = new Intent(context,CalenderActivity.class);

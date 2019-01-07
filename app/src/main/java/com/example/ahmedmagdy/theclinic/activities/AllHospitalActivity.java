@@ -1,19 +1,14 @@
-package com.example.ahmedmagdy.theclinic.PatientFragment;
-
+package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,10 +17,6 @@ import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
-import com.example.ahmedmagdy.theclinic.activities.FavActivity;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
-import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,63 +31,73 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AllDoctorfragment extends Fragment implements View.OnClickListener{
+public class AllHospitalActivity extends AppCompatActivity {
     ImageView addDoctorButton;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor,databaseDoctorFav;
+    private DatabaseReference databaseDoctorFav;
+    DatabaseReference databaseDoctor;
     FirebaseUser fuser;
     private ImageView btnproceed;
-
+	
     SearchView searchView;
-    // Button addTrampButton;
+   // Button addTrampButton;
     private ProgressBar progressBar;
 
     ListView listViewDoctor;
     private List<DoctorFirebaseClass> doctorList;
     private List<DoctorFirebaseClass> favList;
-
-    public AllDoctorfragment() {
-        // Required empty public constructor
-    }
-
-
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_all_doctor, container, false);
-        addDoctorButton = (ImageView) rootView.findViewById(R.id.adddoctor);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_all_doctor);
+
+        addDoctorButton = (ImageView) findViewById(R.id.adddoctor);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
-        searchView = (SearchView)  rootView.findViewById(R.id.search);
+        listViewDoctor= (ListView)findViewById(R.id.list_view_doctor);
+        searchView = (SearchView) findViewById(R.id.search);
         doctorList=new ArrayList<>();
         favList=new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
-        btnproceed= (ImageView)  rootView.findViewById(R.id.map);
-        btnproceed.setOnClickListener(this);
-        return rootView;
+        btnproceed= (ImageView) findViewById(R.id.map);
 
+        btnproceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(AllHospitalActivity.this,MapsActivity.class);
+                startActivity(i);
+            }
+        });
 
+        addDoctorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fuser != null) {
+                    Intent it = new Intent(AllHospitalActivity.this, FavActivity.class);
+                    startActivity(it);
+                } else {
+                    Toast.makeText(AllHospitalActivity.this, "You should log in firstly", Toast.LENGTH_LONG).show();
+                    Intent it = new Intent(AllHospitalActivity.this, LoginActivity.class);
+                    startActivity(it);
+                }
+            }
+        });
+//        updateToken(FirebaseInstanceId.getInstance().getToken());
     }
-
-    /**  private void updateToken(String token){
-     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
-     Token token1 = new Token(token);
-     reference.child(fuser.getUid()).setValue(token1);
-     }**/
-    public void onStart() {
+  /**  private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(fuser.getUid()).setValue(token1);
+    }**/
+    @Override
+    protected void onStart() {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
 
@@ -114,7 +115,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
 
     }
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni != null) {
             return true;
@@ -125,42 +126,42 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
 
     private void maketableofall() {
 
-        // if (isNetworkConnected()) {
+       // if (isNetworkConnected()) {
 
-        databaseDoctor.orderByChild("cType").equalTo("Doctor").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseDoctor.orderByChild("cType").equalTo("Hospital").addListenerForSingleValueEvent(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                doctorList.clear();
-                for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
-                    DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        doctorList.clear();
+                        for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
+                        DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
 
-                    if (isFavourite(doctorclass)) {
-                        doctorclass.checked = true;
+                            if (isFavourite(doctorclass)) {
+                                doctorclass.checked = true;
+                            }
+
+                            doctorList.add(0,doctorclass);/// i= 0  (index)to start from top
+                          }
+
+                        DoctorAdapter adapter = new DoctorAdapter(AllHospitalActivity.this, doctorList);
+                        //adapter.notifyDataSetChanged();
+                        listViewDoctor.setAdapter(adapter);
+                        setupSearchView();
+                        progressBar.setVisibility(View.GONE);
+                        // listViewTramp.setAdapter(adapter);
+
                     }
 
-                    doctorList.add(0,doctorclass);// i= 0  (index)to start from top
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
 
-                DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
-                //adapter.notifyDataSetChanged();
-                listViewDoctor.setAdapter(adapter);
-                setupSearchView();
-                progressBar.setVisibility(View.GONE);
-                // listViewTramp.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        //  }// network
-        /**  } else {
-         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
-         }**/
+          //  }// network
+      /**  } else {
+            Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+        }**/
     }
     private void maketableoffav() {
 
@@ -225,19 +226,8 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
 
     private void removeFocus() {
         searchView.clearFocus();
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.map:
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-              FragmentTransaction replace = transaction.replace(R.id.frame_container, new MapsActivity());
-                transaction.addToBackStack(null);
-                transaction.commit();
-                break;
-    }
-}
 }

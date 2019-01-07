@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.DoctorHome;
 import com.example.ahmedmagdy.theclinic.HospitalHome;
@@ -43,14 +44,16 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         //get my image
         myImageView = (ImageView) findViewById(R.id.splash_logo);
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
+       /** fuser = FirebaseAuth.getInstance().getCurrentUser();
         if(fuser!= null){
            String token=FirebaseInstanceId.getInstance().getToken();
            // updateToken(FirebaseInstanceId.getInstance().getToken());
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
             Token token1 = new Token(token);
             reference.child(fuser.getUid()).setValue(token1);
-        }
+            Toast.makeText(SplashActivity.this, token, Toast.LENGTH_SHORT).show();
+
+        }**/
         // load the animation file (my_anim)
         myAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.myanime);
         myImageView.startAnimation(myAnimation);
@@ -59,12 +62,18 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    if(fuser == null){
-                    Thread.sleep(3000);}else{ Thread.sleep(0000);}
+                    Thread.sleep(3000);
+                /**    if(fuser == null){
+                    Thread.sleep(3000);}else{ Thread.sleep(0000);}**/
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }finally {
-                  initAuthStateListener();
+                 // initAuthStateListener();
+                    Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+                    intent.putExtra("comefrom", "1");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
+                    startActivity(intent);
 
                 }
             }

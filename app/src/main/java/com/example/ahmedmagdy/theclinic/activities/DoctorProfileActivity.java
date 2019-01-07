@@ -177,7 +177,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         }
         Intent intent = getIntent();
         DoctorID = intent.getStringExtra("DoctorID");
-        // Toast.makeText(DoctorProfileActivity.this, DoctorID, Toast.LENGTH_LONG).show();
+         Toast.makeText(DoctorProfileActivity.this, DoctorID, Toast.LENGTH_LONG).show();
 
         if(!DoctorID.equals(uid)){paddbook.setVisibility(View.GONE);}
         // Test only

@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.WorkingHoursActivity;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -66,7 +67,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     double latitude;
     double longitude;
     String doctorId;
-
+    String DoctorName;
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -125,19 +126,20 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
 
         Button workingHours = rootView.findViewById(R.id.working_hours_btn);
-        workingHours.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WorkingHoursActivity.class);
-                intent.putExtra("doctorId", doctorId);
-                startActivity(intent);
-            }
-        });
 
         drEmail.setText(fUser.getEmail());
 
 
         getallData();
+        workingHours.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), BookingListActivity.class);
+                intent.putExtra("DoctorID", doctorId);
+                intent.putExtra("DoctorName", DoctorName);
+                startActivity(intent);
+            }
+        });
 
 
         editName.setOnClickListener(new View.OnClickListener() {
@@ -434,7 +436,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
+                 DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
                 String DoctorCity = dataSnapshot1.child(doctorId).child("cCity").getValue(String.class);
                 String DoctorSpecialty = dataSnapshot1.child(doctorId).child("cSpecialty").getValue(String.class);
                 String DoctorDegree = dataSnapshot1.child(doctorId).child("cDegree").getValue(String.class);

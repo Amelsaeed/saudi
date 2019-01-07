@@ -310,7 +310,7 @@
 
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="* Please upload your ID and work permit photos"
+                android:text="* Please upload your work permit photo"
                 android:textColor="#f90101"
                 android:textSize="10sp" />
             <LinearLayout
