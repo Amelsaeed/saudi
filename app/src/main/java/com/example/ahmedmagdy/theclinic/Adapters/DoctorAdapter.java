@@ -250,7 +250,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             }
         });*/
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
-      /**
+        
        if ((doctorclass.getcType()).equals("Hospital")) {
 
 
@@ -261,7 +261,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             Book.setVisibility(View.VISIBLE);
             lineardoctorsalary.setVisibility(View.VISIBLE);
             lineardoctordegree.setVisibility(View.VISIBLE);
-            }**/
+            }
 
         TypeList.setText(doctorclass.getcType());
         adoctorname.setText(doctorclass.getcName());

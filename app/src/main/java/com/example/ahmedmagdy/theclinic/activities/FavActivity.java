@@ -155,7 +155,8 @@ public class FavActivity extends AppCompatActivity {
                                 String DDegree = dataSnapshot1.child(DID).child("cDegree").getValue(String.class);
                                 String HospitalID = dataSnapshot1.child(DID).child("cHospitalID").getValue(String.class);
 
-                                DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID);
+                                String DType = dataSnapshot1.child(DID).child("cType").getValue(String.class);
+                                DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,DType);
                                 doctorList.add(0,doctorclass);// i= 0  (index)to start from top
                                 DoctorAdapter adapter = new DoctorAdapter(FavActivity.this, doctorList);
                                 listViewDoctor.setAdapter(adapter);
