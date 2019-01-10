@@ -16,11 +16,13 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -125,6 +127,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             intent.putExtra("StartingTime", bookingclass.getCbtimestart());
             intent.putExtra("EndingTime", bookingclass.getCbtimeend());
             intent.putExtra("DoctorAddress", bookingclass.getCbaddress());
+            intent.putExtra("StepTime", bookingclass.getSteptime());
 
             intent.putExtra("Satchecked", bookingclass.getSatchecked());
             intent.putExtra("Sunchecked", bookingclass.getSunchecked());
@@ -214,6 +217,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
                 final ImageView dialogstarttimelogo = dialog.findViewById(R.id.timer);
                 final ImageView dialogendingtimelogo = dialog.findViewById(R.id.timer_off);
+                final Spinner dialogspinnerstep = dialog.findViewById(R.id.step_time);
 
                 dialogstarttimelogo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -283,6 +287,25 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                 final CardView dwedcardview = (CardView) dialog.findViewById(R.id.wed);
                 final CardView dthucardview = (CardView) dialog.findViewById(R.id.thu);
                 final CardView dfricardview = (CardView) dialog.findViewById(R.id.fri);
+
+                // spinner for insurance
+                ArrayAdapter<CharSequence> adapters = ArrayAdapter.createFromResource(
+                        BookingListActivity.this, R.array.step_array, android.R.layout.simple_spinner_item);
+                adapters.setDropDownViewResource(R.layout.spinner_list_item);
+                dialogspinnerstep.setAdapter(adapters);
+
+                dialogspinnerstep.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
+                        //String minsurance = spinnerinsurance.getSelectedItem().toString().trim();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
 
 /**
  CheckBox dsatcheckbox = (CheckBox) dialog.findViewById(R.id.sat);
@@ -445,6 +468,8 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                         final String getaddress = dialogAddress.getText().toString().trim();
                         final String getstartingtime = dialogstarttime.getText().toString().trim();
                         final String getendingtime = dialogendingtime.getText().toString().trim();
+                        final String getsteptime = dialogspinnerstep.getSelectedItem().toString().trim();
+
 
 
                         if (getaddress.isEmpty()) {
@@ -470,7 +495,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                         DatabaseReference reference = databaseBooking.push();
                         String id = reference.getKey();
                         //Log.v("Data"," 2-User id :"+ mUserId);
-                        BookingClass bookingclass = new BookingClass(id, getstartingtime,getendingtime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
+                        BookingClass bookingclass = new BookingClass(id, getstartingtime,getendingtime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),getsteptime,satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
                         // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                         // Database for Account Activity
                         databaseBooking.child(id).setValue(bookingclass);
@@ -536,6 +561,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
     }
 
     /***-------------------------------------------------***/
+ /**
     private void editDialogbook() {
 
         final DatabaseReference databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);
@@ -684,7 +710,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
             }
-        });**/
+        });
 
         dsatcardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -864,7 +890,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
 
         dialog.show();
     }
-
+**/
 
 
 

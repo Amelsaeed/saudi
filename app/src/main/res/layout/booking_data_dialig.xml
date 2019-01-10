@@ -160,6 +160,66 @@
 
 
            </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="5dp"
+               android:layout_marginLeft="5dp"
+
+               android:layout_marginBottom="15dp"
+               android:orientation="vertical">
+
+
+               <TextView
+
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="8dp"
+                   android:layout_marginLeft="16dp"
+                   android:layout_marginRight="8dp"
+                   android:text="Avg.Detection period in min."
+                   android:textColor="@android:color/black"
+                   android:textSize="16sp" />
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="5dp"
+                   android:layout_marginLeft="5dp"
+                   android:background="@drawable/roundwhite"
+                   android:layout_marginBottom="0dp"
+                   android:orientation="horizontal">
+
+                   <ImageView
+                       android:id="@+id/timer_off"
+
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="8dp"
+                       android:layout_marginLeft="16dp"
+                       android:layout_marginRight="8dp"
+                       android:src="@drawable/ic_av_timer"
+                       android:gravity="center_vertical"
+                       />
+
+                   <android.support.v7.widget.AppCompatSpinner
+                       android:id="@+id/step_time"
+                       android:layout_width="0dp"
+                       android:layout_height="50dp"
+                       android:layout_weight="1"
+                       android:layout_gravity="center"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                       android:textColor="#000"
+                       android:layout_marginRight="5dp"
+                       android:layout_marginLeft="5dp"
+
+
+                       />
+
+
+               </LinearLayout>
+
+
+           </LinearLayout>
 
            <EditText
                android:id="@+id/dialog_address"

@@ -1,7 +1,9 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -31,6 +33,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
+import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
+import com.example.ahmedmagdy.theclinic.activities.RegisterDoctorActivity;
 import com.example.ahmedmagdy.theclinic.activities.WorkingHoursActivity;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -79,7 +83,9 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     final int theRequestCodeForLocation = 1;
     private FusedLocationProviderClient mFusedLocationClient;
     Boolean isPermissionGranted;
-
+    String[] listCityItems;
+    String[] listSpecialityItems;
+    String[] listDegreeItems;
 
     @Nullable
     @Override
@@ -149,14 +155,14 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 editDialog(whatData);
             }
         });
-
+/**
         editCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String whatData = "State/ City/ Region";
                 editDialog(whatData);
             }
-        });
+        });**/
 
         editPrice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,21 +172,19 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             }
         });
 
-        editSpeciality.setOnClickListener(new View.OnClickListener() {
+     /**   editSpeciality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String whatData = "Specialty";
                 editDialog(whatData);
             }
-        });
-
-        editDegree.setOnClickListener(new View.OnClickListener() {
+        });        editDegree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String whatData = "Degree";
                 editDialog(whatData);
             }
-        });
+        });**/
 
 
         editPhone.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +207,105 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             public void onClick(View v) {
                 // Code here executes on main thread after user presses image
                 displayImportImageDialog();
+            }
+        });
+        listCityItems= getResources().getStringArray(R.array.countries_array);
+        editCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                mBuilder.setTitle("SELECT City");
+
+                mBuilder.setSingleChoiceItems(listCityItems, -1,new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // TODO Auto-generated method stub
+                                databaseDoctor.child(doctorId).child("cCity").setValue(listCityItems[i]);
+                                databaseChat.child(doctorId).child("cCity").setValue(listCityItems[i]);
+                                pcity.setText(listCityItems[i]);
+
+                            }
+                        });
+
+
+                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+        listSpecialityItems= getResources().getStringArray(R.array.spiciality_array);
+        editSpeciality.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                mBuilder.setTitle("SELECT Specialty");
+
+                mBuilder.setSingleChoiceItems(listSpecialityItems, -1,new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // TODO Auto-generated method stub
+
+                        databaseDoctor.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
+                        databaseChat.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
+                        databaseMap.child(idm).child("cmdoctorspecialty").setValue(listSpecialityItems[i]);
+                        pspeciality.setText(listSpecialityItems[i]);
+
+                    }
+                });
+
+
+                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+
+        listDegreeItems= getResources().getStringArray(R.array.Degree_array);
+        editDegree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                mBuilder.setTitle("SELECT Degree");
+
+                mBuilder.setSingleChoiceItems(listDegreeItems, -1,new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // TODO Auto-generated method stub
+
+                        databaseDoctor.child(doctorId).child("cDegree").setValue(listDegreeItems[i]);
+                        databaseChat.child(doctorId).child("cDegree").setValue(listDegreeItems[i]);
+                         pdegree.setText(listDegreeItems[i]);  
+                    }
+                });
+
+
+                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
             }
         });
 

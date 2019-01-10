@@ -13,6 +13,7 @@ public class BookingClass {
     private String cbdoctorid;
     private String cblatitude;
     private String cblongitude;
+    private String steptime;
     private Boolean satchecked;
     private Boolean sunchecked;
     private Boolean monchecked;
@@ -22,7 +23,7 @@ public class BookingClass {
     private Boolean frichecked;
 
     public  BookingClass(){}
-    public BookingClass(String cbid, String cbtimestart,String cbtimeend, String cbaddress, String cbdoctorid, String cblatitude, String cblongitude, Boolean satchecked, Boolean sunchecked, Boolean monchecked, Boolean tuschecked, Boolean wedchecked, Boolean thuchecked, Boolean frichecked) {
+    public BookingClass(String cbid, String cbtimestart,String cbtimeend, String cbaddress, String cbdoctorid, String cblatitude, String cblongitude,String steptime, Boolean satchecked, Boolean sunchecked, Boolean monchecked, Boolean tuschecked, Boolean wedchecked, Boolean thuchecked, Boolean frichecked) {
         this.cbid = cbid;
         this.cbtimestart = cbtimestart;
         this.cbtimeend = cbtimeend;
@@ -30,6 +31,7 @@ public class BookingClass {
         this.cbdoctorid = cbdoctorid;
         this.cblatitude = cblatitude;
         this.cblongitude = cblongitude;
+        this.steptime = steptime;
        this.satchecked = satchecked;
          this.sunchecked = sunchecked;
          this.monchecked = monchecked;
@@ -53,6 +55,14 @@ public class BookingClass {
         this.wedchecked = wedchecked;
         this.thuchecked = thuchecked;
         this.frichecked = frichecked;**/
+    }
+
+    public String getSteptime() {
+        return steptime;
+    }
+
+    public void setSteptime(String steptime) {
+        this.steptime = steptime;
     }
 
     public String getCbtimestart() {

@@ -1,8 +1,10 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -53,13 +55,13 @@ public class UserProfileFragment extends Fragment {
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
-    TextView nameEditUser,phoneEditUser,birthdayEditUser, edit1,edit2, edit3;
+    TextView nameEditUser,phoneEditUser,birthdayEditUser, edit1,edit2, edit3,edit4,insuranceEditUser;
 
     ImageView photoEdit;
     private ProgressBar progressBarUser;
     byte[] byteImageData;
     String PhotoUrl = "",Userid;
-
+    String[] listInsuranceItem;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -79,9 +81,11 @@ public class UserProfileFragment extends Fragment {
         edit1 = (TextView) rootView.findViewById(R.id.edit1);
         edit2 = (TextView) rootView.findViewById(R.id.edit2);
         edit3 = (TextView) rootView.findViewById(R.id.edit3);
+        edit4 = (TextView) rootView.findViewById(R.id.edit4);
         nameEditUser= rootView.findViewById(R.id.user_name);
         phoneEditUser= rootView.findViewById(R.id.user_phone);
         birthdayEditUser= rootView.findViewById(R.id.user_birthday);
+        insuranceEditUser= rootView.findViewById(R.id.user_insurance);
 
 
 
@@ -160,6 +164,39 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+        listInsuranceItem= getResources().getStringArray(R.array.insurance_array);
+        edit4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                mBuilder.setTitle("SELECT Degree");
+
+                mBuilder.setSingleChoiceItems(listInsuranceItem, -1,new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // TODO Auto-generated method stub
+                        databaseUserReg.child(Userid).child("cInsurance").setValue(listInsuranceItem[i]);
+                        databaseChat.child(Userid).child("cInsurance").setValue(listInsuranceItem[i]);
+                        insuranceEditUser.setText(listInsuranceItem[i]);
+                    }
+                });
+
+
+                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+
+
         loadUserInfo();
         return rootView;
 
@@ -175,7 +212,7 @@ public class UserProfileFragment extends Fragment {
                 String userPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
                 String userPic = dataSnapshot1.child(Userid).child("cUri").getValue(String.class);
                 String userbithdar = dataSnapshot1.child(Userid).child("cbirthday").getValue(String.class);
-
+                String userinsurance = dataSnapshot1.child(Userid).child("cInsurance").getValue(String.class);
 
                 if(userName != null) {
                     nameEditUser.setText(userName);
@@ -186,6 +223,9 @@ public class UserProfileFragment extends Fragment {
                 if(userbithdar != null) {
                     birthdayEditUser.setText(userbithdar);
                 }else{birthdayEditUser.setText("Your birthday");}
+                if(userinsurance != null) {
+                    insuranceEditUser.setText(userinsurance);
+                }else{insuranceEditUser.setText("Your insurance");}
 
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new RoundedCorners(16));

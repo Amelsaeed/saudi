@@ -97,7 +97,7 @@ public class UserBookingActivity extends AppCompatActivity {
                                 String DName = dataSnapshot1.child(DID).child("cName").getValue(String.class);
                                 String DSpecialty = dataSnapshot1.child(DID).child("cSpecialty").getValue(String.class);
                                 String DUri = dataSnapshot1.child(DID).child("cUri").getValue(String.class);
-                                BookingTimesClass bookingtimesclass = new BookingTimesClass( DName,LastBookingDate, Daddress,Dperiod, DUri,Ddate,Darrange, DSpecialty);
+                                BookingTimesClass bookingtimesclass = new BookingTimesClass( DID,DName,LastBookingDate, Daddress,Dperiod, DUri,Ddate,Darrange, DSpecialty);
 
                                 doctorList.add(0,bookingtimesclass);// i= 0  (index)to start from top
 

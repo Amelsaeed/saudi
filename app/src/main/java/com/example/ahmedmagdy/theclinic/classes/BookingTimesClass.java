@@ -75,7 +75,7 @@ public BookingTimesClass(String ctid, String ctdate,String ctAddress, String ctP
     this.ctbookingdate = ctbookingdate;
     this.ctArrangement = ctArrangement;
 }
-    public BookingTimesClass(String ctname, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String ctbookingdate, String ctArrangement,String ctSpc) {
+    public BookingTimesClass(String ctid,String ctname, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String ctbookingdate, String ctArrangement,String ctSpc) {
         this.ctid = ctid;
         this.ctname = ctname;
         this.ctage = ctage;

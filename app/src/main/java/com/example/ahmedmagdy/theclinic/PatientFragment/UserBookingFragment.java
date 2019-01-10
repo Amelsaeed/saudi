@@ -92,8 +92,9 @@ public class UserBookingFragment extends Fragment {
                         final String DID=bookingtimesclass.getCtid();
                         final String Daddress=bookingtimesclass.getCtAddress();
                         final String Ddate=bookingtimesclass.getCtbookingdate();
-                        final String Dperiod=bookingtimesclass.getCtPeriod();
+                        final String timeID=bookingtimesclass.getCtPeriod();
                         final String LastBookingDate=bookingtimesclass.getCtdate();
+
 
                         final String Darrange=bookingtimesclass.getCtArrangement();
 //(String ctid, String ctname, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String ctbookingdate, String ctArrangement)
@@ -106,7 +107,7 @@ public class UserBookingFragment extends Fragment {
                                 String DName = dataSnapshot1.child(DID).child("cName").getValue(String.class);
                                 String DSpecialty = dataSnapshot1.child(DID).child("cSpecialty").getValue(String.class);
                                 String DUri = dataSnapshot1.child(DID).child("cUri").getValue(String.class);
-                                BookingTimesClass bookingtimesclass = new BookingTimesClass( DName,LastBookingDate, Daddress,Dperiod, DUri,Ddate,Darrange, DSpecialty);
+                                BookingTimesClass bookingtimesclass = new BookingTimesClass(DID, DName,LastBookingDate, Daddress,timeID, DUri,Ddate,Darrange, DSpecialty);
 
                                 doctorList.add(0,bookingtimesclass);// i= 0  (index)to start from top
 

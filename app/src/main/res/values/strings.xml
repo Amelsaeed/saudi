@@ -20,6 +20,29 @@
         <item>ayes</item>
     </string-array>
 
+
+    <string-array name="Degree_array">
+        <item>Master</item>
+        <item>Master_master</item>
+        <item>Doctor</item>
+        <item>Doctor_Doctor</item>
+    </string-array>
+
+
+    <string-array name="step_array">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+
     <string-array name="insurance_array">
         <item>ACIG</item>
         <item>amana</item>

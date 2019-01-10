@@ -44,9 +44,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -119,7 +121,35 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         final OneWordClass onewordclass = timingList.get(position);
         atime.setText(onewordclass.getWord());
 
+///****************************past date*************************
 
+        String bookingdate=datedmy+" "+onewordclass.getWord();//"2018_12_27 16:15:51";2019_01_1 12:00
+
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+        Date date5 = null;
+        try {
+            date5 = formatter1.parse(bookingdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date5);
+
+
+        Calendar cal2 = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+        String currentdate = sdf.format(cal2.getTime());
+
+        int timecomp = cal2.compareTo(cal1);
+        // Toast.makeText(context, timecomp+"you ", Toast.LENGTH_LONG).show();
+        if (timecomp > 0) {
+            cardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));
+            atime.setTextColor(Color.parseColor("#ffffff"));
+        } else {
+           // cardviewbook.setCardBackgroundColor(Color.parseColor("#fd0101"));
+        }
+
+///****************************past date*************************
         if(dayAvaliable) {
         /////////////*******************************///
         databasetimeBooking.child(DoctorID).child(TimeID)
@@ -177,15 +207,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                         makepatientbooking(TimeID, datedmy, position);
                         Toast.makeText(context, "Is booked", Toast.LENGTH_LONG).show();
 
-                        ////////////////delay for refresh adapter
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Do something after 5s = 5000ms
-                                notifyDataSetChanged();
-                            }
-                        }, 300);
+
 
 
                         /**  Intent intent = new Intent(context,CalenderActivity.class);
@@ -209,7 +231,15 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
 
 
                 }
-
+                ////////////////delay for refresh adapter
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        notifyDataSetChanged();
+                    }
+                }, 300);
             }
         });
 
@@ -254,7 +284,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                // DatabaseReference referencea = bookforuser.push();
                // String randomid = referencea.getKey();
 
-                BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, DoctorAddress,datedmy , datedmy,onewordclass.getWord());
+                BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, DoctorAddress,TimeID,datedmy ,onewordclass.getWord());
 
                 bookforuser.child(userid).child(DoctorID+datedmy).setValue(bookingtimes);
 

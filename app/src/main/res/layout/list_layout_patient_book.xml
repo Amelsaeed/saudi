@@ -195,25 +195,48 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp">
 
-                            <ImageView
+
+                            <android.support.v7.widget.CardView
                                 android:id="@+id/book123"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
-                                android:background="@drawable/book_time" />
-
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="20dp"
+                                app:cardBackgroundColor="#fd0101"
+                                app:cardCornerRadius="10dp">
                             <TextView
                                 android:id="@+id/arrange"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/book123"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="29dp"
-                                android:layout_marginBottom="52dp"
+                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="5:00"
                                 android:textColor="#fff" />
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/book_cancel"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_below="@+id/book123"
+
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="20dp"
+                                app:cardBackgroundColor="#fd0101"
+                                app:cardCornerRadius="10dp">
+                                <TextView
+                                    android:id="@+id/cancel_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_gravity="center"
+                                    android:text="Cancel"
+                                    android:textColor="#fff" />
+                            </android.support.v7.widget.CardView>
+
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>

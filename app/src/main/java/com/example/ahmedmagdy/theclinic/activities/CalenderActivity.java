@@ -45,7 +45,7 @@ public class CalenderActivity extends AppCompatActivity {
     int day1=-1;
     int year1=-1;
     int come=-1;
-    String Sarttime,Endtime;   int step=15;
+    String Sarttime,Endtime;   int step;
     ArrayList<OneWordClass> mtimes = new ArrayList<OneWordClass>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,7 @@ public class CalenderActivity extends AppCompatActivity {
         Sarttime = intent.getStringExtra("StartingTime");
         Endtime = intent.getStringExtra("EndingTime");
          DoctorAddress = intent.getStringExtra("DoctorAddress");
+        step =  Integer.parseInt(intent.getStringExtra("StepTime")) ;
 
          Satchecked = intent.getBooleanExtra("Satchecked",false);
          Sunchecked = intent.getBooleanExtra("Sunchecked",false);
@@ -76,7 +77,7 @@ public class CalenderActivity extends AppCompatActivity {
 
         /* start 2 months ago from now */
         Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.MONTH, -2);
+        startDate.add(Calendar.MONTH, 0);
 
         /* end after 2 months from now */
         Calendar endDate = Calendar.getInstance();
@@ -162,6 +163,8 @@ public class CalenderActivity extends AppCompatActivity {
                 intent.putExtra("StartingTime", Sarttime);
                 intent.putExtra("EndingTime", Endtime);
                 intent.putExtra("DoctorAddress", DoctorAddress);
+                intent.putExtra("StepTime", String.valueOf(step));
+
 
                 intent.putExtra("Satchecked", Satchecked);
                 intent.putExtra("Sunchecked", Sunchecked);
