@@ -42,12 +42,21 @@ public class UtilClass {
 
     public static String getInstanceDate() {
         Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH)+1;
-        int year = calendar.get(Calendar.YEAR);
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        String month = String.valueOf(calendar.get(Calendar.MONTH)+1);
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
 
+        if (Integer.parseInt(month) < 10){
+            month  = "0" + month;
+        }
         String instanceDate = year + "_" + month + "_" + day;
         return instanceDate;
+    }
+
+    public static String dateFormat(String date){
+        String[] splitedDate = date.split("_");
+        String nDate = splitedDate[2] + "-" + splitedDate[1] + "-" + splitedDate[0];
+        return nDate;
     }
 
 

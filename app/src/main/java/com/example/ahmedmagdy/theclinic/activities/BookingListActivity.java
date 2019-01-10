@@ -9,10 +9,10 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,12 +54,10 @@ import java.util.Locale;
 public class BookingListActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     Button paddbook;
     TextView dname;
-    String DoctorID;
-    String address, idm;
-    boolean satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate;
+    String DoctorID, address, idm, startTime, endingTime, arrange, patientName, patientAge;
+    boolean satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate;
     double latitude;
     double longitude;
-    String arrange;
     final int theRequestCodeForLocation = 1;
     private FusedLocationProviderClient mFusedLocationClient;
     Boolean isPermissionGranted;
@@ -75,15 +73,15 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
     ProgressBar progressBarBooking;
     ListView listViewBooking;
     private List<BookingClass> bookingList;
-    String startTime,endingTime;
-    int startHour,endingHour;
+    int startHour, endingHour;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_list);
 
-        listViewBooking= (ListView)findViewById(R.id.list_view_booking);
-        bookingList=new ArrayList<BookingClass>();
+        listViewBooking = (ListView) findViewById(R.id.list_view_booking);
+        bookingList = new ArrayList<BookingClass>();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -104,11 +102,18 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         Intent intent = getIntent();
         DoctorID = intent.getStringExtra("DoctorID");
         String DoctorName = intent.getStringExtra("DoctorName");
-        dname=findViewById(R.id.d_name);
-        dname.setText(DoctorName);
+        patientName = intent.getStringExtra("name");
+        patientAge = intent.getStringExtra("age");
+        dname = findViewById(R.id.d_name);
+        if (DoctorName != null){
+            dname.setText(DoctorName);
+        }
+
         // Toast.makeText(DoctorProfileActivity.this, DoctorID, Toast.LENGTH_LONG).show();
 
-        if(!DoctorID.equals(mAuth.getCurrentUser().getUid())){paddbook.setVisibility(View.GONE);}
+        if (!DoctorID.equals(mAuth.getCurrentUser().getUid())) {
+            paddbook.setVisibility(View.GONE);
+        }
 
 
         listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -120,22 +125,32 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             String comefrom="1";
 
 
-            Intent intent = new Intent(BookingListActivity.this,CalenderActivity.class);
-            intent.putExtra("comefrom", comefrom);
-            intent.putExtra("DoctorID", DoctorID);
-            intent.putExtra("TimeID", timeID);
-            intent.putExtra("StartingTime", bookingclass.getCbtimestart());
-            intent.putExtra("EndingTime", bookingclass.getCbtimeend());
-            intent.putExtra("DoctorAddress", bookingclass.getCbaddress());
-            intent.putExtra("StepTime", bookingclass.getSteptime());
+                Intent intent = new Intent(BookingListActivity.this, CalenderActivity.class);
+                intent.putExtra("comefrom", comefrom);
+                intent.putExtra("DoctorID", DoctorID);
+                intent.putExtra("TimeID", timeID);
+                intent.putExtra("StartingTime", bookingclass.getCbtimestart());
+                intent.putExtra("EndingTime", bookingclass.getCbtimeend());
+                intent.putExtra("DoctorAddress", bookingclass.getCbaddress());
+                if (bookingclass.getSteptime() != null){
+                    intent.putExtra("StepTime", bookingclass.getSteptime());
+                }else {
+                    intent.putExtra("StepTime", "15");
+                }
 
-            intent.putExtra("Satchecked", bookingclass.getSatchecked());
-            intent.putExtra("Sunchecked", bookingclass.getSunchecked());
-            intent.putExtra("Monchecked", bookingclass.getMonchecked());
-            intent.putExtra("Tuschecked", bookingclass.getTuschecked());
-            intent.putExtra("Wedchecked", bookingclass.getWedchecked());
-            intent.putExtra("Thuchecked", bookingclass.getThuchecked());
-            intent.putExtra("Frichecked", bookingclass.getFrichecked());
+                if (patientName != null) {
+                    intent.putExtra("patientName", patientName);
+                }
+                if (patientAge != null) {
+                    intent.putExtra("patientAge", patientAge);
+                }
+                intent.putExtra("Satchecked", bookingclass.getSatchecked());
+                intent.putExtra("Sunchecked", bookingclass.getSunchecked());
+                intent.putExtra("Monchecked", bookingclass.getMonchecked());
+                intent.putExtra("Tuschecked", bookingclass.getTuschecked());
+                intent.putExtra("Wedchecked", bookingclass.getWedchecked());
+                intent.putExtra("Thuchecked", bookingclass.getThuchecked());
+                intent.putExtra("Frichecked", bookingclass.getFrichecked());
 
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

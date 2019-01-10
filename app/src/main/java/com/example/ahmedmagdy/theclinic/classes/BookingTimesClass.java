@@ -10,6 +10,11 @@ public class BookingTimesClass {
     private String ctage;
     private String ctdate;
     private String ctAddress;
+    private String ctStartTime;
+    private String ctEndTime;
+
+
+
     private String ctPeriod;
     private String ctpicuri;
     private Boolean checked;
@@ -28,12 +33,14 @@ public class BookingTimesClass {
 
     ///////////////////////////////userid, patientName, patientBirthday, mDate, DoctorAddress,onewordclass.getWord() , picuri,timeID,datedmy
 
-    public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String cttimeid,String ctbookingdate,int ctposition) {
+    public BookingTimesClass(String ctid, String ctname, String ctage, String ctdate,String ctAddress, String ctStartTime, String ctEndTime, String ctPeriod, String ctpicuri,String cttimeid,String ctbookingdate,int ctposition) {
         this.ctid = ctid;
         this.ctname = ctname;
         this.ctage = ctage;
         this.ctdate = ctdate;
         this.ctAddress = ctAddress;
+        this.ctStartTime = ctStartTime;
+        this.ctEndTime = ctEndTime;
         this.ctPeriod = ctPeriod;
         this.ctpicuri = ctpicuri;
         this.cttimeid = cttimeid;
@@ -184,6 +191,15 @@ public BookingTimesClass(String ctid, String ctdate,String ctAddress, String ctP
 
     public void setCtSpc(String ctSpc) {
         this.ctSpc = ctSpc;
+    }
+
+
+    public String getCtStartTime() {
+        return ctStartTime;
+    }
+
+    public String getCtEndTime() {
+        return ctEndTime;
     }
 
     public Boolean getChecked() {

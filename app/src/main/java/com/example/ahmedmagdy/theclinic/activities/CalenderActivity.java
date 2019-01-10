@@ -15,11 +15,7 @@ import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.OneWordAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.OneWordClass;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +33,7 @@ public class CalenderActivity extends AppCompatActivity {
     String updatedTimeprinted;
     GridView listview;
     String DoctorID;
-    String TimeID,DoctorAddress;
+    String TimeID,DoctorAddress,patientName,patientAge;
     String selectedDateStr,selectedDateStrForFirebase;
     Boolean Satchecked,Sunchecked,Monchecked,Tuschecked,Wedchecked,Thuchecked,Frichecked;
     Boolean dayAvaliable;
@@ -45,7 +41,7 @@ public class CalenderActivity extends AppCompatActivity {
     int day1=-1;
     int year1=-1;
     int come=-1;
-    String Sarttime,Endtime;   int step;
+    String StartTime,Endtime;   int step = 15;
     ArrayList<OneWordClass> mtimes = new ArrayList<OneWordClass>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +57,12 @@ public class CalenderActivity extends AppCompatActivity {
         come = Integer.parseInt(intent.getStringExtra("comefrom"));
         DoctorID = intent.getStringExtra("DoctorID");
         TimeID = intent.getStringExtra("TimeID");
-        Sarttime = intent.getStringExtra("StartingTime");
+        StartTime = intent.getStringExtra("StartingTime");
         Endtime = intent.getStringExtra("EndingTime");
          DoctorAddress = intent.getStringExtra("DoctorAddress");
         step =  Integer.parseInt(intent.getStringExtra("StepTime")) ;
+         patientName = intent.getStringExtra("patientName");
+         patientAge = intent.getStringExtra("patientAge");
 
          Satchecked = intent.getBooleanExtra("Satchecked",false);
          Sunchecked = intent.getBooleanExtra("Sunchecked",false);
@@ -160,9 +158,12 @@ public class CalenderActivity extends AppCompatActivity {
 
                 intent.putExtra("DoctorID", DoctorID);
                 intent.putExtra("TimeID", TimeID);
-                intent.putExtra("StartingTime", Sarttime);
+                intent.putExtra("StartingTime", StartTime);
                 intent.putExtra("EndingTime", Endtime);
                 intent.putExtra("DoctorAddress", DoctorAddress);
+                intent.putExtra("patientName",patientName);
+                intent.putExtra("patientAge",patientAge);
+
                 intent.putExtra("StepTime", String.valueOf(step));
 
 
@@ -224,7 +225,7 @@ public class CalenderActivity extends AppCompatActivity {
         SimpleDateFormat formatter1 = new SimpleDateFormat("HH:mm");
         Date date1 = null;
         try {
-            date1 = formatter1.parse(Sarttime);
+            date1 = formatter1.parse(StartTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -275,9 +276,9 @@ public class CalenderActivity extends AppCompatActivity {
         int noOfSteps = (((hourend * 60 + minend) - (hourstart * 60 + minstart)) / step) + 1;
         //int noOfSteps = 20;
 
-        String updatedTimeprinted = Sarttime;
-        String updatedTime0 = Sarttime;
-        mtimes.add(0,new OneWordClass(Sarttime));
+        String updatedTimeprinted = StartTime;
+        String updatedTime0 = StartTime;
+        mtimes.add(0,new OneWordClass(StartTime));
         for (int i = 1; i < noOfSteps; i++) {
 
             SimpleDateFormat formatter0 = new SimpleDateFormat("HH:mm");
@@ -300,8 +301,14 @@ public class CalenderActivity extends AppCompatActivity {
 
         }
        // timef.setText(updatedTimeprinted);
+        OneWordAdapter itemsAdapter = null;
+if (patientName == null){
+     itemsAdapter =new OneWordAdapter(this, mtimes/**,R.color.colorCardDefault**/,DoctorID,TimeID,DoctorAddress,selectedDateStrForFirebase,dayAvaliable,StartTime,Endtime);
+}else {
+     itemsAdapter =new OneWordAdapter(this, mtimes/**,R.color.colorCardDefault**/,DoctorID,TimeID,DoctorAddress,selectedDateStrForFirebase,dayAvaliable,patientName,patientAge, StartTime, Endtime);
+}
 
-        OneWordAdapter itemsAdapter =new OneWordAdapter(this, mtimes/**,R.color.colorCardDefault**/,DoctorID,TimeID,DoctorAddress,selectedDateStrForFirebase,dayAvaliable);
+
          listview=findViewById(R.id.timelist);
         listview.setAdapter(itemsAdapter);
 

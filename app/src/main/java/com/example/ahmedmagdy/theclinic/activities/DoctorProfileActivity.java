@@ -40,7 +40,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.Adapters.BookingAdapter;
 import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
 import com.example.ahmedmagdy.theclinic.Notifications.Client;
 import com.example.ahmedmagdy.theclinic.Notifications.Data;
@@ -49,15 +48,10 @@ import com.example.ahmedmagdy.theclinic.Notifications.Sender;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
-import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
-import com.example.ahmedmagdy.theclinic.classes.MapClass;
-import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -560,7 +554,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                     if( bookingclass.getFrichecked()){ g="Friday";}else{g="no";}
 if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
         ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
-    makepatientbooking(timeID, datedmy, position);
+   // makepatientbooking(timeID, datedmy, position);
     Toast.makeText(DoctorProfileActivity.this, "is booked", Toast.LENGTH_LONG).show();
 }else{Toast.makeText(DoctorProfileActivity.this, "Not match", Toast.LENGTH_LONG).show();}
                 } catch (ParseException e) {
@@ -727,12 +721,12 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
         }
     }
 
-    private void makepatientbooking(final String timeID, final String datedmy, final int position) {
+/*   private void makepatientbooking(final String timeID, final String datedmy, final int position) {
 
-        /*************************************/
+
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+           public void onDataChange(DataSnapshot dataSnapshot) {
 
                 final String patientName = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
                 String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
@@ -802,11 +796,11 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
                                 BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, currentBooking.getCbaddress(),currentBooking.getCbtime() , datedmy,arrange);
 
                                 bookforuser.child(userid).child(randomid).setValue(bookingtimes);
-/***********for adapt arange in user booking activity**************/
+
                                 databasetimeBooking.child(DoctorID).child(timeID)
                                         .child(datedmy)
                                         .child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
-                                //String.valueOf( arrange )
+
                             }
 
                             @Override
@@ -815,7 +809,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
                             }
                         });
 
-                /***********************************/
+
 
             }
             @Override
@@ -825,9 +819,9 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
         };
         databaseUserReg .addValueEventListener(postListener);
 
-        /*************************************/
 
-    }
+
+    }*/
     private void sendNotifiaction(final String receiver, final String username, final String message) {
 
         final String rec = receiver;

@@ -86,16 +86,17 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View convertView, ViewGroup viewGroup) {
         BookingTimesClass header = (BookingTimesClass) getGroup(i);
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_header, viewGroup, false);
         }
 
-        TextView bookingAddress = (TextView) convertView.findViewById(R.id.booking_ad_tv);
-        TextView bookingTime = (TextView) convertView.findViewById(R.id.booking_time_tv);
+        TextView bookingAddress = convertView.findViewById(R.id.booking_ad_tv);
+        TextView bookingTime =  convertView.findViewById(R.id.booking_time_tv);
 
-        bookingTime.setText(header.getCtPeriod());
+        bookingTime.setText(header.getCtStartTime() + " - " + header.getCtEndTime());
         bookingAddress.setText(header.getCtAddress());
 
         return convertView;
@@ -113,6 +114,9 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView patientName = (TextView) convertView.findViewById(R.id.patient_name_tv);
         TextView patientAge = (TextView) convertView.findViewById(R.id.patient_age_tv);
+        TextView bookingHour = convertView.findViewById(R.id.patient_book_hour);
+        TextView bookingTime = convertView.findViewById(R.id.book_time_tv);
+
         ImageView patientPicture = (ImageView) convertView.findViewById(R.id.patient_image);
         CheckBox patientdpcheckBox = (CheckBox) convertView.findViewById(R.id.patient_check_box) ;
 
@@ -199,8 +203,19 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
 
+        String patAge = currentChild.getCtage();
+        if (patAge != null){
+            if (patAge.contains("_")){
+                patAge = UtilClass.calculateAgeFromDate(patAge);
+
+            }
+            patientAge.setText(patAge);
+        }
+
         patientName.setText(currentChild.getCtname());
-        patientAge.setText(currentChild.getCtage());
+        bookingHour.setText(currentChild.getCtPeriod());
+        bookingTime.setText(currentChild.getCtdate());
+
 
         // notes dialog show select dialog on click list item
         convertView.setOnClickListener(new View.OnClickListener() {

@@ -30,6 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".PatientHome"
             android:theme="@style/SplashTheme"></activity>
@@ -47,18 +49,17 @@
         <activity android:name=".activities.StartCahtRoom" />
         <activity android:name=".activities.MessageActivity" />
         <activity android:name=".activities.NoteActivity" />
-        <activity
-            android:name=".DoctorHome"
+        <activity android:name=".DoctorHome"
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".activities.CalenderActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.AddPatient"
-            android:parentActivityName=".activities.Doctor_home_activity">
+            android:parentActivityName=".DoctorHome">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.Doctor_home_activity" />
+                android:value=".DoctorHome" />
         </activity>
         <activity
             android:name=".activities.Doctor_home_activity"
@@ -103,16 +104,16 @@
 
         <activity android:name=".activities.DoctorDatabaseActivity" />
         <activity android:name=".activities.UserBookingActivity" />
+
         <activity android:name=".activities.RegestrationPathActivity" />
-        <activity
-            android:name=".HospitalHome"
-            android:theme="@style/SplashTheme" />
-        <activity
-            android:name=".activities.WorkingHoursActivity"
-            android:parentActivityName=".activities.Doctor_home_activity">
+        <activity android:name=".HospitalHome"
+            android:theme="@style/SplashTheme"/>
+
+        <activity android:name=".activities.WorkingHoursActivity"
+            android:parentActivityName=".DoctorHome">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.Doctor_home_activity" />
+                android:value=".DoctorHome" />
         </activity>
         <activity android:name=".activities.BookingListActivity" />
         <activity android:name=".activities.InsuranceListActivity"></activity>

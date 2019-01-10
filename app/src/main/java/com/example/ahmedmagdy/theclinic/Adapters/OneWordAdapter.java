@@ -2,13 +2,11 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +21,8 @@ import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;
 import com.example.ahmedmagdy.theclinic.Notifications.Sender;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
-import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
-import com.example.ahmedmagdy.theclinic.activities.FavActivity;
-import com.example.ahmedmagdy.theclinic.classes.BookingClass;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
-import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.OneWordClass;
-import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,12 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +65,10 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     private String TimeID;
     private String DoctorAddress;
     private String datedmy;
+    private String patName;
+    private String patAge;
+    private String startTime;
+    private String endTime;
     private Boolean dayAvaliable;
     // private int colorResourceID;
     private Activity context;
@@ -83,9 +76,9 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     //private List<String> positioncolorList;
     //private List<BookingTimesClass> positioncolorList;
 
-    BookingTimesClass bookingtimesclass;
 
-    public OneWordAdapter(Activity context, List<OneWordClass> timingList/**,int colorResourceID**/, String DoctorID, String TimeID, String DoctorAddress, String datedmy,Boolean dayAvaliable) {
+
+    public OneWordAdapter(Activity context, List<OneWordClass> timingList/**,int colorResourceID**/, String DoctorID, String TimeID, String DoctorAddress, String datedmy,Boolean dayAvaliable, String startTime, String endTime) {
         super((Context) context, R.layout.time_grid_item, timingList);
 
         this.context = context;
@@ -96,6 +89,25 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         this.DoctorAddress = DoctorAddress;
         this.datedmy = datedmy;
         this.dayAvaliable = dayAvaliable;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public OneWordAdapter(Activity context, List<OneWordClass> timingList/**,int colorResourceID**/, String DoctorID, String TimeID, String DoctorAddress, String datedmy,Boolean dayAvaliable,String patName, String patAge, String startTime, String endTime) {
+        super((Context) context, R.layout.time_grid_item, timingList);
+
+        this.context = context;
+        this.timingList = timingList;
+        // this.colorResourceID = colorResourceID;
+        this.DoctorID = DoctorID;
+        this.TimeID = TimeID;
+        this.DoctorAddress = DoctorAddress;
+        this.datedmy = datedmy;
+        this.dayAvaliable = dayAvaliable;
+        this.patName = patName;
+        this.patAge = patAge;
+         this.startTime = startTime;
+         this.endTime = endTime;
     }
 
     @NonNull
@@ -159,7 +171,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
-                         bookingtimesclass  = doctorSnapshot.getValue(BookingTimesClass.class);
+                         BookingTimesClass bookingtimesclass  = doctorSnapshot.getValue(BookingTimesClass.class);
                         final String CtPeriod = bookingtimesclass.getCtPeriod();
                        // final String ctbookingdate = bookingtimesclass.getCtbookingdate();
                         final String userIdForAll = bookingtimesclass.getCtid();
@@ -250,31 +262,21 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
 
 
 
-
-
-
-
-
-
-
     private void makepatientbooking(final String TimeID, final String datedmy, final int position) {
         final OneWordClass onewordclass = timingList.get(position);
 
 
         /*************************************/
-        final ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                final String patientName = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
-                String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
+        if (patName == null){
 
-                //final BookingClass currentBooking = bookingList.get(position);
-                String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cpatentphoto").getValue(String.class);
-                if(patientpic != null){
-                    picuri=patientpic;
-                }else{picuri="https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";}
-                // Toast.makeText(DoctorProfileActivity.this, picuri, Toast.LENGTH_LONG).show();
+            final ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    final String patientName = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
+                    String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
+
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -290,81 +292,112 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
 
                 ////to do/////////------------doctor booking table-------------------------------------------------
 
-                DatabaseReference reference1 = databasetimeBooking.push();
-                //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
-                // DatabaseReference reference = databasetimeBooking.push();
-                String timesid = reference1.getKey();
+                    //final BookingClass currentBooking = bookingList.get(position);
+                    String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cpatentphoto").getValue(String.class);
+                    if(patientpic != null){
+                        picuri=patientpic;
+                    }else{picuri="https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";}
+                    // Toast.makeText(DoctorProfileActivity.this, picuri, Toast.LENGTH_LONG).show();
 
-                //Log.v("Data"," 2-User id :"+ mUserId);
+                    ////to do/////////-------------------------------------------------------------
 
-                // get age from birthday
-//                String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
+                    DatabaseReference reference1 = databasetimeBooking.push();
+                    //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
+                    // DatabaseReference reference = databasetimeBooking.push();
+                    String timesid = reference1.getKey();
 
-                BookingTimesClass bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, DoctorAddress,onewordclass.getWord() , picuri,TimeID,datedmy,position);
+                    //Log.v("Data"," 2-User id :"+ mUserId);
 
-                // Database for Account Activity
-                databasetimeBooking.child(DoctorID).child(TimeID)
-                        .child(datedmy)
-                        .child(userid).setValue(bookingtimesclass).addOnCompleteListener(
-                        new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                notify = true;
-                                if (notify && userid == mAuth.getCurrentUser().getUid()) {
-                                    System.out.println("databasetimebooking listner: pName:" +
-                                            patientName + " ,, Doctor ID:" + DoctorID +
-                                            ",, user id : " + userid);
+                    // get age from birthday
 
-                                    sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                    //String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
+
+
+
+                    BookingTimesClass  bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, DoctorAddress, startTime, endTime, onewordclass.getWord() , picuri,TimeID,datedmy,position);
+
+
+
+                    // Database for Account Activity
+
+                    databasetimeBooking.child(DoctorID).child(TimeID)
+                            .child(datedmy)
+                            .child(userid).setValue(bookingtimesclass).addOnCompleteListener(
+                            new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    notify = true;
+                                    if (notify && userid == mAuth.getCurrentUser().getUid()) {
+                                        System.out.println("databasetimebooking listner: pName:" +
+                                                patientName + " ,, Doctor ID:" + DoctorID +
+                                                ",, user id : " + userid);
+
+                                        sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                                    }
+                                    notify = false;
                                 }
-                                notify = false;
                             }
-                        }
-                );
-              //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(userid).child("checked").setValue(true);
-                //////////////////////*******-----------------
-         /**       databasetimeBooking.child(DoctorID).child(timeID) .child(datedmy)
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                // for (DataSnapshot snap: dataSnapshot.getChildren()) {
-                                //  dataSnapshot.getChildrenCount();
-                                Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
-                                arrange =String.valueOf( dataSnapshot.getChildrenCount() );
-                                Toast.makeText(DoctorProfileActivity.this ,"your Arrangement is the"+dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
-                                databasetimeBooking.child(DoctorID).child(timeID)
-                                        .child(datedmy)
-                                        .child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
-                                //String.valueOf( arrange )
-                                DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
-                                DatabaseReference referencea = bookforuser.push();
-                                String randomid = referencea.getKey();
+                    );
+                    //////*******-----------------
+                    /**       databasetimeBooking.child(DoctorID).child(timeID) .child(datedmy)
+                     .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    // for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    //  dataSnapshot.getChildrenCount();
+                    Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
+                    arrange =String.valueOf( dataSnapshot.getChildrenCount() );
+                    Toast.makeText(DoctorProfileActivity.this ,"your Arrangement is the"+dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
+                    databasetimeBooking.child(DoctorID).child(timeID)
+                    .child(datedmy)
+                    .child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
+                    //String.valueOf( arrange )
+                    DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
+                    DatabaseReference referencea = bookforuser.push();
+                    String randomid = referencea.getKey();
 
-                                BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, currentBooking.getCbaddress(),currentBooking.getCbtime() , datedmy,arrange);
+                    BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, currentBooking.getCbaddress(),currentBooking.getCbtime() , datedmy,arrange);
 
-                                bookforuser.child(userid).child(randomid).setValue(bookingtimes);
-////***********for adapt arange in user booking activity///////*******************
-                                databasetimeBooking.child(DoctorID).child(timeID)
-                                        .child(datedmy)
-                                        .child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
-                                //String.valueOf( arrange )
-                            }
+                    bookforuser.child(userid).child(randomid).setValue(bookingtimes);
+                    ////***********for adapt arange in user booking activity///////*******************
+                    databasetimeBooking.child(DoctorID).child(timeID)
+                    .child(datedmy)
+                    .child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
+                    //String.valueOf( arrange )
+                    }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });**/
+                    }
+                    });**/
 
-                /***********************************/
+                    /***********************************/
 
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-        databaseUserReg .addValueEventListener(postListener);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseUserReg .addValueEventListener(postListener);
+
+        }else {
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            mDate = sdf.format(calendar.getTime());
+            DatabaseReference ref = databasetimeBooking.push();
+            String key = ref.getKey();
+            picuri="https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";
+            BookingTimesClass  bookingtimesclass = new BookingTimesClass(key, patName, patAge, mDate, DoctorAddress, startTime, endTime, onewordclass.getWord(), picuri,TimeID,datedmy,position);
+
+            databasetimeBooking.child(DoctorID).child(TimeID)
+                    .child(datedmy)
+                    .child(key).setValue(bookingtimesclass);
+
+        }
+
 
         /*************************************/
 
@@ -423,5 +456,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         });
 
     }
+
+
 
 }

@@ -1,7 +1,6 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +20,7 @@ import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +39,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
-import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
-import com.example.ahmedmagdy.theclinic.activities.RegisterDoctorActivity;
-
-
-import com.example.ahmedmagdy.theclinic.activities.WorkingHoursActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
@@ -70,6 +65,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static com.example.ahmedmagdy.theclinic.map.Constants.ERROR_DIALOG_REQUEST;
@@ -92,7 +88,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     double latitude;
     double longitude;
     String doctorId;
-    String DoctorName;
+    String DoctorName, insuranceItems = "";
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -113,7 +109,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     private UserLocation mUserLocaiotn;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
 
 
     @Nullable
@@ -160,6 +155,16 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         ppicuri = rootView.findViewById(R.id.edit_photo);
 
 
+        editName.setVisibility(View.VISIBLE);
+        editPhone.setVisibility(View.VISIBLE);
+        editDegree.setVisibility(View.VISIBLE);
+        editSpeciality.setVisibility(View.VISIBLE);
+        editCity.setVisibility(View.VISIBLE);
+        editPrice.setVisibility(View.VISIBLE);
+        insuranceEdit.setVisibility(View.VISIBLE);
+        drEmail.setVisibility(View.VISIBLE);
+
+
         Button workingHours = rootView.findViewById(R.id.working_hours_btn);
         Button confirmLocation = rootView.findViewById(R.id.confim_loc_btn);
 
@@ -173,6 +178,8 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 Intent intent = new Intent(getActivity(), BookingListActivity.class);
                 intent.putExtra("DoctorID", doctorId);
                 intent.putExtra("DoctorName", DoctorName);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 startActivity(intent);
             }
         });
@@ -199,13 +206,12 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             }
         });
 /**
-        editCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String whatData = "State/ City/ Region";
-                editDialog(whatData);
-            }
-        });**/
+ editCity.setOnClickListener(new View.OnClickListener() {
+@Override public void onClick(View view) {
+String whatData = "State/ City/ Region";
+editDialog(whatData);
+}
+});**/
 
         editPrice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,18 +221,16 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             }
         });
 
-     /**   editSpeciality.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String whatData = "Specialty";
-                editDialog(whatData);
-            }
+        /**   editSpeciality.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+        String whatData = "Specialty";
+        editDialog(whatData);
+        }
         });        editDegree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String whatData = "Degree";
-                editDialog(whatData);
-            }
+        @Override public void onClick(View view) {
+        String whatData = "Degree";
+        editDialog(whatData);
+        }
         });**/
 
 
@@ -241,8 +245,10 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         insuranceEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String whatData = "medical insurance";
-                editDialog(whatData);
+                // String whatData = "medical insurance";
+                // editDialog(whatData);
+                displayInsurancesDialog();
+
             }
         });
         ppicuri.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +258,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 displayImportImageDialog();
             }
         });
-        listCityItems= getResources().getStringArray(R.array.countries_array);
+        listCityItems = getResources().getStringArray(R.array.countries_array);
         editCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -260,17 +266,17 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle("SELECT City");
 
-                mBuilder.setSingleChoiceItems(listCityItems, -1,new DialogInterface.OnClickListener() {
+                mBuilder.setSingleChoiceItems(listCityItems, -1, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // TODO Auto-generated method stub
-                                databaseDoctor.child(doctorId).child("cCity").setValue(listCityItems[i]);
-                                databaseChat.child(doctorId).child("cCity").setValue(listCityItems[i]);
-                                pcity.setText(listCityItems[i]);
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // TODO Auto-generated method stub
+                        databaseDoctor.child(doctorId).child("cCity").setValue(listCityItems[i]);
+                        databaseChat.child(doctorId).child("cCity").setValue(listCityItems[i]);
+                        pcity.setText(listCityItems[i]);
 
-                            }
-                        });
+                    }
+                });
 
 
                 mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
@@ -284,7 +290,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 mDialog.show();
             }
         });
-        listSpecialityItems= getResources().getStringArray(R.array.spiciality_array);
+        listSpecialityItems = getResources().getStringArray(R.array.spiciality_array);
         editSpeciality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -292,7 +298,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle("SELECT Specialty");
 
-                mBuilder.setSingleChoiceItems(listSpecialityItems, -1,new DialogInterface.OnClickListener() {
+                mBuilder.setSingleChoiceItems(listSpecialityItems, -1, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -319,7 +325,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             }
         });
 
-        listDegreeItems= getResources().getStringArray(R.array.Degree_array);
+        listDegreeItems = getResources().getStringArray(R.array.Degree_array);
         editDegree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -327,7 +333,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle("SELECT Degree");
 
-                mBuilder.setSingleChoiceItems(listDegreeItems, -1,new DialogInterface.OnClickListener() {
+                mBuilder.setSingleChoiceItems(listDegreeItems, -1, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -335,7 +341,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
                         databaseDoctor.child(doctorId).child("cDegree").setValue(listDegreeItems[i]);
                         databaseChat.child(doctorId).child("cDegree").setValue(listDegreeItems[i]);
-                         pdegree.setText(listDegreeItems[i]);  
+                        pdegree.setText(listDegreeItems[i]);
                     }
                 });
 
@@ -783,6 +789,82 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
     }
 
+    private void displayInsurancesDialog() {
+        final String[] insuranceList = getResources().getStringArray(R.array.insurance_array);
+
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+        final ArrayList<Integer> mInsurItems = new ArrayList<>();
+        String insur = insuranceView.getText().toString();
+        String[] insurances = insur.split(",");
+        final ArrayList<Boolean> checkedList = new ArrayList<>();
+        boolean checked;
+        for (int x = 0; x < insuranceList.length; x++) {
+            checked = false;
+            for (int y = 0; y < insurances.length; y++) {
+                if (insuranceList[x].equals(insurances[y])) {
+                    checked = true;
+                }
+            }
+
+            checkedList.add(x, checked);
+        }
+
+        final boolean[] checkedItems = new boolean[insuranceList.length];
+        for (int i = 0; i < insuranceList.length; i++) {
+            checkedItems[i] = checkedList.get(i);
+        }
+
+        mBuilder.setTitle("SELECT Insurance");
+
+        mBuilder.setMultiChoiceItems(insuranceList, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                insuranceItems = "";
+                if (isChecked) {
+                    checkedItems[position] = true;
+                } else {
+                    checkedItems[position] = false;
+                }
+            }
+        });
+
+        mBuilder.setCancelable(false);
+
+        mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                insuranceItems = "";
+                for (int x = 0; x < insuranceList.length; x++) {
+                    if (checkedItems[x]) {
+                        if (insuranceItems.equals("")) {
+                            insuranceItems = insuranceList[x];
+                        } else {
+                            insuranceItems = insuranceItems + "," + insuranceList[x];
+                        }
+
+                    }
+                }
+                if (insuranceItems.equals("")) {
+                    insuranceView.setText("Nothing");
+                } else {
+                    insuranceView.setText(insuranceItems);
+                }
+
+                databaseDoctor.child(doctorId).child("cInsurance").setValue(insuranceItems);
+            }
+        });
+
+        mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
+    }
+
 
     /**
      * this method is called by android system after we request a permission
@@ -859,47 +941,47 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 if (task.isSuccessful()) {
                     final Location location = task.getResult();
                     //get user first
-                        if (mUserLocaiotn == null) {
-                            mUserLocaiotn = new UserLocation();
+                    if (mUserLocaiotn == null) {
+                        mUserLocaiotn = new UserLocation();
 
-                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            System.out.println("UIDGET :" + uid);
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        System.out.println("UIDGET :" + uid);
 
-                            DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-                            Query query = mFirebaseDatabaseReference.child("Doctordb").child(uid);
-                            ValueEventListener valueEventListener = new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    DoctorFirebaseClass dF = dataSnapshot.getValue(DoctorFirebaseClass.class);
-                                    System.out.println(TAG + " qerrrrrrrrrrry " + dF.getcName());
+                        DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                        Query query = mFirebaseDatabaseReference.child("Doctordb").child(uid);
+                        ValueEventListener valueEventListener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                DoctorFirebaseClass dF = dataSnapshot.getValue(DoctorFirebaseClass.class);
+                                System.out.println(TAG + " qerrrrrrrrrrry " + dF.getcName());
 
-                                    mUserLocaiotn.setLat(location.getLatitude());
-                                    mUserLocaiotn.setLng(location.getLongitude());
-                                    mUserLocaiotn.setcName(dF.getcName());
-                                    mUserLocaiotn.setcCity(dF.getcCity());
-                                    mUserLocaiotn.setcType(dF.getcType());
-                                    mUserLocaiotn.setcEmail(dF.getcEmail());
-                                    mUserLocaiotn.setcUid(dF.getcId());
-                                    mUserLocaiotn.setcSpec(dF.getcSpecialty());
-                                    mUserLocaiotn.setcURI(dF.getcUri());
+                                mUserLocaiotn.setLat(location.getLatitude());
+                                mUserLocaiotn.setLng(location.getLongitude());
+                                mUserLocaiotn.setcName(dF.getcName());
+                                mUserLocaiotn.setcCity(dF.getcCity());
+                                mUserLocaiotn.setcType(dF.getcType());
+                                mUserLocaiotn.setcEmail(dF.getcEmail());
+                                mUserLocaiotn.setcUid(dF.getcId());
+                                mUserLocaiotn.setcSpec(dF.getcSpecialty());
+                                mUserLocaiotn.setcURI(dF.getcUri());
 
 
-                                    saveUserLocaion();
-                                    System.out.println(TAG + " getLastKNown>> USERafterAdDate: " + mUserLocaiotn);
-                                }
+                                saveUserLocaion();
+                                System.out.println(TAG + " getLastKNown>> USERafterAdDate: " + mUserLocaiotn);
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                                }
-                            };
-                            query.addValueEventListener(valueEventListener);
-                        }
+                            }
+                        };
+                        query.addValueEventListener(valueEventListener);
+                    }
+                }
             }
-        }
-    });
+        });
 
-}
+    }
 
     /*check map permissions */
     private boolean checkMapServices() {
@@ -996,7 +1078,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         fragment.setArguments(bundle);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack("User List");
         transaction.commit();
 
