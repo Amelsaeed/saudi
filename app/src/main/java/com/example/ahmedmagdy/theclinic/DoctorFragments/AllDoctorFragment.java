@@ -20,12 +20,15 @@ import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -49,6 +52,9 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
     ListView listViewDoctor;
     private List<DoctorFirebaseClass> doctorList;
     private List<DoctorFirebaseClass> favList;
+    //gps
+    public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
+    //gps
 
     public AllDoctorFragment() {
         // Required empty public constructor
@@ -76,8 +82,11 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
         removeFocus();
         btnproceed= (ImageView)  rootView.findViewById(R.id.map);
         btnproceed.setOnClickListener(this);
+        getAllDoctorsMap();
         return rootView;
     }
+
+
 
     /**  private void updateToken(String token){
      DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
@@ -220,13 +229,66 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.map:
+            /*case R.id.map:
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 FragmentTransaction replace = transaction.replace(R.id.frame_container, new MapsActivity());
                 transaction.addToBackStack(null);
                 transaction.commit();
+                break;*/
+            /*case R.id.map:
+                DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+                fragment.setArguments(bundle);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_container_alldoctorsfrag, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;*/
+
+                case R.id.map:
+                    inflateDocMapFragment();
                 break;
         }
+    }
+
+    //get all doc data
+    private void getAllDoctorsMap() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query query = ref.child("DoctorMap");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserLocation post = postSnapshot.getValue(UserLocation.class);
+                    mUserLocations.add(post);
+                    System.out.println("qerrrrrrrrrrry Get Data" + post.getcName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        query.addValueEventListener(valueEventListener);
+
+
+    }
+
+    private void inflateDocMapFragment(){
+        DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+        fragment.setArguments(bundle);
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container_alldoctorsfrag, fragment , "User List");
+        transaction.addToBackStack("User List");
+        transaction.commit();
+
     }
 
 }

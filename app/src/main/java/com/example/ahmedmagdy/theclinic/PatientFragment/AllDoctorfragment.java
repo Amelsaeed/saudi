@@ -27,12 +27,15 @@ import com.example.ahmedmagdy.theclinic.activities.FavActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -59,6 +62,9 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
     ListView listViewDoctor;
     private List<DoctorFirebaseClass> doctorList;
     private List<DoctorFirebaseClass> favList;
+    //gps
+    public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
+    //gps
 
     public AllDoctorfragment() {
         // Required empty public constructor
@@ -85,8 +91,37 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
         btnproceed= (ImageView)  rootView.findViewById(R.id.map);
+        //get all data
+        getAllDoctorsMap();
+
         btnproceed.setOnClickListener(this);
         return rootView;
+
+
+    }
+
+    //get all doc data
+    private void getAllDoctorsMap() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query query = ref.child("DoctorMap");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserLocation post = postSnapshot.getValue(UserLocation.class);
+                    mUserLocations.add(post);
+                    System.out.println("qerrrrrrrrrrry Get Data" + post.getcName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        query.addValueEventListener(valueEventListener);
 
 
     }
@@ -233,9 +268,14 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.map:
+                DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+                fragment.setArguments(bundle);
+
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-              FragmentTransaction replace = transaction.replace(R.id.frame_container, new MapsActivity());
-                transaction.addToBackStack(null);
+                transaction.replace(R.id.frame_container_alldoctorsfrag, fragment , "User List");
+                transaction.addToBackStack("User List");
                 transaction.commit();
                 break;
     }
