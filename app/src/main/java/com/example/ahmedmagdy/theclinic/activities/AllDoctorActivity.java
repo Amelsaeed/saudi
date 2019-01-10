@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -18,12 +19,15 @@ import android.widget.Toast;
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -47,6 +51,10 @@ public class AllDoctorActivity extends AppCompatActivity {
     ListView listViewDoctor;
     private List<DoctorFirebaseClass> doctorList;
     private List<DoctorFirebaseClass> favList;
+    //gps
+    public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
+    //gps
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +75,23 @@ public class AllDoctorActivity extends AppCompatActivity {
         removeFocus();
         btnproceed= (ImageView) findViewById(R.id.map);
 
+        //get all data
+        getAllDoctorsMap();
+
         btnproceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(AllDoctorActivity.this,MapsActivity.class);
-                startActivity(i);
+                DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+                fragment.setArguments(bundle);
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_container_alldoctorsfrag, fragment , "User List");
+                transaction.addToBackStack("User List");
+                transaction.commit();
+                /*Intent i=new Intent(AllDoctorActivity.this,MapsActivity.class);
+                startActivity(i);*/
             }
         });
 
@@ -89,6 +109,31 @@ public class AllDoctorActivity extends AppCompatActivity {
             }
         });
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
+    }
+    //get all doc data
+    private void getAllDoctorsMap() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query query = ref.child("DoctorMap");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserLocation post = postSnapshot.getValue(UserLocation.class);
+                    mUserLocations.add(post);
+                    System.out.println("qerrrrrrrrrrry Get Data" + post.getcName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        query.addValueEventListener(valueEventListener);
+
+
     }
   /**  private void updateToken(String token){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");

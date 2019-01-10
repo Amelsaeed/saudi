@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splashbackground"
@@ -66,15 +67,29 @@
 
     <Button
         android:id="@+id/working_hours_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="144dp"
+        android:layout_height="34dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/gradient_rect_button"
         android:text="Working hours"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/confim_loc_btn"
+        android:layout_width="145dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="18dp"
+        android:layout_toRightOf="@id/working_hours_btn"
+        android:background="@drawable/gradient_rect_button"
+        android:text="Confirm Location"
         android:textAllCaps="false"
         android:textColor="@android:color/black" />
 
@@ -88,243 +103,247 @@
         android:visibility="gone" />
 
     <ScrollView
-        android:layout_below="@id/doctor_email_tv"
-        android:layout_above="@id/working_hours_btn"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_horizontal"
-              >
-    <TextView
-        android:id="@+id/price_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_height="296dp"
+        android:layout_above="@id/working_hours_btn"
+        android:layout_below="@id/doctor_email_tv"
         android:layout_marginTop="16dp"
-        android:background="@drawable/white_rect"
-        android:padding="8dp"
-        android:text="Detection Price"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
-    <TextView
-        android:id="@+id/pprice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="16dp"
-        android:maxLines="1"
-        android:layout_toRightOf="@id/price_tv"
-        android:background="#3ACCE1"
-        android:padding="8dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
-    <ImageView
-        android:id="@+id/price_edit"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_edit"
-        android:scaleType="center"
-        android:layout_toRightOf="@id/pprice"
-        android:background="@drawable/button_round_blue"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        />
+        android:layout_marginBottom="29dp">
 
-    <TextView
-        android:id="@+id/city_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/price_tv"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/white_rect"
-        android:padding="8dp"
-        android:text="State/ City"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/ppcity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pprice"
-        android:layout_toRightOf="@id/city_tv"
-        android:background="#3ACCE1"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="10dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
-    <ImageView
-        android:id="@+id/city_edit"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_edit"
-        android:scaleType="center"
-        android:background="@drawable/button_round_blue"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/ppcity"
-        android:layout_below="@id/price_edit"
-        android:layout_marginTop="8dp"
-        />
-    <TextView
-        android:id="@+id/speciality_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/city_tv"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/white_rect"
-        android:padding="8dp"
-        android:text="Speciality"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
+            <TextView
+                android:id="@+id/price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/white_rect"
+                android:padding="8dp"
+                android:text="Detection Price"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
 
-    <TextView
-        android:id="@+id/pspeciality"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="#3ACCE1"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:layout_below="@id/ppcity"
-        android:layout_toRightOf="@id/speciality_tv"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
-    <ImageView
-        android:id="@+id/speciality_edit"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_edit"
-        android:scaleType="center"
-        android:background="@drawable/button_round_blue"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/pspeciality"
-        android:layout_below="@id/city_tv"
-        android:layout_marginTop="8dp"
-        />
-    <TextView
-        android:id="@+id/degree_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/speciality_tv"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/white_rect"
-        android:padding="8dp"
-        android:text="Degree"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
-    <TextView
-        android:id="@+id/pdegree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="#3ACCE1"
-        android:maxLines="1"
-        android:layout_below="@id/speciality_tv"
-        android:layout_toRightOf="@id/degree_tv"
-        android:padding="8dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="10dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000"
-        />
-    <ImageView
-        android:id="@+id/degree_edit"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_edit"
-        android:scaleType="center"
-        android:background="@drawable/button_round_blue"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/pdegree"
-        android:layout_below="@id/speciality_edit"
-        android:layout_marginTop="8dp"
-        />
-    <TextView
-        android:id="@+id/phone_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/degree_tv"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/white_rect"
-        android:padding="8dp"
-        android:text="Phone Number"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000" />
-    <TextView
-        android:id="@+id/pphone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="#3ACCE1"
-        android:padding="8dp"
-        android:maxLines="1"
-        android:layout_below="@id/pdegree"
-        android:layout_toRightOf="@id/phone_tv"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000"
-        />
+            <TextView
+                android:id="@+id/pprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_toRightOf="@id/price_tv"
+                android:background="#3ACCE1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
 
-    <ImageView
-        android:id="@+id/phone_edit"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_edit"
-        android:scaleType="center"
-        android:background="@drawable/button_round_blue"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/pphone"
-        android:layout_below="@id/degree_edit"
-        android:layout_marginTop="8dp"
-        />
-              <TextView
-                  android:id="@+id/insurance_tv"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@id/phone_tv"
-                  android:layout_marginLeft="8dp"
-                  android:layout_marginTop="8dp"
-                  android:background="@drawable/white_rect"
-                  android:padding="8dp"
-                  android:text="Medical insurance"
-                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                  android:textColor="#000" />
-              <TextView
-                  android:id="@+id/insur"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="8dp"
-                  android:background="#3ACCE1"
-                  android:padding="8dp"
-                  android:maxLines="1"
-                  android:layout_below="@id/pphone"
-                  android:layout_toRightOf="@id/insurance_tv"
-                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                  android:textColor="#000"
-                  />
+            <ImageView
+                android:id="@+id/price_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_toRightOf="@id/pprice"
+                android:background="@drawable/button_round_blue"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_edit" />
 
-              <ImageView
-                  android:id="@+id/insur_edit"
-                  android:layout_width="36dp"
-                  android:layout_height="36dp"
-                  app:srcCompat="@drawable/ic_edit"
-                  android:scaleType="center"
-                  android:background="@drawable/button_round_blue"
-                  android:layout_marginLeft="8dp"
-                  android:layout_toRightOf="@id/insur"
-                  android:layout_below="@id/phone_edit"
-                  android:layout_marginTop="8dp"
-                  />
-          </RelativeLayout>
+            <TextView
+                android:id="@+id/city_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/price_tv"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_rect"
+                android:padding="8dp"
+                android:text="State/ City"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/ppcity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pprice"
+                android:layout_toRightOf="@id/city_tv"
+                android:background="#3ACCE1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="6dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <ImageView
+                android:id="@+id/city_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/price_edit"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/ppcity"
+                android:background="@drawable/button_round_blue"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/speciality_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/city_tv"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_rect"
+                android:padding="8dp"
+                android:text="Speciality"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/pspeciality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ppcity"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/speciality_tv"
+                android:background="#3ACCE1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <ImageView
+                android:id="@+id/speciality_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/city_tv"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/pspeciality"
+                android:background="@drawable/button_round_blue"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/degree_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/speciality_tv"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_rect"
+                android:padding="8dp"
+                android:text="Degree"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/pdegree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/speciality_tv"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/degree_tv"
+                android:background="#3ACCE1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="6dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <ImageView
+                android:id="@+id/degree_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/speciality_edit"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/pdegree"
+                android:background="@drawable/button_round_blue"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/phone_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/degree_tv"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_rect"
+                android:padding="8dp"
+                android:text="Phone Number"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/pphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pdegree"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/phone_tv"
+                android:background="#3ACCE1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <ImageView
+                android:id="@+id/phone_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/degree_edit"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/pphone"
+                android:background="@drawable/button_round_blue"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/insurance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/phone_tv"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_rect"
+                android:padding="8dp"
+                android:text="Medical insurance"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/insur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pphone"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/insurance_tv"
+                android:background="#3ACCE1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000" />
+
+            <ImageView
+                android:id="@+id/insur_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/phone_edit"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/insur"
+                android:background="@drawable/button_round_blue"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_edit" />
+        </RelativeLayout>
     </ScrollView>
     <TextView
         android:layout_width="wrap_content"

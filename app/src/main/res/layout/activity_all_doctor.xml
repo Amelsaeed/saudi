@@ -4,38 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/frame_container_alldoctorsfrag"
     tools:context="com.example.ahmedmagdy.theclinic.activities.AllDoctorActivity">
+
     <LinearLayout
         android:id="@+id/Lin_tramp_h"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp">
+
         <android.support.v7.widget.SearchView
             android:id="@+id/search"
             android:layout_width="0dp"
-            android:layout_weight="8"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="4dp"
-            app:iconifiedByDefault="false"
+            android:layout_weight="8"
             android:focusable="false"
-            app:queryHint="Search"/>
+            app:iconifiedByDefault="false"
+            app:queryHint="Search" />
+
         <ImageView
             android:id="@+id/adddoctor"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_favorite"
-            />
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_favorite" />
+
         <ImageView
             android:id="@+id/map"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="51dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:src="@drawable/map"
-            android:layout_marginTop="15dp"
-            />
+            android:src="@drawable/map" />
     </LinearLayout>
 
     <Button

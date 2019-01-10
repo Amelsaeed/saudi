@@ -3,11 +3,14 @@ package com.example.ahmedmagdy.theclinic.DoctorFragments;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,10 +19,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,17 +41,28 @@ import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.activities.RegisterDoctorActivity;
+
+
 import com.example.ahmedmagdy.theclinic.activities.WorkingHoursActivity;
+import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -54,6 +71,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+
+import static com.example.ahmedmagdy.theclinic.map.Constants.ERROR_DIALOG_REQUEST;
+import static com.example.ahmedmagdy.theclinic.map.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.example.ahmedmagdy.theclinic.map.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
@@ -86,6 +107,14 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     String[] listCityItems;
     String[] listSpecialityItems;
     String[] listDegreeItems;
+    //gps
+    //create user location to save all doctor locations
+    private static final String TAG = "DoctorProfileFragment";
+    private UserLocation mUserLocaiotn;
+    private boolean mLocationPermissionGranted = false;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
+
 
     @Nullable
     @Override
@@ -132,6 +161,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
 
         Button workingHours = rootView.findViewById(R.id.working_hours_btn);
+        Button confirmLocation = rootView.findViewById(R.id.confim_loc_btn);
 
         drEmail.setText(fUser.getEmail());
 
@@ -144,6 +174,19 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 intent.putExtra("DoctorID", doctorId);
                 intent.putExtra("DoctorName", DoctorName);
                 startActivity(intent);
+            }
+        });
+        // open gps fragment
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        confirmLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMap();
+                /*Intent intent = new Intent(getActivity(), BookingListActivity.class);
+                intent.putExtra("DoctorID", doctorId);
+                intent.putExtra("DoctorName", DoctorName);
+                startActivity(intent);*/
+
             }
         });
 
@@ -404,6 +447,16 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                 byteImageData = baos.toByteArray();
                 uploadImage();
+            } else if (requestCode == PERMISSIONS_REQUEST_ENABLE_GPS) {
+
+                if (mLocationPermissionGranted) {
+                    // getChatrooms();
+                    getLastKnownLocation();
+                    System.out.println(TAG + "permission granted on activity result true");
+                } else {
+                    getLocationPermission();
+                }
+
             }
         }
     }
@@ -452,6 +505,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             Toast.makeText(getContext(), "please check the network connection", Toast.LENGTH_LONG).show();
         }
     }
+
     ////////////////////////////////////////////
     private void editDialog(final String whatdata) {
 
@@ -503,22 +557,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             databaseMap.child(idm).child("cmname").setValue(editfield1);
             pname.setText(editfield1);
 
-        } else if (whatdata.equals("State/ City/ Region")) {
-            databaseDoctor.child(doctorId).child("cCity").setValue(editfield1);
-            databaseChat.child(doctorId).child("cCity").setValue(editfield1);
-            pcity.setText(editfield1);
-
-        } else if (whatdata.equals("Specialty")) {
-            databaseDoctor.child(doctorId).child("cSpecialty").setValue(editfield1);
-            databaseChat.child(doctorId).child("cSpecialty").setValue(editfield1);
-            databaseMap.child(idm).child("cmdoctorspecialty").setValue(editfield1);
-            pspeciality.setText(editfield1);
-
-        } else if (whatdata.equals("Degree")) {
-            databaseDoctor.child(doctorId).child("cDegree").setValue(editfield1);
-            databaseChat.child(doctorId).child("cDegree").setValue(editfield1);
-            pdegree.setText(editfield1);
-
         } else if (whatdata.equals("Phone Number")) {
             databaseDoctor.child(doctorId).child("cPhone").setValue(editfield1);
             databaseChat.child(doctorId).child("cPhone").setValue(editfield1);
@@ -539,7 +577,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                 DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
+                DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
                 String DoctorCity = dataSnapshot1.child(doctorId).child("cCity").getValue(String.class);
                 String DoctorSpecialty = dataSnapshot1.child(doctorId).child("cSpecialty").getValue(String.class);
                 String DoctorDegree = dataSnapshot1.child(doctorId).child("cDegree").getValue(String.class);
@@ -768,7 +806,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -784,4 +821,193 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
             databaseDoctor.removeEventListener(doctorEventListener);
         }
     }
+
+
+    /*gps start*/
+    /*gps start*/
+    //save doctor user location step 3
+    private void saveUserLocaion() {
+
+        if (mUserLocaiotn != null) {
+            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+            database.child("DoctorMap").child(mAuth.getCurrentUser().getUid()).
+                    setValue(mUserLocaiotn).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        System.out.println(TAG + "Doc Profile Activity>> " + mUserLocaiotn);
+                        Toast.makeText(getContext(), "Location Saved Successfully.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+        }
+        //end if
+
+    }
+
+    //get map location permission
+    private void getLastKnownLocation() {
+        System.out.println(TAG + "getLastKnownLocation: called.");
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<android.location.Location>() {
+            @Override
+            public void onComplete(@NonNull Task<android.location.Location> task) {
+                if (task.isSuccessful()) {
+                    final Location location = task.getResult();
+                    //get user first
+                        if (mUserLocaiotn == null) {
+                            mUserLocaiotn = new UserLocation();
+
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            System.out.println("UIDGET :" + uid);
+
+                            DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                            Query query = mFirebaseDatabaseReference.child("Doctordb").child(uid);
+                            ValueEventListener valueEventListener = new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    DoctorFirebaseClass dF = dataSnapshot.getValue(DoctorFirebaseClass.class);
+                                    System.out.println(TAG + " qerrrrrrrrrrry " + dF.getcName());
+
+                                    mUserLocaiotn.setLat(location.getLatitude());
+                                    mUserLocaiotn.setLng(location.getLongitude());
+                                    mUserLocaiotn.setcName(dF.getcName());
+                                    mUserLocaiotn.setcCity(dF.getcCity());
+                                    mUserLocaiotn.setcType(dF.getcType());
+                                    mUserLocaiotn.setcEmail(dF.getcEmail());
+                                    mUserLocaiotn.setcUid(dF.getcId());
+                                    mUserLocaiotn.setcSpec(dF.getcSpecialty());
+                                    mUserLocaiotn.setcURI(dF.getcUri());
+
+
+                                    saveUserLocaion();
+                                    System.out.println(TAG + " getLastKNown>> USERafterAdDate: " + mUserLocaiotn);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            };
+                            query.addValueEventListener(valueEventListener);
+                        }
+            }
+        }
+    });
+
+}
+
+    /*check map permissions */
+    private boolean checkMapServices() {
+        if (isServicesOK()) {
+            if (isMapsEnabled()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public boolean isMapsEnabled() {
+        final LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+            return false;
+        }
+        return true;
+    }
+
+    private void getLocationPermission() {
+
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+            System.out.println(TAG + " get location permission fine");
+            //getChatrooms();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    public boolean isServicesOK() {
+        Log.d(TAG, "isServicesOK: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getContext());
+
+        if (available == ConnectionResult.SUCCESS) {
+            //everything is fine and the user can make map requests
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            //an error occured but we can resolve it
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        } else {
+            Toast.makeText(getContext(), "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkMapServices()) {
+            if (mLocationPermissionGranted) {
+                //getChatrooms();
+                goToMap();
+                Toast.makeText(getContext(), "Permission granted Successfully",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                getLocationPermission();
+            }
+        }
+    }
+
+    private void goToMap() {
+        System.out.println(TAG + " goToMap>>");
+        hideSoftKeyboard();
+
+
+        DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+        Bundle bundle = new Bundle();
+        //bundle.putParcelableArrayList(getString(R.string.intent_user_list), mUserList);
+        fragment.setArguments(bundle);
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, fragment);
+        transaction.addToBackStack("User List");
+        transaction.commit();
+
+        getLastKnownLocation();
+    }
+
+    private void hideSoftKeyboard() {
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+    /*check map permissions */
+
+    /*gps end*/
+    /*gps end*/
 }
