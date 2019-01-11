@@ -793,10 +793,10 @@ editDialog(whatData);
         final String[] insuranceList = getResources().getStringArray(R.array.insurance_array);
 
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-        final ArrayList<Integer> mInsurItems = new ArrayList<>();
         String insur = insuranceView.getText().toString();
         String[] insurances = insur.split(",");
         final ArrayList<Boolean> checkedList = new ArrayList<>();
+        final boolean[] checkedItems = new boolean[insuranceList.length];
         boolean checked;
         for (int x = 0; x < insuranceList.length; x++) {
             checked = false;
@@ -805,13 +805,8 @@ editDialog(whatData);
                     checked = true;
                 }
             }
+            checkedItems[x] = checked;
 
-            checkedList.add(x, checked);
-        }
-
-        final boolean[] checkedItems = new boolean[insuranceList.length];
-        for (int i = 0; i < insuranceList.length; i++) {
-            checkedItems[i] = checkedList.get(i);
         }
 
         mBuilder.setTitle("SELECT Insurance");
