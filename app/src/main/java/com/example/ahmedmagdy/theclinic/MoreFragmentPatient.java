@@ -34,10 +34,10 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class moreFragment extends Fragment {
+public class MoreFragmentPatient extends Fragment {
 
 
-    public moreFragment() {
+    public MoreFragmentPatient() {
         // Required empty public constructor
     }
 
@@ -56,14 +56,12 @@ public class moreFragment extends Fragment {
         words.add("Share This App");
         words.add("Email us");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+        words.add("Hospitals");
         if (user == null) {
             words.add("Log in");
-        }else{
+        } else {
             words.add("Sign out");
         }
-        words.add("Hospitals");
-
         //words.add("Sign out");
         ArrayList<Integer> icons = new ArrayList<>();
         icons.add(R.drawable.map_all);
@@ -73,13 +71,14 @@ public class moreFragment extends Fragment {
         icons.add(R.drawable.rating);
         icons.add(R.drawable.ic_share_black_24dp);
         icons.add(R.drawable.ic_email);
+
+        icons.add(R.drawable.ic_hospital_12);
         if (user == null) {
             icons.add(R.drawable.icn_sign_in);
-        }else{
+        } else {
             icons.add(R.drawable.icn_sign_out);
         }
-        icons.add(R.drawable.map_all);
-       // icons.add(R.drawable.icn_sign_out);
+        // icons.add(R.drawable.icn_sign_out);
 
 
         ListView listview = (ListView) rootView.findViewById(R.id.listView1);
@@ -109,10 +108,10 @@ public class moreFragment extends Fragment {
                         emailClicked();
                         break;
                     case 6:
-                        signOutClicked();
+                        HospitalsClicked();
                         break;
                     case 7:
-                        HospitalsClicked();
+                        signOutClicked();
                         break;
                 }
             }
@@ -127,11 +126,22 @@ public class moreFragment extends Fragment {
                 new MapsActivity()).addToBackStack(null).commit();
 
     }
+
     private void HospitalsClicked() {
-        Intent intent = new Intent(getActivity(), AllHospitalActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        getActivity().finish();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            Intent it = new Intent(getActivity(), LoginActivity.class);
+            it.putExtra("comefrom", "2");
+            startActivity(it);
+
+        } else {
+            Intent intent = new Intent(getActivity(), AllHospitalActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+
+        }
 
     }
 
@@ -141,9 +151,9 @@ public class moreFragment extends Fragment {
         if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
             it.putExtra("comefrom", "2");
-            startActivity(it);}
-            else
-        startActivity(new Intent(getActivity(), StartCahtRoom.class));
+            startActivity(it);
+        } else
+            startActivity(new Intent(getActivity(), StartCahtRoom.class));
     }
 
     private void profileClicked() {
@@ -152,10 +162,11 @@ public class moreFragment extends Fragment {
         if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
             it.putExtra("comefrom", "2");
-            startActivity(it);}
-        else{
+            startActivity(it);
+        } else {
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                new UserProfileFragment()).addToBackStack(null).commit();}
+                    new UserProfileFragment()).addToBackStack(null).commit();
+        }
     }
 
     private void rateClicked() {
@@ -207,23 +218,22 @@ public class moreFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().finish();
-    /**
-        ////////////////delay for starting avtivity
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Do something after 5s = 5000ms
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                intent.putExtra("comefrom", "2");
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                getActivity().finish();
-            }
+        /**
+         ////////////////delay for starting avtivity
+         final Handler handler = new Handler();
+         handler.postDelayed(new Runnable() {
+        @Override public void run() {
+        // Do something after 5s = 5000ms
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.putExtra("comefrom", "2");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        getActivity().finish();
+        }
         }, 100);
 
-    }  // handle sign out item
+         }  // handle sign out item
 
-**/
+         **/
     }
 }

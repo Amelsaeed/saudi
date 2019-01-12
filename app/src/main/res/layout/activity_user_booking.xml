@@ -9,7 +9,8 @@
         android:id="@+id/Lin_tramp_h"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
         <android.support.v7.widget.SearchView
             android:id="@+id/searchuserbooking"
             android:layout_width="0dp"
@@ -44,9 +45,10 @@
 
     <ListView
         android:id="@+id/list_view_user_book"
-        android:layout_below="@+id/user_name_book"
+        style="@style/Widget.AppCompat.Light.ListView.DropDown"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_book" />
     <ProgressBar
         android:id="@+id/data_progress_bar"
         android:layout_width="wrap_content"

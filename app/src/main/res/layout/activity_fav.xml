@@ -20,15 +20,16 @@
             app:iconifiedByDefault="false"
             android:focusable="false"
             app:queryHint="Search"/>
+
         <ImageView
             android:id="@+id/alldoctor"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_account_box"
 
-            />
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
@@ -44,9 +45,10 @@
 
     <ListView
         android:id="@+id/list_view_fav"
-        android:layout_below="@+id/user_name"
+        style="@style/Widget.AppCompat.Light.ListView.DropDown"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name" />
     <ProgressBar
         android:id="@+id/fav_progress_bar"
         android:layout_width="wrap_content"

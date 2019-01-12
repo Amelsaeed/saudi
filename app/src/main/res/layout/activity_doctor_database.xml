@@ -27,6 +27,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_account_box"
 
             />
@@ -45,9 +46,9 @@
 
     <ListView
         android:id="@+id/list_view_data"
-        android:layout_below="@+id/user_name_data"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_data" />
 
     <TextView
         android:layout_width="wrap_content"

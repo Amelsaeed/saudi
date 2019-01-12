@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splashbackground"
     android:id="@+id/frame_container_alldoctorsfrag"
     tools:context="com.example.ahmedmagdy.theclinic.activities.AllDoctorActivity">
 
@@ -32,6 +33,7 @@
 
         <ImageView
             android:id="@+id/adddoctor"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -40,8 +42,8 @@
 
         <ImageView
             android:id="@+id/map"
-            android:layout_width="50dp"
-            android:layout_height="51dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:src="@drawable/map" />
@@ -58,9 +60,10 @@
 
     <ListView
         android:id="@+id/list_view_doctor"
-        android:layout_below="@+id/add_tramp_h"
+        style="@style/Widget.AppCompat.Light.ListView.DropDown"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_tramp_h" />
     <ProgressBar
         android:id="@+id/home_progress_bar"
         android:layout_width="wrap_content"

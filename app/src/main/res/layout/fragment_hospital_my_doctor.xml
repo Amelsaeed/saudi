@@ -32,11 +32,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-    <ListView
-        android:id="@+id/list_view_fav"
-        android:layout_below="@+id/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/list_view_fav"
+            style="@style/Widget.AppCompat.Light.ListView.DropDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_name" />
     <ProgressBar
         android:id="@+id/fav_progress_bar"
         android:layout_width="wrap_content"

@@ -7,15 +7,16 @@
     android:layout_height="wrap_content"
 
     tools:context=".activities.MapsActivity"  >
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         map:cameraTargetLat="24.63333"
         map:cameraTargetLng=" 46.71667"
         map:cameraTilt="30"
         map:cameraZoom="6"
         map:uiScrollGestures="true"
-        map:uiZoomControls="true"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"/>
+        map:uiZoomControls="true" />
 
 </FrameLayout>
