@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

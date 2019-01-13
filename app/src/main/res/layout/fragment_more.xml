@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MoreFragmentPatient">
+    tools:context=".MoreFragmentPatien">
 
     <ListView
         android:id="@+id/listView1"

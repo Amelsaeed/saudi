@@ -1,4 +1,4 @@
-package com.example.ahmedmagdy.theclinic;
+package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 
 import android.content.ActivityNotFoundException;
@@ -20,21 +20,22 @@ import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllHospitalfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserProfileFragment;
+import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.AllHospitalActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
 import com.example.ahmedmagdy.theclinic.activities.StartCahtRoom;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MoreFragmentPatient extends Fragment {
+    public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
 
 
     public MoreFragmentPatient() {
@@ -122,8 +123,12 @@ public class MoreFragmentPatient extends Fragment {
     }
 
     private void mapClicked() {
+        DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+        fragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                new MapsActivity()).addToBackStack(null).commit();
+                fragment, "User List").addToBackStack("User List").commit();
 
     }
 

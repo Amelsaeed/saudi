@@ -42,7 +42,15 @@
         android:layout_below="@id/Lin_tramp_h"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="user name"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/no_data_msg"
+        android:text="No booking added!"
+        android:visibility="gone"
+        android:textSize="16sp"
+        />
     <ListView
         android:id="@+id/list_view_user_book"
         style="@style/Widget.AppCompat.Light.ListView.DropDown"
