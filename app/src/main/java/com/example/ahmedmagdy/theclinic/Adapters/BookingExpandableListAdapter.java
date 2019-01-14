@@ -3,6 +3,7 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,11 @@ import com.example.ahmedmagdy.theclinic.activities.NoteActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.NoteClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -155,7 +155,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(mDate);
 
                     Toast.makeText(mContext ,  "This patient added to your database", Toast.LENGTH_LONG).show();
-
+/*
                     mBookingRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -186,14 +186,20 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
 
                                 }
                             });
+                    */
 
                     } else {
                     mBookingRef.child(currentChild.getCtid()).child("checked").setValue(isChecked);
 
-                    databasePatient.child(currentChild.getCtid()).setValue(currentChild);
-                    databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
-                    databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(currentChild.getCtdate());
-
+                  //  databasePatient.child(currentChild.getCtid()).setValue(currentChild);
+                   // databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
+                  //  databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(currentChild.getCtdate());
+                    databasePatient.child(currentChild.getCtid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(mContext, "this patient is removed from your database", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     // databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
 
                       //  Toast.makeText(context,  "Removed", Toast.LENGTH_LONG).show();

@@ -62,9 +62,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
-                /**    if(fuser == null){
-                    Thread.sleep(3000);}else{ Thread.sleep(0000);}**/
+                   /* Thread.sleep(3000);*/
+                   if(fuser == null){
+                    Thread.sleep(3000);}else{ Thread.sleep(0000);}
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }finally {

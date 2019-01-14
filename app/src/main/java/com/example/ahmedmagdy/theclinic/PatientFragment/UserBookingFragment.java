@@ -65,8 +65,10 @@ public class UserBookingFragment extends Fragment {
 
         listViewuserbook = (ListView) rootView.findViewById(R.id.list_view_user_book);
         searchView = (SearchView) rootView.findViewById(R.id.searchuserbooking);
-        doctorList = new ArrayList<>();
+        TextView noDataMsg = rootView.findViewById(R.id.no_data_msg);
         listViewuserbook.setTextFilterEnabled(true);
+        listViewuserbook.setEmptyView(noDataMsg);
+        doctorList = new ArrayList<>();
         removeFocus();
         getusername();
 
@@ -136,7 +138,7 @@ public class UserBookingFragment extends Fragment {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
-
+            progressBar.setVisibility(View.GONE);
             // }
 
         }

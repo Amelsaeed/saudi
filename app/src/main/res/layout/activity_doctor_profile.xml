@@ -95,7 +95,15 @@
         android:text="Working hours"
         android:textAllCaps="false"
         android:textColor="@android:color/black" />
-
+    <Button
+        android:id="@+id/phone_btn"
+        android:layout_width="145dp"
+        android:layout_height="34dp"
+         android:background="@drawable/gradient_rect_button"
+        android:layout_above="@id/working_hours_btn"
+        android:layout_margin="16dp"
+        android:text="Call"
+        android:textColor="@android:color/black" />
     <Button
         android:id="@+id/confim_loc_btn"
         android:layout_width="145dp"

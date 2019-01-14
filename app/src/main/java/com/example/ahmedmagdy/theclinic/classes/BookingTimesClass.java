@@ -61,18 +61,12 @@ public class BookingTimesClass {
         this.ctArrangement = ctArrangement;
     }
 
-    public BookingTimesClass(String ctid, String ctname,  String ctdate, String ctphone, String ctpicuri) {
+    public BookingTimesClass(String ctid, String ctname,  String ctdate, String ctAge, String ctpicuri) {
         this.ctid = ctid;
         this.ctname = ctname;
-        this.ctage = ctage;
+        this.ctage = ctAge;
         this.ctdate = ctdate;
-        this.ctAddress = ctAddress;
-        this.ctphone = ctphone;
         this.ctpicuri = ctpicuri;
-        this.checked = checked;
-        this.cttimeid = cttimeid;
-        this.ctbookingdate = ctbookingdate;
-        this.ctArrangement = ctArrangement;
     }
 public BookingTimesClass(String ctid, String ctdate,String ctAddress, String ctPeriod, String ctbookingdate,String ctArrangement) {
     this.ctid = ctid;

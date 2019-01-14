@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorDatabaseAdapter;
 import com.example.ahmedmagdy.theclinic.R;
@@ -67,7 +68,9 @@ public class DatabaseFragment extends Fragment {
         listViewpatient = rootView.findViewById(R.id.list_view_data);
         searchView = rootView.findViewById(R.id.searchdata);
         doctorList = new ArrayList<>();
+        TextView noDataMsg = rootView.findViewById(R.id.no_data_msg);
         listViewpatient.setTextFilterEnabled(true);
+        listViewpatient.setEmptyView(noDataMsg);
         removeFocus();
         getUserName();
         return rootView;
@@ -79,7 +82,8 @@ public class DatabaseFragment extends Fragment {
     public void onStart() {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
-        makeTable();
+            makeTable();
+
     }
 
     private void makeTable() {
@@ -95,8 +99,22 @@ public class DatabaseFragment extends Fragment {
                         BookingTimesClass bookingtimesclass = doctorSnapshot.getValue(BookingTimesClass.class);
                         final String PID = bookingtimesclass.getCtid();
                         final String LastBookingDate = bookingtimesclass.getCtdate();
+                        String Pname = bookingtimesclass.getCtname();
+                        String PAge = bookingtimesclass.getCtage();
+                        String Puri = bookingtimesclass.getCtpicuri();
+
+                        BookingTimesClass doctorclass = new BookingTimesClass(PID, Pname, LastBookingDate, PAge, Puri);
+                        doctorList.add(0, doctorclass);// i= 0  (index)to start from top
+
+                        DoctorDatabaseAdapter adapter = new DoctorDatabaseAdapter(getActivity(), doctorList);
+                        listViewpatient.setAdapter(adapter);
+
+                        setupSearchView();
+                        progressBar.setVisibility(View.GONE);
+
                         // Toast.makeText(FavActivity.this, DID, Toast.LENGTH_LONG).show();
                         ///////////////////////////////////////////
+                        /*
                         mEventListener = new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -117,9 +135,12 @@ public class DatabaseFragment extends Fragment {
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
                                 // Getting Post failed, log a message
+
                             }
                         };
-                        databaseUserReg.addValueEventListener(mEventListener);
+
+                        */
+                       // databaseUserReg.addValueEventListener(mEventListener);
                         //////////////////////////////////////////////////////
 
 
@@ -129,9 +150,14 @@ public class DatabaseFragment extends Fragment {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    progressBar.setVisibility(View.GONE);
                 }
             };
             databasePatient.addListenerForSingleValueEvent(patientEventListener);
+            progressBar.setVisibility(View.GONE);
+        }else {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
         }
 
     }
@@ -151,7 +177,6 @@ public class DatabaseFragment extends Fragment {
                 } else {
                     usernamef.setText("Name");
                 }
-
 
             }
 

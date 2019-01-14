@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -79,7 +80,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
     EditText peditbox;
     private ProgressBar progressBarImage;
-    Button Doc;
+    Button Doc,phone_btn;
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
@@ -153,7 +154,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         Doc = rootView.findViewById(R.id.doc);
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
-
+        phone_btn= rootView.findViewById(R.id.phone_btn);
 
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
@@ -357,9 +358,22 @@ editDialog(whatData);
                 mDialog.show();
             }
         });
+        //Performing action on button click
+        phone_btn.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                String number = pphone.getText().toString();
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + number));
+           startActivity(callIntent);
+            }
+
+        });
         return rootView;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -793,10 +807,10 @@ editDialog(whatData);
         final String[] insuranceList = getResources().getStringArray(R.array.insurance_array);
 
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-        final ArrayList<Integer> mInsurItems = new ArrayList<>();
         String insur = insuranceView.getText().toString();
         String[] insurances = insur.split(",");
         final ArrayList<Boolean> checkedList = new ArrayList<>();
+        final boolean[] checkedItems = new boolean[insuranceList.length];
         boolean checked;
         for (int x = 0; x < insuranceList.length; x++) {
             checked = false;
@@ -805,13 +819,8 @@ editDialog(whatData);
                     checked = true;
                 }
             }
+            checkedItems[x] = checked;
 
-            checkedList.add(x, checked);
-        }
-
-        final boolean[] checkedItems = new boolean[insuranceList.length];
-        for (int i = 0; i < insuranceList.length; i++) {
-            checkedItems[i] = checkedList.get(i);
         }
 
         mBuilder.setTitle("SELECT Insurance");

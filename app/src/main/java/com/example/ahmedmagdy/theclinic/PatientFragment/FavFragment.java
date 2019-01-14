@@ -50,6 +50,7 @@ public class FavFragment extends Fragment {
     private DatabaseReference databaseDoctorFav,databaseHospital;
     private DatabaseReference databaseUserReg,databaseDoctor,databaseChat;
     Button alldoctors,book;
+    View rootView;
 
     String UserType;
     SearchView searchView;
@@ -67,19 +68,13 @@ public class FavFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_fav, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        rootView = getLayoutInflater().inflate(R.layout.activity_fav, container, false);
 
         //book = (Button) getActivity().findViewById(R.id.book);
-      //  alldoctors = (Button) getActivity().findViewById(R.id.all_doc_btn);
-        favDoctorButton = (ImageView) getActivity().findViewById(R.id.alldoctor);
-        usernamef=getActivity().findViewById(R.id.user_name);
-        progressBar = (ProgressBar)getActivity(). findViewById(R.id.fav_progress_bar);
+        //  alldoctors = (Button) getActivity().findViewById(R.id.all_doc_btn);
+        favDoctorButton = (ImageView) rootView.findViewById(R.id.alldoctor);
+        usernamef=rootView.findViewById(R.id.user_name);
+        progressBar = (ProgressBar)rootView. findViewById(R.id.fav_progress_bar);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -90,21 +85,23 @@ public class FavFragment extends Fragment {
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
-        listViewDoctor= (ListView)getActivity().findViewById(R.id.list_view_fav);
-        searchView = (SearchView) getActivity().findViewById(R.id.searchfav);
-        doctorList=new ArrayList<>();
+        listViewDoctor= (ListView)rootView.findViewById(R.id.list_view_fav);
+        TextView noDataMsg = rootView.findViewById(R.id.no_data_msg);
         listViewDoctor.setTextFilterEnabled(true);
+        listViewDoctor.setEmptyView(noDataMsg);
+        searchView = (SearchView) rootView.findViewById(R.id.searchfav);
+        doctorList=new ArrayList<>();
         removeFocus();
-      /**  book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                //  ft.replace(R.id.container2, new UserBookingFragment());
-                ft.commit();
+        /**  book.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        //  ft.replace(R.id.container2, new UserBookingFragment());
+        ft.commit();
 
 
 
-            }
+        }
         });**/
 
         favDoctorButton.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +120,10 @@ public class FavFragment extends Fragment {
             }
         });
         getusername();
+        return rootView;
     }
+
+
 
     public void onStart() {
         super.onStart();
@@ -186,10 +186,11 @@ public class FavFragment extends Fragment {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            // Getting Post failed, log a message
-                        }
+                            progressBar.setVisibility(View.GONE);                        }
+
                     };
                     databaseDoctor.addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
+                    progressBar.setVisibility(View.GONE);
                     //////////////////////////////////////////////////////
                /**
                     final ValueEventListener postListener2 = new ValueEventListener() {
@@ -221,7 +222,7 @@ public class FavFragment extends Fragment {
                         }
                     };
                     databaseHospital .addValueEventListener(postListener2);**/
-
+                    progressBar.setVisibility(View.GONE);
 
                 }
 
@@ -230,8 +231,10 @@ public class FavFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-        });databaseDoctorFav.keepSynced(true);
 
+
+        });databaseDoctorFav.keepSynced(true);
+        progressBar.setVisibility(View.GONE);
      //  }
 
     }

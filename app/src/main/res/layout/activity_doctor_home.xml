@@ -21,8 +21,8 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/doctor_bottom_navigation"
         android:background="#2699FB"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
+        app:itemIconTint="@color/bnv_tab_item_foreground"
+        app:itemTextColor="@color/bnv_tab_item_foreground"
         android:elevation="8dp"
         />
 </RelativeLayout>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="380dp"
+    android:layout_height="180dp"
     android:padding="16dp"
-    android:background="#efefef"
+    android:gravity="center"
+    android:background="@drawable/splashbackground"
     >
 
 
@@ -14,12 +16,12 @@
             android:layout_height="wrap_content"
             android:text="Gallery"
             android:textSize="16sp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:padding="8dp"
             android:layout_margin="5dp"
             android:background="@drawable/roundwhite"
             android:layout_gravity="center_horizontal"
-            />
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/open_camera_tv"
@@ -28,7 +30,8 @@
             android:padding="8dp"
             android:text="Open Camera"
             android:layout_margin="5dp"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textColor="#000"
             android:background="@drawable/roundwhite"
             android:textSize="16sp" />
 

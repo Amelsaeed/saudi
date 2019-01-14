@@ -1,10 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splashbackground"
     tools:context=".HospitalFragment.HospitalProfileFragment">
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/heder_menu"/>
 
-    <!-- TODO: Update blank fragment layout -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_hospital"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="151dp"
+        android:layout_marginBottom="316dp"
+        android:src="@drawable/doctor_logo" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/email_hospital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/bg_email"
+        android:gravity="center"
+        android:text="siafamer2016@gmail.com"
+        android:textColor="#000"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/name_hospital"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_email"
+        android:gravity="center"
+        android:text="Mosaa"
+        android:textColor="#000"
+        android:textSize="16dp" />
+
+
+    <ImageView
+        android:id="@+id/take_photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/photo_hospital"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/ic_camira_hospital" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/photo_hospital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="44dp"></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

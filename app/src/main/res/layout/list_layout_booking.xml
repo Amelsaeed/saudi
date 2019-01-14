@@ -1,333 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
+    android:layout_height="wrap_content">
 
-    android:layout_marginLeft="5dp"
-    android:orientation="vertical">
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:descendantFocusability="blocksDescendants"
+        app:cardBackgroundColor="#2A2E43"
+        app:cardCornerRadius="30dp"
+        app:contentPadding="20dp">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/mainGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <!-- Row 1 -->
+                <!-- android:columnCount="7"
+             android:rowCount="1"
+             android:alignmentMode="alignMargins"
+             android:columnOrderPreserved="false" -->
+                <!-- Column 1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/sat1"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp"
+
+                    >
+
+
+                    <TextView
+                        android:id="@+id/sat1_text"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Sat"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Column 2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/sun1"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+
+                    <TextView
+                        android:id="@+id/sun1_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Sun"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Column 3 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/mon1"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+
+                    <TextView
+                        android:id="@+id/mon1_text"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Mon"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Column 4 -->
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/tus1"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+
+                    <TextView
+                        android:id="@+id/tus1_text"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Tus"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Column 5 -->
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/wed1"
+
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+
+                    <TextView
+                        android:id="@+id/wed1_text"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Wed"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+
+                </android.support.v7.widget.CardView>
+                <!-- Column 6 -->
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/thu1"
+
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+
+                    <TextView
+                        android:id="@+id/thu1_text"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Thu"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+
+                </android.support.v7.widget.CardView>
+                <!-- Column 7 -->
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/fri1"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+                    <TextView
+                        android:id="@+id/fri1_text"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Fri"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="0dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="5dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="from: "
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="#000" />
+                    android:textColor="#fff" />
 
                 <TextView
                     android:id="@+id/time_book_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="#000" />
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" to: "
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="#000" />
+                    android:textColor="#fff" />
+
                 <TextView
                     android:id="@+id/time_book_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="#000" />
-
+                    android:textColor="#fff" />
 
 
             </LinearLayout>
 
-
-
-            <TextView
-                android:id="@+id/Adress_book"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Adress"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-                android:textColor="#000" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Adress : "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#fff" />
 
+                <TextView
+                    android:id="@+id/Adress_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=" "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="#fff" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/image_book"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:text="Book"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:background="@drawable/button_round_blue" />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/mainGrid"
-    android:orientation="horizontal"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:padding="5dp"
-     >
- <!-- Row 1 -->
-        <!-- android:columnCount="7"
-             android:rowCount="1"
-             android:alignmentMode="alignMargins"
-             android:columnOrderPreserved="false" -->
-    <!-- Column 1 -->
-    <android.support.v7.widget.CardView
-        android:id="@+id/sat1"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="8dp"
-        android:gravity="center"
-
-        >
-
-
-
-            <TextView
-                android:id="@+id/sat1_text"
-
-                android:text="Sat"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
     </android.support.v7.widget.CardView>
-
-    <!-- Column 2 -->
-    <android.support.v7.widget.CardView
-        android:id="@+id/sun1"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="8dp"
-        android:gravity="center"
-        >
-
-
-
-            <TextView
-                android:id="@+id/sun1_text"
-                android:text="Sun"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-    </android.support.v7.widget.CardView>
-
-        <!-- Column 3 -->
-        <android.support.v7.widget.CardView
-            android:id="@+id/mon1"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp"
-            android:gravity="center"
-            >
-
-
-            <TextView
-                android:id="@+id/mon1_text"
-
-                android:text="Mon"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </android.support.v7.widget.CardView>
-
-        <!-- Column 4 -->
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/tus1"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp"
-            android:gravity="center"
-            >
-
-
-
-            <TextView
-                android:id="@+id/tus1_text"
-
-                android:text="Tus"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </android.support.v7.widget.CardView>
-
-        <!-- Column 5 -->
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/wed1"
-
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp"
-            android:gravity="center"
-            >
-
-
-
-            <TextView
-                android:id="@+id/wed1_text"
-
-                android:text="Wed"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </android.support.v7.widget.CardView>
-        <!-- Column 6 -->
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/thu1"
-
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp"
-            android:gravity="center"
-            >
-
-
-            <TextView
-                android:id="@+id/thu1_text"
-
-                android:text="Thu"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </android.support.v7.widget.CardView>
-        <!-- Column 7 -->
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/fri1"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp"
-            android:gravity="center"
-            >
-
-            <TextView
-                android:id="@+id/fri1_text"
-
-                android:text="Fri"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
-
-
-
-</LinearLayout>
+</RelativeLayout>

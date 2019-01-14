@@ -1,13 +1,11 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,12 +15,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,11 +28,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,12 +44,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 public class RegisterDoctorActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback{
@@ -205,13 +197,38 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterDoctorActivity.this);
                 mBuilder.setTitle("SELECT Insurance");
 
-                mBuilder.setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
+
+                String insur = textInsurance.getText().toString();
+                String[] insurances = insur.split(",");
+                final ArrayList<Boolean> checkedList = new ArrayList<>();
+                final boolean[] checkedItems = new boolean[listItems.length];
+                boolean checked;
+                for (int x = 0; x < listItems.length; x++) {
+                    checked = false;
+                    for (int y = 0; y < insurances.length; y++) {
+                        if (listItems[x].equals(insurances[y])) {
+                            checked = true;
+                        }
+                    }
+
+                    checkedItems[x] = checked;
+                }
+
+
+
+
+
+
+                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+
+                      getmInsuranceItems = "";
+
                         if(isChecked){
-                            mInsuranceItems.add(position);
+                            checkedItems[position] = true;
                         }else{
-                            mInsuranceItems.remove((Integer.valueOf(position)));
+                            checkedItems[position] = false;
                         }
                     }
                 });
@@ -222,15 +239,22 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                     public void onClick(DialogInterface dialogInterface, int which) {
 
                         String item = "";
-                        for (int i = 0; i < mInsuranceItems.size(); i++) {
-                            if (i ==0) {item="";}
-                            item = item + listItems[mInsuranceItems.get(i)];
-                            if (i != mInsuranceItems.size() - 1) {item = item + ",";}
+                        for (int x = 0; x < listItems.length; x++) {
+                            if (checkedItems[x]) {
+                                if (getmInsuranceItems.equals("")) {
+                                    getmInsuranceItems = listItems[x];
+                                } else {
+                                    getmInsuranceItems = getmInsuranceItems + "," + listItems[x];
+                                }
 
+                            }
                         }
-                        textInsurance.setText(item);
-                        getmInsuranceItems=item;
-                        mInsuranceItems.clear();
+
+                            textInsurance.setText(getmInsuranceItems);
+
+                       // textInsurance.setText(item);
+                       // getmInsuranceItems=item;
+                      //  mInsuranceItems.clear();
                     }
                 });
 

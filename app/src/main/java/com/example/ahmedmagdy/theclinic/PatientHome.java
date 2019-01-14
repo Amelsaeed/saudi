@@ -11,12 +11,10 @@ import android.view.MenuItem;
 
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
-import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
+import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
-import com.example.ahmedmagdy.theclinic.activities.RegestrationPathActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.ahmedmagdy.theclinic.PatientFragment.LoginAFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 
 public class PatientHome extends AppCompatActivity {
@@ -59,7 +57,7 @@ public class PatientHome extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_menu:
-                    fragment = new moreFragment();
+                    fragment = new MoreFragmentPatient();
                     loadFragment(fragment);
 
                     return true;

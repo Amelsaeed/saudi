@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +41,13 @@ public class DoctorDatabaseAdapter extends ArrayAdapter<BookingTimesClass> imple
         LayoutInflater inflater = context.getLayoutInflater();
         final View listViewItem = inflater.inflate(R.layout.list_layout_patient, null, true);
 
-        final TextView apname = (TextView) listViewItem.findViewById(R.id.p_name);
-        final TextView apphone = (TextView) listViewItem.findViewById(R.id.p_phone);
-        final TextView apdate = (TextView) listViewItem.findViewById(R.id.p_date);
+        final TextView apname =  listViewItem.findViewById(R.id.p_name);
+        final TextView apAge =  listViewItem.findViewById(R.id.p_age);
+        final TextView apdate = listViewItem.findViewById(R.id.p_date);
 
 
 
-        final ImageView apphoto = (ImageView) listViewItem.findViewById(R.id.p_photo);
+        final ImageView apphoto =  listViewItem.findViewById(R.id.p_photo);
 
         BookingTimesClass doctorclass = doctorList.get(position);
         //asize = trampList.size();
@@ -55,7 +56,16 @@ public class DoctorDatabaseAdapter extends ArrayAdapter<BookingTimesClass> imple
 
 
         apname.setText(doctorclass.getCtname());
-        apphone.setText(doctorclass.getCtphone());
+
+        String patAge = doctorclass.getCtage();
+        if (patAge != null){
+            if (patAge.contains("_")){
+                patAge = UtilClass.calculateAgeFromDate(patAge);
+
+            }
+            apAge.setText(patAge);
+        }
+
         apdate.setText(doctorclass.getCtdate());
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
 
