@@ -276,7 +276,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         }else{adoctordegree.setText("Degree not detected");}
         String InsuranceList=doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));
-        Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
+       // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
         if (doctorclass.getcHospitalID()!= null) {
             DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
             final ValueEventListener postListener1 = new ValueEventListener() {
