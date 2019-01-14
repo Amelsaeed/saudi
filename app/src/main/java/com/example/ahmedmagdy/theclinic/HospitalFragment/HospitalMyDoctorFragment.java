@@ -115,7 +115,7 @@ public class HospitalMyDoctorFragment extends Fragment {
                                     // Getting Post failed, log a message
                                 }
                             };
-                databaseHospital .addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
+                databaseDoctor .addValueEventListener(postListener1); //databaseDoctor.keepSynced(true);
                             //////////////////////////////////////////////////////
 
             }

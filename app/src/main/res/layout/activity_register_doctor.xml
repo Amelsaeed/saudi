@@ -246,6 +246,41 @@
 
 
                 <Spinner
+                    android:id="@+id/spinner_gander"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:spinnerMode="dropdown"
+                    android:textAlignment="viewStart"
+                    android:textColor="#9c9999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="13dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:layout_gravity="start" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lingander"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/roundwhite"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_location_city"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10dp"
+                    />
+
+
+                <Spinner
                     android:id="@+id/spinner_country"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"

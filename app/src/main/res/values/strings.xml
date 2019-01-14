@@ -7,6 +7,15 @@
         <item>Khobar</item>
         <item>Riyadh</item>
     </string-array>
+    <string-array name="gander_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="HC_array">
+        <item>Clinic</item>
+        <item>Hospital</item>
+    </string-array>
 
     <string-array name="type_array">
         <item>User</item>

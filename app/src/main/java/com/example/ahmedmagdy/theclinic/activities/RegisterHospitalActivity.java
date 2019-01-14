@@ -303,6 +303,14 @@ public void onNothingSelected(AdapterView<?> parent) {
             return;
         }
 
+        if (mPhone.isEmpty()) {
+            editTextPhone.setError("phone NO. is required");
+            editTextPhone.requestFocus();
+            return;}
+        if (mPhone.length() != 10) {
+            editTextPhone.setError("Invalid phone NO.");
+            editTextPhone.requestFocus();
+            return;}
 
         if (mEmail.isEmpty()) {
             editTextEmail.setError("Email is required");
@@ -526,7 +534,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                 compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                 if (requestCode == 21){
                     byteImageDataPP = baos.toByteArray();
-                } else if(requestCode == 33){ byteImageDataWP = baos.toByteArray();
+                } else if(requestCode == 23){ byteImageDataWP = baos.toByteArray();
                     workPermitphoto.setImageResource(R.drawable.ic_ok);
                 }
 

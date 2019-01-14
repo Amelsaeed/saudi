@@ -57,7 +57,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
     private EditText editTextEmail, editTextPassword, editTextCPassword,editTextName,editTextPhone;
     private ImageView profilePoto,IDphoto,workPermitphoto;
     private ProgressBar progressBar;
-    private Spinner spinnercity, spinnerinsurance,spinnerspecialty;
+    private Spinner spinnercity, spinnergander,spinnerspecialty;
     DatabaseReference databaseUserReg;
     private DatabaseReference databaseDoctor;
     DatabaseReference databaseHospital;
@@ -96,7 +96,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
         mStorageRef = FirebaseStorage.getInstance().getReference("workPermits");
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
         spinnercity = findViewById(R.id.spinner_country);
-//        spinnerinsurance = findViewById(R.id.spinner_insurance);
+        spinnergander = findViewById(R.id.spinner_gander);
         spinnerspecialty= findViewById(R.id.spinner_specialty);
         progressBar = findViewById(R.id.progressbar);
 
@@ -282,6 +282,24 @@ textInsurance.setText("");
                 mDialog.show();
             }
         });
+        // spinner for gander
+        ArrayAdapter<CharSequence> adapterg = ArrayAdapter.createFromResource(
+                RegisterDoctorActivity.this, R.array.gander_array, android.R.layout.simple_spinner_item);
+        adapterg.setDropDownViewResource(R.layout.spinner_list_item);
+        spinnergander.setAdapter(adapterg);
+
+        spinnergander.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
+                // String mcity = spinnercity.getSelectedItem().toString().trim();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         // spinner for cities
         ArrayAdapter<CharSequence> adapterc = ArrayAdapter.createFromResource(
                 RegisterDoctorActivity.this, R.array.countries_array, android.R.layout.simple_spinner_item);
@@ -346,6 +364,7 @@ textInsurance.setText("");
         String mCPassword = editTextCPassword.getText().toString().trim();
         final String mPhone = editTextPhone.getText().toString().trim();
         final String mName = editTextName.getText().toString().trim();
+        final String mgander= spinnergander.getSelectedItem().toString().trim();
 
         final String mSpecialty = spinnerspecialty.getSelectedItem().toString().trim();
         final String mCity = spinnercity.getSelectedItem().toString().trim();
@@ -363,7 +382,14 @@ textInsurance.setText("");
             editTextName.requestFocus();
             return;
         }
-
+        if (mPhone.isEmpty()) {
+            editTextPhone.setError("phone NO. is required");
+            editTextPhone.requestFocus();
+            return;}
+        if (mPhone.length() != 10) {
+            editTextPhone.setError("Invalid phone NO.");
+            editTextPhone.requestFocus();
+            return;}
 
         if (mEmail.isEmpty()) {
             editTextEmail.setError("Email is required");
@@ -382,12 +408,14 @@ textInsurance.setText("");
             editTextPassword.requestFocus();
             return;
         }
-
+       //  =
         if (mPassword.isEmpty()) {
             editTextPassword.setError("Password is required");
             editTextPassword.requestFocus();
             return;
         }
+
+
 
         if (mCPassword.isEmpty()) {
             editTextCPassword.setError("you should confirm your password");
@@ -408,6 +436,7 @@ textInsurance.setText("");
          }
          }
          **/
+
         if (getmInsuranceItems.equals("")) {
             textInsurance.setError("Please insert list of Insurance");
             textInsurance.requestFocus();
@@ -442,9 +471,9 @@ textInsurance.setText("");
             wordid.requestFocus();
             return;
         }
-        uploadImagePP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
+        uploadImagePP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
     }
-    private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
+    private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
         progressBar.setVisibility(View.VISIBLE);
         if((!mdoctorIDUrl.equals(""))&&(!mdoctorPhotoUrl.equals(""))&&(!mdoctorWPUrl.equals(""))){
         if (isNetworkConnected()) {
@@ -462,12 +491,12 @@ textInsurance.setText("");
                         RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
                         databaseChat.child(Id).setValue(usersChat);
 ///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
-                        Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
                         if(ComeFrom.equals("LogIn")) {
 
                             String HospName="non";
                             String HospID="non";
-                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID);
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
@@ -478,7 +507,7 @@ textInsurance.setText("");
                             finish();
                             startActivity(intend);
                         }else{
-                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID);
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             //mAuth.signOut();
 
@@ -633,7 +662,7 @@ textInsurance.setText("");
                     byteImageDataPP = baos.toByteArray();
                 } else if(requestCode == 22){ byteImageDataID = baos.toByteArray();
                     IDphoto.setImageResource(R.drawable.ic_ok);
-                }else if(requestCode == 33){ byteImageDataWP = baos.toByteArray();
+                }else if(requestCode == 23){ byteImageDataWP = baos.toByteArray();
                     workPermitphoto.setImageResource(R.drawable.ic_ok);
                 }
 
@@ -683,7 +712,7 @@ textInsurance.setText("");
         return Math.round((float) dp * density);
     }
 
-    private void uploadImagePP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
+    private void uploadImagePP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
 
         if (isNetworkConnected()) {
 
@@ -703,7 +732,7 @@ textInsurance.setText("");
                                     Toast.makeText(RegisterDoctorActivity.this, "Personal photo is uploaded", Toast.LENGTH_LONG).show();
 
                                     mdoctorPhotoUrl = taskSnapshot.getDownloadUrl().toString();
-                                    uploadImageID(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
+                                    uploadImageID(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
 
 
                                 }
@@ -726,7 +755,7 @@ textInsurance.setText("");
         }
     }
 
-    private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
+    private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone,final String mgander) {
 
         if (isNetworkConnected()) {
 
@@ -746,7 +775,7 @@ textInsurance.setText("");
                                 Toast.makeText(RegisterDoctorActivity.this, "ID Photo is uploaded", Toast.LENGTH_LONG).show();
 
                                 mdoctorIDUrl = taskSnapshot.getDownloadUrl().toString();
-                                uploadImageWP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
+                                uploadImageWP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
 
 
                             }
@@ -768,7 +797,7 @@ textInsurance.setText("");
             Toast.makeText(RegisterDoctorActivity.this, "Please check the network connection", Toast.LENGTH_LONG).show();
         }
     }
-    private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
+    private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
 
         if (isNetworkConnected()) {
 
@@ -788,7 +817,7 @@ textInsurance.setText("");
                                     Toast.makeText(RegisterDoctorActivity.this, "Work permit Photo is uploaded", Toast.LENGTH_LONG).show();
 
                                     mdoctorWPUrl = taskSnapshot.getDownloadUrl().toString();
-                                    makeauth(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
+                                    makeauth(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
 
                                 }
                             })

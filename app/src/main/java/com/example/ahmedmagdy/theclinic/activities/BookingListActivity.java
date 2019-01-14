@@ -202,7 +202,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
                 final Dialog dialog = new Dialog(BookingListActivity.this);
                 dialog.setContentView(R.layout.booking_data_dialig);
-                //dialog.setTitle("Edit your data");
+                dialog.setTitle("Edit your data");
                 dialog.setCanceledOnTouchOutside(false);
                //
                 //
@@ -233,6 +233,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                 final ImageView dialogstarttimelogo = dialog.findViewById(R.id.timer);
                 final ImageView dialogendingtimelogo = dialog.findViewById(R.id.timer_off);
                 final Spinner dialogspinnerstep = dialog.findViewById(R.id.step_time);
+                final Spinner dialogspinnerHC= dialog.findViewById(R.id.hospital_clinic);
 
                 dialogstarttimelogo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -302,6 +303,25 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                 final CardView dwedcardview = (CardView) dialog.findViewById(R.id.wed);
                 final CardView dthucardview = (CardView) dialog.findViewById(R.id.thu);
                 final CardView dfricardview = (CardView) dialog.findViewById(R.id.fri);
+
+                // spinner for Hospital or Clinic
+                ArrayAdapter<CharSequence> adapterHC = ArrayAdapter.createFromResource(
+                        BookingListActivity.this, R.array.HC_array, android.R.layout.simple_spinner_item);
+                adapterHC.setDropDownViewResource(R.layout.spinner_list_item);
+                dialogspinnerHC.setAdapter(adapterHC);
+
+                dialogspinnerHC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
+                        //String minsurance = spinnerinsurance.getSelectedItem().toString().trim();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
 
                 // spinner for insurance
                 ArrayAdapter<CharSequence> adapters = ArrayAdapter.createFromResource(
@@ -484,6 +504,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                         final String getstartingtime = dialogstarttime.getText().toString().trim();
                         final String getendingtime = dialogendingtime.getText().toString().trim();
                         final String getsteptime = dialogspinnerstep.getSelectedItem().toString().trim();
+                        final String  getHC= dialogspinnerHC.getSelectedItem().toString().trim();
 
 
 
@@ -522,11 +543,13 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                                 String DoctorName = dataSnapshot1.child(DoctorID).child("cName").getValue(String.class);
                                 String DoctorSpecialty = dataSnapshot1.child(DoctorID).child("cSpecialty").getValue(String.class);
                                 String DoctorPic = dataSnapshot1.child(DoctorID).child("cUri").getValue(String.class);
+                                String DoctorGander = dataSnapshot1.child(DoctorID).child("cGandr").getValue(String.class);
+                                String DoctorType = dataSnapshot1.child(DoctorID).child("cType").getValue(String.class);
                                 if (DoctorPic == null){DoctorPic= "https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11";}
                                 // DatabaseReference reference = databaseMap.push();
                                 // String idm = reference.getKey();
                                 //Log.v("Data"," 2-User id :"+ mUserId);
-                                MapClass mapclass = new MapClass(DoctorID,String.valueOf(latitude),String.valueOf(longitude),DoctorName,DoctorSpecialty,DoctorPic);
+                                MapClass mapclass = new MapClass(DoctorID,String.valueOf(latitude),String.valueOf(longitude),DoctorName,DoctorSpecialty,DoctorPic,getHC,DoctorGander,DoctorType);
                                 // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                                 // Database for Account Activity
                                 databaseMap.child(idm).setValue(mapclass);

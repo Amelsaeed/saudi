@@ -29,11 +29,13 @@ public class DoctorFirebaseClass implements Serializable {
     private String cHospitalName;
     private String cHospitalID;
 
+    private String cGandr;
+
 
     public DoctorFirebaseClass(){}
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
-                               String cEmail, String cType,String cPhone,String cUri,String cUriID,String cUriWP,String cHospitalName,String cHospitalID) {
+                               String cEmail, String cType,String cPhone,String cUri,String cUriID,String cUriWP,String cHospitalName,String cHospitalID,String cGandr) {
         this.cId = cId;
         this.cName = cName;
         this.cInsurance = cInsurance;
@@ -47,6 +49,7 @@ public class DoctorFirebaseClass implements Serializable {
         this.cUriWP = cUriWP;
         this.cHospitalName = cHospitalName;
         this.cHospitalID = cHospitalID;
+        this.cGandr = cGandr;
     }
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
@@ -116,6 +119,22 @@ public class DoctorFirebaseClass implements Serializable {
         this.cHospitalID = cHospitalID;
         this.cType = cType;
         this.cAbout = cAbout;
+    }
+
+    public String getcHospitalName() {
+        return cHospitalName;
+    }
+
+    public void setcHospitalName(String cHospitalName) {
+        this.cHospitalName = cHospitalName;
+    }
+
+    public String getcGandr() {
+        return cGandr;
+    }
+
+    public void setcGandr(String cGandr) {
+        this.cGandr = cGandr;
     }
 
     public String getcHospitalID() {
