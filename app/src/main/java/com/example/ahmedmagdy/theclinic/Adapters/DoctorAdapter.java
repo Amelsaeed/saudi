@@ -276,9 +276,9 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         }else{adoctordegree.setText("Degree not detected");}
         String InsuranceList=doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));
-       // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
         if (doctorclass.getcHospitalID()!= null) {
-            DatabaseReference databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
+            DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
             final ValueEventListener postListener1 = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -301,7 +301,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     // Getting Post failed, log a message
                 }
             };
-            databaseHospital.addValueEventListener(postListener1);
+            databaseDoctor.addValueEventListener(postListener1);
            // adoctordegree.setText(doctorclass.getcDegree());
         }//else{adoctordegree.setText("Degree not detected");}
 
