@@ -44,6 +44,22 @@
         android:layout_below="@id/edit_photo"
 
         />
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="use timing booking not arrange booking"
+
+        android:layout_below="@id/pname"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+
+
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000"
+
+
+       />
 
     <TextView
         android:id="@+id/doctor_email_tv"
@@ -307,6 +323,7 @@
         android:layout_below="@id/degree_edit"
         android:layout_marginTop="8dp"
         />
+
               <TextView
                   android:id="@+id/insurance_tv"
                   android:layout_width="wrap_content"
@@ -327,13 +344,12 @@
                   android:layout_marginRight="16dp"
                   android:background="#3ACCE1"
                   android:padding="8dp"
-                  android:maxLines="1"
-                  android:ellipsize="end"
-                  android:layout_below="@id/pphone"
+                  android:layout_below="@id/phone_tv"
                   android:layout_toRightOf="@id/insurance_tv"
                   android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                   android:textColor="#000"
                   />
+
 
               <ImageView
                   android:id="@+id/insur_edit"
@@ -349,6 +365,33 @@
                   android:layout_marginTop="8dp"
                   />
 
+              <TextView
+                  android:id="@+id/about_tv"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/insur"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginTop="8dp"
+                  android:background="@drawable/white_rect"
+                  android:padding="8dp"
+                  android:text="Speciality details"
+                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                  android:textColor="#000" />
+
+              <EditText
+                  android:id="@+id/peditbox"
+                  android:layout_below="@id/about_tv"
+                  android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:maxLines="5"
+                  android:inputType="text"
+                  android:gravity="start"
+                  android:layout_marginRight="16dp"
+                  android:layout_marginLeft="8dp"
+                  android:padding="8dp"
+                  android:ellipsize="end"
+                  android:background="@drawable/textboxx"
+                  android:hint="What about you" />
 
           </RelativeLayout>
     </ScrollView>
@@ -365,19 +408,6 @@
         android:textColor="#000"
 
         />
-
-    <EditText
-        android:id="@+id/peditbox"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="15dp"
-        android:background="@drawable/textboxx"
-        android:gravity="start"
-        android:hint="What about you"
-        android:inputType="text"
-        android:maxLines="5"
-        android:padding="10dp"
-        android:visibility="gone" />
 
     <TextView
         android:id="@+id/add"
