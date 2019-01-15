@@ -21,6 +21,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +42,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
+import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
@@ -154,7 +157,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         Doc = rootView.findViewById(R.id.doc);
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
-        phone_btn= rootView.findViewById(R.id.phone_btn);
 
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
@@ -359,7 +361,7 @@ editDialog(whatData);
             }
         });
         //Performing action on button click
-        phone_btn.setOnClickListener(new View.OnClickListener() {
+        pphone.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -369,6 +371,48 @@ editDialog(whatData);
            startActivity(callIntent);
             }
 
+        });
+
+       // if(!doctorId.equals(uid)){peditbox.setEnabled(false);}
+        //--------------------------------------
+        peditbox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+               // if(doctorId.equals(uid)) {
+
+                    final String about1 = peditbox.getText().toString().trim();
+                    databaseDoctor.child(doctorId).child("cAbout").setValue(about1);
+              //  }else{peditbox.setEnabled(false);}
+                /**else {
+                 //////////////////////////////
+                 Toast.makeText(DoctorProfileActivity.this, "You can't change it", Toast.LENGTH_LONG).show();
+                 final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
+                String DoctorAbout = dataSnapshot1.child(DoctorID).child("cAbout").getValue(String.class);
+                if (DoctorAbout != null) {peditbox.setText(DoctorAbout);}
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                }
+                };
+                 databaseDoctor.addValueEventListener(postListener1);
+                 ////////////////////////////////////
+                 }**/
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+
+
+            }
         });
         return rootView;
     }

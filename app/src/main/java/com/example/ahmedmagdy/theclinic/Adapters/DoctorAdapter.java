@@ -1,6 +1,8 @@
 package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -241,6 +243,34 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
             }
         });
+        adoctorspecialty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DoctorFirebaseClass doctorclasss = doctorList.get(position);
+               // Toast.makeText(context, doctorclasss.getcAbout(), Toast.LENGTH_LONG).show();
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Specialization Details");
+                if (doctorclasss.getcAbout()!= null) {
+                    alert.setMessage(doctorclasss.getcAbout());
+                }else{alert.setMessage("Nothing to show");}
+// Create TextView
+                final TextView input = new TextView (context);
+                alert.setView(input);
+
+
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                alert.show();
+
+
+
+            }
+        });
   /*      adoctorcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -277,7 +307,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         String InsuranceList=doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));
        // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
-        if (doctorclass.getcHospitalID()!= null) {
+        if (!doctorclass.getcHospitalID().equalsIgnoreCase("non")) {
             DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
             final ValueEventListener postListener1 = new ValueEventListener() {
                 @Override
