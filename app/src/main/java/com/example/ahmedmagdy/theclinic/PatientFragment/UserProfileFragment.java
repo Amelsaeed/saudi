@@ -31,7 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.UserProfileActivity;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -204,51 +204,64 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void loadUserInfo() {
-        final ValueEventListener postListener1 = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String userName = dataSnapshot1.child(Userid).child("cname").getValue(String.class);
-                String userPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
-                String userPic = dataSnapshot1.child(Userid).child("cUri").getValue(String.class);
-                String userbithdar = dataSnapshot1.child(Userid).child("cbirthday").getValue(String.class);
-                String userinsurance = dataSnapshot1.child(Userid).child("cInsurance").getValue(String.class);
+        if (UtilClass.isNetworkConnected(getContext())) {
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                if(userName != null) {
-                    nameEditUser.setText(userName);
-                }else{nameEditUser.setText("Your name");}
-                if(userPhone != null) {
-                    phoneEditUser.setText(userPhone);
-                }else{phoneEditUser.setText("your phone");}
-                if(userbithdar != null) {
-                    birthdayEditUser.setText(userbithdar);
-                }else{birthdayEditUser.setText("Your birthday");}
-                if(userinsurance != null) {
-                    insuranceEditUser.setText(userinsurance);
-                }else{insuranceEditUser.setText("Your insurance");}
+                    String userName = dataSnapshot1.child(Userid).child("cname").getValue(String.class);
+                    String userPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
+                    String userPic = dataSnapshot1.child(Userid).child("cUri").getValue(String.class);
+                    String userbithdar = dataSnapshot1.child(Userid).child("cbirthday").getValue(String.class);
+                    String userinsurance = dataSnapshot1.child(Userid).child("cInsurance").getValue(String.class);
 
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions = requestOptions.transforms(new RoundedCorners(16));
-                if(userPic != null) {
-                    Glide.with(getActivity())
-                            .load(userPic)
-                            .apply(requestOptions)
-                            .into(photoEdit);
-                }else{
-                    Glide.with(getActivity())
-                            .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5")
-                            .apply(requestOptions)
-                            .into(photoEdit);
+                    if (userName != null) {
+                        nameEditUser.setText(userName);
+                    } else {
+                        nameEditUser.setText("Your name");
+                    }
+                    if (userPhone != null) {
+                        phoneEditUser.setText(userPhone);
+                    } else {
+                        phoneEditUser.setText("your phone");
+                    }
+                    if (userbithdar != null) {
+                        birthdayEditUser.setText(userbithdar);
+                    } else {
+                        birthdayEditUser.setText("Your birthday");
+                    }
+                    if (userinsurance != null) {
+                        insuranceEditUser.setText(userinsurance);
+                    } else {
+                        insuranceEditUser.setText("Your insurance");
+                    }
+
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions = requestOptions.transforms(new RoundedCorners(16));
+                    if (userPic != null) {
+                        Glide.with(getActivity())
+                                .load(userPic)
+                                .apply(requestOptions)
+                                .into(photoEdit);
+                    } else {
+                        Glide.with(getActivity())
+                                .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5")
+                                .apply(requestOptions)
+                                .into(photoEdit);
+                    }
+
                 }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-        databaseUserReg .addValueEventListener(postListener1);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseUserReg.addValueEventListener(postListener1);
+        }else {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -494,43 +507,50 @@ public class UserProfileFragment extends Fragment {
         dialog.show();
     }
     private void getRegData(final String editfield1, final String whatdata) {
+if (UtilClass.isNetworkConnected(getContext())) {
+    if (whatdata.equals("Name")) {
+        databaseUserReg.child(Userid).child("cname").setValue(editfield1);
+        databaseChat.child(Userid).child("cname").setValue(editfield1);
 
-        if (whatdata.equals("Name")) {
-            databaseUserReg.child(Userid).child("cname").setValue(editfield1);
-            databaseChat.child(Userid).child("cname").setValue(editfield1);
+    } else if (whatdata.equals("Phone Number")) {
+        databaseUserReg.child(Userid).child("cphone").setValue(editfield1);
+        databaseChat.child(Userid).child("cphone").setValue(editfield1);
 
-        } else if (whatdata.equals("Phone Number")) {
-            databaseUserReg.child(Userid).child("cphone").setValue(editfield1);
-            databaseChat.child(Userid).child("cphone").setValue(editfield1);
+    }
+
+    //**************************************************//
+    // private void getallData();
+    final ValueEventListener postListener1 = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot1) {
+
+            String DoctorName = dataSnapshot1.child(Userid).child("cname").getValue(String.class);
+
+            String DoctorPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
+
+            if (DoctorName != null) {
+                nameEditUser.setText(DoctorName);
+            } else {
+                nameEditUser.setText("Name");
+            }
+
+            if (DoctorPhone != null) {
+                phoneEditUser.setText(DoctorPhone);
+            } else {
+                phoneEditUser.setText("Phone Number");
+            }
 
         }
 
-        //**************************************************//
-        // private void getallData();
-        final ValueEventListener postListener1 = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot1) {
-
-                String DoctorName = dataSnapshot1.child(Userid).child("cname").getValue(String.class);
-
-                String DoctorPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
-
-                if(DoctorName != null) {
-                    nameEditUser.setText(DoctorName);
-                }else{nameEditUser.setText("Name");}
-
-                if(DoctorPhone != null) {
-                    phoneEditUser.setText(DoctorPhone);
-                }else{phoneEditUser.setText("Phone Number");}
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-        databaseUserReg .addValueEventListener(postListener1);
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // Getting Post failed, log a message
+        }
+    };
+    databaseUserReg.addValueEventListener(postListener1);
+}else {
+    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+}
     }
 
 }

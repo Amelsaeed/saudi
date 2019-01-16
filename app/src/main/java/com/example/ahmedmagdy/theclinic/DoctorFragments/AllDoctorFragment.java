@@ -1,8 +1,6 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,11 +13,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
 import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
@@ -110,19 +109,10 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
 
 
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void maketableofall() {
 
-        // if (isNetworkConnected()) {
+       if (UtilClass.isNetworkConnected(getContext())) {
 
         databaseDoctor.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -154,14 +144,14 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-        //  }// network
-        /**  } else {
-         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
-         }**/
+       // }
+        } else {
+         Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+         }
     }
     private void maketableoffav() {
 
-        // if (isNetworkConnected()) {
+       if (UtilClass.isNetworkConnected(getContext())) {
 
         databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -183,9 +173,9 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
         });
 
         //  }// network
-        /**  } else {
-         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
-         }**/
+      } else {
+         Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+         }
     }
 
 
@@ -254,7 +244,7 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
 
     //get all doc data
     private void getAllDoctorsMap() {
-
+if (UtilClass.isNetworkConnected(getContext())){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query query = ref.child("DoctorMap");
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -275,7 +265,9 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
         };
         query.addValueEventListener(valueEventListener);
 
-
+}else {
+    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+}
     }
 
     private void inflateDocMapFragment(){

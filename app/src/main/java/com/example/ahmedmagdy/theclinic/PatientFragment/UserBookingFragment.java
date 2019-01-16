@@ -1,8 +1,6 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
@@ -14,9 +12,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.ahmedmagdy.theclinic.Adapters.PatientBookingAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class UserBookingFragment extends Fragment {
         }
         private void maketable() {
 
-            // if (isNetworkConnected()) {
+             if (UtilClass.isNetworkConnected(getContext())) {
 
             bookforuser.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -139,19 +141,15 @@ public class UserBookingFragment extends Fragment {
                 }
             });
             progressBar.setVisibility(View.GONE);
-            // }
+            }else {
+                 Toast.makeText(getContext(),getString(R.string.network_connection_msg),Toast.LENGTH_LONG).show();
+             }
 
         }
-        private boolean isNetworkConnected() {
-            ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo ni = cm.getActiveNetworkInfo();
-            if (ni != null) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
         private void getusername() {
+
+if (UtilClass.isNetworkConnected(getContext())){
 
 
             final ValueEventListener postListener1 = new ValueEventListener() {
@@ -174,6 +172,9 @@ public class UserBookingFragment extends Fragment {
                 }
             };
             databaseChat .addValueEventListener(postListener1);
+}else {
+    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+}
         }
         private void setupSearchView() {
             searchView.setIconifiedByDefault(false);

@@ -77,12 +77,11 @@ public class DatabaseFragment extends Fragment {
     }
 
 
-
     @Override
     public void onStart() {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
-            makeTable();
+        makeTable();
 
     }
 
@@ -112,37 +111,6 @@ public class DatabaseFragment extends Fragment {
                         setupSearchView();
                         progressBar.setVisibility(View.GONE);
 
-                        // Toast.makeText(FavActivity.this, DID, Toast.LENGTH_LONG).show();
-                        ///////////////////////////////////////////
-                        /*
-                        mEventListener = new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot1) {
-
-                                String Pname = dataSnapshot1.child(PID).child("cname").getValue(String.class);
-                                String Pphone = dataSnapshot1.child(PID).child("cphone").getValue(String.class);
-                                String Puri = dataSnapshot1.child(PID).child("cUri").getValue(String.class);
-
-                                BookingTimesClass doctorclass = new BookingTimesClass(PID, Pname, LastBookingDate, Pphone, Puri);
-                                doctorList.add(0, doctorclass);// i= 0  (index)to start from top
-
-                                DoctorDatabaseAdapter adapter = new DoctorDatabaseAdapter(getActivity(), doctorList);
-                                listViewpatient.setAdapter(adapter);
-                                setupSearchView();
-                                progressBar.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Getting Post failed, log a message
-
-                            }
-                        };
-
-                        */
-                       // databaseUserReg.addValueEventListener(mEventListener);
-                        //////////////////////////////////////////////////////
-
 
                     }
 
@@ -155,7 +123,7 @@ public class DatabaseFragment extends Fragment {
             };
             databasePatient.addListenerForSingleValueEvent(patientEventListener);
             progressBar.setVisibility(View.GONE);
-        }else {
+        } else {
             Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
         }
@@ -164,28 +132,29 @@ public class DatabaseFragment extends Fragment {
 
     private void getUserName() {
 
+        if (UtilClass.isNetworkConnected(getContext())) {
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
 
-        final ValueEventListener postListener1 = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot1) {
+                    String UserName = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
+                    UserType = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
 
-                String UserName = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
-                UserType = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                    if (UserName != null) {
+                        usernamef.setText(UserName);
+                    } else {
+                        usernamef.setText("Name");
+                    }
 
-                if (UserName != null) {
-                    usernamef.setText(UserName);
-                } else {
-                    usernamef.setText("Name");
                 }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-        databaseChat.addValueEventListener(postListener1);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseChat.addValueEventListener(postListener1);
+        }
     }
 
     private void setupSearchView() {

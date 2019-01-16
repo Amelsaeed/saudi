@@ -4,12 +4,8 @@ package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,12 +17,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.activities.UserProfileActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -132,19 +130,11 @@ public class FavFragment extends Fragment {
             maketable();
 
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     private void maketable() {
       //  if (mAuth.getCurrentUser().getUid() != null) {
-        // if (isNetworkConnected()) {
+       if (UtilClass.isNetworkConnected(getContext())) {
         // databaseDoctorFav.keepSynced(true);
         // databaseDoctor.keepSynced(true);
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
@@ -235,7 +225,9 @@ public class FavFragment extends Fragment {
 
         });databaseDoctorFav.keepSynced(true);
         progressBar.setVisibility(View.GONE);
-     //  }
+       }else {
+           Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+       }
 
     }
 
@@ -269,27 +261,32 @@ public class FavFragment extends Fragment {
     }
     private void getusername() {
 
+if (UtilClass.isNetworkConnected(getContext())) {
+    final ValueEventListener postListener1 = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot1) {
 
-        final ValueEventListener postListener1 = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot1) {
+            String UserName = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
+            UserType = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
 
-                String UserName = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
-                UserType = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
-
-                if(UserName != null) {
-                    usernamef.setText(UserName);
-                }else{usernamef.setText("Name");}
-
-
+            if (UserName != null) {
+                usernamef.setText(UserName);
+            } else {
+                usernamef.setText("Name");
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        };
-        databaseChat .addValueEventListener(postListener1);
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // Getting Post failed, log a message
+        }
+    };
+    databaseChat.addValueEventListener(postListener1);
+}else {
+    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+}
     }
 
 }

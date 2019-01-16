@@ -2,9 +2,6 @@ package com.example.ahmedmagdy.theclinic.HospitalFragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
@@ -17,15 +14,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.AllDoctorActivity;
-import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
-import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
-import com.example.ahmedmagdy.theclinic.activities.FavActivity;
 import com.example.ahmedmagdy.theclinic.activities.RegisterDoctorActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -132,19 +127,10 @@ public class HospitalMyDoctorFragment extends Fragment {
         maketable();
 
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void maketable() {
         //  if (mAuth.getCurrentUser().getUid() != null) {
-        // if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(getContext())) {
         // databaseDoctorFav.keepSynced(true);
         // databaseDoctor.keepSynced(true);
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
@@ -203,7 +189,9 @@ public class HospitalMyDoctorFragment extends Fragment {
             }
         });
 
-        //  }
+         }else {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
 
     }
 

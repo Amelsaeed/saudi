@@ -2,8 +2,6 @@ package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -15,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -114,19 +114,11 @@ public class FavActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         maketable();
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     private void maketable() {
 
-       // if (isNetworkConnected()) {
+       if (UtilClass.isNetworkConnected(FavActivity.this)) {
            // databaseDoctorFav.keepSynced(true);
            // databaseDoctor.keepSynced(true);
 
@@ -183,7 +175,10 @@ public class FavActivity extends AppCompatActivity {
                 }
             });databaseDoctorFav.keepSynced(true);
 
-       // }
+       }else
+       {
+           Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+       }
 
     }
 
@@ -217,7 +212,7 @@ public class FavActivity extends AppCompatActivity {
     }
     private void getusername() {
 
-
+if (UtilClass.isNetworkConnected(FavActivity.this)){
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -238,6 +233,7 @@ public class FavActivity extends AppCompatActivity {
             }
         };
         databaseChat .addValueEventListener(postListener1);
+}
     }
     @Override
     public void onBackPressed() {

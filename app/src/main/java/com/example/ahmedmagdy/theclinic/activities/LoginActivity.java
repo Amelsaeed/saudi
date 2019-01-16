@@ -2,14 +2,11 @@ package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +19,7 @@ import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -137,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 // to login using email and password
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(LoginActivity.this)) {
             mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -172,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
 
             });
         } else {
-            Toast.makeText(this, "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
         }
     }
@@ -274,6 +272,10 @@ public class LoginActivity extends AppCompatActivity {
 
         //**************************************************//
         // private void getallData();
+
+        if (UtilClass.isNetworkConnected(LoginActivity.this)){
+
+
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -305,6 +307,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         databaseChat.addValueEventListener(postListener1);
+        }
     }
 
 /*
@@ -315,16 +318,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 */
 
-    //  check if network is connected
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     private void displayResetPasswordDialog(String email) {
 
@@ -372,7 +366,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 // to login using email and password
-                if (isNetworkConnected()) {
+                if (UtilClass.isNetworkConnected(LoginActivity.this)) {
                     FirebaseAuth.getInstance().sendPasswordResetEmail(mEmail)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -388,7 +382,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    Toast.makeText(LoginActivity.this, "network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 }
 

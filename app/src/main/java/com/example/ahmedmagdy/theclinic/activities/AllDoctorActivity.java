@@ -2,8 +2,6 @@ package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +17,7 @@ import android.widget.Toast;
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
 import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
@@ -158,19 +157,10 @@ public class AllDoctorActivity extends AppCompatActivity {
 
 
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void maketableofall() {
 
-       // if (isNetworkConnected()) {
+       if (UtilClass.isNetworkConnected(getApplicationContext())) {
 
           databaseDoctor.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -202,14 +192,14 @@ public class AllDoctorActivity extends AppCompatActivity {
                     }
                 });
 
-          //  }// network
+           }
       /**  } else {
             Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
         }**/
     }
     private void maketableoffav() {
 
-        // if (isNetworkConnected()) {
+       if (UtilClass.isNetworkConnected(getApplicationContext())) {
 
         databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -230,7 +220,7 @@ public class AllDoctorActivity extends AppCompatActivity {
             }
         });
 
-        //  }// network
+      }
         /**  } else {
          Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
          }**/

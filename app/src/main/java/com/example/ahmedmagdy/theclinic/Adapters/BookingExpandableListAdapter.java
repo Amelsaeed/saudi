@@ -255,6 +255,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
         if (type.equals("select")) {
             dialog.setContentView(R.layout.select_note_dialog);
             // set button
+            dialog.setTitle("What do you want to do ?");
             create = dialog.findViewById(R.id.add_btn_select_note_dialog);
             show = dialog.findViewById(R.id.show_btn_select_note_dialog);
             cancel = dialog.findViewById(R.id.cancel_btn_select_note_dialog);
@@ -292,6 +293,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     EditText editText = dialog.findViewById(R.id.text_data_add_note);
                     String text = editText.getText().toString();
                     String date = UtilClass.getInstanceDate();

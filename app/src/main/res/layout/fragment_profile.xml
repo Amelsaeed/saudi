@@ -6,5 +6,4 @@
     android:background="#fff"
     tools:context=".ChatRoomFragments.ProfileFragment">
 
-
 </FrameLayout>

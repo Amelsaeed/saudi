@@ -55,16 +55,6 @@
         <activity
             android:name=".activities.CalenderActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.AddPatient"
-            android:parentActivityName=".DoctorHome">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DoctorHome" />
-        </activity>
-        <activity
-            android:name=".activities.Doctor_home_activity"
-            android:theme="@style/SplashTheme" />
 
         <service
             android:name=".Notifications.MyFirebaseIdService"
@@ -110,12 +100,6 @@
         <activity android:name=".HospitalHome"
             android:theme="@style/SplashTheme"/>
 
-        <activity android:name=".activities.WorkingHoursActivity"
-            android:parentActivityName=".DoctorHome">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DoctorHome" />
-        </activity>
         <activity android:name=".activities.BookingListActivity" />
         <activity android:name=".activities.InsuranceListActivity"></activity>
     </application>

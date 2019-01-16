@@ -32,6 +32,7 @@ import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
 import com.example.ahmedmagdy.theclinic.classes.MapClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -1049,7 +1050,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         super.onStart();
         progressBarBooking.setVisibility(View.VISIBLE);
         // getRegData();
-        // if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(BookingListActivity.this)) {
         final DatabaseReference databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);
 
         //databaseTramp.child(country).child("Individual").child("users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1065,7 +1066,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
 
 
                 }
-                // }
+              //}
                 //}
                 BookingAdapter adapter = new BookingAdapter(BookingListActivity.this, bookingList);
                 //adapter.notifyDataSetChanged();
@@ -1081,8 +1082,8 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         });
 
 
-        /**  } else {
-         Toast.makeText(DoctorProfileActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
-         }**/
+        } else {
+         Toast.makeText(BookingListActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+         }
     }
 }

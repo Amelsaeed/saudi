@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.BookingExpandableListAdapter;
 import com.example.ahmedmagdy.theclinic.R;
@@ -165,6 +166,8 @@ public class DoctorBookingsActivity extends AppCompatActivity {
             mBookingRef.addListenerForSingleValueEvent(mBookingListener);
 
 //.orderByChild("ctdate")
+        }else {
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
 
     }

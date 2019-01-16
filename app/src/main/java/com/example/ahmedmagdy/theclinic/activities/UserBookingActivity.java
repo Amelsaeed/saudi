@@ -1,8 +1,6 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -16,6 +14,7 @@ import android.widget.TextView;
 import com.example.ahmedmagdy.theclinic.Adapters.PatientBookingAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,7 +70,7 @@ public class UserBookingActivity extends AppCompatActivity {
     }
     private void maketable() {
 
-       // if (isNetworkConnected()) {
+     if (UtilClass.isNetworkConnected(UserBookingActivity.this)) {
 
             bookforuser.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -127,18 +126,10 @@ public class UserBookingActivity extends AppCompatActivity {
                 }
             });
 
-       // }
+  }
 
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     private void getusername() {
 
 

@@ -2,13 +2,10 @@ package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,6 +28,7 @@ import android.widget.Toast;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -215,10 +213,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                 }
 
 
-
-
-
-
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
@@ -238,7 +232,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 
-                        String item = "";
+                       getmInsuranceItems = "";
                         for (int x = 0; x < listItems.length; x++) {
                             if (checkedItems[x]) {
                                 if (getmInsuranceItems.equals("")) {
@@ -252,9 +246,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
                             textInsurance.setText(getmInsuranceItems);
 
-                       // textInsurance.setText(item);
-                       // getmInsuranceItems=item;
-                      //  mInsuranceItems.clear();
                     }
                 });
 
@@ -476,7 +467,7 @@ textInsurance.setText("");
     private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
         progressBar.setVisibility(View.VISIBLE);
         if((!mdoctorIDUrl.equals(""))&&(!mdoctorPhotoUrl.equals(""))&&(!mdoctorWPUrl.equals(""))){
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -548,22 +539,13 @@ textInsurance.setText("");
                 }
             });
         } else {
-            Toast.makeText(this, "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.network_connection_msg, Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
         }
     }else{registerUser();}
     }
 
-    //  check if network is connected
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     private void displayImportImageDialog(final int CAMERA_REQUEST_CODE, final int GALLERY_REQUEST_CODE) {
 
@@ -714,7 +696,7 @@ textInsurance.setText("");
 
     private void uploadImagePP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
             if (byteImageDataPP != null) {
 
@@ -751,13 +733,13 @@ textInsurance.setText("");
 
             }
         } else {
-            Toast.makeText(RegisterDoctorActivity.this, "Please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterDoctorActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
         }
     }
 
     private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone,final String mgander) {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
             if (byteImageDataID != null) {
 
@@ -799,7 +781,7 @@ textInsurance.setText("");
     }
     private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
             if (byteImageDataWP != null) {
 
@@ -835,7 +817,7 @@ textInsurance.setText("");
 
             }
         } else {
-            Toast.makeText(RegisterDoctorActivity.this, "Please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterDoctorActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
         }
     }
 }

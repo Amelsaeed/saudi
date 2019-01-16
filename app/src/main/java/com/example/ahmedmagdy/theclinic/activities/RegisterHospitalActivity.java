@@ -1,28 +1,21 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,12 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ahmedmagdy.theclinic.HospitalHome;
-import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,12 +42,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 public class RegisterHospitalActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback{
@@ -185,13 +174,33 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterHospitalActivity.this);
                 mBuilder.setTitle("SELECT Insurance");
 
-                mBuilder.setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
+                String insur = textInsurance.getText().toString();
+                String[] insurances = insur.split(",");
+                final ArrayList<Boolean> checkedList = new ArrayList<>();
+                final boolean[] checkedItems = new boolean[listItems.length];
+                boolean checked;
+                for (int x = 0; x < listItems.length; x++) {
+                    checked = false;
+                    for (int y = 0; y < insurances.length; y++) {
+                        if (listItems[x].equals(insurances[y])) {
+                            checked = true;
+                        }
+                    }
+
+                    checkedItems[x] = checked;
+                }
+
+
+                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+
+                        getmInsuranceItems = "";
+
                         if(isChecked){
-                            mInsuranceItems.add(position);
+                            checkedItems[position] = true;
                         }else{
-                            mInsuranceItems.remove((Integer.valueOf(position)));
+                            checkedItems[position] = false;
                         }
                     }
                 });
@@ -201,16 +210,20 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 
-                        String item = "";
-                        for (int i = 0; i < mInsuranceItems.size(); i++) {
-                            if (i ==0) {item="";}
-                            item = item + listItems[mInsuranceItems.get(i)];
-                            if (i != mInsuranceItems.size() - 1) {item = item + ", ";}
+                        getmInsuranceItems = "";
+                        for (int x = 0; x < listItems.length; x++) {
+                            if (checkedItems[x]) {
+                                if (getmInsuranceItems.equals("")) {
+                                    getmInsuranceItems = listItems[x];
+                                } else {
+                                    getmInsuranceItems = getmInsuranceItems + "," + listItems[x];
+                                }
 
+                            }
                         }
-                        textInsurance.setText(item);
-                        getmInsuranceItems=item;
-                        mInsuranceItems.clear();
+
+                        textInsurance.setText(getmInsuranceItems);
+
                     }
                 });
 
@@ -386,7 +399,7 @@ public void onNothingSelected(AdapterView<?> parent) {
     private void makeauth(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
         progressBar.setVisibility(View.VISIBLE);
         if((!mdoctorPhotoUrl.equals(""))&&(!mdoctorWPUrl.equals(""))){
-            if (isNetworkConnected()) {
+            if (UtilClass.isNetworkConnected(RegisterHospitalActivity.this)) {
                 mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -424,22 +437,13 @@ public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
             } else {
-                Toast.makeText(this, "please check the network connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
             }
         }else{registerUser();}
     }
 
-    //  check if network is connected
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     private void displayImportImageDialog(final int CAMERA_REQUEST_CODE, final int GALLERY_REQUEST_CODE) {
 
@@ -586,7 +590,7 @@ public void onNothingSelected(AdapterView<?> parent) {
 
     private void uploadImagePP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterHospitalActivity.this)) {
 
             if (byteImageDataPP != null) {
 
@@ -623,13 +627,13 @@ public void onNothingSelected(AdapterView<?> parent) {
 
             }
         } else {
-            Toast.makeText(RegisterHospitalActivity.this, "Please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterHospitalActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
         }
     }
 
     private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone) {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterHospitalActivity.this)) {
 
             if (byteImageDataWP != null) {
 
@@ -665,7 +669,7 @@ public void onNothingSelected(AdapterView<?> parent) {
 
             }
         } else {
-            Toast.makeText(RegisterHospitalActivity.this, "Please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterHospitalActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
         }
     }
 }

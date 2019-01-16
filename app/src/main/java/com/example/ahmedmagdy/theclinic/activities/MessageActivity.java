@@ -3,11 +3,8 @@ package com.example.ahmedmagdy.theclinic.activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -43,6 +39,7 @@ import com.example.ahmedmagdy.theclinic.Notifications.Sender;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -258,7 +255,7 @@ public class MessageActivity extends AppCompatActivity {
             notify = true;
             Uri selectedImageUri = data.getData();
             final StorageReference imageRef = mPhotoPickerRef.child(selectedImageUri.getLastPathSegment());
-            if (isNetworkConnected()) {
+            if (UtilClass.isNetworkConnected(MessageActivity.this)) {
                 imageRef.putFile(selectedImageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -277,25 +274,18 @@ public class MessageActivity extends AppCompatActivity {
                     }
                 });
             }else{
-                Toast.makeText(MessageActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(MessageActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
 
 
         }
     }
-    /*Start Send photo message*/
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     /*Start Send photo message*/
     private void sendMessage(String sender, final String receiver, String message, String imgurl) {
+
+        if (UtilClass.isNetworkConnected(MessageActivity.this)){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -339,6 +329,10 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
+        } else {
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
     }
     /*End Send photo message*/
 
@@ -351,6 +345,8 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void seenMessage(final String userid) {
+
+        if (UtilClass.isNetworkConnected(MessageActivity.this)){
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         seenListener = reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -370,10 +366,14 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+        }else {
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sendMessage(String sender, final String receiver, String message) {
 
+        if (UtilClass.isNetworkConnected(MessageActivity.this)){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -415,9 +415,12 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+        }
     }
 
     private void sendNotifiaction(String receiver, final String username, final String message) {
+
+
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {

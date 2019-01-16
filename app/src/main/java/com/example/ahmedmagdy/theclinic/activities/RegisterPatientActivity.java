@@ -1,14 +1,12 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,10 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
-import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +34,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kd.dynamic.calendar.generator.ImageGenerator;
-import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 
 import java.util.Calendar;
 
@@ -329,7 +325,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
 
 
         progressBar.setVisibility(View.VISIBLE);
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(RegisterPatientActivity.this)) {
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -365,21 +361,12 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                 }
             });
         } else {
-            Toast.makeText(this, "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
         }
     }
 
-    //  check if network is connected
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     private void updateToken(String token){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token1 = new Token(token);

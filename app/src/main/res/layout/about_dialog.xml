@@ -2,19 +2,19 @@
 <RelativeLayout
     android:background="@drawable/splashbackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="380dp"
-    android:layout_height="250dp">
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
 
     <ImageView
-        android:layout_width="700dp"
-        android:layout_height="100dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:id="@+id/cl_logo"
         android:src="@drawable/tmycliniclogo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         />
    <TextView
-       android:layout_width="700dp"
+       android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:id="@+id/cl_name"
        android:gravity="center"
@@ -25,8 +25,7 @@
        android:layout_centerHorizontal="true"
        />
   <TextView
-      android:gravity="center"
-      android:layout_width="700dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:id="@+id/cl_version"
       android:layout_below="@id/cl_name"
@@ -34,7 +33,7 @@
       android:text="@string/app_version"
       />
     <TextView
-        android:layout_width="700dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/about_cancel"
         android:text="Cancel"

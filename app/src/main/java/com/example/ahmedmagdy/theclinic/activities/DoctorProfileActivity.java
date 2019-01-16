@@ -1,19 +1,14 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,13 +20,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +40,7 @@ import com.example.ahmedmagdy.theclinic.Notifications.Sender;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -63,15 +56,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -84,7 +72,7 @@ import retrofit2.Response;
 
 public class DoctorProfileActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback {
     ImageView ppicuri;
-    TextView pname,pcity,pspeciality,pdegree,pphone,pprice,ptime,paddbook;
+    TextView pname,pcity,pspeciality,pdegree,pphone,pprice,ptime;
     EditText peditbox ;
     EditText dialogAddress;
     private ProgressBar progressBarBooking, progressBarImage;
@@ -109,7 +97,6 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
     private FirebaseUser fuser;
 
     String DoctorID, uid,mDate,picuri;
-    ListView listViewBooking;
     private List<BookingClass> bookingList;
     final int theRequestCodeForLocation = 1;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -143,7 +130,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         progressBarBooking = (ProgressBar) findViewById(R.id.booking_progress_bar);
         progressBarImage = (ProgressBar) findViewById(R.id.progressbar_image);
 
-        listViewBooking= (ListView)findViewById(R.id.list_view_booking);
+
         bookingList=new ArrayList<BookingClass>();
 
         pname = (TextView) findViewById(R.id.pname);
@@ -156,9 +143,6 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         Doc = (Button) findViewById(R.id.doc);
         peditbox = (EditText) findViewById(R.id.peditbox);
         ppicuri = (ImageView) findViewById(R.id.edit_photo);
-        paddbook = (TextView) findViewById(R.id.add);
-
-
 
         FirebaseUser user = mAuth.getCurrentUser();//mAuth.getCurrentUser().getUid()
         if (user != null) {
@@ -173,7 +157,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         DoctorID = intent.getStringExtra("DoctorID");
          Toast.makeText(DoctorProfileActivity.this, DoctorID, Toast.LENGTH_LONG).show();
 
-        if(!DoctorID.equals(uid)){paddbook.setVisibility(View.GONE);}
+
         // Test only
         Button testBtn = findViewById(R.id.working_hours_btn);
 
@@ -305,29 +289,6 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestPermission();
 
-        paddbook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //--------Gps---------------------
-                if(isPermissionGranted){
-
-                    getLocation();
-                }else{
-                    requestPermission();
-                    if(isPermissionGranted){
-                        //We have it, Get the location.
-                        getLocation();
-                    }
-                    else {
-                        Toast.makeText(DoctorProfileActivity.this, "Please Give us permission so you can use the app", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                //--------------------------------------
-                //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
-                editDialogbook();
-            }
-        });
 
         ////////////////////////////////
         //--------Gps---------------------
@@ -389,69 +350,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
             }
         });
-        /**listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int position, long id) {**/
-        listViewBooking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                // TODO Auto-generated method stub
-                if (mAuth.getCurrentUser() == null) {
-                    Toast.makeText(DoctorProfileActivity.this, "Please log in first", Toast.LENGTH_LONG).show();
-                } else{
-
-                    BookingClass bookingclass = bookingList.get(position);
-                final String timeID = bookingclass.getCbid();
-                // Toast.makeText(DoctorProfileActivity.this, timeID, Toast.LENGTH_LONG).show();
-//////////////////////////////////////////////////
-                final Dialog dialog = new Dialog(DoctorProfileActivity.this);
-                dialog.setContentView(R.layout.chose_account_dialog);
-                dialog.setTitle("Chose an account");
-                dialog.setCanceledOnTouchOutside(false);
-
-                TextView youraccount = (TextView) dialog.findViewById(R.id.your_account_tv);
-                TextView anotheraccount = (TextView) dialog.findViewById(R.id.another_acount_tv);
-                TextView cancel = (TextView) dialog.findViewById(R.id.dismiss_dialog);
-
-                youraccount.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        openClenderAction(timeID, position);
-                    }
-                });
-
-                anotheraccount.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        mAuth.getInstance().signOut();
-                        Intent it = new Intent(DoctorProfileActivity.this, LoginActivity.class);
-                        it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                        finish();
-                        startActivity(it);
-
-                    }
-                });
-
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.setCanceledOnTouchOutside(false);
-
-                dialog.show();
-                //////////////////////////////////
-
-                //  return true;
-            }
-            }
-        });
 
         /**  listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         @Override
@@ -509,73 +408,6 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             }
         });
 
-    }
-
-    private void openClenderAction(final String timeID , final int position) {
-        ImageGenerator mImageGenerator = new ImageGenerator(DoctorProfileActivity.this);
-
-// Set the icon size to the generated in dip.
-        mImageGenerator.setIconSize(50, 50);
-
-// Set the size of the date and month font in dip.
-        mImageGenerator.setDateSize(30);
-        mImageGenerator.setMonthSize(10);
-
-// Set the position of the date and month in dip.
-        mImageGenerator.setDatePosition(42);
-        mImageGenerator.setMonthPosition(14);
-
-// Set the color of the font to be generated
-        mImageGenerator.setDateColor(Color.parseColor("#3c6eaf"));
-        mImageGenerator.setMonthColor(Color.WHITE);
-
-        // abookingphoto.setOnClickListener(new View.OnClickListener() {
-        //  @Override
-        //   public void onClick(View v) {
-        final Calendar mCurrentDate = Calendar.getInstance();
-        int year=mCurrentDate.get(Calendar.YEAR);
-        int month=mCurrentDate.get(Calendar.MONTH);
-        int day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog mPickerDialog =  new DatePickerDialog(DoctorProfileActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
-                String datedmy= Year+"_"+ (Month+1)+"_"+Day;
-                try {
-                    String dayname=getDayNameFromDate( datedmy);
-                    //Toast.makeText(DoctorProfileActivity.this, dayname, Toast.LENGTH_LONG).show();
-                    BookingClass bookingclass = bookingList.get(position);
-                    String a,b,c,d,e,f,g;
-                   if( bookingclass.getSatchecked()){ a="Saturday";}else{a="no";}
-                    if( bookingclass.getSunchecked()){ b="Sunday";}else{b="no";}
-                    if( bookingclass.getMonchecked()){ c="Monday";}else{c="no";}
-                    if( bookingclass.getTuschecked()){ d="Tuesday";}else{d="no";}
-                    if(bookingclass.getWedchecked()){ e="Wednesday";}else{e="no";}
-                    if(bookingclass.getThuchecked()){ f="Thursday";}else{f="no";}
-                    if( bookingclass.getFrichecked()){ g="Friday";}else{g="no";}
-if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
-        ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
-   // makepatientbooking(timeID, datedmy, position);
-    Toast.makeText(DoctorProfileActivity.this, "is booked", Toast.LENGTH_LONG).show();
-}else{Toast.makeText(DoctorProfileActivity.this, "Not match", Toast.LENGTH_LONG).show();}
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-              //  Toast.makeText(DoctorProfileActivity.this, datedmy, Toast.LENGTH_LONG).show();
-                // Toast.makeText(context, id+doctorID, Toast.LENGTH_LONG).show();
-
-                //editTextcal.setText(Year+"_"+ ((Month/10)+1)+"_"+Day);
-                mCurrentDate.set(Year, ((Month+1)),Day);
-                //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
-            }
-        }, year, month, day);
-        mPickerDialog.show();
-    }
-    public static String getDayNameFromDate(String date) throws ParseException {
-        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy_MM_dd");
-        Date dt = inFormat.parse(date);
-        SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
-        String dayName = outFormat.format(dt);
-        return dayName;
     }
 
     private void displayImportImageDialog() {
@@ -675,7 +507,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
 
     private void uploadImage() {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(DoctorProfileActivity.this)) {
 
             if (byteImageData != null) {
                 progressBarImage.setVisibility(View.VISIBLE);
@@ -717,7 +549,7 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
                         });
             }
         } else {
-            Toast.makeText(DoctorProfileActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(DoctorProfileActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1184,20 +1016,14 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
             Toast.makeText(DoctorProfileActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
         }**/
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     private void getallData() {
 
         //**************************************************//
         // private void getallData();
+
+        if (UtilClass.isNetworkConnected(DoctorProfileActivity.this)){
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -1259,6 +1085,10 @@ if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnor
             }
         };
         databaseDoctor .addValueEventListener(postListener1);
+
+        }else {
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

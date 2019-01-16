@@ -1,8 +1,6 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -12,10 +10,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorDatabaseAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +48,7 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
 
 
         usernamef=findViewById(R.id.user_name_data);
-        progressBar = (ProgressBar) findViewById(R.id.data_progress_bar);
+        progressBar =  findViewById(R.id.data_progress_bar);
         mAuth = FirebaseAuth.getInstance();
          databasePatient = FirebaseDatabase.getInstance().getReference("Doctorpatientdb")
                 .child(mAuth.getCurrentUser().getUid()); databasePatient.keepSynced(true);
@@ -59,8 +59,8 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom"); databaseChat.keepSynced(true);
 
 
-        listViewpatient= (ListView)findViewById(R.id.list_view_data);
-        searchView = (SearchView) findViewById(R.id.searchdata);
+        listViewpatient= findViewById(R.id.list_view_data);
+        searchView =  findViewById(R.id.searchdata);
         doctorList=new ArrayList<>();
         listViewpatient.setTextFilterEnabled(true);
         removeFocus();
@@ -74,7 +74,7 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
     }
     private void maketable() {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(DoctorDatabaseActivity.this)) {
 
             databasePatient.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -123,21 +123,15 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
                 }
             });
 
+        }else {
+            Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
 
     }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     private void getusername() {
 
-
+if (UtilClass.isNetworkConnected(DoctorDatabaseActivity.this)){
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -158,6 +152,9 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
             }
         };
         databaseChat .addValueEventListener(postListener1);
+}else{
+    Toast.makeText(this,  getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+}
     }
     private void setupSearchView() {
         searchView.setIconifiedByDefault(false);

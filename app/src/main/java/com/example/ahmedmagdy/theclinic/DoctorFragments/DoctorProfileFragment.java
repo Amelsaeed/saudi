@@ -25,7 +25,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -69,7 +68,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static com.example.ahmedmagdy.theclinic.map.Constants.ERROR_DIALOG_REQUEST;
@@ -709,6 +707,8 @@ editDialog(whatData);
     private void getallData() {
 
         //**************************************************//
+
+        if (UtilClass.isNetworkConnected(getContext())){
         doctorEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -787,6 +787,9 @@ editDialog(whatData);
             }
         };
         databaseDoctor.addValueEventListener(doctorEventListener);
+        }else {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -853,7 +856,6 @@ editDialog(whatData);
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
         String insur = insuranceView.getText().toString();
         String[] insurances = insur.split(",");
-        final ArrayList<Boolean> checkedList = new ArrayList<>();
         final boolean[] checkedItems = new boolean[insuranceList.length];
         boolean checked;
         for (int x = 0; x < insuranceList.length; x++) {
@@ -867,7 +869,7 @@ editDialog(whatData);
 
         }
 
-        mBuilder.setTitle("SELECT Insurance");
+        mBuilder.setTitle("Select insurance");
 
         mBuilder.setMultiChoiceItems(insuranceList, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override

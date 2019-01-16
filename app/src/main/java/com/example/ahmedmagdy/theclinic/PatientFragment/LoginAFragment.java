@@ -2,11 +2,8 @@ package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,9 +21,9 @@ import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.RegestrationPathActivity;
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -122,7 +119,7 @@ public class LoginAFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
 // to login using email and password
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(getContext())) {
             mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -154,7 +151,7 @@ public class LoginAFragment extends Fragment {
 
             });
         } else {
-            Toast.makeText(getActivity(), "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
         }
     }
@@ -278,16 +275,6 @@ public class LoginAFragment extends Fragment {
     }
 */
 
-    //  check if network is connected
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void displayResetPasswordDialog(String email) {
 
@@ -335,7 +322,7 @@ public class LoginAFragment extends Fragment {
 
                 progressBar.setVisibility(View.VISIBLE);
 // to login using email and password
-                if (isNetworkConnected()) {
+                if (UtilClass.isNetworkConnected(getContext())) {
                     FirebaseAuth.getInstance().sendPasswordResetEmail(mEmail)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

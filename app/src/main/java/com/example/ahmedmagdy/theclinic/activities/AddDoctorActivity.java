@@ -1,11 +1,8 @@
 package com.example.ahmedmagdy.theclinic.activities;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -200,6 +198,8 @@ public class AddDoctorActivity extends AppCompatActivity {
     }
 
     private void getRegData() {
+
+        if(UtilClass.isNetworkConnected(getApplicationContext())){
         databaseReg = FirebaseDatabase.getInstance().getReference("reg_data");
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -233,6 +233,7 @@ public class AddDoctorActivity extends AppCompatActivity {
             }
         };
         databaseReg.addValueEventListener(postListener);
+        }
     }
     private void addTramp() throws IOException {  //throws IOException because of try & catch vith method above
         mName = nameEditText.getText().toString();
@@ -274,7 +275,7 @@ public class AddDoctorActivity extends AppCompatActivity {
 
     private void uploadImage() {
 
-        if (isNetworkConnected()) {
+        if (UtilClass.isNetworkConnected(getApplicationContext())) {
 
             if (byteImageData != null) {
                 progressBar.setVisibility(View.VISIBLE);
@@ -388,14 +389,5 @@ public class AddDoctorActivity extends AppCompatActivity {
         return Math.round((float) dp * density);
     }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     }
 
