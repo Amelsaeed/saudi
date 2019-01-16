@@ -42,6 +42,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
+import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
@@ -76,19 +77,18 @@ import static com.example.ahmedmagdy.theclinic.map.Constants.PERMISSIONS_REQUEST
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
-public class DoctorProfileFragment extends Fragment implements OnRequestPermissionsResultCallback {
+public class DoctorProfileFragment extends Fragment  {
     ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
     TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
     EditText peditbox;
     private ProgressBar progressBarImage;
-    Button Doc,phone_btn;
+
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
-    String address, idm;
+    String  idm;
     String mTrampPhotoUrl = "";
-    double latitude;
-    double longitude;
+
     String doctorId;
     String DoctorName, insuranceItems = "";
     byte[] byteImageData;
@@ -98,19 +98,14 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
     private FirebaseUser fUser;
     private ValueEventListener doctorEventListener;
 
-    String picuri;
-    final int theRequestCodeForLocation = 1;
-    private FusedLocationProviderClient mFusedLocationClient;
-    Boolean isPermissionGranted;
+
     String[] listCityItems;
     String[] listSpecialityItems;
     String[] listDegreeItems;
     //gps
     //create user location to save all doctor locations
     private static final String TAG = "DoctorProfileFragment";
-    private UserLocation mUserLocaiotn;
-    private boolean mLocationPermissionGranted = false;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
+
 
 
     @Nullable
@@ -152,7 +147,7 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
         pphone = rootView.findViewById(R.id.pphone);
         pprice = rootView.findViewById(R.id.pprice);
         ptime = rootView.findViewById(R.id.ptime);
-        Doc = rootView.findViewById(R.id.doc);
+
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
 
@@ -167,7 +162,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
 
 
         Button workingHours = rootView.findViewById(R.id.working_hours_btn);
-        Button confirmLocation = rootView.findViewById(R.id.confim_loc_btn);
 
         drEmail.setText(fUser.getEmail());
 
@@ -182,19 +176,6 @@ public class DoctorProfileFragment extends Fragment implements OnRequestPermissi
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(intent);
-            }
-        });
-        // open gps fragment
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        confirmLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToMap();
-                /*Intent intent = new Intent(getActivity(), BookingListActivity.class);
-                intent.putExtra("DoctorID", doctorId);
-                intent.putExtra("DoctorName", DoctorName);
-                startActivity(intent);*/
-
             }
         });
 
@@ -325,6 +306,20 @@ editDialog(whatData);
                 mDialog.show();
             }
         });
+        insuranceView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getContext(), InsuranceListActivity.class);
+                intent.putExtra("InsuranceList", insuranceView.getText().toString());
+                intent.putExtra("DoctorName", pname.getText().toString());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+
+            }
+        });
 
         listDegreeItems = getResources().getStringArray(R.array.Degree_array);
         editDegree.setOnClickListener(new View.OnClickListener() {
@@ -359,7 +354,7 @@ editDialog(whatData);
             }
         });
         //Performing action on button click
-        pphone.setOnClickListener(new View.OnClickListener() {
+     /**   pphone.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -369,8 +364,38 @@ editDialog(whatData);
            startActivity(callIntent);
             }
 
-        });
+        });**/
 
+        pphone.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setTitle("Creat a call");
+                alert.setMessage("Are you sure, you want to dialling "+pname.getText().toString()+"?");
+// Create TextView
+                final TextView input = new TextView (getActivity());
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String number = pphone.getText().toString();
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + number));
+                        startActivity(callIntent);
+                        // Do something with value!
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                alert.show();
+            }
+
+        });
        // if(!doctorId.equals(uid)){peditbox.setEnabled(false);}
         //--------------------------------------
         peditbox.addTextChangedListener(new TextWatcher() {
@@ -417,11 +442,6 @@ editDialog(whatData);
 
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     private void displayImportImageDialog() {
 
@@ -509,16 +529,6 @@ editDialog(whatData);
                 compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                 byteImageData = baos.toByteArray();
                 uploadImage();
-            } else if (requestCode == PERMISSIONS_REQUEST_ENABLE_GPS) {
-
-                if (mLocationPermissionGranted) {
-                    // getChatrooms();
-                    getLastKnownLocation();
-                    System.out.println(TAG + "permission granted on activity result true");
-                } else {
-                    getLocationPermission();
-                }
-
             }
         }
     }
@@ -699,10 +709,7 @@ editDialog(whatData);
 
     /***-------------------------------------------------***/
 
-    public void onStart() {
-        super.onStart();
 
-    }
 
     private void getallData() {
 
@@ -763,6 +770,9 @@ editDialog(whatData);
                     insuranceView.setText(medInsurance);
                 } else {
                     insuranceView.setText("Nothing");
+                }
+                if(DoctorAbout != null) {
+                    peditbox.setText(DoctorAbout);
                 }
 
                 RequestOptions requestOptions = new RequestOptions();
@@ -834,21 +844,7 @@ editDialog(whatData);
         float density = getActivity().getApplicationContext().getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
     }
-    //-----------------------------add Gps----------------------------------
 
-    /**
-     * Request the Location Permission
-     */
-    private void requestPermission() {
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, theRequestCodeForLocation);
-        } else {
-            isPermissionGranted = true;
-        }
-
-    }
 
     private void displayInsurancesDialog() {
         final String[] insuranceList = getResources().getStringArray(R.array.insurance_array);
@@ -921,230 +917,5 @@ editDialog(whatData);
     }
 
 
-    /**
-     * this method is called by android system after we request a permission
-     * and the system pass the result of our request to this method so we can check if we got
-     * the permission or not
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case theRequestCodeForLocation:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    isPermissionGranted = true;
-                } else {
-                    Toast.makeText(getContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
-                    isPermissionGranted = false;
-                }
-                break;
-        }
 
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (doctorEventListener != null) {
-            databaseDoctor.removeEventListener(doctorEventListener);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (doctorEventListener != null) {
-            databaseDoctor.removeEventListener(doctorEventListener);
-        }
-    }
-
-
-    /*gps start*/
-    /*gps start*/
-    //save doctor user location step 3
-    private void saveUserLocaion() {
-
-        if (mUserLocaiotn != null) {
-            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
-            database.child("DoctorMap").child(mAuth.getCurrentUser().getUid()).
-                    setValue(mUserLocaiotn).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        System.out.println(TAG + "Doc Profile Activity>> " + mUserLocaiotn);
-                        Toast.makeText(getContext(), "Location Saved Successfully.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-
-        }
-        //end if
-
-    }
-
-    //get map location permission
-    private void getLastKnownLocation() {
-        System.out.println(TAG + "getLastKnownLocation: called.");
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<android.location.Location>() {
-            @Override
-            public void onComplete(@NonNull Task<android.location.Location> task) {
-                if (task.isSuccessful()) {
-                    final Location location = task.getResult();
-                    //get user first
-                    if (mUserLocaiotn == null) {
-                        mUserLocaiotn = new UserLocation();
-
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        System.out.println("UIDGET :" + uid);
-
-                        DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-                        Query query = mFirebaseDatabaseReference.child("Doctordb").child(uid);
-                        ValueEventListener valueEventListener = new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                DoctorFirebaseClass dF = dataSnapshot.getValue(DoctorFirebaseClass.class);
-                                System.out.println(TAG + " qerrrrrrrrrrry " + dF.getcName());
-
-                                mUserLocaiotn.setLat(location.getLatitude());
-                                mUserLocaiotn.setLng(location.getLongitude());
-                                mUserLocaiotn.setcName(dF.getcName());
-                                mUserLocaiotn.setcCity(dF.getcCity());
-                                mUserLocaiotn.setcType(dF.getcType());
-                                mUserLocaiotn.setcEmail(dF.getcEmail());
-                                mUserLocaiotn.setcUid(dF.getcId());
-                                mUserLocaiotn.setcSpec(dF.getcSpecialty());
-                                mUserLocaiotn.setcURI(dF.getcUri());
-
-
-                                saveUserLocaion();
-                                System.out.println(TAG + " getLastKNown>> USERafterAdDate: " + mUserLocaiotn);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        };
-                        query.addValueEventListener(valueEventListener);
-                    }
-                }
-            }
-        });
-
-    }
-
-    /*check map permissions */
-    private boolean checkMapServices() {
-        if (isServicesOK()) {
-            if (isMapsEnabled()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    public boolean isMapsEnabled() {
-        final LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-            return false;
-        }
-        return true;
-    }
-
-    private void getLocationPermission() {
-
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-            System.out.println(TAG + " get location permission fine");
-            //getChatrooms();
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
-
-    public boolean isServicesOK() {
-        Log.d(TAG, "isServicesOK: checking google services version");
-
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getContext());
-
-        if (available == ConnectionResult.SUCCESS) {
-            //everything is fine and the user can make map requests
-            Log.d(TAG, "isServicesOK: Google Play Services is working");
-            return true;
-        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            //an error occured but we can resolve it
-            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, ERROR_DIALOG_REQUEST);
-            dialog.show();
-        } else {
-            Toast.makeText(getContext(), "You can't make map requests", Toast.LENGTH_SHORT).show();
-        }
-        return false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (checkMapServices()) {
-            if (mLocationPermissionGranted) {
-                //getChatrooms();
-                goToMap();
-                Toast.makeText(getContext(), "Permission granted Successfully",
-                        Toast.LENGTH_LONG).show();
-            } else {
-                getLocationPermission();
-            }
-        }
-    }
-
-    private void goToMap() {
-        System.out.println(TAG + " goToMap>>");
-        hideSoftKeyboard();
-
-
-        DoctorMapFrag fragment = DoctorMapFrag.newInstance();
-        Bundle bundle = new Bundle();
-        //bundle.putParcelableArrayList(getString(R.string.intent_user_list), mUserList);
-        fragment.setArguments(bundle);
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack("User List");
-        transaction.commit();
-
-        getLastKnownLocation();
-    }
-
-    private void hideSoftKeyboard() {
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    }
-    /*check map permissions */
-
-    /*gps end*/
-    /*gps end*/
 }

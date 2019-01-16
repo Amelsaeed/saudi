@@ -94,8 +94,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
         final LinearLayout lineardoctorsalary = listViewItem.findViewById(R.id.linear_doctor_salary);
         final LinearLayout lineardoctordegree = listViewItem.findViewById(R.id.linear_doctor_degree);
-     //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
-       // final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
+        //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
+        // final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
         final TextView TypeList = (TextView) listViewItem.findViewById(R.id.type_list);
         final CheckBox favcheckbox = (CheckBox) listViewItem.findViewById(R.id.fav_checkbox);
         final RelativeLayout relativeLayoutbook = listViewItem.findViewById(R.id.rilative_book);
@@ -105,14 +105,14 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final ImageView adoctorphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo);
         final DoctorFirebaseClass doctorclass = doctorList.get(position);
         favcheckbox.setChecked(doctorclass.getChecked());
-        ImageView Insuranceall= (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);
-      /**  final Button singout = (Button) listViewItem.findViewById(R.id.singout);
-        singout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                context.startActivity(new Intent(context,LoginActivity.class));
-            }
+        ImageView Insuranceall = (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);
+        ImageView specialtyDetail = (ImageView) listViewItem.findViewById(R.id.doctor_specialty_all);
+        /**  final Button singout = (Button) listViewItem.findViewById(R.id.singout);
+         singout.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+        mAuth.signOut();
+        context.startActivity(new Intent(context,LoginActivity.class));
+        }
         });**/
 
     /*    if (fuser != null) {
@@ -150,11 +150,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         }*/
 
 
-
-
-
-
-            favcheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        favcheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -232,32 +228,32 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onClick(View v) {
 
-                    DoctorFirebaseClass doctorclasss = doctorList.get(position);
-                    Intent intent = new Intent(context, InsuranceListActivity.class);
-                    intent.putExtra("InsuranceList",doctorclass.getcInsurance());
-                    intent.putExtra("DoctorName",doctorclass.getcName());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-
+                DoctorFirebaseClass doctorclasss = doctorList.get(position);
+                Intent intent = new Intent(context, InsuranceListActivity.class);
+                intent.putExtra("InsuranceList", doctorclass.getcInsurance());
+                intent.putExtra("DoctorName", doctorclass.getcName());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
 
 
             }
         });
-        adoctorspecialty.setOnClickListener(new View.OnClickListener() {
+        specialtyDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 DoctorFirebaseClass doctorclasss = doctorList.get(position);
-               // Toast.makeText(context, doctorclasss.getcAbout(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(context, doctorclasss.getcAbout(), Toast.LENGTH_LONG).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("Specialization Details");
-                if (doctorclasss.getcAbout()!= null) {
+                if (doctorclasss.getcAbout() != null) {
                     alert.setMessage(doctorclasss.getcAbout());
-                }else{alert.setMessage("Nothing to show");}
+                } else {
+                    alert.setMessage("Nothing to show");
+                }
 // Create TextView
-                final TextView input = new TextView (context);
+                final TextView input = new TextView(context);
                 alert.setView(input);
-
 
 
                 alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -266,7 +262,6 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     }
                 });
                 alert.show();
-
 
 
             }
@@ -280,33 +275,38 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             }
         });*/
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
-        
-       if ((doctorclass.getcType()).equals("Hospital")) {
+
+        if ((doctorclass.getcType()).equals("Hospital")) {
 
 
             Book.setVisibility(View.GONE);
             lineardoctorsalary.setVisibility(View.GONE);
             lineardoctordegree.setVisibility(View.GONE);
-        }else{
+        } else {
             Book.setVisibility(View.VISIBLE);
             lineardoctorsalary.setVisibility(View.VISIBLE);
             lineardoctordegree.setVisibility(View.VISIBLE);
-            }
+        }
 
         TypeList.setText(doctorclass.getcType());
         adoctorname.setText(doctorclass.getcName());
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
-        if (doctorclass.getcPrice()!= null) {
+        if (doctorclass.getcPrice() != null) {
             adoctorsalary.setText(doctorclass.getcPrice());
-        }else{adoctorsalary.setText("price not detected");}
+        } else {
+            adoctorsalary.setText("price not detected");
+        }
 
-        if (doctorclass.getcDegree()!= null) {
+        if (doctorclass.getcDegree() != null) {
             adoctordegree.setText(doctorclass.getcDegree());
-        }else{adoctordegree.setText("Degree not detected");}
-        String InsuranceList=doctorclass.getcInsurance();
+        } else {
+            adoctordegree.setText("Degree not detected");
+        }
+        String InsuranceList = doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));
-       // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
+        // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
+        if (doctorclass.getcHospitalID()!= null) {
         if (!doctorclass.getcHospitalID().equalsIgnoreCase("non")) {
             DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
             final ValueEventListener postListener1 = new ValueEventListener() {
@@ -316,7 +316,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     String HospitalName = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cName").getValue(String.class);
                     String Hospitalpic = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cUri").getValue(String.class);
                     ahospitalname.setText(HospitalName);
-                  //  Toast.makeText(context, HospitalName+ "/"+Hospitalpic, Toast.LENGTH_LONG).show();
+                    //  Toast.makeText(context, HospitalName+ "/"+Hospitalpic, Toast.LENGTH_LONG).show();
 
                     Glide.with(context)
                             .load(Hospitalpic)
@@ -332,9 +332,9 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                 }
             };
             databaseDoctor.addValueEventListener(postListener1);
-           // adoctordegree.setText(doctorclass.getcDegree());
+            // adoctordegree.setText(doctorclass.getcDegree());
         }//else{adoctordegree.setText("Degree not detected");}
-
+    }
       //  final ArrayList<String> items = (ArrayList<String>)Arrays.asList(InsuranceList.split(","));
        //final String[] items = InsuranceList.split(",");
   ////////////***********************************************
