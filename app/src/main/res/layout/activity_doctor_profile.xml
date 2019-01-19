@@ -31,19 +31,19 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="#000"
         android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/name_edit"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:srcCompat="@drawable/ic_edit"
-        android:layout_marginLeft="8dp"
-        android:scaleType="center"
-        android:background="@drawable/button_round_blue"
-        android:layout_toRightOf="@id/pname"
-        android:visibility="gone"
         android:layout_below="@id/edit_photo"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/pname"
+        android:background="@drawable/button_round_blue"
+        android:scaleType="center"
+        android:visibility="gone"
 
-        />
+        app:srcCompat="@drawable/ic_edit" />
     <CheckBox
         android:id="@+id/checkBox1"
         android:layout_width="wrap_content"

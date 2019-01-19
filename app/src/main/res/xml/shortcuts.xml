@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+<shortcut
+    android:shortcutId="ChatRoom"
+    android:enabled="true"
+    android:icon="@mipmap/ic_chat_shortcut"
+    android:shortcutShortLabel="@string/shortcut"
+    android:shortcutLongLabel="@string/shortcut">
+
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:targetPackage="com.example.ahmedmagdy.theclinic"
+        android:targetClass="com.example.ahmedmagdy.theclinic.activities.StartCahtRoom"/>
+</shortcut>
+
+
+</shortcuts>

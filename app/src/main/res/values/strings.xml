@@ -118,6 +118,7 @@
     <string name="sign_out">Sign out</string>
     <string name="hospitals">Hospitals</string>
     <string name="no_bookings_msg">No bookings this day!</string>
+    <string name="shortcut">ChatRoom</string>
 
 
 </resources>

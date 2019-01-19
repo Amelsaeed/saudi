@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalAllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalMyDoctorFragment;
+import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalProfileFragment;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -44,7 +45,7 @@ public class HospitalHome extends AppCompatActivity {
                             selectedFragment = new HospitalMyDoctorFragment();
                             break;
                         case R.id.navigation_profile_hpspetal:
-                            selectedFragment = new HospitalMyDoctorFragment();
+                            selectedFragment = new HospitalProfileFragment();
                             break;
                         case R.id.navigation_menu_hospital:
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
