@@ -12,8 +12,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.example.ahmedmagdy.theclinic.Adapters.BookingAdapter;
 import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
@@ -80,6 +83,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_list);
+        Toolbar toolbar = findViewById(R.id.toolbarbook);
 
         listViewBooking = (ListView) findViewById(R.id.list_view_booking);
         bookingList = new ArrayList<BookingClass>();
@@ -116,7 +120,17 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             paddbook.setVisibility(View.GONE);
         }
 
+//----------------------------------------------------------------
+                setSupportActionBar(toolbar);
 
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        if(getSupportActionBar() != null){
+          ab.setDisplayHomeAsUpEnabled(true);
+            ab.setHomeButtonEnabled(true);
+            ab.setDisplayShowTitleEnabled(false);
+        }
+//=============================================================
         listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int position, long id) {
@@ -160,7 +174,6 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             return true;
             }
         });
-
 
 
 
@@ -1046,6 +1059,12 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         return  wholeAddress;
 
     }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
     protected void onStart() {
         super.onStart();
         progressBarBooking.setVisibility(View.VISIBLE);

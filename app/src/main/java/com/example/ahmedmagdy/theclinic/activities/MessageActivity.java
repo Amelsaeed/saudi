@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -91,7 +92,6 @@ public class MessageActivity extends AppCompatActivity {
     DatabaseReference databaseChat;
     boolean notify = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,8 +134,18 @@ public class MessageActivity extends AppCompatActivity {
         mFirebaseStorage = FirebaseStorage.getInstance();
         mPhotoPickerRef = mFirebaseStorage.getReference().child("chat_photos");
         /*Firebase Storage*/
+//----------------------------------------------------------------
+         setSupportActionBar(toolbar);
 
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        if(getSupportActionBar() != null){
+            ab.setDisplayHomeAsUpEnabled(true);
+        ab.setHomeButtonEnabled(true);
+            ab.setDisplayShowTitleEnabled(false);
 
+        }
+//=============================================================
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
@@ -213,13 +223,19 @@ public class MessageActivity extends AppCompatActivity {
         dialog.show();
     }
 /////////////////////////////////////////////////////////////////////////////
-
+@Override
+public boolean onSupportNavigateUp(){
+    finish();
+    return true;
+}
+/**
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.back, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -232,7 +248,7 @@ public class MessageActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+**/
 /*
 
     int PICK_IMAGE_INTENT = 1;
