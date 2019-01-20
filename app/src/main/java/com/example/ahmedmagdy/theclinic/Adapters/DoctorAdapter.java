@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexzh.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
@@ -86,7 +87,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final RelativeLayout relativeLayoutfav = listViewItem.findViewById(R.id.rilative_fav);
         mAuth = FirebaseAuth.getInstance();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        final ImageView adoctorphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo);
+        final CircleImageView adoctorphoto = (CircleImageView) listViewItem.findViewById(R.id.doctor_photo);
         final DoctorFirebaseClass doctorclass = doctorList.get(position);
         favcheckbox.setChecked(doctorclass.getChecked());
         ImageView Insuranceall = (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);

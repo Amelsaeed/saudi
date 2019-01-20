@@ -24,6 +24,24 @@
         android:layout_marginBottom="327dp"
         app:view_borderWidth="5dp" />
 
+    <ProgressBar
+        android:id="@+id/proo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_hospital"
+        android:layout_alignLeft="@+id/profile_hospital"
+        android:layout_alignTop="@+id/profile_hospital"
+        android:layout_alignEnd="@+id/profile_hospital"
+        android:layout_alignRight="@+id/profile_hospital"
+        android:layout_alignBottom="@+id/profile_hospital"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginRight="31dp"
+        android:layout_marginBottom="17dp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/email_hospital"
         android:layout_width="wrap_content"
@@ -42,17 +60,29 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
         android:gravity="center"
+        android:text=""
         android:textColor="#000"
         android:textSize="40dp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/edit_name_hospital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/email_hospital"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="27dp"
+        android:layout_toStartOf="@+id/name_hospital"
+        android:layout_toLeftOf="@+id/name_hospital"
+        android:background="@drawable/ic_edit" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="300dp"
         android:layout_marginBottom="18dp"
         android:orientation="vertical">
 

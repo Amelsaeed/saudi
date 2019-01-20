@@ -140,8 +140,8 @@ public class MessageActivity extends AppCompatActivity {
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         if(getSupportActionBar() != null){
-            ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeButtonEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(false);
+        ab.setHomeButtonEnabled(false);
             ab.setDisplayShowTitleEnabled(false);
 
         }
