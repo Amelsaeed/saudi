@@ -167,7 +167,6 @@ public class MoreFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-        dialog.setCanceledOnTouchOutside(false);
 
         dialog.show();
     }

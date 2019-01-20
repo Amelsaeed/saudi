@@ -86,7 +86,9 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         Toolbar toolbar = findViewById(R.id.toolbarbook);
 
         listViewBooking = (ListView) findViewById(R.id.list_view_booking);
-        bookingList = new ArrayList<BookingClass>();
+        TextView noDataMsg = findViewById(R.id.no_appoint_msg);
+        listViewBooking.setEmptyView(noDataMsg);
+        bookingList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
 
