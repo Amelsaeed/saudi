@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,10 +33,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
@@ -83,6 +80,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
         }
 
 
+
     }
 
     @Nullable
@@ -97,13 +95,10 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
 
         initGoogleMap(savedInstanceState);
 
-
-
         return view;
     }
 
     private void goToMap() {
-        System.out.println(TAG + " goToMap>>");
         hideSoftKeyboard();
     }
 
@@ -126,7 +121,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
         );
 
         System.out.println(TAG + " mMapBoundary " + mMapBoundary);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 0));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 10));
 
     }
 
@@ -135,9 +130,12 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
 
         if (mGoogleMap != null && mUserLocs != null) {
 
+            resetMap();
+
             if (mClusterManager == null) {
                 mClusterManager = new ClusterManager<ClusterMarker>(getActivity().getApplicationContext(), mGoogleMap);
             }
+
             if (mClusterManagerRenderer == null) {
                 mClusterManagerRenderer = new MyClusterManagerRenderer(
                         getActivity(),
@@ -149,49 +147,59 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
 
             for (UserLocation userLocation : mUserLocs) {
 
-                System.out.println(TAG + "addMapMarkers: location: " + userLocation.getLat() + "," + userLocation.getLng());
-                try {
-                    String snippet = "";
+                if(userLocation.getCmdoctorid()!=null) {
+                    System.out.println(TAG + "addMapMarkers: location: " +
+                            Double.parseDouble(userLocation.getCmlatitude()) +
+                            "," + Double.parseDouble(userLocation.getCmlongitude()) +
+                            "," + userLocation.getCmdoctorid() +
+                            "," + userLocation.getCmDoctorGander() +
+                            "," + userLocation.getCmdoctorspecialty() +
+                            "," + userLocation.getCmname()
+                    );
                     try {
-                        snippet = userLocation.getcSpec();
+                        String snippet = "";
+                        try {
+                            snippet = userLocation.getCmdoctorspecialty();
 
-                    } catch (NumberFormatException e) {
-                        System.out.println(TAG + "addMapMarkers: no Spec for " + userLocation.getcName() +
-                                ", setting default.");
+                        } catch (NumberFormatException e) {
+                            System.out.println(TAG + "addMapMarkers: no Spec for " + userLocation.getCmname() +
+                                    ", setting default.");
+                        }
+
+                        int avatar = R.drawable.cartman_cop; // set the default avatar
+                        String avatarUrl = null; // set the default avatar
+                        try {
+                            avatarUrl = userLocation.getCmdoctorpic();
+
+                        } catch (NumberFormatException e) {
+                            System.out.println(TAG + "addMapMarkers: no avatar for " + userLocation.getCmname() +
+                                    ", setting default.");
+                        }
+                        ClusterMarker newClusterMarker;
+                        if (avatarUrl == null) {
+                            newClusterMarker = new ClusterMarker(
+                                    new LatLng(Double.parseDouble(userLocation.getCmlatitude()),
+                                            Double.parseDouble(userLocation.getCmlongitude())),
+                                    userLocation.getCmname(),
+                                    snippet,
+                                    avatar
+                            );
+                        } else {
+                            newClusterMarker = new ClusterMarker(
+                                    new LatLng(Double.parseDouble(userLocation.getCmlatitude()),
+                                            Double.parseDouble(userLocation.getCmlongitude())),
+                                    userLocation.getCmname(),
+                                    snippet,
+                                    avatarUrl
+                            );
+                        }
+                        mClusterManager.addItem(newClusterMarker);
+                        mClusterMarkers.add(newClusterMarker);
+
+                    } catch (NullPointerException e) {
+                        System.out.println(TAG + "addMapMarkers: NullPointerException: " + e.getMessage());
                     }
-
-                    int avatar = R.drawable.cartman_cop; // set the default avatar
-                    String avatarUrl = null; // set the default avatar
-                    try {
-                        avatarUrl = userLocation.getcURI();
-
-                    } catch (NumberFormatException e) {
-                        System.out.println(TAG + "addMapMarkers: no avatar for " + userLocation.getcName() +
-                                ", setting default.");
-                    }
-                    ClusterMarker newClusterMarker;
-                    if (avatarUrl == null) {
-                        newClusterMarker = new ClusterMarker(
-                                new LatLng(userLocation.getLat(), userLocation.getLng()),
-                                userLocation.getcName(),
-                                snippet,
-                                avatar
-                        );
-                    } else {
-                        newClusterMarker = new ClusterMarker(
-                                new LatLng(userLocation.getLat(), userLocation.getLng()),
-                                userLocation.getcName(),
-                                snippet,
-                                avatarUrl
-                        );
-                    }
-                    mClusterManager.addItem(newClusterMarker);
-                    mClusterMarkers.add(newClusterMarker);
-
-                } catch (NullPointerException e) {
-                    System.out.println(TAG + "addMapMarkers: NullPointerException: " + e.getMessage());
                 }
-
             }
             mClusterManager.cluster();
 
@@ -203,6 +211,26 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
             setMyPosCamera();
         }
 
+    }
+
+    private void resetMap(){
+        if(mGoogleMap != null) {
+            mGoogleMap.clear();
+
+            if(mClusterManager != null){
+                mClusterManager.clearItems();
+            }
+
+            if (mClusterMarkers.size() > 0) {
+                mClusterMarkers.clear();
+                mClusterMarkers = new ArrayList<>();
+            }
+
+            /*if(mPolyLinesData.size() > 0){
+                mPolyLinesData.clear();
+                mPolyLinesData = new ArrayList<>();
+            }*/
+        }
     }
 
     //get my position with set camera close 0.1 for doctor profile
