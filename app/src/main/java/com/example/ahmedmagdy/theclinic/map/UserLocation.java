@@ -3,47 +3,46 @@ package com.example.ahmedmagdy.theclinic.map;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 public class UserLocation implements Parcelable {
 
-    private double lat;
-    private double lng;
-    private Date time_stamp;
-    private String cName;
-    private String cURI;
-    private String cCity;
-    private String cType;
-    private String cSpec;
-    private String cEmail;
-    private String cUid;
+    private String cmlatitude;
+    private String cmlongitude;
+    private String cmname;
+    private String cmdoctorpic;
+    private String cmDoctorType;
+    private String cmdoctorspecialty;
+    private String cmdoctorid;
+    private String cmDoctorGander;
+    private String cmHC;
 
-    public UserLocation(double lat, double lng, Date time_stamp,
-                        String cName, String cURI, String cCity,
-                        String cType, String cSpec , String cEmail , String cUid) {
-        this.lat = lat;
-        this.lng = lng;
-        this.time_stamp = time_stamp;
-        this.cName = cName;
-        this.cURI = cURI;
-        this.cCity = cCity;
-        this.cType = cType;
-        this.cSpec = cSpec;
-        this.cEmail = cEmail;
-        this.cUid = cUid;
+    public UserLocation(String cmlatitude, String cmlongitude,
+                        String cmname, String cmdoctorpic,String cmDoctorGander,String cmHC,
+                        String cmDoctorType, String cmdoctorspecialty , String cmdoctorid) {
+
+        this.cmlatitude = cmlatitude;
+        this.cmlongitude = cmlongitude;
+        this.cmname = cmname;
+        this.cmdoctorpic = cmdoctorpic;
+        this.cmDoctorType = cmDoctorType;
+        this.cmdoctorspecialty = cmdoctorspecialty;
+        this.cmdoctorid = cmdoctorid;
+        this.cmDoctorGander = cmDoctorGander;
+        this.cmHC = cmHC;
     }
 
     public UserLocation() {
     }
 
     public UserLocation(Parcel in) {
-        lat = in.readDouble();
-        lng = in.readDouble();
-        cName = in.readString();
-        cURI = in.readString();
-        cCity = in.readString();
-        cType = in.readString();
-        cSpec = in.readString();
+        cmlatitude = in.readString();
+        cmlongitude = in.readString();
+        cmname = in.readString();
+        cmdoctorpic = in.readString();
+        cmDoctorType = in.readString();
+        cmdoctorspecialty = in.readString();
+        cmdoctorid = in.readString();
+        cmDoctorGander = in.readString();
+        cmHC = in.readString();
     }
 
 
@@ -59,84 +58,76 @@ public class UserLocation implements Parcelable {
         }
     };
 
-    public double getLat() {
-        return lat;
+    public String getCmDoctorGander() {
+        return cmDoctorGander;
     }
 
-    public String getcUid() {
-        return cUid;
+    public void setCmDoctorGander(String cmDoctorGander) {
+        this.cmDoctorGander = cmDoctorGander;
     }
 
-    public void setcUid(String cUid) {
-        this.cUid = cUid;
+    public String getCmHC() {
+        return cmHC;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setCmHC(String cmHC) {
+        this.cmHC = cmHC;
     }
 
-    public double getLng() {
-        return lng;
+    public String getCmlatitude() {
+        return cmlatitude;
     }
 
-    public void setLng(double lng) {
-        this.lng = lng;
+    public String getCmdoctorid() {
+        return cmdoctorid;
     }
 
-    public Date getTime_stamp() {
-        return time_stamp;
+    public void setCmdoctorid(String cmdoctorid) {
+        this.cmdoctorid = cmdoctorid;
     }
 
-    public void setTime_stamp(Date time_stamp) {
-        this.time_stamp = time_stamp;
+    public void setCmlatitude(String cmlatitude) {
+        this.cmlatitude = cmlatitude;
     }
 
-    public String getcName() {
-        return cName;
+    public String getCmlongitude() {
+        return cmlongitude;
     }
 
-    public void setcName(String cName) {
-        this.cName = cName;
+    public void setCmlongitude(String cmlongitude) {
+        this.cmlongitude = cmlongitude;
     }
 
-    public String getcURI() {
-        return cURI;
+    public String getCmname() {
+        return cmname;
     }
 
-    public void setcURI(String cURI) {
-        this.cURI = cURI;
+    public void setCmname(String cmname) {
+        this.cmname = cmname;
     }
 
-    public String getcCity() {
-        return cCity;
+    public String getCmdoctorpic() {
+        return cmdoctorpic;
     }
 
-    public void setcCity(String cCity) {
-        this.cCity = cCity;
+    public void setCmdoctorpic(String cmdoctorpic) {
+        this.cmdoctorpic = cmdoctorpic;
     }
 
-    public String getcType() {
-        return cType;
+    public String getCmDoctorType() {
+        return cmDoctorType;
     }
 
-    public void setcType(String cType) {
-        this.cType = cType;
+    public void setCmDoctorType(String cmDoctorType) {
+        this.cmDoctorType = cmDoctorType;
     }
 
-    public String getcSpec() {
-        return cSpec;
+    public String getCmdoctorspecialty() {
+        return cmdoctorspecialty;
     }
 
-    public void setcSpec(String cSpec) {
-        this.cSpec = cSpec;
-    }
-
-    public String getcEmail() {
-        return cEmail;
-    }
-
-    public void setcEmail(String cEmail) {
-        this.cEmail = cEmail;
+    public void setCmdoctorspecialty(String cmdoctorspecialty) {
+        this.cmdoctorspecialty = cmdoctorspecialty;
     }
 
     @Override
@@ -147,32 +138,28 @@ public class UserLocation implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
-        dest.writeDouble(lat);
-        dest.writeDouble(lng);
-        dest.writeString(cName);
-        dest.writeString(cURI);
-        dest.writeString(cCity);
-        dest.writeString(cType);
-        dest.writeString(cSpec);
-        dest.writeString(cEmail);
-        dest.writeString(cUid);
+        dest.writeString(cmlatitude);
+        dest.writeString(cmlongitude);
+        dest.writeString(cmname);
+        dest.writeString(cmdoctorpic);
+        dest.writeString(cmDoctorType);
+        dest.writeString(cmdoctorspecialty);
+        dest.writeString(cmdoctorid);
     }
 
     @Override
     public String toString() {
         return "UserLocation{" +
-                "lat=" + lat +
-                ", lng=" + lng +
-                ", time_stamp=" + time_stamp +
-                ", cName='" + cName + '\'' +
-                ", cURI='" + cURI + '\'' +
-                ", cCity='" + cCity + '\'' +
-                ", cType='" + cType + '\'' +
-                ", cSpec='" + cSpec + '\'' +
-                ", cEmail='" + cEmail + '\'' +
-                ", cUid='" + cUid + '\'' +
+                "cmlatitude=" + cmlatitude +
+                ", cmlongitude=" + cmlongitude +
+                ", cmname='" + cmname + '\'' +
+                ", cmdoctorpic='" + cmdoctorpic + '\'' +
+                ", cmDoctorType='" + cmDoctorType + '\'' +
+                ", cmdoctorspecialty='" + cmdoctorspecialty + '\'' +
+                ", cmdoctorid='" + cmdoctorid + '\'' +
                 '}';
     }
+
 
 
 }
