@@ -26,7 +26,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.SplashActivity"
-         >
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,32 +39,49 @@
         </activity>
         <activity
             android:name=".PatientHome"
-            android:theme="@style/SplashTheme" />
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activities.AllHospitalActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.RegisterPatientActivity" />
-        <activity android:name=".activities.RegisterDoctorActivity" />
-        <activity android:name=".activities.RegisterHospitalActivity" />
-        <activity android:name=".activities.AllDoctorActivity" />
-        <activity android:name=".activities.AddDoctorActivity" />
-        <activity android:name=".activities.DoctorProfileActivity" />
-        <activity android:name=".activities.UserProfileActivity" />
-        <activity android:name=".activities.DoctorBookingsActivity" />
-        <activity android:name=".activities.FavActivity" />
-        <activity android:name=".activities.StartCahtRoom">
+        <activity android:name=".activities.AllHospitalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RegisterPatientActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RegisterDoctorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RegisterHospitalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.AllDoctorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.AddDoctorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.DoctorProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.UserProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.DoctorBookingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FavActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.StartCahtRoom"
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".activities.MessageActivity" />
-        <activity android:name=".activities.NoteActivity" />
+        <activity android:name=".activities.MessageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.NoteActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DoctorHome"
-            android:theme="@style/SplashTheme" />
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activities.CalenderActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".Notifications.MyFirebaseIdService"
@@ -103,16 +121,25 @@
             android:required="false" />
         <!-- gps -->
 
-        <activity android:name=".activities.DoctorDatabaseActivity" />
-        <activity android:name=".activities.UserBookingActivity" />
-        <activity android:name=".activities.RegestrationPathActivity" />
+        <activity android:name=".activities.DoctorDatabaseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.UserBookingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RegestrationPathActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".HospitalHome"
-            android:theme="@style/SplashTheme" />
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activities.BookingListActivity" />
-        <activity android:name=".activities.InsuranceListActivity" />
-        <activity android:name=".AdvancedSearchActivity"></activity>
+        <activity android:name=".activities.BookingListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.InsuranceListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AdvancedSearchActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
     <meta-data
         android:name="android.support.PARENT_ACTIVITY"
