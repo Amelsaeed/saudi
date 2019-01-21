@@ -2,42 +2,6 @@
     <string name="app_name">The Clinic</string>
 
 
-    <string-array name="countries_array">
-        <item>Dammam</item>
-        <item>Khobar</item>
-        <item>Riyadh</item>
-    </string-array>
-    <string-array name="gander_array">
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-
-    <string-array name="HC_array">
-        <item>Clinic</item>
-        <item>Hospital</item>
-    </string-array>
-
-    <string-array name="type_array">
-        <item>User</item>
-        <item>Doctor</item>
-        <item>Hospital</item>
-    </string-array>
-
-    <string-array name="spiciality_array">
-        <item>bones</item>
-        <item>tooth</item>
-        <item>ayes</item>
-    </string-array>
-
-
-    <string-array name="Degree_array">
-        <item>Master</item>
-        <item>Master_master</item>
-        <item>Doctor</item>
-        <item>Doctor_Doctor</item>
-    </string-array>
-
-
     <string-array name="step_array">
         <item>5</item>
         <item>10</item>
@@ -50,6 +14,41 @@
         <item>45</item>
         <item>50</item>
         <item>60</item>
+    </string-array>
+
+    <string-array name="gander_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="type_array">
+        <item>User</item>
+        <item>Doctor</item>
+        <item>Hospital</item>
+    </string-array>
+
+    <string-array name="HC_array">
+        <item>Clinic</item>
+        <item>Hospital</item>
+    </string-array>
+
+    <string-array name="countries_array">
+        <item>Dammam</item>
+        <item>Khobar</item>
+        <item>Riyadh</item>
+    </string-array>
+
+    <string-array name="spiciality_array">
+        <item>bones</item>
+        <item>tooth</item>
+        <item>ayes</item>
+    </string-array>
+
+    <string-array name="Degree_array">
+        <item>Master</item>
+        <item>Master_master</item>
+        <item>Doctor</item>
+        <item>Doctor_Doctor</item>
     </string-array>
 
     <string-array name="insurance_array">

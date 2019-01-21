@@ -198,7 +198,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     Intent uIntent = new Intent(context, BookingListActivity.class);
                     uIntent.putExtra("DoctorID", doctorclass.getcId());
                     uIntent.putExtra("DoctorName", doctorclass.getcName());
-
+                    uIntent.putExtra("BookingType",  doctorclass.getCbookingtypestate());
                     uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(uIntent);
 
@@ -317,15 +317,15 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     String Hospitalpic = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cUri").getValue(String.class);
                     ahospitalname.setText(HospitalName);
                     //  Toast.makeText(context, HospitalName+ "/"+Hospitalpic, Toast.LENGTH_LONG).show();
+                    if (!context.isFinishing()) {
+                        Glide.with(context)
+                                .load(Hospitalpic)
+                                .apply(RequestOptions.circleCropTransform())
+                                // .apply(requestOptions)
+                                .into(ahospitalpic);
 
-                    Glide.with(context)
-                            .load(Hospitalpic)
-                            .apply(RequestOptions.circleCropTransform())
-                            // .apply(requestOptions)
-                            .into(ahospitalpic);
-
+                    }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     // Getting Post failed, log a message

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> implements Filterable {
     List<BookingTimesClass> doctorList;
@@ -74,7 +77,10 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
         final BookingTimesClass doctorclass = doctorList.get(position);
         //asize = trampList.size();
        // String bookingdate=doctorclass.getCtbookingdate()+" "+doctorclass.getCtPeriod();
-        if(doctorclass.getCtbookingdate()!= null && doctorclass.getCtArrangement()!=null){
+        final Pattern pattern = Pattern.compile( "([01]?[0-9]|2[0-3]):[0-5][0-9]");
+        final Matcher matcher=  pattern.matcher(doctorclass.getCtArrangement());
+        //final Matcher matcher;
+        if(doctorclass.getCtbookingdate()!= null && doctorclass.getCtArrangement()!=null &&  matcher.matches()){
         String bookingdate=doctorclass.getCtbookingdate()+" "+doctorclass.getCtArrangement();//"2018_12_27 16:15:51";2019_01_1 12:00
 
       SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
@@ -101,7 +107,10 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                 cardviewbook.setCardBackgroundColor(Color.parseColor("#fd0101"));
             }
         }
-
+        if( doctorclass.getCtArrangement()!=null && doctorclass.getCtArrangement().equalsIgnoreCase("0")&&  ! matcher.matches()){
+            cardviewbook.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));
+            cardviewcancel.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));
+        }
         adname.setText(doctorclass.getCtname());
         apspecialty.setText(doctorclass.getCtSpc());
         apaddress.setText(doctorclass.getCtAddress());

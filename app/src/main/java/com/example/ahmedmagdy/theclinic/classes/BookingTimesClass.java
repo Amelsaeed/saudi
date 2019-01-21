@@ -75,6 +75,7 @@ public BookingTimesClass(String ctid, String ctdate,String ctAddress, String ctP
     this.ctPeriod = ctPeriod;
     this.ctbookingdate = ctbookingdate;
     this.ctArrangement = ctArrangement;
+    // DoctorID,  mDate, currentBooking.getCbaddress(),currentBooking.getCbtime() , datedmy,arrange
 }
     public BookingTimesClass(String ctid,String ctname, String ctdate,String ctAddress, String ctPeriod, String ctpicuri,String ctbookingdate, String ctArrangement,String ctSpc) {
         this.ctid = ctid;

@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -81,6 +83,7 @@ public class DoctorProfileFragment extends Fragment  {
     ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
     TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
     EditText peditbox;
+    CheckBox  bookingtypecheck;
     private ProgressBar progressBarImage;
 
     private Uri imagePath;
@@ -88,7 +91,7 @@ public class DoctorProfileFragment extends Fragment  {
     private final int CAMERA_REQUEST_CODE = 2;
     String  idm;
     String mTrampPhotoUrl = "";
-
+    Boolean bookingtype;
     String doctorId;
     String DoctorName, insuranceItems = "";
     byte[] byteImageData;
@@ -150,6 +153,8 @@ public class DoctorProfileFragment extends Fragment  {
 
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
+        bookingtypecheck= rootView.findViewById(R.id.checkBox1);
+
 
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
@@ -167,12 +172,24 @@ public class DoctorProfileFragment extends Fragment  {
 
 
         getallData();
+        bookingtypecheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //is chkIos checked?
+                if (((CheckBox) v).isChecked()) {
+                    databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(true);
+                } else {
+                    databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(false);
+                }
+            }
+        });
         workingHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), BookingListActivity.class);
                 intent.putExtra("DoctorID", doctorId);
                 intent.putExtra("DoctorName", DoctorName);
+                intent.putExtra("BookingType", bookingtype);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(intent);
@@ -437,6 +454,9 @@ editDialog(whatData);
 
             }
         });
+
+
+
         return rootView;
     }
 
@@ -720,7 +740,7 @@ editDialog(whatData);
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
+                DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
                 String DoctorCity = dataSnapshot1.child(doctorId).child("cCity").getValue(String.class);
                 String DoctorSpecialty = dataSnapshot1.child(doctorId).child("cSpecialty").getValue(String.class);
                 String DoctorDegree = dataSnapshot1.child(doctorId).child("cDegree").getValue(String.class);
@@ -730,6 +750,10 @@ editDialog(whatData);
                 String DoctorAbout = dataSnapshot1.child(doctorId).child("cAbout").getValue(String.class);
                 String DoctorPic = dataSnapshot1.child(doctorId).child("cUri").getValue(String.class);
                 String medInsurance = dataSnapshot1.child(doctorId).child("cInsurance").getValue(String.class);
+                bookingtype = dataSnapshot1.child(doctorId).child("cbookingtypestate").getValue(boolean.class);
+
+                if (bookingtype != null) {
+                bookingtypecheck.setChecked(bookingtype);}
 
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
@@ -777,16 +801,21 @@ editDialog(whatData);
 
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new RoundedCorners(16));
+
                 if (DoctorPic != null) {
-                    Glide.with(DoctorProfileFragment.this)
-                            .load(DoctorPic)
-                            .apply(requestOptions)
-                            .into(ppicuri);
+                  if ( getActivity()!= null) {
+                        Glide.with(getActivity())
+                                .load(DoctorPic)
+                                .apply(requestOptions)
+                                .into(ppicuri);
+                    }
                 } else {
-                    Glide.with(DoctorProfileFragment.this)
-                            .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11")
-                            .apply(requestOptions)
-                            .into(ppicuri);
+                  //  if (!getActivity().isFinishing()) {
+                        Glide.with(getActivity())
+                                .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11")
+                                .apply(requestOptions)
+                                .into(ppicuri);
+                   // }
                 }
 
             }

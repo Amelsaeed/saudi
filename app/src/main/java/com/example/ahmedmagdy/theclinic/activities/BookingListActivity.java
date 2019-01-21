@@ -1,6 +1,7 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -14,10 +15,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,28 +32,45 @@ import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.BookingAdapter;
 import com.example.ahmedmagdy.theclinic.ChatRoomFragments.APIService;
+import com.example.ahmedmagdy.theclinic.Notifications.Client;
+import com.example.ahmedmagdy.theclinic.Notifications.Data;
+import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;
+import com.example.ahmedmagdy.theclinic.Notifications.Sender;
+import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
+import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.MapClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingListActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     Button paddbook;
@@ -62,7 +82,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
     final int theRequestCodeForLocation = 1;
     private FusedLocationProviderClient mFusedLocationClient;
     Boolean isPermissionGranted;
-
+    boolean notify = false;
     APIService apiService;
     EditText dialogAddress;
     private FirebaseAuth mAuth;
@@ -75,7 +95,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
     ListView listViewBooking;
     private List<BookingClass> bookingList;
     int startHour, endingHour;
-
+   String userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,14 +106,16 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
         mAuth = FirebaseAuth.getInstance();
 
-
-
+        fuser = mAuth.getInstance().getCurrentUser();
+         userid = mAuth.getCurrentUser().getUid();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");databaseUserReg.keepSynced(true);
         databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");databasetimeBooking.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");databaseChat.keepSynced(true);
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");databaseMap.keepSynced(true);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
         DatabaseReference reference = databaseMap.push();
         idm = reference.getKey();
 
@@ -105,6 +127,10 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         String DoctorName = intent.getStringExtra("DoctorName");
         patientName = intent.getStringExtra("name");
         patientAge = intent.getStringExtra("age");
+        final Boolean BookingType = getIntent().getExtras().getBoolean("BookingType");
+      //Toast.makeText(BookingListActivity.this, BookingType+" ", Toast.LENGTH_LONG).show();
+
+
         dname = findViewById(R.id.d_name);
         if (DoctorName != null){
             dname.setText(DoctorName);
@@ -120,42 +146,56 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int position, long id) {
-
+            if(BookingType){
             BookingClass bookingclass = bookingList.get(position);
             final String timeID = bookingclass.getCbid();
-            String comefrom="1";
+            String comefrom = "1";
 
 
-                Intent intent = new Intent(BookingListActivity.this, CalenderActivity.class);
-                intent.putExtra("comefrom", comefrom);
-                intent.putExtra("DoctorID", DoctorID);
-                intent.putExtra("TimeID", timeID);
-                intent.putExtra("StartingTime", bookingclass.getCbtimestart());
-                intent.putExtra("EndingTime", bookingclass.getCbtimeend());
-                intent.putExtra("DoctorAddress", bookingclass.getCbaddress());
-                if (bookingclass.getSteptime() != null){
-                    intent.putExtra("StepTime", bookingclass.getSteptime());
-                }else {
-                    intent.putExtra("StepTime", "15");
-                }
+            Intent intent = new Intent(BookingListActivity.this, CalenderActivity.class);
+            intent.putExtra("comefrom", comefrom);
+            intent.putExtra("DoctorID", DoctorID);
+            intent.putExtra("TimeID", timeID);
+            intent.putExtra("StartingTime", bookingclass.getCbtimestart());
+            intent.putExtra("EndingTime", bookingclass.getCbtimeend());
+            intent.putExtra("DoctorAddress", bookingclass.getCbaddress());
+            if (bookingclass.getSteptime() != null) {
+                intent.putExtra("StepTime", bookingclass.getSteptime());
+            } else {
+                intent.putExtra("StepTime", "15");
+            }
 
-                if (patientName != null) {
-                    intent.putExtra("patientName", patientName);
-                }
-                if (patientAge != null) {
-                    intent.putExtra("patientAge", patientAge);
-                }
-                intent.putExtra("Satchecked", bookingclass.getSatchecked());
-                intent.putExtra("Sunchecked", bookingclass.getSunchecked());
-                intent.putExtra("Monchecked", bookingclass.getMonchecked());
-                intent.putExtra("Tuschecked", bookingclass.getTuschecked());
-                intent.putExtra("Wedchecked", bookingclass.getWedchecked());
-                intent.putExtra("Thuchecked", bookingclass.getThuchecked());
-                intent.putExtra("Frichecked", bookingclass.getFrichecked());
+            if (patientName != null) {
+                intent.putExtra("patientName", patientName);
+            }
+            if (patientAge != null) {
+                intent.putExtra("patientAge", patientAge);
+            }
+            intent.putExtra("Satchecked", bookingclass.getSatchecked());
+            intent.putExtra("Sunchecked", bookingclass.getSunchecked());
+            intent.putExtra("Monchecked", bookingclass.getMonchecked());
+            intent.putExtra("Tuschecked", bookingclass.getTuschecked());
+            intent.putExtra("Wedchecked", bookingclass.getWedchecked());
+            intent.putExtra("Thuchecked", bookingclass.getThuchecked());
+            intent.putExtra("Frichecked", bookingclass.getFrichecked());
 
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+        }else{
+                ///////////////////************rearrange booking*******************//////////////////
+                if (mAuth.getCurrentUser() == null) {
+                    Toast.makeText(BookingListActivity.this, "Please log in first", Toast.LENGTH_LONG).show();
+                } else{
 
+                    BookingClass bookingclass = bookingList.get(position);
+                    final String timeID = bookingclass.getCbid();
+
+                            openClenderAction(timeID, position);
+
+                }
+
+                ////////////////////////**rearrange booking***////////////////////////////////
+            }
 
             return true;
             }
@@ -248,12 +288,23 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                         mTimePicker = new TimePickerDialog(BookingListActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                //////
+                                String selectedHour00 = String.valueOf(selectedHour);
+                                if (Integer.parseInt(selectedHour00) < 10) {
+                                    selectedHour00 = "0" + selectedHour00;
+                                }
+                                String selectedMinute00 = String.valueOf(selectedMinute);
+                                if (Integer.parseInt(selectedMinute00) < 10) {
+                                    selectedMinute00 = "0" + selectedMinute00;
+                                }
 
+                                ///////////////////////////
 
-                                startTime=selectedHour + ":" + selectedMinute;
+                                startTime=selectedHour00 + ":" + selectedMinute00;
                                 startHour=selectedHour;
+
                                 dialogstarttime.setEnabled(true);
-                                dialogstarttime.setText( selectedHour + ":" + selectedMinute);
+                                dialogstarttime.setText( startTime);
                                 dialogstarttime.setEnabled(false);
 
                             }
@@ -276,12 +327,23 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
 
+                                //////
+                                String selectedHour100 = String.valueOf(selectedHour1);
+                                if (Integer.parseInt(selectedHour100) < 10) {
+                                    selectedHour100 = "0" + selectedHour100;
+                                }
+                                String selectedMinute100 = String.valueOf(selectedMinute1);
+                                if (Integer.parseInt(selectedMinute100) < 10) {
+                                    selectedMinute100 = "0" + selectedMinute100;
+                                }
 
-                                endingTime=selectedHour1 + ":" + selectedMinute1;
+                                ///////////////////////////
+                                endingTime=selectedHour100 + ":" + selectedMinute100;
                                 endingHour=selectedHour1;
 
                                 dialogendingtime.setEnabled(true);
-                                dialogendingtime.setText( selectedHour1 + ":" + selectedMinute1);
+
+                                dialogendingtime.setText( endingTime);
                                 dialogendingtime.setEnabled(false);
 
                             }
@@ -1085,5 +1147,230 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         } else {
          Toast.makeText(BookingListActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
          }
+    }
+
+
+    private void openClenderAction(final String timeID , final int position) {
+        ImageGenerator mImageGenerator = new ImageGenerator(BookingListActivity.this);
+
+// Set the icon size to the generated in dip.
+        mImageGenerator.setIconSize(50, 50);
+
+// Set the size of the date and month font in dip.
+        mImageGenerator.setDateSize(30);
+        mImageGenerator.setMonthSize(10);
+
+// Set the position of the date and month in dip.
+        mImageGenerator.setDatePosition(42);
+        mImageGenerator.setMonthPosition(14);
+
+// Set the color of the font to be generated
+        mImageGenerator.setDateColor(Color.parseColor("#3c6eaf"));
+        mImageGenerator.setMonthColor(Color.WHITE);
+
+        // abookingphoto.setOnClickListener(new View.OnClickListener() {
+        //  @Override
+        //   public void onClick(View v) {
+        final Calendar mCurrentDate = Calendar.getInstance();
+        int year=mCurrentDate.get(Calendar.YEAR);
+        int month=mCurrentDate.get(Calendar.MONTH);
+        int day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog mPickerDialog =  new DatePickerDialog(BookingListActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
+                String month1 = String.valueOf(Month + 1);
+                if (Integer.parseInt(month1) < 10) {
+                    month1 = "0" + month1;
+                }
+                String datedmy= Year+"_"+ month1+"_"+Day;
+                try {
+                    String dayname=getDayNameFromDate( datedmy);
+                    //Toast.makeText(DoctorProfileActivity.this, dayname, Toast.LENGTH_LONG).show();
+                    BookingClass bookingclass = bookingList.get(position);
+                    String a,b,c,d,e,f,g;
+                    if( bookingclass.getSatchecked()){ a="Saturday";}else{a="no";}
+                    if( bookingclass.getSunchecked()){ b="Sunday";}else{b="no";}
+                    if( bookingclass.getMonchecked()){ c="Monday";}else{c="no";}
+                    if( bookingclass.getTuschecked()){ d="Tuesday";}else{d="no";}
+                    if(bookingclass.getWedchecked()){ e="Wednesday";}else{e="no";}
+                    if(bookingclass.getThuchecked()){ f="Thursday";}else{f="no";}
+                    if( bookingclass.getFrichecked()){ g="Friday";}else{g="no";}
+                    if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
+                            ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
+                        makepatientbooking(timeID, datedmy, position);
+                        Toast.makeText(BookingListActivity.this, "is booked", Toast.LENGTH_LONG).show();
+                    }else{Toast.makeText(BookingListActivity.this, "Not match", Toast.LENGTH_LONG).show();}
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //  Toast.makeText(DoctorProfileActivity.this, datedmy, Toast.LENGTH_LONG).show();
+                // Toast.makeText(context, id+doctorID, Toast.LENGTH_LONG).show();
+
+                //editTextcal.setText(Year+"_"+ ((Month/10)+1)+"_"+Day);
+                mCurrentDate.set(Year, ((Month+1)),Day);
+                //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
+            }
+        }, year, month, day);
+        mPickerDialog.show();
+    }
+    private void makepatientbooking(final String timeID, final String datedmy, final int position) {
+
+        /*************************************/
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final String  picuri,mDate;
+                final String patientName = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
+                final String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
+
+                final BookingClass currentBooking = bookingList.get(position);
+                String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cpatentphoto").getValue(String.class);
+                if(patientpic != null){
+                    picuri=patientpic;
+                }else{picuri="https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";}
+                // Toast.makeText(DoctorProfileActivity.this, picuri, Toast.LENGTH_LONG).show();
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                mDate = sdf.format(calendar.getTime());
+
+                ////**************for user*********************/
+
+                databasetimeBooking.child(DoctorID).child(timeID) .child(datedmy).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                                //  dataSnapshot.getChildrenCount();
+                               // Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
+                                arrange =String.valueOf( dataSnapshot.getChildrenCount()+1 );
+                                Toast.makeText(BookingListActivity.this ,"your Arrangement is the"+arrange, Toast.LENGTH_LONG).show();
+                                //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
+                                //String.valueOf( arrange )
+                                DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
+                                DatabaseReference referencea = bookforuser.push();
+                                String randomid = referencea.getKey();
+
+                                BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, currentBooking.getCbaddress(),timeID , datedmy,arrange);
+                                bookforuser.child(userid).child(DoctorID+datedmy).setValue(bookingtimes);
+                                ///***********for adapt arange in user booking activity**************/
+                                //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
+                                //String.valueOf( arrange )
+                                ////to do/////////-------------------fordoctor------------------------------------------
+
+                                DatabaseReference reference1 = databasetimeBooking.push();
+                                //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
+                                // DatabaseReference reference = databasetimeBooking.push();
+                                String timesid = reference1.getKey();
+
+                                //Log.v("Data"," 2-User id :"+ mUserId);
+
+                                // get age from birthday
+                              //  String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
+
+                               
+                                BookingTimesClass  bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, currentBooking.getCbaddress(),currentBooking.getCbtimestart(),currentBooking.getCbtimeend() , arrange ,picuri,timeID,datedmy,Integer.valueOf(arrange) );
+                                // Database for Account Activity
+                                databasetimeBooking.child(DoctorID).child(timeID)
+                                        .child(datedmy)
+                                        .child(userid).setValue(bookingtimesclass).addOnCompleteListener(
+                                        new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                notify = true;
+                                                if (notify && userid == mAuth.getCurrentUser().getUid()) {
+                                                    System.out.println("databasetimebooking listner: pName:" +
+                                                            patientName + " ,, Doctor ID:" + DoctorID +
+                                                            ",, user id : " + userid);
+
+                                                    sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                                                }
+                                                notify = false;
+                                            }
+                                        }
+                                );
+                                //////////////////////***fordoctor****-----------------
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                ////**************for user*********************/
+
+
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+        databaseUserReg .addValueEventListener(postListener);
+
+        /*************************************/
+
+    }
+    public static String getDayNameFromDate(String date) throws ParseException {
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy_MM_dd");
+        Date dt = inFormat.parse(date);
+        SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+        String dayName = outFormat.format(dt);
+        return dayName;
+    }
+
+    private void sendNotifiaction(final String receiver, final String username, final String message) {
+
+        final String rec = receiver;
+
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = tokens.orderByKey().equalTo(receiver);
+
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    final Token token = snapshot.getValue(Token.class);
+                    Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
+                            username + ": " + message, "Booking",
+                            receiver);
+                    Sender sender = new Sender(data,token.getToken());
+                   // Sender sender = new Sender(data, token.getToken());
+
+                    System.out.println("D push noti method: token :" + token.getToken() +
+                            ",,,  userid:" + userid +
+                            ",,,  reciever: " + rec +
+                            ",,, fuser-sender : " + fuser.getUid()
+                    );
+
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if (response.code() == 200) {
+                                        if (response.body().success != 1) {
+                                            Toast.makeText(BookingListActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                }
+                            });
+                    break;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

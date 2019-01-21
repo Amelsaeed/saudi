@@ -16,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.DoctorHome;
+import com.example.ahmedmagdy.theclinic.HospitalHome;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.NoteActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.NoteClass;
@@ -24,13 +28,18 @@ import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
     int c;
@@ -155,51 +164,80 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(mDate);
 
                     Toast.makeText(mContext ,  "This patient added to your database", Toast.LENGTH_LONG).show();
-/*
-                    mBookingRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                     c=-1;
-                                     for (DataSnapshot snap: dataSnapshot.getChildren()) {
-                                         c = c + 1;
-                                       if(c<childPosition){}else{
+                        //////////////////////////*****************************************************/*
+                    DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+                    final ValueEventListener postListener1 = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot1) {
+                            Boolean bookingtype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cbookingtypestate").getValue(boolean.class);
+                            /////*********************************************************
 
-                                         String abcd = snap.child("ctArrangement").getValue(String.class);
-                                         String ctid = snap.child("ctid").getValue(String.class);
-                                         String arrandeid = snap.child("rangementid").getValue(String.class);
+                            if (bookingtype) {//timing booking
+                            } else{//rearrang booking-->order arrange
+                                mBookingRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        c = -1;
+                                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                                            c = c + 1;
+                                            if (c < childPosition) {
+                                            } else {
+                                                //ctPeriod==ctArrangement ---->  rearrangement of patient
+                                                String abcd = snap.child("ctPeriod").getValue(String.class);
+                                                String ctid = snap.child("ctid").getValue(String.class);
+                                                String arrandeid = snap.child("ctbookingdate").getValue(String.class);
 
-                                         int abcd1 = Integer.parseInt(abcd) - 1;
-                                         // if(abcd1==childPosition){return;}
-                                         if (abcd1 >= 0) {
-                                             // if (abcd1 >= childPosition) {
-                                             mBookingRef.child(ctid).child("ctArrangement").setValue(String.valueOf(abcd1));
-                                             bookforuser.child(ctid).child(arrandeid).child("ctArrangement").setValue(String.valueOf(abcd1));
-                                             // }
-                                         }
-                                     }
-                                     }//end of for
-                                    c=0;
-                                }
+                                                final Pattern pattern = Pattern.compile( "([01]?[0-9]|2[0-3]):[0-5][0-9]");
+                                                final Matcher matcher=  pattern.matcher(abcd);
+                                                if(! matcher.matches()){
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                                                int abcd1 = Integer.parseInt(abcd) - 1;
+                                                // if(abcd1==childPosition){return;}
+                                                if (abcd1 >= 0) {
+                                                    // if (abcd1 >= childPosition) {
+                                                    //ctPeriod==ctArrangement ---->  rearrangement of patient
+                                                    // mAuth.getCurrentUser().getUid()+arrandeid==IrYiVvKRPBSNnZ6X2ro2FWlW5Ep12019_01_21
+                                                    mBookingRef.child(ctid).child("ctPeriod").setValue(String.valueOf(abcd1));
+                                                    bookforuser.child(ctid).child(mAuth.getCurrentUser().getUid() + arrandeid).child("ctArrangement").setValue(String.valueOf(abcd1));
+                                                    // }
+                                                }
+                                            }
+                                            }
+                                        }//end of for
+                                        c = 0;
+                                    }
 
-                                }
-                            });
-                    */
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                        }
+                            ///////////////////////////////////////////////////////*********** */
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Getting Post failed, log a message
+                        }
+                    };
+                    databaseDoctor.addValueEventListener(postListener1);
+//////////////////////////*************************************
 
                     } else {
                     mBookingRef.child(currentChild.getCtid()).child("checked").setValue(isChecked);
-
-                  //  databasePatient.child(currentChild.getCtid()).setValue(currentChild);
-                   // databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
-                  //  databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(currentChild.getCtdate());
+                     ///////////////////////************************************
+                    databasePatient.child(currentChild.getCtid()).setValue(currentChild);
+                    databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
+                    databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(currentChild.getCtdate());
+                    ///////////////*******************
+                   /**
                     databasePatient.child(currentChild.getCtid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(mContext, "this patient is removed from your database", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    });**/
                     // databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
 
                       //  Toast.makeText(context,  "Removed", Toast.LENGTH_LONG).show();
