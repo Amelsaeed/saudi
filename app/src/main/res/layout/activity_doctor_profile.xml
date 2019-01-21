@@ -44,22 +44,7 @@
         android:visibility="gone"
 
         app:srcCompat="@drawable/ic_edit" />
-    <CheckBox
-        android:id="@+id/checkBox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="use timing booking, not arrange booking"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@id/doctor_email_tv"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
 
-
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="#000"
-
-
-       />
 
     <TextView
         android:id="@+id/doctor_email_tv"
@@ -71,6 +56,18 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/white_rect"
         android:textColor="@android:color/black" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="use timing booking not arrange booking"
+        android:layout_below="@id/doctor_email_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000"
+        />
 
     <Button
         android:id="@+id/doc"
@@ -108,7 +105,7 @@
         android:visibility="gone" />
 
     <ScrollView
-        android:layout_below="@id/doctor_email_tv"
+        android:layout_below="@id/checkBox1"
         android:layout_above="@id/working_hours_btn"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="8dp"
@@ -150,7 +147,7 @@
         android:layout_toRightOf="@id/pprice"
         android:background="@drawable/button_round_blue"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         />
 
     <TextView

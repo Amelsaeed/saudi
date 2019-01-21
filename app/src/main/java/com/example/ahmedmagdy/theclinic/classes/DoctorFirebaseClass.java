@@ -21,6 +21,7 @@ public class DoctorFirebaseClass implements Serializable {
     private String cDegree;
     private String cPhone;
     private String cPrice;
+    private String cDiscount;
     private String cTime;
     private String cAbout;
     private String cInsurance;
@@ -265,6 +266,18 @@ public class DoctorFirebaseClass implements Serializable {
 
     public void setcPrice(String cPrice) {
         this.cPrice = cPrice;
+    }
+
+    public void setcDiscount(String cDiscount) {
+        this.cDiscount = cDiscount;
+    }
+    public String getcDiscount() {
+        if (this.cDiscount ==null){
+         return cDiscount = "0";
+        }else {
+            return cDiscount;
+        }
+
     }
 
     public String getcTime() {

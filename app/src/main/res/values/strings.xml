@@ -81,6 +81,23 @@
         <item>Saudi</item>
     </string-array>
 
+    <string-array name="discount_array">
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+    </string-array>
+
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_home">Home</string>
     <string name="title_home">Home</string>
@@ -118,6 +135,8 @@
     <string name="no_bookings_msg">No bookings this day!</string>
     <string name="no_appointments_msg">No appointments for booking !</string>
     <string name="shortcut">ChatRoom</string>
+    <string name="empty_field_msg">Please fill the field</string>
+    <string name="invalid_number_msg">please enter a valid number</string>
 
 
 </resources>
