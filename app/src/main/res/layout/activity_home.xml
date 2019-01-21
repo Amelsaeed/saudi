@@ -9,6 +9,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
         android:id="@+id/swipeLayout2">
     <FrameLayout
         android:id="@+id/frame_container"

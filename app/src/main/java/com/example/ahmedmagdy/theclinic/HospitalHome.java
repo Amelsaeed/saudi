@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.ahmedmagdy.theclinic.DoctorFragments.AllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalAllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalMyDoctorFragment;
@@ -46,7 +47,7 @@ public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayou
 
                     switch (item.getItemId()) {
                         case R.id.navigation_home_hospital:
-                            selectedFragment = new HospitalAllDoctorFragment();
+                            selectedFragment = new AllDoctorFragment();
                             break;
                         case R.id.navigation_my_doctor:
                             selectedFragment = new HospitalMyDoctorFragment();

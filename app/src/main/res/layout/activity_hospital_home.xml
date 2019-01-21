@@ -7,7 +7,8 @@
     tools:context=".HospitalHome">
 <android.support.v4.widget.SwipeRefreshLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/bottom_navigation"
     android:id="@+id/swipeLayout">
 
     <FrameLayout
@@ -29,4 +30,6 @@
         app:itemTextColor="@color/bnv_tab_item_foreground"
         android:layout_alignParentBottom="true"
         app:menu="@menu/hospital_navigation" />
+
+
 </RelativeLayout>
