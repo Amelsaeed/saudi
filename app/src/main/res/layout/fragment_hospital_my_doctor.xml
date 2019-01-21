@@ -10,12 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search_doctor"
+            android:background="@drawable/button_round_clear"
             android:layout_width="0dp"
             android:layout_weight="8"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="4dp"

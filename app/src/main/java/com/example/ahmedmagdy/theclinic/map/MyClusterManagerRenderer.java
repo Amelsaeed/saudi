@@ -76,40 +76,6 @@ public class MyClusterManagerRenderer extends DefaultClusterRenderer<ClusterMark
         if (item.getIconPicUrl() != null) {
             final String pUrl = item.getIconPicUrl();
             Uri selectedImageUri = Uri.parse(item.getIconPicUrl());
-            //System.out.println(TAG+"selectedImageUri.getPath()"+selectedImageUri.getPath() );
-            //imageView.setImageURI(selectedImageUri);
-            // imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            //Glide.with(context).load(pUrl).into(imageView);
-
-            /* Picasso.get().load(pUrl).placeholder(R.drawable.cartman_cop).priority(HIGH).into(imageView);*/
-
-            /*for( Marker m : mClusterManager.getMarkerCollection().getMarkers()){
-                    Picasso.get().load(pUrl).placeholder(R.drawable.cartman_cop)
-                            .centerCrop().fit().priority(HIGH).into(
-                    imageView, new MarkerCallback(m,pUrl,imageView));
-            }*/
-
-            /*Picasso.get()
-                    .load(pUrl).fit()
-                    .placeholder(R.drawable.cartman_cop).priority(HIGH)
-                    .into(imageView);*/
-
-            /*
-            final ImageView img = new ImageView(context);
-            Picasso.get()
-                    .load(pUrl).placeholder(R.drawable.cartman_cop).priority(HIGH)
-                    .into(img, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            imageView.setBackgroundDrawable(img.getDrawable());
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-
-                    });*/
 
             Picasso.get().load(pUrl).fit().centerCrop()
                     .placeholder(R.drawable.cartman_cop).priority(HIGH)
@@ -126,17 +92,15 @@ public class MyClusterManagerRenderer extends DefaultClusterRenderer<ClusterMark
 
             });
 
-
-
-
         } else {
             imageView.setImageResource(item.getIconPic());
         }
 
-
         Bitmap icon = iconGenerator.makeIcon();
 
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle()).snippet(item.getSnippet());
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
+
+
     }
 
     @Override
@@ -145,25 +109,16 @@ public class MyClusterManagerRenderer extends DefaultClusterRenderer<ClusterMark
     }
 
 
-    ///////////////
-
-   /* @Override
-    protected void onBeforeClusterItemRendered(ClusterMarker item, MarkerOptions markerOptions) {
-
-        imageView.setImageResource(item.getIconPic());
-        Bitmap icon = iconGenerator.makeIcon();
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
+    /**
+     * Update the GPS coordinate of a ClusterItem
+     * @param clusterMarker
+     */
+    public void setUpdateMarker(ClusterMarker clusterMarker) {
+        Marker marker = getMarker(clusterMarker);
+        if (marker != null) {
+            marker.setPosition(clusterMarker.getPosition());
+        }
     }
-
-
-    @Override
-    protected boolean shouldRenderAsCluster(Cluster cluster) {
-        return false;
-    }
-*/
-    ///////////////
-
-
 
 
 }

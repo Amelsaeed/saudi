@@ -4,45 +4,30 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexzh.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.DoctorHome;
-import com.example.ahmedmagdy.theclinic.HospitalHome;
-import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
-import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
-import com.example.ahmedmagdy.theclinic.activities.FavActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MessageActivity;
-import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
-import com.example.ahmedmagdy.theclinic.activities.StartCahtRoom;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
-import com.example.ahmedmagdy.theclinic.classes.MapClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -102,7 +87,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final RelativeLayout relativeLayoutfav = listViewItem.findViewById(R.id.rilative_fav);
         mAuth = FirebaseAuth.getInstance();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        final ImageView adoctorphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo);
+        final CircleImageView adoctorphoto = (CircleImageView) listViewItem.findViewById(R.id.doctor_photo);
         final DoctorFirebaseClass doctorclass = doctorList.get(position);
         favcheckbox.setChecked(doctorclass.getChecked());
         ImageView Insuranceall = (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);
@@ -471,7 +456,11 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                                     tramp.getcName().toLowerCase()
                                             .contains(constraint.toString()) ||
                                     tramp.getcSpecialty().toLowerCase()
-                                            .contains(constraint.toString()))
+                                            .contains(constraint.toString()) ||
+                                          tramp.getcPhone().toLowerCase()
+                                                    .contains(constraint.toString()) ||
+                                    tramp.getcInsurance().toLowerCase().contains(constraint.toString())
+                                    )
                                 resultsList.add(tramp);
                         }
                     }

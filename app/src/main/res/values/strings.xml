@@ -97,7 +97,6 @@
     <string name="empty_day_field_msg">Please enter the day</string>
     <string name="network_connection_msg">Please check the network connection</string>
     <string name="full_name">Full Name</string>
-    <string name="no_working_hours_msg">You didn\'t add the working hours yet.\nPlease add them from your account profile </string>
     <string name="calendar">Calendar</string>
     <string name="my_patients">My patients</string>
     <string name="home">Home</string>
@@ -117,6 +116,8 @@
     <string name="sign_out">Sign out</string>
     <string name="hospitals">Hospitals</string>
     <string name="no_bookings_msg">No bookings this day!</string>
+    <string name="no_appointments_msg">No appointments for booking !</string>
+    <string name="shortcut">ChatRoom</string>
 
 
 </resources>

@@ -96,7 +96,7 @@ public class MoreFragment extends Fragment {
         Intent intent = new Intent(getActivity(), AllHospitalActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        getActivity().finish();
+
     }
 
     private void contactUs() {
@@ -167,7 +167,6 @@ public class MoreFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-        dialog.setCanceledOnTouchOutside(false);
 
         dialog.show();
     }

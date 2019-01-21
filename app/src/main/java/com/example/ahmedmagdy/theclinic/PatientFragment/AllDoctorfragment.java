@@ -105,7 +105,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UserLocation post = postSnapshot.getValue(UserLocation.class);
                     mUserLocations.add(post);
-                    System.out.println("qerrrrrrrrrrry Get Data" + post.getcName());
+                    System.out.println("qerrrrrrrrrrry Get Data" + post.getCmname());
                 }
             }
 

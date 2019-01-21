@@ -1,9 +1,11 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -13,13 +15,14 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.DatabaseFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 
-public class DoctorHome extends AppCompatActivity {
-
+public class DoctorHome extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+    private SwipeRefreshLayout swipeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
-
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout1);
+        swipeLayout.setOnRefreshListener(this);
         BottomNavigationView navigationView = findViewById(R.id.dr_bottom_nav);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -57,5 +60,11 @@ public class DoctorHome extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new AllDoctorFragment()).commit();
+    }
+
+    @Override
+    public void onRefresh() {
+        startActivity(new Intent(this,DoctorHome.class));
+        swipeLayout.setRefreshing(false);
     }
 }
