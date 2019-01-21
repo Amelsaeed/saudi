@@ -68,6 +68,9 @@ dependencies {
     //circularimageview
     // Image
     implementation 'com.alexzh:circleimageview:1.1.2@aar'
+
+    //Refresh
+    implementation 'com.cjj.materialrefeshlayout:library:1.3.0'
 }
 
 

@@ -18,8 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 
-public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
-    private SwipeRefreshLayout swipeLayout;
+public class PatientHome extends AppCompatActivity {
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -73,8 +73,7 @@ public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout2);
-        swipeLayout.setOnRefreshListener(this);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         if (savedInstanceState == null) {
@@ -93,9 +92,5 @@ public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout
     }
 
 
-    @Override
-    public void onRefresh() {
-        startActivity(new Intent(this,PatientHome.class));
-        swipeLayout.setRefreshing(false);
-    }
+
 }

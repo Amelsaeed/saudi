@@ -18,8 +18,8 @@ import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalProfileFragment
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    private SwipeRefreshLayout swipeLayout;
+public class HospitalHome extends AppCompatActivity  {
+
     FrameLayout frameLayout;
 
     @Override
@@ -29,8 +29,7 @@ public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayou
         frameLayout = (FrameLayout)findViewById(R.id.fragment_container_hospital);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        swipeLayout.setOnRefreshListener(this);
+
         //I added this if statement to keep the selected fragment when rotating the device
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
@@ -73,11 +72,5 @@ public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayou
                 }
             };
 
-    @Override
-    public void onRefresh() {
 
-       startActivity(new Intent(this,HospitalHome.class));
-        swipeLayout.setRefreshing(false);
-
-    }
 }

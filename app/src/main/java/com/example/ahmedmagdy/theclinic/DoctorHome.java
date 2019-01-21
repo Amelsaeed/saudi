@@ -15,14 +15,12 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.DatabaseFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 
-public class DoctorHome extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
-    private SwipeRefreshLayout swipeLayout;
+public class DoctorHome extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout1);
-        swipeLayout.setOnRefreshListener(this);
         BottomNavigationView navigationView = findViewById(R.id.dr_bottom_nav);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,9 +60,5 @@ public class DoctorHome extends AppCompatActivity implements SwipeRefreshLayout.
                 .replace(R.id.fragment_container, new AllDoctorFragment()).commit();
     }
 
-    @Override
-    public void onRefresh() {
-        startActivity(new Intent(this,DoctorHome.class));
-        swipeLayout.setRefreshing(false);
-    }
+
 }

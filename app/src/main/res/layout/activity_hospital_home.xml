@@ -5,11 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HospitalHome">
-<android.support.v4.widget.SwipeRefreshLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_above="@id/bottom_navigation"
-    android:id="@+id/swipeLayout">
 
     <FrameLayout
         android:id="@+id/fragment_container_hospital"
@@ -17,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/splashbackground"
         android:layout_above="@id/bottom_navigation"/>
-</android.support.v4.widget.SwipeRefreshLayout>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

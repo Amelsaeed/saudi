@@ -6,17 +6,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/splashbackground"
     tools:context=".DoctorHome">
-<android.support.v4.widget.SwipeRefreshLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@id/dr_bottom_nav"
-    android:id="@+id/swipeLayout1">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_container"
         />
-</android.support.v4.widget.SwipeRefreshLayout>
+
     <android.support.design.widget.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
