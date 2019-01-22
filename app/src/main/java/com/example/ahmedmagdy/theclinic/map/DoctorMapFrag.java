@@ -77,6 +77,9 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
 
         if (getArguments() != null) {
             mUserLocs = getArguments().getParcelableArrayList("intent_user_locs");
+            /*for(UserLocation u : mUserLocs){
+                System.out.println(TAG+": "+u);
+            }*/
         }
 
 
@@ -147,26 +150,28 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
 
             for (UserLocation userLocation : mUserLocs) {
 
-                if(userLocation.getCmdoctorid()!=null) {
+                if(     userLocation.getCmdoctorid()!=null &&
+                        userLocation.getCmname()!=null &&
+                        userLocation.getCmdoctorspecialty()!=null &&
+                        userLocation.getCmDoctorGander()!=null
+                        ) {
                     System.out.println(TAG + "addMapMarkers: location: " +
                             Double.parseDouble(userLocation.getCmlatitude()) +
                             "," + Double.parseDouble(userLocation.getCmlongitude()) +
                             "," + userLocation.getCmdoctorid() +
-                            "," + userLocation.getCmDoctorGander() +
-                            "," + userLocation.getCmdoctorspecialty() +
+                            ",gender: " + userLocation.getCmDoctorGander() +
+                            ",speci: " + userLocation.getCmdoctorspecialty() +
                             "," + userLocation.getCmname()
                     );
                     try {
-                        String snippet = "";
-                        try {
-                            snippet = userLocation.getCmdoctorspecialty();
-
-                        } catch (NumberFormatException e) {
-                            System.out.println(TAG + "addMapMarkers: no Spec for " + userLocation.getCmname() +
-                                    ", setting default.");
+                        int avatar = 0; // set the default avatar
+                        if(userLocation.getCmDoctorGander().equals("Male")){
+                            avatar = R.drawable.doc_male_icon;
+                            System.out.println("avatarMale: "+avatar);
+                        }else{
+                            avatar = R.drawable.doc_female_icon;
+                            System.out.println("avatarFemale: "+avatar);
                         }
-
-                        int avatar = R.drawable.cartman_cop; // set the default avatar
                         String avatarUrl = null; // set the default avatar
                         try {
                             avatarUrl = userLocation.getCmdoctorpic();
@@ -175,24 +180,19 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback {
                             System.out.println(TAG + "addMapMarkers: no avatar for " + userLocation.getCmname() +
                                     ", setting default.");
                         }
-                        ClusterMarker newClusterMarker;
+                        ClusterMarker newClusterMarker = new ClusterMarker();
+
+                        newClusterMarker.setPosition(new LatLng(Double.parseDouble(userLocation.getCmlatitude()),
+                                Double.parseDouble(userLocation.getCmlongitude())));
+                        newClusterMarker.setTitle(userLocation.getCmname());
+                        newClusterMarker.setGender(userLocation.getCmDoctorGander());
+                        newClusterMarker.setSnippet(userLocation.getCmdoctorspecialty());
                         if (avatarUrl == null) {
-                            newClusterMarker = new ClusterMarker(
-                                    new LatLng(Double.parseDouble(userLocation.getCmlatitude()),
-                                            Double.parseDouble(userLocation.getCmlongitude())),
-                                    userLocation.getCmname(),
-                                    snippet,
-                                    avatar
-                            );
+                            newClusterMarker.setIconPic(avatar);
                         } else {
-                            newClusterMarker = new ClusterMarker(
-                                    new LatLng(Double.parseDouble(userLocation.getCmlatitude()),
-                                            Double.parseDouble(userLocation.getCmlongitude())),
-                                    userLocation.getCmname(),
-                                    snippet,
-                                    avatarUrl
-                            );
+                            newClusterMarker.setIconPicUrl(avatarUrl);
                         }
+
                         mClusterManager.addItem(newClusterMarker);
                         mClusterMarkers.add(newClusterMarker);
 

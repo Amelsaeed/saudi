@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.MoreAdapter;
 import com.example.ahmedmagdy.theclinic.R;
@@ -22,25 +24,39 @@ import com.example.ahmedmagdy.theclinic.activities.AllHospitalActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.activities.StartCahtRoom;
+import com.example.ahmedmagdy.theclinic.classes.UtilClass;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class MoreFragment extends Fragment {
+
+    //gps
+    public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = getLayoutInflater().inflate(R.layout.fragment_more,container,false);
+        View rootView = getLayoutInflater().inflate(R.layout.fragment_more,
+                container,false);
 
         ListView listView  = rootView.findViewById(R.id.listView1);
 
         ArrayList<String> titles = new ArrayList<>();
         titles.add(getString(R.string.chat_room));
-        titles.add(getString(R.string.doctor_sites));
+        titles.add(getString(R.string.doctor_map));
         titles.add(getString(R.string.hospitals));
         titles.add(getString(R.string.rate_us));
         titles.add(getString(R.string.contact_us));
@@ -55,9 +71,11 @@ public class MoreFragment extends Fragment {
         icons.add(R.drawable.rating);
         icons.add(R.drawable.ic_email);
         icons.add(R.drawable.ic_share_black_24dp);
-
         icons.add(R.drawable.ic_help);
         icons.add(R.drawable.icn_sign_out);
+
+        //run get data for map
+        getAllDoctorsMap();
 
         MoreAdapter adapter = new MoreAdapter(getActivity(), titles, icons);
         listView.setAdapter(adapter);
@@ -68,9 +86,7 @@ public class MoreFragment extends Fragment {
              switch (position){
                  case 0: openChatRoom();
                          break;
-                 case 1: getActivity().getSupportFragmentManager().beginTransaction()
-                         .replace(R.id.fragment_container,
-                         new MapsActivity()).addToBackStack(null).commit();
+                 case 1: inflateDocMapFragment();
                          break;
                  case 2: hospitals();
                          break;
@@ -107,7 +123,6 @@ public class MoreFragment extends Fragment {
         }
 
     }
-
 
     private void rateUs() {
         try {
@@ -171,8 +186,6 @@ public class MoreFragment extends Fragment {
         dialog.show();
     }
 
-
-
     private void signOut() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
@@ -182,5 +195,46 @@ public class MoreFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    //get all doc data
+    private void getAllDoctorsMap() {
+        if (UtilClass.isNetworkConnected(getContext())){
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            Query query = ref.child("mapdb");
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        UserLocation post = postSnapshot.getValue(UserLocation.class);
+                        mUserLocations.add(post);
+                        System.out.println("qerrrrrrrrrrry Get Data" + post.getCmname());
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            query.addValueEventListener(valueEventListener);
+
+        }else {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void inflateDocMapFragment(){
+        DoctorMapFrag fragment = DoctorMapFrag.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+        fragment.setArguments(bundle);
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container_doc_menu, fragment , "User List");
+        transaction.addToBackStack("User List");
+        transaction.commit();
+
     }
 }

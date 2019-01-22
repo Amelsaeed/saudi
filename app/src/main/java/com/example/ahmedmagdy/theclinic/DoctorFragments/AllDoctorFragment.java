@@ -269,34 +269,7 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
             Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
     }
-    /*
-    private void getAllDoctorsMap() {
-    if (UtilClass.isNetworkConnected(getContext())){
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-            Query query = ref.child("DoctorMap");
-            ValueEventListener valueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        UserLocation post = postSnapshot.getValue(UserLocation.class);
-                        mUserLocations.add(post);
-                        System.out.println("qerrrrrrrrrrry Get Data" + post.getCmname());
-                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            };
-            query.addValueEventListener(valueEventListener);
-
-    }else {
-        Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-    }
-        }
-    */
 
     private void inflateDocMapFragment(){
         DoctorMapFrag fragment = DoctorMapFrag.newInstance();

@@ -7,46 +7,32 @@ public class ClusterMarker implements ClusterItem {
 
     private LatLng position;
     private String title;
-    private String snippet;
     private String uid;
     private String spec;
     private String city;
     private int iconPic;
     private String iconPicUrl;
+    private String snippet;
+    private String gender;
 
-    public ClusterMarker(LatLng position, String title, String snippet, String uid, String spec, String city, int iconPic) {
+
+    public ClusterMarker(LatLng position, String title,int iconPic ,  String snippet,  String gender) {
         this.position = position;
         this.title = title;
         this.snippet = snippet;
-        this.uid = uid;
-        this.spec = spec;
-        this.city = city;
         this.iconPic = iconPic;
+        this.gender = gender;
     }
 
-    public ClusterMarker(LatLng position, String title,  String spec, int iconPic ) {
+    public ClusterMarker(LatLng position, String title, String iconPicUrl ,  String snippet,  String gender) {
         this.position = position;
         this.title = title;
-        this.spec = spec;
-        this.iconPic = iconPic;
-    }
-
-    public ClusterMarker(LatLng position, String title,  String spec,  String iconPicUrl) {
-        this.position = position;
-        this.title = title;
-        this.spec = spec;
         this.iconPicUrl = iconPicUrl;
+        this.snippet = snippet;
+        this.gender = gender;
     }
 
     public ClusterMarker() {
-    }
-
-    public String getIconPicUrl() {
-        return iconPicUrl;
-    }
-
-    public void setIconPicUrl(String iconPicUrl) {
-        this.iconPicUrl = iconPicUrl;
     }
 
     @Override
@@ -65,15 +51,6 @@ public class ClusterMarker implements ClusterItem {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    @Override
-    public String getSnippet() {
-        return snippet;
-    }
-
-    public void setSnippet(String snippet) {
-        this.snippet = snippet;
     }
 
     public String getUid() {
@@ -106,5 +83,45 @@ public class ClusterMarker implements ClusterItem {
 
     public void setIconPic(int iconPic) {
         this.iconPic = iconPic;
+    }
+
+    public String getIconPicUrl() {
+        return iconPicUrl;
+    }
+
+    public void setIconPicUrl(String iconPicUrl) {
+        this.iconPicUrl = iconPicUrl;
+    }
+
+    @Override
+    public String getSnippet() {
+        return snippet;
+    }
+
+    public void setSnippet(String snippet) {
+        this.snippet = snippet;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "ClusterMarker{" +
+                "position=" + position +
+                ", title='" + title + '\'' +
+                ", uid='" + uid + '\'' +
+                ", spec='" + spec + '\'' +
+                ", city='" + city + '\'' +
+                ", iconPic=" + iconPic +
+                ", iconPicUrl='" + iconPicUrl + '\'' +
+                ", snippet='" + snippet + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }
