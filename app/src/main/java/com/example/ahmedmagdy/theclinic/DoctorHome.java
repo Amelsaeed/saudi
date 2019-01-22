@@ -14,6 +14,7 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.BookingFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DatabaseFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 
 public class DoctorHome extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class DoctorHome extends AppCompatActivity {
                         selectedFragment = new DoctorProfileFragment();
                         break;
                         case R.id.nav_menu:
-                            selectedFragment = new MoreFragment();
+                            selectedFragment = new MoreFragmentPatient();
                         break;
 
                 }

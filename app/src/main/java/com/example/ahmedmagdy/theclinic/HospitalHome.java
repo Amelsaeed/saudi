@@ -15,6 +15,7 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalAllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalMyDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalProfileFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -55,7 +56,7 @@ public class HospitalHome extends AppCompatActivity  {
                             selectedFragment = new HospitalProfileFragment();
                             break;
                         case R.id.navigation_menu_hospital:
-                            selectedFragment = new MoreFragment();
+                            selectedFragment = new MoreFragmentPatient();
                  /*           FirebaseAuth mAuth = FirebaseAuth.getInstance();
                             mAuth.signOut();
                             Intent intent = new Intent(HospitalHome.this, LoginActivity.class);

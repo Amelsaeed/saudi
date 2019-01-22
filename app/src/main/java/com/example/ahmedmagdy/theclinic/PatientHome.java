@@ -59,6 +59,7 @@ public class PatientHome extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_menu:
+
                     fragment = new MoreFragmentPatient();
                     loadFragment(fragment);
 

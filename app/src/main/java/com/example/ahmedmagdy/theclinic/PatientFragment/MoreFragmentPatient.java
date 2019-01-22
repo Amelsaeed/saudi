@@ -1,6 +1,7 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,19 +15,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.MoreAdapter;
-import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
-import com.example.ahmedmagdy.theclinic.PatientFragment.AllHospitalfragment;
-import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
-import com.example.ahmedmagdy.theclinic.PatientFragment.UserProfileFragment;
+import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
+import com.example.ahmedmagdy.theclinic.DoctorHome;
+import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalProfileFragment;
+
+import com.example.ahmedmagdy.theclinic.HospitalHome;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.AllHospitalActivity;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
-import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
+
 import com.example.ahmedmagdy.theclinic.activities.SplashActivity;
-import com.example.ahmedmagdy.theclinic.activities.StartCahtRoom;
+import com.example.ahmedmagdy.theclinic.activities.StartCahtRoomFragment;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
 import com.example.ahmedmagdy.theclinic.map.UserLocation;
@@ -43,7 +47,9 @@ import java.util.ArrayList;
 
 
 public class MoreFragmentPatient extends Fragment {
-
+    private FirebaseAuth mAuth;
+    DatabaseReference databaseChat;
+    String usertype;
     //gps
     public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
 
@@ -57,33 +63,40 @@ public class MoreFragmentPatient extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_more, container, false);
-
+        mAuth = FirebaseAuth.getInstance();
         //run get data for map
         getAllDoctorsMap();
-        ArrayList<String> words = new ArrayList<String>();
-        words.add("Chat Room");
-        words.add("Doctor Map");
-        words.add("Profile");
-        words.add("Rate us");
-        words.add("Share This App");
-        words.add("Email us");
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add(getString(R.string.chat_room));
+        titles.add(getString(R.string.doctor_map));
+        titles.add(getString(R.string.Profile));
+
+        titles.add(getString(R.string.hospitals));
+        titles.add(getString(R.string.contact_us));
+        titles.add(getString(R.string.rate_us));
+
+        titles.add(getString(R.string.share));
+        titles.add(getString(R.string.about));
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        words.add("Hospitals");
+
+
         if (user == null) {
-            words.add("Log in");
+            titles.add(getString(R.string.sign_in));
         } else {
-            words.add("Sign out");
+            titles.add(getString(R.string.sign_out));
         }
         //words.add("Sign out");
         ArrayList<Integer> icons = new ArrayList<>();
         icons.add(R.drawable.chat_room);
         icons.add(R.drawable.map_all);
         icons.add(R.drawable.ic_person);
+        icons.add(R.drawable.ic_hospital_12);
+        icons.add(R.drawable.ic_email);
         icons.add(R.drawable.rating);
         icons.add(R.drawable.ic_share_black_24dp);
-        icons.add(R.drawable.ic_email);
-
-        icons.add(R.drawable.ic_hospital_12);
+        icons.add(R.drawable.ic_help);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
         if (user == null) {
             icons.add(R.drawable.icn_sign_in);
         } else {
@@ -93,7 +106,7 @@ public class MoreFragmentPatient extends Fragment {
 
 
         ListView listview = (ListView) rootView.findViewById(R.id.listView1);
-        MoreAdapter adapter = new MoreAdapter(getActivity(), words, icons);
+        MoreAdapter adapter = new MoreAdapter(getActivity(), titles, icons);
 
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,6 +115,7 @@ public class MoreFragmentPatient extends Fragment {
                 switch (i) {
                     case 0:
                         ChatRoomClicked();
+
                         break;
                     case 1:
                         inflateDocMapFragment();
@@ -110,18 +124,23 @@ public class MoreFragmentPatient extends Fragment {
                         profileClicked();
                         break;
                     case 3:
-                        rateClicked();
-                        break;
-                    case 4:
-                        shareClicked();
-                        break;
-                    case 5:
-                        emailClicked();
-                        break;
-                    case 6:
                         HospitalsClicked();
                         break;
+                    case 4:
+                        emailClicked();
+
+                        break;
+                    case 5:
+                        rateClicked();
+                        break;
+                    case 6:
+                        shareClicked();
+
+                        break;
                     case 7:
+                        about();
+                        break;
+                    case 8:
                         signOutClicked();
                         break;
                 }
@@ -132,15 +151,6 @@ public class MoreFragmentPatient extends Fragment {
         return rootView;
     }
 
-    private void mapClicked() {
-        DoctorMapFrag fragment = DoctorMapFrag.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
-        fragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                fragment, "User List").addToBackStack("User List").commit();
-
-    }
 
     private void HospitalsClicked() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -151,38 +161,126 @@ public class MoreFragmentPatient extends Fragment {
             startActivity(it);
 
         } else {
-            Intent intent = new Intent(getActivity(), AllHospitalActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                    usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                    if (usertype.equals("User")) {
+
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                                new AllHospitalfragment()).addToBackStack(null).commit();
+                    } else if (usertype.equals("Doctor")) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new AllHospitalfragment()).addToBackStack(null).commit();
+                    } else if (usertype.equals("Hospital")) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+                                new AllHospitalfragment()).addToBackStack(null).commit();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseChat.addValueEventListener(postListener1);
+
 
 
         }
 
     }
 
+    private void about() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.about_dialog);
+
+        TextView cancel = dialog.findViewById(R.id.about_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
     private void ChatRoomClicked() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
             it.putExtra("comefrom", "2");
             startActivity(it);
         } else
-            startActivity(new Intent(getActivity(), StartCahtRoom.class));
-    }
+        {  final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                    usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                    if (usertype.equals("User")) {
+
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                                new StartCahtRoomFragment()).addToBackStack(null).commit();
+                    } else if (usertype.equals("Doctor")) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new StartCahtRoomFragment()).addToBackStack(null).commit();
+                    } else if (usertype.equals("Hospital")) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+                                new StartCahtRoomFragment()).addToBackStack(null).commit();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+        databaseChat.addValueEventListener(postListener1);
+
+    }}
 
     private void profileClicked() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user == null) {
+       if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
             it.putExtra("comefrom", "2");
             startActivity(it);
         } else {
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                    new UserProfileFragment()).addToBackStack(null).commit();
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                    usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                    if (usertype.equals("User")) {
+
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                                new UserProfileFragment()).addToBackStack(null).commit();
+                    } else if (usertype.equals("Doctor")) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new DoctorProfileFragment()).addToBackStack(null).commit();
+                    } else if (usertype.equals("Hospital")) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+                                new HospitalProfileFragment()).addToBackStack(null).commit();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseChat.addValueEventListener(postListener1);
+
+
         }
+
     }
+
 
     private void rateClicked() {
         try {
@@ -254,7 +352,7 @@ public class MoreFragmentPatient extends Fragment {
 
     //get all doc data
     private void getAllDoctorsMap() {
-        if (UtilClass.isNetworkConnected(getContext())){
+        if (UtilClass.isNetworkConnected(getContext())) {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
             Query query = ref.child("mapdb");
             ValueEventListener valueEventListener = new ValueEventListener() {
@@ -275,22 +373,23 @@ public class MoreFragmentPatient extends Fragment {
             };
             query.addValueEventListener(valueEventListener);
 
-        }else {
+        } else {
             Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void inflateDocMapFragment(){
+    private void inflateDocMapFragment() {
         DoctorMapFrag fragment = DoctorMapFrag.newInstance();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+        bundle.putParcelableArrayList("intent_user_locs", mUserLocations);
         fragment.setArguments(bundle);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container_doc_menu, fragment , "User List");
+        transaction.replace(R.id.frame_container_doc_menu, fragment, "User List");
         transaction.addToBackStack("User List");
         transaction.commit();
 
     }
+
 
 }
