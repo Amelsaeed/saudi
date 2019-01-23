@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,6 +70,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctorspecialty = (TextView) listViewItem.findViewById(R.id.doctor_specialty);
         final TextView adoctorcity = (TextView) listViewItem.findViewById(R.id.doctor_city);
         final TextView adoctorsalary = (TextView) listViewItem.findViewById(R.id.doctor_salary);
+        final TextView doctorDiscPrice = listViewItem.findViewById(R.id.doctor_disc_salary);
         final ImageView Book = (ImageView) listViewItem.findViewById(R.id.book123);
         final ImageView ChatRoom = (ImageView) listViewItem.findViewById(R.id.chatroom);
 
@@ -278,7 +281,29 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
         if (doctorclass.getcPrice() != null) {
-            adoctorsalary.setText(doctorclass.getcPrice());
+            String docPrice = doctorclass.getcPrice().trim().replace("$","");
+            double price =  Double.parseDouble(docPrice);
+            DecimalFormat df1 = new DecimalFormat("###.##");
+            String fPrice = df1.format(price);
+
+            String mDiscount = doctorclass.getcDiscount().trim().replace("$","");
+            double ds = Double.parseDouble(mDiscount);
+            DecimalFormat d = new DecimalFormat("###.##");
+            String disc = d.format(ds);
+            if (disc.equals("0")){
+                adoctorsalary.setText(fPrice + "$");
+            }else {
+                adoctorsalary.setText(fPrice + "$");
+                adoctorsalary.setPaintFlags(adoctorsalary.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+
+                double discountPrice = price - (price * ds/100 );
+                DecimalFormat df2 = new DecimalFormat("###.##");
+                String disPrice = df2.format(discountPrice);
+              //  String disPrice = String.format(Locale.ENGLISH,"%.2f",discountPrice);
+                doctorDiscPrice.setText(disPrice + "$");
+            }
+
+
         } else {
             adoctorsalary.setText("price not detected");
         }

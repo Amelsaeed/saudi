@@ -73,12 +73,23 @@ public class MyClusterManagerRenderer extends DefaultClusterRenderer<ClusterMark
 
     @Override
     protected void onBeforeClusterItemRendered(final ClusterMarker item, final MarkerOptions markerOptions) {
+
+        //check on image and get it
         if (item.getIconPicUrl() != null) {
+            int drawIconPic;
+            //get male or female pic
+            if(item.getGender().equals("Male")){
+                drawIconPic= R.drawable.doc_male_icon;
+                System.out.println("MYClusrer>>>>avatar male: ");
+            }else{
+                drawIconPic = R.drawable.doc_female_icon;
+                System.out.println("MYClusrer>>>>avatar Female: ");
+            }
             final String pUrl = item.getIconPicUrl();
             Uri selectedImageUri = Uri.parse(item.getIconPicUrl());
 
             Picasso.get().load(pUrl).fit().centerCrop()
-                    .placeholder(R.drawable.cartman_cop).priority(HIGH)
+                    .placeholder(drawIconPic).priority(HIGH)
                     .into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {

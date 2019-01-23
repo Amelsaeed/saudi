@@ -15,9 +15,11 @@ public class UserLocation implements Parcelable {
     private String cmDoctorGander;
     private String cmHC;
 
-    public UserLocation(String cmlatitude, String cmlongitude,
-                        String cmname, String cmdoctorpic,String cmDoctorGander,String cmHC,
-                        String cmDoctorType, String cmdoctorspecialty , String cmdoctorid) {
+    public UserLocation(String cmDoctorGander ,String cmDoctorType,String cmHC,
+                        String cmdoctorid ,String cmdoctorpic, String cmdoctorspecialty ,
+                        String cmlatitude, String cmlongitude,
+                        String cmname
+                          ) {
 
         this.cmlatitude = cmlatitude;
         this.cmlongitude = cmlongitude;
@@ -34,15 +36,15 @@ public class UserLocation implements Parcelable {
     }
 
     public UserLocation(Parcel in) {
+        cmDoctorGander = in.readString();
+        cmDoctorType = in.readString();
+        cmHC = in.readString();
+        cmdoctorid = in.readString();
+        cmdoctorpic = in.readString();
+        cmdoctorspecialty = in.readString();
         cmlatitude = in.readString();
         cmlongitude = in.readString();
         cmname = in.readString();
-        cmdoctorpic = in.readString();
-        cmDoctorType = in.readString();
-        cmdoctorspecialty = in.readString();
-        cmdoctorid = in.readString();
-        cmDoctorGander = in.readString();
-        cmHC = in.readString();
     }
 
 

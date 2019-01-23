@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexzh.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -55,17 +56,17 @@ public class UserProfileFragment extends Fragment {
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
-    TextView nameEditUser,phoneEditUser,birthdayEditUser, edit1,edit2, edit3,edit4,insuranceEditUser;
+    TextView nameEditUser, phoneEditUser, birthdayEditUser, edit1, edit2, edit3, edit4, insuranceEditUser, Email;
 
-    ImageView photoEdit;
+    CircleImageView photoEdit;
     private ProgressBar progressBarUser;
     byte[] byteImageData;
-    String PhotoUrl = "",Userid;
+    String PhotoUrl = "", Userid;
     String[] listInsuranceItem;
-
+    private FirebaseUser FUser;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseUserReg,databaseChat;
+    private DatabaseReference databaseUserReg, databaseChat;
 
 
     @Override
@@ -73,24 +74,27 @@ public class UserProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_user_profile, container, false);
         mAuth = FirebaseAuth.getInstance();
-        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");databaseUserReg.keepSynced(true);
+        FUser = mAuth.getCurrentUser();
+        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
+        databaseUserReg.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");databaseChat.keepSynced(true);
-        Userid=mAuth.getCurrentUser().getUid();
-
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
+        Userid = mAuth.getCurrentUser().getUid();
+        Email = (TextView) rootView.findViewById(R.id.email_user);
+        Email.setText(FUser.getEmail());
         edit1 = (TextView) rootView.findViewById(R.id.edit1);
         edit2 = (TextView) rootView.findViewById(R.id.edit2);
         edit3 = (TextView) rootView.findViewById(R.id.edit3);
         edit4 = (TextView) rootView.findViewById(R.id.edit4);
-        nameEditUser= rootView.findViewById(R.id.user_name);
-        phoneEditUser= rootView.findViewById(R.id.user_phone);
-        birthdayEditUser= rootView.findViewById(R.id.user_birthday);
-        insuranceEditUser= rootView.findViewById(R.id.user_insurance);
+        nameEditUser = rootView.findViewById(R.id.user_name);
+        phoneEditUser = rootView.findViewById(R.id.user_phone);
+        birthdayEditUser = rootView.findViewById(R.id.user_birthday);
+        insuranceEditUser = rootView.findViewById(R.id.user_insurance);
 
 
-
-        photoEdit=(ImageView) rootView.findViewById(R.id.user_photo);
-        progressBarUser= rootView.findViewById(R.id.progressbar_user);
+        photoEdit = (CircleImageView) rootView.findViewById(R.id.user_photo);
+        progressBarUser = rootView.findViewById(R.id.progressbar_user);
 
 
         photoEdit.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +109,8 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 String whatdata = "Name";
-                editDialog(whatdata);            }
+                editDialog(whatdata);
+            }
         });
 
         edit2.setOnClickListener(new View.OnClickListener() {
@@ -141,13 +146,13 @@ public class UserProfileFragment extends Fragment {
                 //  @Override
                 //   public void onClick(View v) {
                 final Calendar mCurrentDate = Calendar.getInstance();
-                int year=mCurrentDate.get(Calendar.YEAR);
-                int month=mCurrentDate.get(Calendar.MONTH);
-                int day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog mPickerDialog =  new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                int year = mCurrentDate.get(Calendar.YEAR);
+                int month = mCurrentDate.get(Calendar.MONTH);
+                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog mPickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
-                        String datedmy= Year+"_"+ (Month+1)+"_"+Day;
+                        String datedmy = Year + "_" + (Month + 1) + "_" + Day;
                         Toast.makeText(getActivity(), datedmy, Toast.LENGTH_LONG).show();
                         databaseUserReg.child(Userid).child("cbirthday").setValue(datedmy);
                         databaseChat.child(Userid).child("cbirthday").setValue(datedmy);
@@ -156,7 +161,7 @@ public class UserProfileFragment extends Fragment {
                         // Toast.makeText(context, id+doctorID, Toast.LENGTH_LONG).show();
                         //makepatientbooking(timeID, datedmy);
                         //editTextcal.setText(Year+"_"+ ((Month/10)+1)+"_"+Day);
-                        mCurrentDate.set(Year, ((Month+1)),Day);
+                        mCurrentDate.set(Year, ((Month + 1)), Day);
                         //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
                     }
                 }, year, month, day);
@@ -164,7 +169,7 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        listInsuranceItem= getResources().getStringArray(R.array.insurance_array);
+        listInsuranceItem = getResources().getStringArray(R.array.insurance_array);
         edit4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,7 +177,7 @@ public class UserProfileFragment extends Fragment {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle("SELECT Degree");
 
-                mBuilder.setSingleChoiceItems(listInsuranceItem, -1,new DialogInterface.OnClickListener() {
+                mBuilder.setSingleChoiceItems(listInsuranceItem, -1, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -259,11 +264,10 @@ public class UserProfileFragment extends Fragment {
                 }
             };
             databaseUserReg.addValueEventListener(postListener1);
-        }else {
+        } else {
             Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     private void saveuserinfo() {
@@ -272,7 +276,7 @@ public class UserProfileFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null ) {
+        if (user != null) {
             if (name.isEmpty()) {
                 nameEditUser.setError("User name is required");
                 nameEditUser.requestFocus();
@@ -284,6 +288,7 @@ public class UserProfileFragment extends Fragment {
             databaseChat.child(Userid).child("cphone").setValue(phone);
         }
     }
+
     private void displayImportImageDialog() {
 
         final Dialog dialog = new Dialog(getActivity());
@@ -322,6 +327,7 @@ public class UserProfileFragment extends Fragment {
 
         dialog.show();
     }
+
     private void openCameraAction() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -335,6 +341,7 @@ public class UserProfileFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -372,8 +379,8 @@ public class UserProfileFragment extends Fragment {
         }
 
 
-
     }
+
     private Bitmap getScaledBitmap(Bitmap bm) {
 
         int width = 0;
@@ -408,10 +415,12 @@ public class UserProfileFragment extends Fragment {
         return scaledBitmap;
 
     }
+
     private int dpToPx(int dp) {
         float density = getActivity().getApplicationContext().getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
     }
+
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -421,8 +430,9 @@ public class UserProfileFragment extends Fragment {
             return false;
         }
     }
-    private void uploadImage(){
-        if (isNetworkConnected()){
+
+    private void uploadImage() {
+        if (isNetworkConnected()) {
 
             if (isNetworkConnected()) {
 
@@ -430,7 +440,7 @@ public class UserProfileFragment extends Fragment {
                     progressBarUser.setVisibility(View.VISIBLE);
 
 
-                    StorageReference trampsRef = mStorageRef.child( "userPic/" + ".jpg");
+                    StorageReference trampsRef = mStorageRef.child("userPic/" + ".jpg");
 
                     trampsRef.putBytes(byteImageData)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -466,6 +476,7 @@ public class UserProfileFragment extends Fragment {
             }
         }
     }
+
     private void editDialog(final String whatdata) {
 
 
@@ -487,7 +498,8 @@ public class UserProfileFragment extends Fragment {
                 if (editfield1.isEmpty()) {
                     editfield.setError("Please fill the field");
                     editfield.requestFocus();
-                    return;}
+                    return;
+                }
                 getRegData(editfield1, whatdata);
                 dialog.dismiss();
 
@@ -506,51 +518,52 @@ public class UserProfileFragment extends Fragment {
 
         dialog.show();
     }
+
     private void getRegData(final String editfield1, final String whatdata) {
-if (UtilClass.isNetworkConnected(getContext())) {
-    if (whatdata.equals("Name")) {
-        databaseUserReg.child(Userid).child("cname").setValue(editfield1);
-        databaseChat.child(Userid).child("cname").setValue(editfield1);
+        if (UtilClass.isNetworkConnected(getContext())) {
+            if (whatdata.equals("Name")) {
+                databaseUserReg.child(Userid).child("cname").setValue(editfield1);
+                databaseChat.child(Userid).child("cname").setValue(editfield1);
 
-    } else if (whatdata.equals("Phone Number")) {
-        databaseUserReg.child(Userid).child("cphone").setValue(editfield1);
-        databaseChat.child(Userid).child("cphone").setValue(editfield1);
+            } else if (whatdata.equals("Phone Number")) {
+                databaseUserReg.child(Userid).child("cphone").setValue(editfield1);
+                databaseChat.child(Userid).child("cphone").setValue(editfield1);
 
-    }
-
-    //**************************************************//
-    // private void getallData();
-    final ValueEventListener postListener1 = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot1) {
-
-            String DoctorName = dataSnapshot1.child(Userid).child("cname").getValue(String.class);
-
-            String DoctorPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
-
-            if (DoctorName != null) {
-                nameEditUser.setText(DoctorName);
-            } else {
-                nameEditUser.setText("Name");
             }
 
-            if (DoctorPhone != null) {
-                phoneEditUser.setText(DoctorPhone);
-            } else {
-                phoneEditUser.setText("Phone Number");
-            }
+            //**************************************************//
+            // private void getallData();
+            final ValueEventListener postListener1 = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
 
-        }
+                    String DoctorName = dataSnapshot1.child(Userid).child("cname").getValue(String.class);
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            // Getting Post failed, log a message
+                    String DoctorPhone = dataSnapshot1.child(Userid).child("cphone").getValue(String.class);
+
+                    if (DoctorName != null) {
+                        nameEditUser.setText(DoctorName);
+                    } else {
+                        nameEditUser.setText("Name");
+                    }
+
+                    if (DoctorPhone != null) {
+                        phoneEditUser.setText(DoctorPhone);
+                    } else {
+                        phoneEditUser.setText("Phone Number");
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                }
+            };
+            databaseUserReg.addValueEventListener(postListener1);
+        } else {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
-    };
-    databaseUserReg.addValueEventListener(postListener1);
-}else {
-    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-}
     }
 
 }

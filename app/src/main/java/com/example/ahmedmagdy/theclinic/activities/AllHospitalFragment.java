@@ -1,10 +1,10 @@
-package com.example.ahmedmagdy.theclinic.HospitalFragment;
+package com.example.ahmedmagdy.theclinic.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,11 +14,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.MapsActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,15 +34,14 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HospitalAllDoctorFragment extends Fragment implements View.OnClickListener{
+
+public class AllHospitalFragment extends Fragment {
     ImageView addDoctorButton;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor,databaseDoctorFav;
+    private DatabaseReference databaseDoctorFav;
+    DatabaseReference databaseDoctor;
     FirebaseUser fuser;
     private ImageView btnproceed;
 
@@ -54,40 +53,60 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
     private List<DoctorFirebaseClass> doctorList;
     private List<DoctorFirebaseClass> favList;
 
-    public HospitalAllDoctorFragment() {
+    public AllHospitalFragment() {
         // Required empty public constructor
     }
-
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_all_doctor, container, false);
-        addDoctorButton = (ImageView) rootView.findViewById(R.id.adddoctor);
+        View view = inflater.inflate(R.layout.activity_login, container, false);
+        addDoctorButton = (ImageView) view.findViewById(R.id.adddoctor);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
+        progressBar = (ProgressBar) view.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
-        searchView = (SearchView)  rootView.findViewById(R.id.search);
+        listViewDoctor= (ListView)view.findViewById(R.id.list_view_doctor);
+        searchView = (SearchView) view.findViewById(R.id.search);
         doctorList=new ArrayList<>();
         favList=new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
-        btnproceed= (ImageView)  rootView.findViewById(R.id.map);
-        btnproceed.setOnClickListener(this);
-        return rootView;
-    }
+        btnproceed= (ImageView) view.findViewById(R.id.map);
 
+        btnproceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getActivity(),MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        addDoctorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fuser != null) {
+                    Intent it = new Intent(getActivity(), FavActivity.class);
+                    startActivity(it);
+                } else {
+                    Toast.makeText(getActivity(), "You should log in firstly", Toast.LENGTH_LONG).show();
+                    Intent it = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(it);
+                }
+            }
+        });
+//        updateToken(FirebaseInstanceId.getInstance().getToken());
+        return view;
+    }
     /**  private void updateToken(String token){
      DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
      Token token1 = new Token(token);
      reference.child(fuser.getUid()).setValue(token1);
      }**/
+    @Override
     public void onStart() {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
@@ -108,70 +127,70 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
 
     private void maketableofall() {
 
-       if (UtilClass.isNetworkConnected(getContext())) {
+        if (UtilClass.isNetworkConnected(getActivity().getApplicationContext())) {
 
-        databaseDoctor.addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseDoctor.orderByChild("cType").equalTo("Hospital").addListenerForSingleValueEvent(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                doctorList.clear();
-                for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
-                    DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    doctorList.clear();
+                    for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
+                        DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
 
-                    if (isFavourite(doctorclass)) {
-                        doctorclass.checked = true;
+                        if (isFavourite(doctorclass)) {
+                            doctorclass.checked = true;
+                        }
+
+                        doctorList.add(0,doctorclass);/// i= 0  (index)to start from top
                     }
 
-                    doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                    DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
+                    //adapter.notifyDataSetChanged();
+                    listViewDoctor.setAdapter(adapter);
+                    setupSearchView();
+                    progressBar.setVisibility(View.GONE);
+                    // listViewTramp.setAdapter(adapter);
+
                 }
 
-                DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
-                //adapter.notifyDataSetChanged();
-                listViewDoctor.setAdapter(adapter);
-                setupSearchView();
-                progressBar.setVisibility(View.GONE);
-                // listViewTramp.setAdapter(adapter);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        //  }// network
-         } else {
-         Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
-         }
+        }
+        /**  } else {
+         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+         }**/
     }
     private void maketableoffav() {
 
-     if (UtilClass.isNetworkConnected(getContext())) {
+        if (UtilClass.isNetworkConnected(getActivity())) {
 
-        databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
-                        DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
-                        favList.add(0, doctorclass);// i= 0  (index)to start from top
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    progressBar.setVisibility(View.GONE);
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                            DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
+                            favList.add(0, doctorclass);// i= 0  (index)to start from top
+                        }
                     }
+                    maketableofall();
                 }
-                maketableofall();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
 
-        //  }// network
-        } else {
-         Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
-     }
+        }
+        /**  } else {
+         Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+         }**/
     }
 
 
@@ -212,15 +231,4 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.map:
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                FragmentTransaction replace = transaction.replace(R.id.fragment_container, new MapsActivity());
-                transaction.addToBackStack(null);
-                transaction.commit();
-                break;
-        }
-    }
 }

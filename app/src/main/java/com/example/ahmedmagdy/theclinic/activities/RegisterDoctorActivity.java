@@ -489,6 +489,7 @@ textInsurance.setText("");
                             String HospID="non";
                             DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander,false);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            databaseDoctor.child(Id).child("cDiscount").setValue("0");
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
                             Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
@@ -500,6 +501,7 @@ textInsurance.setText("");
                         }else{
                             DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander,false);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            databaseDoctor.child(Id).child("cDiscount").setValue("0");
                             //mAuth.signOut();
 
 

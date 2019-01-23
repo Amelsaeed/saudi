@@ -18,8 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 
-public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
-    private SwipeRefreshLayout swipeLayout;
+public class PatientHome extends AppCompatActivity {
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,6 +59,7 @@ public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout
 
                     return true;
                 case R.id.navigation_menu:
+
                     fragment = new MoreFragmentPatient();
                     loadFragment(fragment);
 
@@ -73,12 +74,11 @@ public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout2);
-        swipeLayout.setOnRefreshListener(this);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new AllDoctorfragment()).commit();
         }
     }
@@ -87,15 +87,11 @@ public class PatientHome extends AppCompatActivity implements SwipeRefreshLayout
     // load fragment
     {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
 
-    @Override
-    public void onRefresh() {
-        startActivity(new Intent(this,PatientHome.class));
-        swipeLayout.setRefreshing(false);
-    }
+
 }

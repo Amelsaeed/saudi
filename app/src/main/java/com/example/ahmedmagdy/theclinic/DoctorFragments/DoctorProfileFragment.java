@@ -12,11 +12,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,8 +23,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -69,10 +70,11 @@ public class DoctorProfileFragment extends Fragment  {
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
-    String  idm;
+    private boolean disChecked = false;
+    String  idm ;
     String mTrampPhotoUrl = "";
+    String doctorId,drDiscountPrice="0";
     Boolean bookingtype;
-    String doctorId;
     String DoctorName, insuranceItems = "";
     byte[] byteImageData;
     private FirebaseAuth mAuth;
@@ -526,9 +528,6 @@ editDialog(whatData);
 
             }
         });
-
-
-
         return rootView;
     }
 
@@ -683,19 +682,78 @@ editDialog(whatData);
         final EditText editField = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
         TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
         TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+        final EditText discountInput = dialog.findViewById(R.id.discount_et);
+        final CheckBox discountCheckBox = dialog.findViewById(R.id.discount_cb);
+        final LinearLayout linear = dialog.findViewById(R.id.linear_discount);
         editField.setHint(whatdata);
+
+
+        if (whatdata.equals("Phone Number")){
+            editField.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_DATETIME_VARIATION_NORMAL);
+            editField.setText(pphone.getText().toString().trim());
+        }
+
+
+        if (whatdata.equals("Detection price")){
+
+            discountCheckBox.setVisibility(View.VISIBLE);
+            editField.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+           if (!pprice.getText().toString().equals("Detection price")){
+               editField.setText(pprice.getText().toString().trim().replace("$",""));
+           }
+            if (!drDiscountPrice.equals("0")&&!drDiscountPrice.equals("0.0") && drDiscountPrice!= null){
+                linear.setVisibility(View.VISIBLE);
+                discountCheckBox.setChecked(true);
+                disChecked = true;
+                discountInput.setText(drDiscountPrice);
+            }
+            discountCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if (checked){
+                        linear.setVisibility(View.VISIBLE);
+                        disChecked = true;
+                    }else {
+                        linear.setVisibility(View.GONE);
+                        disChecked = false;
+                    }
+                }
+            });
+
+        }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String editfield1 = editField.getText().toString().trim();
+                double pers =0;
 
                 if (editfield1.isEmpty()) {
-                    editField.setError("Please fill the field");
+                    editField.setError(getString(R.string.empty_field_msg));
                     editField.requestFocus();
                     return;
                 }
-                getRegData(editfield1, whatdata);
+                if (whatdata.equals("Detection price")){
+
+                    if (disChecked){
+
+                        if (TextUtils.isEmpty(discountInput.getText().toString())){
+                            discountInput.setError(getString(R.string.empty_field_msg));
+                            discountInput.requestFocus();
+                            return;
+                        }else{
+                            pers = Double.parseDouble(discountInput.getText().toString());
+                            if (pers< 0 || pers> 100){
+                                discountInput.setError(getString(R.string.invalid_number_msg));
+                                discountInput.requestFocus();
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                getRegData(editfield1, whatdata,pers);
                 dialog.dismiss();
 
             }
@@ -714,7 +772,7 @@ editDialog(whatData);
         dialog.show();
     }
 
-    private void getRegData(final String editfield1, final String whatdata) {
+    private void getRegData(final String editfield1, final String whatdata, double discount) {
 
         if (whatdata.equals("Name")) {
             databaseDoctor.child(doctorId).child("cName").setValue(editfield1);
@@ -728,8 +786,10 @@ editDialog(whatData);
             pphone.setText(editfield1);
 
         } else if (whatdata.equals("Detection price")) {
-            databaseDoctor.child(doctorId).child("cPrice").setValue(editfield1);
-            pprice.setText(editfield1);
+
+           databaseDoctor.child(doctorId).child("cPrice").setValue(editfield1);
+           databaseDoctor.child(doctorId).child("cDiscount").setValue(String.valueOf(discount));
+           pprice.setText(editfield1);
         } else if (whatdata.equals("Average detection time in min")) {
             databaseDoctor.child(doctorId).child("cTime").setValue(editfield1);
         } else if (whatdata.equals("medical insurance")) {
@@ -813,7 +873,10 @@ editDialog(whatData);
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
+                if (getActivity() == null){
+                    return;
+                }
+                String DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
                 String DoctorCity = dataSnapshot1.child(doctorId).child("cCity").getValue(String.class);
                 String DoctorSpecialty = dataSnapshot1.child(doctorId).child("cSpecialty").getValue(String.class);
                 String DoctorDegree = dataSnapshot1.child(doctorId).child("cDegree").getValue(String.class);
@@ -823,6 +886,7 @@ editDialog(whatData);
                 String DoctorAbout = dataSnapshot1.child(doctorId).child("cAbout").getValue(String.class);
                 String DoctorPic = dataSnapshot1.child(doctorId).child("cUri").getValue(String.class);
                 String medInsurance = dataSnapshot1.child(doctorId).child("cInsurance").getValue(String.class);
+                drDiscountPrice = dataSnapshot1.child(doctorId).child("cDiscount").getValue(String.class);
                 bookingtype = dataSnapshot1.child(doctorId).child("cbookingtypestate").getValue(boolean.class);
 
                 if (bookingtype != null) {
@@ -874,7 +938,6 @@ editDialog(whatData);
 
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new RoundedCorners(16));
-
                 if (DoctorPic != null) {
                   if ( getActivity()!= null) {
                         Glide.with(getActivity())

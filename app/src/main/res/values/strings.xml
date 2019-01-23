@@ -81,6 +81,23 @@
         <item>Saudi</item>
     </string-array>
 
+    <string-array name="discount_array">
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+        <item>05</item>
+    </string-array>
+
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_home">Home</string>
     <string name="title_home">Home</string>
@@ -107,17 +124,24 @@
     <string name="hospital_my_doctor">My Doctor</string>
     <string name="hospital_menu">Menu</string>
     <string name="app_version">Version 1.0</string>
-    <string name="chat_room">ChatRoom</string>
-    <string name="doctor_sites">Doctor Sites</string>
+    <string name="chat_room">Chat Room</string>
+
+    <string name="Profile">Profile</string>
+
+    <string name="doctor_map">Doctor Map</string>
     <string name="rate_us">Rate Us</string>
     <string name="contact_us">Contact us</string>
     <string name="share">Share this app</string>
     <string name="about">About</string>
+    <string name="sign_in">Sign in</string>
+
     <string name="sign_out">Sign out</string>
     <string name="hospitals">Hospitals</string>
     <string name="no_bookings_msg">No bookings this day!</string>
     <string name="no_appointments_msg">No appointments for booking !</string>
     <string name="shortcut">ChatRoom</string>
+    <string name="empty_field_msg">Please fill the field</string>
+    <string name="invalid_number_msg">please enter a valid number</string>
 
 
 </resources>

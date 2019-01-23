@@ -10,29 +10,30 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.ahmedmagdy.theclinic.DoctorFragments.AllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalAllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalMyDoctorFragment;
 import com.example.ahmedmagdy.theclinic.HospitalFragment.HospitalProfileFragment;
+import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    private SwipeRefreshLayout swipeLayout;
+public class HospitalHome extends AppCompatActivity  {
+
     FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_home);
-        frameLayout = (FrameLayout)findViewById(R.id.fragment_container_hospital);
+        frameLayout = (FrameLayout)findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        swipeLayout.setOnRefreshListener(this);
+
         //I added this if statement to keep the selected fragment when rotating the device
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HospitalAllDoctorFragment()).commit();
         }
 
@@ -46,7 +47,7 @@ public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayou
 
                     switch (item.getItemId()) {
                         case R.id.navigation_home_hospital:
-                            selectedFragment = new HospitalAllDoctorFragment();
+                            selectedFragment = new AllDoctorFragment();
                             break;
                         case R.id.navigation_my_doctor:
                             selectedFragment = new HospitalMyDoctorFragment();
@@ -55,7 +56,7 @@ public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayou
                             selectedFragment = new HospitalProfileFragment();
                             break;
                         case R.id.navigation_menu_hospital:
-                            selectedFragment = new MoreFragment();
+                            selectedFragment = new MoreFragmentPatient();
                  /*           FirebaseAuth mAuth = FirebaseAuth.getInstance();
                             mAuth.signOut();
                             Intent intent = new Intent(HospitalHome.this, LoginActivity.class);
@@ -65,18 +66,12 @@ public class HospitalHome extends AppCompatActivity implements SwipeRefreshLayou
                             break;
                     }
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
 
                     return true;
                 }
             };
 
-    @Override
-    public void onRefresh() {
 
-       startActivity(new Intent(this,HospitalHome.class));
-        swipeLayout.setRefreshing(false);
-
-    }
 }

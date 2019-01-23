@@ -1,8 +1,10 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.PatientBookingAdapter;
+import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
@@ -30,12 +33,12 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBookingFragment extends Fragment {
+public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
     private DatabaseReference bookforuser;
     private DatabaseReference databaseUserReg,databaseDoctor,databaseChat;
-
+    private SwipeRefreshLayout swipeLayout;
     String UserType;
     SearchView searchView;
     TextView usernamef;
@@ -55,7 +58,8 @@ public class UserBookingFragment extends Fragment {
         usernamef = rootView.findViewById(R.id.user_name_book);
         progressBar = (ProgressBar) rootView.findViewById(R.id.data_progress_bar);
         mAuth = FirebaseAuth.getInstance();
-
+        swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLayout2);
+        swipeLayout.setOnRefreshListener(this);
         bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser").child(mAuth.getCurrentUser().getUid());
         bookforuser.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
@@ -75,6 +79,11 @@ public class UserBookingFragment extends Fragment {
         getusername();
 
         return rootView;
+    }
+    @Override
+    public void onRefresh() {
+      startActivity(new Intent(getActivity(),PatientHome.class));
+        swipeLayout.setRefreshing(false);
     }
         @Override
         public void onStart() {

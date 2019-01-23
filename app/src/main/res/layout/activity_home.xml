@@ -6,12 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PatientHome">
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipeLayout2">
+
     <FrameLayout
-        android:id="@+id/frame_container"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"
@@ -19,7 +16,7 @@
         android:background="@drawable/splashbackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
