@@ -1,6 +1,7 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -52,17 +54,18 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
 public class DoctorProfileFragment extends Fragment  {
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
-    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
+    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,chatstarttimeedit,chatendtimeedit;
+    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,chatstarttime,chatendtime;
     EditText peditbox;
     CheckBox  bookingtypecheck;
     private ProgressBar progressBarImage;
-
+    int startHour,endingHour;
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
@@ -131,8 +134,10 @@ public class DoctorProfileFragment extends Fragment  {
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
         bookingtypecheck= rootView.findViewById(R.id.checkBox1);
-
-
+        chatstarttimeedit= rootView.findViewById(R.id.ch_start_edit);
+        chatendtimeedit= rootView.findViewById(R.id.ch_end_edit);
+        chatstarttime= rootView.findViewById(R.id.ch_start);
+        chatendtime= rootView.findViewById(R.id.ch_end);
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
         editDegree.setVisibility(View.VISIBLE);
@@ -149,6 +154,96 @@ public class DoctorProfileFragment extends Fragment  {
 
 
         getallData();
+        chatstarttimeedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //is chkIos checked?
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        //////
+                        String selectedHour00 = String.valueOf(selectedHour);
+                        if (Integer.parseInt(selectedHour00) < 10) {
+                            selectedHour00 = "0" + selectedHour00;
+                        }
+                        String selectedMinute00 = String.valueOf(selectedMinute);
+                        if (Integer.parseInt(selectedMinute00) < 10) {
+                            selectedMinute00 = "0" + selectedMinute00;
+                        }
+
+                        ///////////////////////////
+
+                       String chatstartTime=selectedHour00 + ":" + selectedMinute00;
+                         startHour=selectedHour;
+
+                        if (endingHour<=startHour) {
+                            chatendtime.setError("Ending time must be after starting time /n and in the same day");
+                            chatendtime.requestFocus();
+                            chatstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            chatstarttime.requestFocus();
+                            return;}
+
+                        chatstarttime.setText( chatstartTime);
+
+
+                    }
+                }, hour, minute, false);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+
+        chatendtimeedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //is chkIos checked?
+                Calendar mcurrentTime1 = Calendar.getInstance();
+                int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
+                int minute1 = mcurrentTime1.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker1;
+                mTimePicker1 = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
+
+                        //////
+                        String selectedHour100 = String.valueOf(selectedHour1);
+                        if (Integer.parseInt(selectedHour100) < 10) {
+                            selectedHour100 = "0" + selectedHour100;
+                        }
+                        String selectedMinute100 = String.valueOf(selectedMinute1);
+                        if (Integer.parseInt(selectedMinute100) < 10) {
+                            selectedMinute100 = "0" + selectedMinute100;
+                        }
+
+                        ///////////////////////////
+                      String  chatendingTime=selectedHour100 + ":" + selectedMinute100;
+                        endingHour=selectedHour1;
+
+                        if (endingHour<=startHour) {
+                            chatendtime.setError("Ending time must be after starting time /n and in the same day");
+                            chatendtime.requestFocus();
+                            chatstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            chatstarttime.requestFocus();
+                            return;}
+
+                        chatendtime.setText( chatendingTime);
+
+
+
+                    }
+                }, hour1, minute1, false);//Yes 24 hour time
+                mTimePicker1.setTitle("Select Time");
+                mTimePicker1.show();
+
+            }
+        });
         bookingtypecheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
