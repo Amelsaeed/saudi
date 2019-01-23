@@ -161,34 +161,8 @@ public class MoreFragmentPatient extends Fragment {
             startActivity(it);
 
         } else {
-            final ValueEventListener postListener1 = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot1) {
-
-                    usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
-                    if (usertype.equals("User")) {
-
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                                new AllHospitalfragment()).addToBackStack(null).commit();
-                    } else if (usertype.equals("Doctor")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new AllHospitalfragment()).addToBackStack(null).commit();
-                    } else if (usertype.equals("Hospital")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
-                                new AllHospitalfragment()).addToBackStack(null).commit();
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Getting Post failed, log a message
-                }
-            };
-            databaseChat.addValueEventListener(postListener1);
-
-
-
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new AllHospitalfragment()).addToBackStack(null).commit();
         }
 
     }
@@ -215,31 +189,8 @@ public class MoreFragmentPatient extends Fragment {
             it.putExtra("comefrom", "2");
             startActivity(it);
         } else
-        {  final ValueEventListener postListener1 = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot1) {
-
-                    usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
-                    if (usertype.equals("User")) {
-
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
-                                new StartCahtRoomFragment()).addToBackStack(null).commit();
-                    } else if (usertype.equals("Doctor")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new StartCahtRoomFragment()).addToBackStack(null).commit();
-                    } else if (usertype.equals("Hospital")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
-                                new StartCahtRoomFragment()).addToBackStack(null).commit();
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Getting Post failed, log a message
-                }
-            };
-        databaseChat.addValueEventListener(postListener1);
+        { getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new StartCahtRoomFragment()).addToBackStack(null).commit();
 
     }}
 
@@ -257,13 +208,13 @@ public class MoreFragmentPatient extends Fragment {
                     usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
                     if (usertype.equals("User")) {
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 new UserProfileFragment()).addToBackStack(null).commit();
                     } else if (usertype.equals("Doctor")) {
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 new DoctorProfileFragment()).addToBackStack(null).commit();
                     } else if (usertype.equals("Hospital")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 new HospitalProfileFragment()).addToBackStack(null).commit();
 
                     }

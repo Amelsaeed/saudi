@@ -217,7 +217,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
         switch (view.getId()) {
             case R.id.map:
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                FragmentTransaction replace = transaction.replace(R.id.frame_container, new MapsActivity());
+                FragmentTransaction replace = transaction.replace(R.id.fragment_container, new MapsActivity());
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;

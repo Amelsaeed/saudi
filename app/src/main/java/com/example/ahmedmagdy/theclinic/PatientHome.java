@@ -78,7 +78,7 @@ public class PatientHome extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new AllDoctorfragment()).commit();
         }
     }
@@ -87,7 +87,7 @@ public class PatientHome extends AppCompatActivity {
     // load fragment
     {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

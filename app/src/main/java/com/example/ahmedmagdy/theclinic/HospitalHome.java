@@ -27,13 +27,13 @@ public class HospitalHome extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_home);
-        frameLayout = (FrameLayout)findViewById(R.id.fragment_container_hospital);
+        frameLayout = (FrameLayout)findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         //I added this if statement to keep the selected fragment when rotating the device
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HospitalAllDoctorFragment()).commit();
         }
 
@@ -66,7 +66,7 @@ public class HospitalHome extends AppCompatActivity  {
                             break;
                     }
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_hospital,
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
 
                     return true;
