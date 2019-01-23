@@ -78,6 +78,7 @@ public class BookingFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         doctorId = mAuth.getCurrentUser().getUid();
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
+        mBookingRef.keepSynced(true);
         selectedDate = UtilClass.getInstanceDate();
         vDate = UtilClass.dateFormat(UtilClass.getInstanceDate());
 
@@ -175,12 +176,17 @@ public class BookingFragment extends Fragment {
 
     private void makeTable() {
 
-        if (UtilClass.isNetworkConnected(getContext())) {
-
+        if (!UtilClass.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
             mBookingListener = new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (getActivity() == null){
+                        return;
+                    }
+
                     mBookingsChildList.clear();
                     mBookingsGroupList.clear();
 
@@ -255,7 +261,7 @@ public class BookingFragment extends Fragment {
 //.orderByChild("ctdate")
 
 
-        }
+
 
     }
 

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
     private SwipeRefreshLayout swipeLayout;
     String UserType;
     SearchView searchView;
+    private Filter filter;
+    private boolean isSearching = false;
     TextView usernamef;
     private ProgressBar progressBar;
     private List<BookingTimesClass> doctorList;
@@ -64,6 +67,7 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
         bookforuser.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
+        databaseUserReg.keepSynced(true);
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
@@ -72,7 +76,7 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
         listViewuserbook = (ListView) rootView.findViewById(R.id.list_view_user_book);
         searchView = (SearchView) rootView.findViewById(R.id.searchuserbooking);
         TextView noDataMsg = rootView.findViewById(R.id.no_data_msg);
-        listViewuserbook.setTextFilterEnabled(true);
+        listViewuserbook.setTextFilterEnabled(false);
         listViewuserbook.setEmptyView(noDataMsg);
         doctorList = new ArrayList<>();
         removeFocus();
@@ -88,12 +92,18 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
         @Override
         public void onStart() {
             super.onStart();
+
+            if (isSearching){
+                return;
+            }
             progressBar.setVisibility(View.VISIBLE);
             maketable();
         }
         private void maketable() {
 
-             if (UtilClass.isNetworkConnected(getContext())) {
+             if (!UtilClass.isNetworkConnected(getContext())) {
+                 Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+             }
 
             bookforuser.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -125,6 +135,7 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
                                 doctorList.add(0,bookingtimesclass);// i= 0  (index)to start from top
 
                                 PatientBookingAdapter adapter = new PatientBookingAdapter(getActivity(), doctorList);
+                                filter = adapter.getFilter();
                                 listViewuserbook.setAdapter(adapter);
                                 setupSearchView();
                                 progressBar.setVisibility(View.GONE);
@@ -150,15 +161,15 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
                 }
             });
             progressBar.setVisibility(View.GONE);
-            }else {
-                 Toast.makeText(getContext(),getString(R.string.network_connection_msg),Toast.LENGTH_LONG).show();
-             }
+
 
         }
 
         private void getusername() {
 
-if (UtilClass.isNetworkConnected(getContext())){
+if (!UtilClass.isNetworkConnected(getContext())){
+    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+}
 
 
             final ValueEventListener postListener1 = new ValueEventListener() {
@@ -181,9 +192,7 @@ if (UtilClass.isNetworkConnected(getContext())){
                 }
             };
             databaseChat .addValueEventListener(postListener1);
-}else {
-    Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-}
+
         }
         private void setupSearchView() {
             searchView.setIconifiedByDefault(false);
@@ -197,9 +206,11 @@ if (UtilClass.isNetworkConnected(getContext())){
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     if (TextUtils.isEmpty(newText)) {
-                        listViewuserbook.clearTextFilter();
+                        filter.filter("");
+                        isSearching = false;
                     } else {
-                        listViewuserbook.setFilterText(newText);
+                        filter.filter(newText);
+                        isSearching = true;
                     }
                     return true;
                 }

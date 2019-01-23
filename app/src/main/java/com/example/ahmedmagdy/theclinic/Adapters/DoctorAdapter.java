@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -294,8 +295,10 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                 adoctorsalary.setText(fPrice + "$");
             }else {
                 adoctorsalary.setText(fPrice + "$");
+                adoctorsalary.setTextColor(Color.RED);
                 adoctorsalary.setPaintFlags(adoctorsalary.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
 
+                //calculate price after discount
                 double discountPrice = price - (price * ds/100 );
                 DecimalFormat df2 = new DecimalFormat("###.##");
                 String disPrice = df2.format(discountPrice);

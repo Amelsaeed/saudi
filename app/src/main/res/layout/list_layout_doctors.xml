@@ -172,7 +172,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:textColor="#fff" />
+                                android:textColor="@android:color/holo_green_dark" />
                         </LinearLayout>
 
                         <LinearLayout

@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -41,6 +42,8 @@ public class AllHospitalActivity extends AppCompatActivity {
     private ImageView btnproceed;
 	
     SearchView searchView;
+    private Filter filter;
+    private boolean isSearching = false;
    // Button addTrampButton;
     private ProgressBar progressBar;
 
@@ -98,6 +101,10 @@ public class AllHospitalActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (isSearching){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -116,7 +123,9 @@ public class AllHospitalActivity extends AppCompatActivity {
 
     private void maketableofall() {
 
-      if (UtilClass.isNetworkConnected(getApplicationContext())) {
+      if (!UtilClass.isNetworkConnected(getApplicationContext())) {
+          Toast.makeText(this, getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+      }
 
         databaseDoctor.orderByChild("cType").equalTo("Hospital").addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -136,6 +145,7 @@ public class AllHospitalActivity extends AppCompatActivity {
 
                         DoctorAdapter adapter = new DoctorAdapter(AllHospitalActivity.this, doctorList);
                         //adapter.notifyDataSetChanged();
+                        filter = adapter.getFilter();
                         listViewDoctor.setAdapter(adapter);
                         setupSearchView();
                         progressBar.setVisibility(View.GONE);
@@ -148,7 +158,7 @@ public class AllHospitalActivity extends AppCompatActivity {
                     }
                 });
 
-         }
+
       /**  } else {
             Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
         }**/
@@ -205,9 +215,11 @@ public class AllHospitalActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewDoctor.clearTextFilter();
+                    filter.filter("");
+                    isSearching = false;
                 } else {
-                    listViewDoctor.setFilterText(newText);
+                    filter.filter(newText);
+                    isSearching = true;
                 }
                 return true;
             }

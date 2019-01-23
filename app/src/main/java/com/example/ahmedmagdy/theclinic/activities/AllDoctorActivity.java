@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -44,6 +45,8 @@ public class AllDoctorActivity extends AppCompatActivity {
     private ImageView btnproceed;
 	
     SearchView searchView;
+    Filter filter;
+    private boolean isSearching = false;
    // Button addTrampButton;
     private ProgressBar progressBar;
 
@@ -70,7 +73,7 @@ public class AllDoctorActivity extends AppCompatActivity {
         searchView = (SearchView) findViewById(R.id.search);
         doctorList=new ArrayList<>();
         favList=new ArrayList<>();
-        listViewDoctor.setTextFilterEnabled(true);
+        listViewDoctor.setTextFilterEnabled(false);
         removeFocus();
         btnproceed= (ImageView) findViewById(R.id.map);
 
@@ -142,9 +145,12 @@ public class AllDoctorActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (isSearching){
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
-
-
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits").child(mAuth.getCurrentUser().getUid());
@@ -180,6 +186,7 @@ public class AllDoctorActivity extends AppCompatActivity {
 
                         DoctorAdapter adapter = new DoctorAdapter(AllDoctorActivity.this, doctorList);
                         //adapter.notifyDataSetChanged();
+                        filter = adapter.getFilter();
                         listViewDoctor.setAdapter(adapter);
                         setupSearchView();
                         progressBar.setVisibility(View.GONE);
@@ -249,9 +256,11 @@ public class AllDoctorActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewDoctor.clearTextFilter();
+                   filter.filter("");
+                   isSearching = false;
                 } else {
-                    listViewDoctor.setFilterText(newText);
+                    filter.filter(newText);
+                    isSearching = true;
                 }
                 return true;
             }

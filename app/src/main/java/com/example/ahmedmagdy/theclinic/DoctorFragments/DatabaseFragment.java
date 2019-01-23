@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import java.util.List;
 public class DatabaseFragment extends Fragment {
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
+    private Filter filter;
+    private boolean isSearching = false;
     private DatabaseReference databasePatient;
     private DatabaseReference databaseUserReg, databaseDoctor, databaseChat;
     private ValueEventListener mEventListener, patientEventListener;
@@ -61,15 +64,17 @@ public class DatabaseFragment extends Fragment {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
+        databaseUserReg.keepSynced(true);
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseDoctor.keepSynced(true);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-
+        databaseChat.keepSynced(true);
 
         listViewpatient = rootView.findViewById(R.id.list_view_data);
         searchView = rootView.findViewById(R.id.searchdata);
         doctorList = new ArrayList<>();
         TextView noDataMsg = rootView.findViewById(R.id.no_data_msg);
-        listViewpatient.setTextFilterEnabled(true);
+        listViewpatient.setTextFilterEnabled(false);
         listViewpatient.setEmptyView(noDataMsg);
         removeFocus();
         getUserName();
@@ -80,6 +85,9 @@ public class DatabaseFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (isSearching){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
         makeTable();
 
@@ -87,12 +95,19 @@ public class DatabaseFragment extends Fragment {
 
     private void makeTable() {
 
-        if (UtilClass.isNetworkConnected(getContext())) {
-
+        if (!UtilClass.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        }
             patientEventListener = new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (getActivity() == null){
+                        return;
+                    }
+
                     doctorList.clear();
                     for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                         BookingTimesClass bookingtimesclass = doctorSnapshot.getValue(BookingTimesClass.class);
@@ -106,6 +121,7 @@ public class DatabaseFragment extends Fragment {
                         doctorList.add(0, doctorclass);// i= 0  (index)to start from top
 
                         DoctorDatabaseAdapter adapter = new DoctorDatabaseAdapter(getActivity(), doctorList);
+                        filter = adapter.getFilter();
                         listViewpatient.setAdapter(adapter);
 
                         setupSearchView();
@@ -123,19 +139,21 @@ public class DatabaseFragment extends Fragment {
             };
             databasePatient.addListenerForSingleValueEvent(patientEventListener);
             progressBar.setVisibility(View.GONE);
-        } else {
-            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
-        }
+
 
     }
 
     private void getUserName() {
 
-        if (UtilClass.isNetworkConnected(getContext())) {
+        if (!UtilClass.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
             final ValueEventListener postListener1 = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot1) {
+                    if (getActivity() == null){
+                        return;
+                    }
 
                     String UserName = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
                     UserType = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
@@ -154,11 +172,12 @@ public class DatabaseFragment extends Fragment {
                 }
             };
             databaseChat.addValueEventListener(postListener1);
-        }
+
     }
 
     private void setupSearchView() {
         searchView.setIconifiedByDefault(false);
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -169,9 +188,11 @@ public class DatabaseFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewpatient.clearTextFilter();
+                    filter.filter("");
+                    isSearching = false;
                 } else {
-                    listViewpatient.setFilterText(newText);
+                    filter.filter(newText);
+                    isSearching= true;
                 }
                 return true;
             }

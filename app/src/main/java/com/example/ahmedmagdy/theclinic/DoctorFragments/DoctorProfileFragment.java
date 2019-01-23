@@ -103,6 +103,7 @@ public class DoctorProfileFragment extends Fragment  {
             doctorId = fUser.getUid();
         }
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
@@ -774,6 +775,7 @@ editDialog(whatData);
         //**************************************************//
 
         if (UtilClass.isNetworkConnected(getContext())){
+        }
         doctorEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -867,9 +869,7 @@ editDialog(whatData);
             }
         };
         databaseDoctor.addValueEventListener(doctorEventListener);
-        }else {
-            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-        }
+
     }
 
 

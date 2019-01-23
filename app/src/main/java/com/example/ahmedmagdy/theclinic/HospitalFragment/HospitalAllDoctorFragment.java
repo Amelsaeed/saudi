@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -47,6 +48,8 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
     private ImageView btnproceed;
 
     SearchView searchView;
+   private Filter filter;
+   private boolean isSearching = false;
     // Button addTrampButton;
     private ProgressBar progressBar;
 
@@ -72,11 +75,11 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
-        searchView = (SearchView)  rootView.findViewById(R.id.search);
+        listViewDoctor=  rootView.findViewById(R.id.list_view_doctor);
+        searchView =   rootView.findViewById(R.id.search);
         doctorList=new ArrayList<>();
         favList=new ArrayList<>();
-        listViewDoctor.setTextFilterEnabled(true);
+        listViewDoctor.setTextFilterEnabled(false);
         removeFocus();
         btnproceed= (ImageView)  rootView.findViewById(R.id.map);
         btnproceed.setOnClickListener(this);
@@ -90,6 +93,9 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
      }**/
     public void onStart() {
         super.onStart();
+        if (isSearching){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -109,6 +115,8 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
     private void maketableofall() {
 
        if (UtilClass.isNetworkConnected(getContext())) {
+           Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+       }
 
         databaseDoctor.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -128,6 +136,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
 
                 DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
                 //adapter.notifyDataSetChanged();
+                filter = adapter.getFilter();
                 listViewDoctor.setAdapter(adapter);
                 setupSearchView();
                 progressBar.setVisibility(View.GONE);
@@ -141,9 +150,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
         });
 
         //  }// network
-         } else {
-         Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
-         }
+
     }
     private void maketableoffav() {
 
@@ -197,9 +204,11 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewDoctor.clearTextFilter();
+                    filter.filter("");
+                    isSearching = false;
                 } else {
-                    listViewDoctor.setFilterText(newText);
+                   filter.filter(newText);
+                   isSearching = true;
                 }
                 return true;
             }

@@ -46,7 +46,7 @@
             android:inputType="textMultiLine"
             android:textColor="#000"
             android:textColorHint="#000000"
-            android:textSize="13dp" />
+            android:textSize="14sp" />
 
            <CheckBox
                android:layout_width="wrap_content"
@@ -72,6 +72,7 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/discount_et"
                   android:layout_weight="1"
+                  android:textSize="14sp"
                   android:hint="Discount percentage"
                   android:background="@drawable/white_rect"
                   android:inputType="numberDecimal"

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -45,6 +46,8 @@ public class HospitalMyDoctorFragment extends Fragment {
     private DatabaseReference databaseUserReg,databaseDoctor;
     String UserType;
     SearchView searchView1;
+    private Filter filter;
+    private boolean isSearching = false;
     TextView usernamef;
     private ProgressBar progressBar;
 
@@ -73,7 +76,7 @@ public class HospitalMyDoctorFragment extends Fragment {
         listViewDoctor= (ListView)rootView.findViewById(R.id.list_view_fav);
        searchView1 = (SearchView) rootView.findViewById(R.id.search_doctor);
         doctorList=new ArrayList<>();
-        listViewDoctor.setTextFilterEnabled(true);
+        listViewDoctor.setTextFilterEnabled(false);
        removeFocus();
 
 
@@ -122,6 +125,10 @@ public class HospitalMyDoctorFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+
+        if (isSearching){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
 
         maketable();
@@ -165,6 +172,7 @@ public class HospitalMyDoctorFragment extends Fragment {
                             DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,DType);
                             doctorList.add(0,doctorclass);// i= 0  (index)to start from top
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
+                            filter = adapter.getFilter();
                             listViewDoctor.setAdapter(adapter);
                             setupSearchView();
                             progressBar.setVisibility(View.GONE);
@@ -207,9 +215,11 @@ public class HospitalMyDoctorFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewDoctor.clearTextFilter();
+                    filter.filter("");
+                    isSearching = false;
                 } else {
-                    listViewDoctor.setFilterText(newText);
+                    filter.filter(newText);
+                    isSearching = true;
                 }
                 return true;
             }

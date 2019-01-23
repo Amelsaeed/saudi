@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
@@ -46,6 +46,8 @@ public class AllHospitalFragment extends Fragment {
     private ImageView btnproceed;
 
     SearchView searchView;
+    private Filter filter;
+    private boolean isSearching = false;
     // Button addTrampButton;
     private ProgressBar progressBar;
 
@@ -69,18 +71,18 @@ public class AllHospitalFragment extends Fragment {
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= (ListView)view.findViewById(R.id.list_view_doctor);
+        listViewDoctor = (ListView) view.findViewById(R.id.list_view_doctor);
         searchView = (SearchView) view.findViewById(R.id.search);
-        doctorList=new ArrayList<>();
-        favList=new ArrayList<>();
+        doctorList = new ArrayList<>();
+        favList = new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(true);
         removeFocus();
-        btnproceed= (ImageView) view.findViewById(R.id.map);
+        btnproceed = (ImageView) view.findViewById(R.id.map);
 
         btnproceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getActivity(),MapsActivity.class);
+                Intent i = new Intent(getActivity(), MapsActivity.class);
                 startActivity(i);
             }
         });
@@ -101,17 +103,22 @@ public class AllHospitalFragment extends Fragment {
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
         return view;
     }
-    /**  private void updateToken(String token){
-     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
-     Token token1 = new Token(token);
-     reference.child(fuser.getUid()).setValue(token1);
-     }**/
+
+    /**
+     * private void updateToken(String token){
+     * DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+     * Token token1 = new Token(token);
+     * reference.child(fuser.getUid()).setValue(token1);
+     * }
+     **/
     @Override
     public void onStart() {
         super.onStart();
+
+        if (isSearching) {
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
-
-
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits").child(mAuth.getCurrentUser().getUid());
@@ -126,44 +133,50 @@ public class AllHospitalFragment extends Fragment {
     }
 
     private void maketableofall() {
-
+        if (getActivity() == null) {
+            return;
+        }
         if (UtilClass.isNetworkConnected(getActivity().getApplicationContext())) {
+            Toast.makeText(getActivity(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
 
-            databaseDoctor.orderByChild("cType").equalTo("Hospital").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseDoctor.orderByChild("cType").equalTo("Hospital").addListenerForSingleValueEvent(new ValueEventListener() {
 
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    doctorList.clear();
-                    for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
-                        DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                doctorList.clear();
+                for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                    DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
 
-                        if (isFavourite(doctorclass)) {
-                            doctorclass.checked = true;
-                        }
-
-                        doctorList.add(0,doctorclass);/// i= 0  (index)to start from top
+                    if (isFavourite(doctorclass)) {
+                        doctorclass.checked = true;
                     }
 
-                    DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
-                    //adapter.notifyDataSetChanged();
-                    listViewDoctor.setAdapter(adapter);
-                    setupSearchView();
-                    progressBar.setVisibility(View.GONE);
-                    // listViewTramp.setAdapter(adapter);
-
+                    doctorList.add(0, doctorclass);/// i= 0  (index)to start from top
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
+                DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
+                //adapter.notifyDataSetChanged();
+                filter = adapter.getFilter();
+                listViewDoctor.setAdapter(adapter);
+                setupSearchView();
+                progressBar.setVisibility(View.GONE);
+                // listViewTramp.setAdapter(adapter);
 
-        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
         /**  } else {
          Toast.makeText(AllDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
          }**/
     }
+
     private void maketableoffav() {
 
         if (UtilClass.isNetworkConnected(getActivity())) {
@@ -216,9 +229,11 @@ public class AllHospitalFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewDoctor.clearTextFilter();
+                    filter.filter("");
+                    isSearching = false;
                 } else {
-                    listViewDoctor.setFilterText(newText);
+                    filter.filter(newText);
+                    isSearching = true;
                 }
                 return true;
             }

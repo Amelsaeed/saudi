@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -52,6 +53,8 @@ public class FavFragment extends Fragment {
 
     String UserType;
     SearchView searchView;
+    private Filter filter;
+    private boolean isSearching = false;
     TextView usernamef;
     private ProgressBar progressBar;
 
@@ -85,7 +88,7 @@ public class FavFragment extends Fragment {
 
         listViewDoctor= (ListView)rootView.findViewById(R.id.list_view_fav);
         TextView noDataMsg = rootView.findViewById(R.id.no_data_msg);
-        listViewDoctor.setTextFilterEnabled(true);
+        listViewDoctor.setTextFilterEnabled(false);
         listViewDoctor.setEmptyView(noDataMsg);
         searchView = (SearchView) rootView.findViewById(R.id.searchfav);
         doctorList=new ArrayList<>();
@@ -125,6 +128,9 @@ public class FavFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        if (isSearching){
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
 
             maketable();
@@ -134,7 +140,9 @@ public class FavFragment extends Fragment {
 
     private void maketable() {
       //  if (mAuth.getCurrentUser().getUid() != null) {
-       if (UtilClass.isNetworkConnected(getContext())) {
+       if (!UtilClass.isNetworkConnected(getContext())) {
+           Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+       }
         // databaseDoctorFav.keepSynced(true);
         // databaseDoctor.keepSynced(true);
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
@@ -171,6 +179,7 @@ public class FavFragment extends Fragment {
                             doctorList.add(0,doctorclass);// i= 0  (index)to start from top
 
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
+                            filter = adapter.getFilter();
                             listViewDoctor.setAdapter(adapter);
                             setupSearchView();
                             progressBar.setVisibility(View.GONE);
@@ -227,9 +236,7 @@ public class FavFragment extends Fragment {
 
         });databaseDoctorFav.keepSynced(true);
         progressBar.setVisibility(View.GONE);
-       }else {
-           Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-       }
+
 
     }
 
@@ -247,9 +254,11 @@ public class FavFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    listViewDoctor.clearTextFilter();
+                    filter.filter("");
+                    isSearching = false;
                 } else {
-                    listViewDoctor.setFilterText(newText);
+                    filter.filter(newText);
+                    isSearching = true;
                 }
                 return true;
             }
