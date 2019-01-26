@@ -41,6 +41,7 @@ import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
+import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.MapClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -88,7 +89,7 @@ public class DoctorProfileFragment extends Fragment  {
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor, databaseChat, databaseMap;
+    private DatabaseReference databaseDoctor, databaseChat, databaseMap,databaseBooking;
     private FirebaseUser fUser;
     private ValueEventListener doctorEventListener;
 
@@ -118,7 +119,9 @@ public class DoctorProfileFragment extends Fragment  {
         databaseDoctor.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
+        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb"); databaseChat.keepSynced(true);
+        databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb");databaseBooking.keepSynced(true);
+
         DatabaseReference reference = databaseMap.push();
         idm = reference.getKey();
 
@@ -171,7 +174,7 @@ public class DoctorProfileFragment extends Fragment  {
 
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.chat_time_dialig);
-                dialog.setTitle("Edit your data");
+                dialog.setTitle("Enter your data");
                 dialog.setCanceledOnTouchOutside(false);
                 final EditText dialogstarttime = dialog.findViewById(R.id.start_time_chat);
                 final EditText dialogendingtime = dialog.findViewById(R.id.ending_time_chat);
@@ -287,6 +290,8 @@ public class DoctorProfileFragment extends Fragment  {
 
                         databaseDoctor.child(doctorId).child("cChatstart").setValue(getstartingtime );
                         databaseDoctor.child(doctorId).child("cChatend").setValue(getendingtime );
+                        databaseChat.child(doctorId).child("cChatstart").setValue(getstartingtime );
+                        databaseChat.child(doctorId).child("cChatend").setValue(getendingtime );
                         Toast.makeText(getContext(), "Ending time and starting time are saved", Toast.LENGTH_LONG).show();
 
 
@@ -459,13 +464,30 @@ editDialog(whatData);
                 mBuilder.setSingleChoiceItems(listSpecialityItems, -1, new DialogInterface.OnClickListener() {
 
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, final int i) {
                         // TODO Auto-generated method stub
-
+                        pspeciality.setText(listSpecialityItems[i]);
                         databaseDoctor.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
                         databaseChat.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
-                        databaseMap.child(idm).child("cmdoctorspecialty").setValue(listSpecialityItems[i]);
-                        pspeciality.setText(listSpecialityItems[i]);
+////////////***********************uniy map data**********************
+                        databaseBooking.child(doctorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                                        String id= doctorSnapshot.getKey();
+                                        Toast.makeText(getContext(),id, Toast.LENGTH_SHORT).show();
+
+                                        databaseMap.child(doctorId+id).child("cmdoctorspecialty").setValue(listSpecialityItems[i]);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+        ////////////////////////////////////********uniy map data******************
 
                     }
                 });
@@ -735,7 +757,26 @@ editDialog(whatData);
                                 databaseDoctor.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
                                 databaseChat.child(fUser.getUid()).child("curi").setValue(mTrampPhotoUrl);
                                 databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
-                                databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
+                               // databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
+                                //***********************uniy map data**********************
+                                databaseBooking.child(doctorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.exists()) {
+                                            for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                                                String id= doctorSnapshot.getKey();
+                                                Toast.makeText(getContext(),id, Toast.LENGTH_SHORT).show();
+
+                                                databaseMap.child(doctorId+id).child("cmdoctorpic").setValue(mTrampPhotoUrl);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                                ////////////////////////////////////********uniy map data******************
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image", "Upload end");
                                     Toast.makeText(getContext(), "Upload end", Toast.LENGTH_LONG).show();
@@ -864,8 +905,27 @@ editDialog(whatData);
         if (whatdata.equals("Name")) {
             databaseDoctor.child(doctorId).child("cName").setValue(editfield1);
             databaseChat.child(doctorId).child("cName").setValue(editfield1);
-            databaseMap.child(idm).child("cmname").setValue(editfield1);
+            //databaseMap.child(idm).child("cmname").setValue(editfield1);
             pname.setText(editfield1);
+            //***********************uniy map data**********************
+            databaseBooking.child(doctorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                            String id= doctorSnapshot.getKey();
+                            Toast.makeText(getContext(),id, Toast.LENGTH_SHORT).show();
+
+                            databaseMap.child(doctorId+id).child("cmname").setValue(editfield1);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            ////////////////////////////////////********uniy map data******************
 
         } else if (whatdata.equals("Phone Number")) {
             databaseDoctor.child(doctorId).child("cPhone").setValue(editfield1);

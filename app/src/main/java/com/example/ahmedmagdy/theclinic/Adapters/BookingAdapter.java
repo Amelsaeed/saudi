@@ -216,7 +216,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                     @Override
                     public void onClick(View view) {
                         BookingClass bookingclass = bookingList.get(position);
-                        databaseMap.child(bookingclass.getCbid()).setValue(null);
+                        databaseMap.child(DoctorID+bookingclass.getCbid()).setValue(null);
                         databaseBooking.child(bookingclass.getCbid()).setValue(null);
                         dialog.dismiss();
 
@@ -542,7 +542,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                         MapClass mapclass = new MapClass(DoctorID,String.valueOf(latitude),String.valueOf(longitude),DoctorName,DoctorSpecialty,DoctorPic,getHC,DoctorGander,DoctorType);
                                         // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                                         // Database for Account Activity
-                                        databaseMap.child(bookingclass.getCbid()).setValue(mapclass);
+                                        databaseMap.child(DoctorID+bookingclass.getCbid()).setValue(mapclass);
                                     }
 
                                     @Override
