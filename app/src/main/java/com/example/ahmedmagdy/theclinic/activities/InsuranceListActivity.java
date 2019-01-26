@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class InsuranceListActivity extends AppCompatActivity {
 String InsuranceListString,DoctorName;
     TextView doctornamei;
     SearchView searchView;
+    private Filter filter;
     GridView listView;
     ArrayList<OneWordClass> minsurances = new ArrayList<>();
 
@@ -50,7 +52,8 @@ String InsuranceListString,DoctorName;
 
         InsuranceAdapter   itemsAdapter =new InsuranceAdapter(this, minsurances);
         listView=findViewById(R.id.insurance_list);
-        listView.setTextFilterEnabled(true);
+        listView.setTextFilterEnabled(false);
+        filter = itemsAdapter.getFilter();
         listView.setAdapter(itemsAdapter);
         setupSearchView();
         removeFocus();
@@ -69,9 +72,9 @@ String InsuranceListString,DoctorName;
             public boolean onQueryTextChange(String newText) {
                if (TextUtils.isEmpty(newText)) {
 
-                    listView.clearTextFilter();
+                   filter.filter("");
                 } else {
-                    listView.setFilterText(newText);
+                    filter.filter(newText);
                 }
                 return true;
             }

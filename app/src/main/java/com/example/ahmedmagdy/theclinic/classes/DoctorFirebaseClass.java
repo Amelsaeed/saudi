@@ -291,11 +291,12 @@ public class DoctorFirebaseClass implements Serializable {
         this.cDiscount = cDiscount;
     }
     public String getcDiscount() {
-        if (this.cDiscount ==null){
-         return cDiscount = "0";
-        }else {
-            return cDiscount;
+        if (this.cDiscount == null){
+         cDiscount = "0";
         }
+
+        return cDiscount;
+
 
     }
 

@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.DoctorHome;
 import com.example.ahmedmagdy.theclinic.HospitalHome;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 public class SplashActivity extends AppCompatActivity {
     ImageView myImageView;
@@ -38,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         setContentView(R.layout.activity_splash);
          databaseChat  = FirebaseDatabase.getInstance().getReference("ChatRoom");
        databaseChat.keepSynced(true);
@@ -95,10 +94,6 @@ public class SplashActivity extends AppCompatActivity {
                 }
 
     }
-
-
-
-
 
     private void getallData() {
 

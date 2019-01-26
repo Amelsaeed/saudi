@@ -3,14 +3,11 @@ package com.example.ahmedmagdy.theclinic.PatientFragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -210,7 +206,9 @@ public class UserProfileFragment extends Fragment {
 
     private void loadUserInfo() {
 
-        if (UtilClass.isNetworkConnected(getContext())) {
+        if (!UtilClass.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
             final ValueEventListener postListener1 = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -264,9 +262,7 @@ public class UserProfileFragment extends Fragment {
                 }
             };
             databaseUserReg.addValueEventListener(postListener1);
-        } else {
-            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
-        }
+
     }
 
 
@@ -421,20 +417,11 @@ public class UserProfileFragment extends Fragment {
         return Math.round((float) dp * density);
     }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void uploadImage() {
-        if (isNetworkConnected()) {
 
-            if (isNetworkConnected()) {
+
+            if (UtilClass.isNetworkConnected(getContext())) {
 
                 if (byteImageData != null) {
                     progressBarUser.setVisibility(View.VISIBLE);
@@ -474,7 +461,7 @@ public class UserProfileFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "please check the network connection", Toast.LENGTH_LONG).show();
             }
-        }
+
     }
 
     private void editDialog(final String whatdata) {
