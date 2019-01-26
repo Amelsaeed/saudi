@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
+import com.example.ahmedmagdy.theclinic.classes.BookingClass;
+import com.example.ahmedmagdy.theclinic.classes.MapClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,6 +60,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
@@ -66,12 +71,16 @@ public class DoctorProfileFragment extends Fragment  {
     EditText peditbox;
     CheckBox  bookingtypecheck;
     private ProgressBar progressBarImage;
-    int startHour,endingHour;
+
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
     private boolean disChecked = false;
     String  idm ;
+
+    int startHour=100;
+    int endingHour=100;
+
     String mTrampPhotoUrl = "";
     String doctorId,drDiscountPrice="0";
     Boolean bookingtype;
@@ -120,7 +129,7 @@ public class DoctorProfileFragment extends Fragment  {
         editPhone = rootView.findViewById(R.id.phone_edit);
         editDegree = rootView.findViewById(R.id.degree_edit);
         insuranceView = rootView.findViewById(R.id.insur);
-        insuranceEdit = rootView.findViewById(R.id.insur_edit);
+        insuranceEdit = rootView.findViewById(R.id.insurance_edit);
         editSpeciality = rootView.findViewById(R.id.speciality_edit);
         editPrice = rootView.findViewById(R.id.price_edit);
         drEmail = rootView.findViewById(R.id.doctor_email_tv);
@@ -137,9 +146,7 @@ public class DoctorProfileFragment extends Fragment  {
         ppicuri = rootView.findViewById(R.id.edit_photo);
         bookingtypecheck= rootView.findViewById(R.id.checkBox1);
         chatstarttimeedit= rootView.findViewById(R.id.ch_start_edit);
-        chatendtimeedit= rootView.findViewById(R.id.ch_end_edit);
         chatstarttime= rootView.findViewById(R.id.ch_start);
-        chatendtime= rootView.findViewById(R.id.ch_end);
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
         editDegree.setVisibility(View.VISIBLE);
@@ -159,93 +166,170 @@ public class DoctorProfileFragment extends Fragment  {
         chatstarttimeedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //is chkIos checked?
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
 
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.chat_time_dialig);
+                dialog.setTitle("Edit your data");
+                dialog.setCanceledOnTouchOutside(false);
+                final EditText dialogstarttime = dialog.findViewById(R.id.start_time_chat);
+                final EditText dialogendingtime = dialog.findViewById(R.id.ending_time_chat);
+
+                final ImageView dialogstarttimelogo = dialog.findViewById(R.id.timer_chat);
+                final ImageView dialogendingtimelogo = dialog.findViewById(R.id.timer_off_chat);
+                dialogstarttimelogo.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        //////
-                        String selectedHour00 = String.valueOf(selectedHour);
-                        if (Integer.parseInt(selectedHour00) < 10) {
-                            selectedHour00 = "0" + selectedHour00;
-                        }
-                        String selectedMinute00 = String.valueOf(selectedMinute);
-                        if (Integer.parseInt(selectedMinute00) < 10) {
-                            selectedMinute00 = "0" + selectedMinute00;
-                        }
+                    public void onClick(View v) {
+                        //is chkIos checked?
+                        Calendar mcurrentTime = Calendar.getInstance();
+                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                        int minute = mcurrentTime.get(Calendar.MINUTE);
 
-                        ///////////////////////////
+                        TimePickerDialog mTimePicker;
+                        mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                //////
+                                String selectedHour00 = String.valueOf(selectedHour);
+                                if (Integer.parseInt(selectedHour00) < 10) {
+                                    selectedHour00 = "0" + selectedHour00;
+                                }
+                                String selectedMinute00 = String.valueOf(selectedMinute);
+                                if (Integer.parseInt(selectedMinute00) < 10) {
+                                    selectedMinute00 = "0" + selectedMinute00;
+                                }
 
-                       String chatstartTime=selectedHour00 + ":" + selectedMinute00;
-                         startHour=selectedHour;
+                                ///////////////////////////
 
-                        if (endingHour<=startHour) {
-                            chatendtime.setError("Ending time must be after starting time /n and in the same day");
-                            chatendtime.requestFocus();
-                            chatstarttime.setError("Ending time must be after starting time /n and in the same day");
-                            chatstarttime.requestFocus();
-                            return;}
+                                String  startTime=selectedHour00 + ":" + selectedMinute00;
+                                startHour=selectedHour;
 
-                        chatstarttime.setText( chatstartTime);
+                                dialogstarttime.setEnabled(true);
+                                dialogstarttime.setText( startTime);
+                                dialogstarttime.setEnabled(false);
 
+                            }
+                        }, hour, minute, false);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
 
                     }
-                }, hour, minute, false);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();
+                });
 
+                dialogendingtimelogo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //is chkIos checked?
+                        Calendar mcurrentTime1 = Calendar.getInstance();
+                        int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
+                        int minute1 = mcurrentTime1.get(Calendar.MINUTE);
+                        TimePickerDialog mTimePicker1;
+                        mTimePicker1 = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
+
+                                //////
+                                String selectedHour100 = String.valueOf(selectedHour1);
+                                if (Integer.parseInt(selectedHour100) < 10) {
+                                    selectedHour100 = "0" + selectedHour100;
+                                }
+                                String selectedMinute100 = String.valueOf(selectedMinute1);
+                                if (Integer.parseInt(selectedMinute100) < 10) {
+                                    selectedMinute100 = "0" + selectedMinute100;
+                                }
+
+                                ///////////////////////////
+                              String  endingTime=selectedHour100 + ":" + selectedMinute100;
+                                endingHour=selectedHour1;
+
+                                dialogendingtime.setEnabled(true);
+
+                                dialogendingtime.setText( endingTime);
+                                dialogendingtime.setEnabled(false);
+
+                            }
+                        }, hour1, minute1, false);//Yes 24 hour time
+                        mTimePicker1.setTitle("Select Time");
+                        mTimePicker1.show();
+
+                    }
+                });
+                TextView cancel = (TextView) dialog.findViewById(R.id.cancel_t);
+                TextView refresh = (TextView) dialog.findViewById(R.id.close_t);
+                TextView submit = (TextView) dialog.findViewById(R.id.submit_t);
+
+
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String getstartingtime = dialogstarttime.getText().toString().trim();
+                        final String getendingtime = dialogendingtime.getText().toString().trim();
+
+
+
+
+                        if (getstartingtime.isEmpty()) {
+                            dialogstarttime.setError("Please fill starting time");
+                            dialogstarttime.requestFocus();
+                            return;}
+                        if (getendingtime.isEmpty()) {
+                            dialogendingtime.setError("Please fill ending times");
+                            dialogendingtime.requestFocus();
+                            return;}
+                        if (endingHour<=startHour) {
+                            dialogendingtime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogendingtime.requestFocus();
+                            dialogstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogstarttime.requestFocus();
+                            return;}
+
+                        databaseDoctor.child(doctorId).child("cChatstart").setValue(getstartingtime );
+                        databaseDoctor.child(doctorId).child("cChatend").setValue(getendingtime );
+                        Toast.makeText(getContext(), "Ending time and starting time are saved", Toast.LENGTH_LONG).show();
+
+
+                        dialog.dismiss();
+                        //to refresh activity as you need to go back activity and return
+
+                    }
+                });
+                refresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogstarttime.setEnabled(true);
+                        dialogstarttime.setText( "");
+                        dialogstarttime.setEnabled(false);
+
+                        dialogendingtime.setEnabled(true);
+                        dialogendingtime.setText( "");
+                        dialogendingtime.setEnabled(false);
+
+                        databaseDoctor.child(doctorId).child("cChatstart").setValue(null );
+                        databaseDoctor.child(doctorId).child("cChatend").setValue(null );
+                        Toast.makeText(getContext(), "Chat is blocked", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setCanceledOnTouchOutside(false);
+
+                dialog.show();
+
+                //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
+                // editDialogbook();
             }
         });
 
 
-        chatendtimeedit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //is chkIos checked?
-                Calendar mcurrentTime1 = Calendar.getInstance();
-                int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
-                int minute1 = mcurrentTime1.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker1;
-                mTimePicker1 = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
-
-                        //////
-                        String selectedHour100 = String.valueOf(selectedHour1);
-                        if (Integer.parseInt(selectedHour100) < 10) {
-                            selectedHour100 = "0" + selectedHour100;
-                        }
-                        String selectedMinute100 = String.valueOf(selectedMinute1);
-                        if (Integer.parseInt(selectedMinute100) < 10) {
-                            selectedMinute100 = "0" + selectedMinute100;
-                        }
-
-                        ///////////////////////////
-                      String  chatendingTime=selectedHour100 + ":" + selectedMinute100;
-                        endingHour=selectedHour1;
-
-                        if (endingHour<=startHour) {
-                            chatendtime.setError("Ending time must be after starting time /n and in the same day");
-                            chatendtime.requestFocus();
-                            chatstarttime.setError("Ending time must be after starting time /n and in the same day");
-                            chatstarttime.requestFocus();
-                            return;}
-
-                        chatendtime.setText( chatendingTime);
-
-
-
-                    }
-                }, hour1, minute1, false);//Yes 24 hour time
-                mTimePicker1.setTitle("Select Time");
-                mTimePicker1.show();
-
-            }
-        });
         bookingtypecheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -528,6 +612,8 @@ editDialog(whatData);
 
             }
         });
+       // uploadtimes(chatstartTime,startHour,chatendingTime, endingHour);
+
         return rootView;
     }
 
@@ -680,8 +766,8 @@ editDialog(whatData);
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText editField = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
-        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_et);
+        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_et);
         final EditText discountInput = dialog.findViewById(R.id.discount_et);
         final CheckBox discountCheckBox = dialog.findViewById(R.id.discount_cb);
         final LinearLayout linear = dialog.findViewById(R.id.linear_discount);
@@ -888,6 +974,14 @@ editDialog(whatData);
                 String medInsurance = dataSnapshot1.child(doctorId).child("cInsurance").getValue(String.class);
                 drDiscountPrice = dataSnapshot1.child(doctorId).child("cDiscount").getValue(String.class);
                 bookingtype = dataSnapshot1.child(doctorId).child("cbookingtypestate").getValue(boolean.class);
+                String mstartingtimechat = dataSnapshot1.child(doctorId).child("cChatstart").getValue(String.class);
+                String mendingtimechat = dataSnapshot1.child(doctorId).child("cChatend").getValue(String.class);
+
+                if ((mstartingtimechat != null)&&(mendingtimechat != null)) {
+                    chatstarttime.setText(mstartingtimechat+" - "+mendingtimechat);
+                } else {
+                    chatstarttime.setText("Null");
+            }
 
                 if (bookingtype != null) {
                 bookingtypecheck.setChecked(bookingtype);}

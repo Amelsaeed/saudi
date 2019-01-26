@@ -334,7 +334,7 @@
                   />
 
               <ImageView
-                  android:id="@+id/phone_edit"
+                  android:id="@+id/insurance_edit"
                   android:layout_width="36dp"
                   android:layout_height="36dp"
                   app:srcCompat="@drawable/ic_edit"
@@ -356,7 +356,7 @@
                   android:layout_marginTop="8dp"
                   android:background="@drawable/white_rect"
                   android:padding="8dp"
-                  android:text="Chat start from"
+                  android:text="Chat time"
                   android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                   android:textColor="#000" />
               <TextView
@@ -364,7 +364,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_marginTop="8dp"
-                  android:layout_marginRight="16dp"
+                  android:layout_marginRight="4dp"
                   android:background="#3ACCE1"
                   android:padding="8dp"
                   android:layout_below="@id/insur"
@@ -379,51 +379,13 @@
                   app:srcCompat="@drawable/ic_edit"
                   android:scaleType="center"
                   android:background="@drawable/button_round_blue"
-                  android:layout_marginRight="8dp"
-                  android:layout_marginLeft="8dp"
+                  android:layout_marginRight="4dp"
+                  android:layout_marginLeft="0dp"
                   android:layout_below="@id/insur"
                   android:layout_toRightOf="@id/ch_start"
                   android:layout_marginTop="8dp"
                   />
-              <TextView
-                  android:id="@+id/chat_end_tv"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@id/insurance_tv"
-                  android:layout_toRightOf="@id/ch_start_edit"
-                  android:layout_marginLeft="8dp"
-                  android:layout_marginTop="8dp"
-                  android:background="@drawable/white_rect"
-                  android:padding="8dp"
-                  android:text="To"
-                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                  android:textColor="#000" />
-              <TextView
-                  android:id="@+id/ch_end"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="8dp"
-                  android:layout_marginRight="16dp"
-                  android:background="#3ACCE1"
-                  android:padding="8dp"
-                  android:layout_below="@id/insur"
-                  android:layout_toRightOf="@id/chat_end_tv"
-                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                  android:textColor="#000"
-                  />
-              <ImageView
-                  android:id="@+id/ch_end_edit"
-                  android:layout_width="36dp"
-                  android:layout_height="36dp"
-                  app:srcCompat="@drawable/ic_edit"
-                  android:scaleType="center"
-                  android:background="@drawable/button_round_blue"
-                  android:layout_marginRight="8dp"
-                  android:layout_marginLeft="8dp"
-                  android:layout_below="@id/insur"
-                  android:layout_toRightOf="@id/ch_end"
-                  android:layout_marginTop="8dp"
-                  />
+
               <ImageView
                   android:id="@+id/ch"
                   android:layout_width="36dp"

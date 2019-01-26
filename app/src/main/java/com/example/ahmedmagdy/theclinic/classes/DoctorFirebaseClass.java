@@ -33,6 +33,9 @@ public class DoctorFirebaseClass implements Serializable {
     private String cGandr;
     private Boolean cbookingtypestate;
 
+    private  String cChatstart;
+    private  String cChatend;
+
     public DoctorFirebaseClass(){}
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
@@ -121,8 +124,8 @@ public class DoctorFirebaseClass implements Serializable {
         this.cHospitalID = cHospitalID;
         this.cType = cType;
         this.cAbout = cAbout;
-    }
-    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,String cAbout,Boolean cbookingtypestate) {
+    }                          //DID,        DName,        DSpecialty,         DCity,        DUri,         DInsurance,         DDegree     ,DPrice       ,checked,        HospitalID,        DType,bookingtype,DChatstart,DChatend
+    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,Boolean cbookingtypestate,String cChatstart,String cChatend) {
         this.cId = cId;
         this.cName = cName;
         this.cSpecialty = cSpecialty;
@@ -131,17 +134,33 @@ public class DoctorFirebaseClass implements Serializable {
         this.cDegree = cDegree;
         this.cInsurance = cInsurance;
         this.cPrice = cPrice;
-        this.cTime = cTime;
 
         this.checked = checked;
         this.cHospitalID = cHospitalID;
         this.cType = cType;
         this.cAbout = cAbout;
         this.cbookingtypestate = cbookingtypestate;
+        this.cChatstart = cChatstart;
+        this.cChatend = cChatend;
 
     }
 
+//DChatstart,DChatend
+    public String getcChatstart() {
+        return cChatstart;
+    }
 
+    public void setcChatstart(String cChatstart) {
+        this.cChatstart = cChatstart;
+    }
+
+    public String getcChatend() {
+        return cChatend;
+    }
+
+    public void setcChatend(String cChatend) {
+        this.cChatend = cChatend;
+    }
 
     public String getcHospitalName() {
         return cHospitalName;
