@@ -136,7 +136,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         patientAge = intent.getStringExtra("age");
          BookingType = getIntent().getExtras().getBoolean("BookingType");
         MaxNo = intent.getStringExtra("MaxNo");
-      Toast.makeText(BookingListActivity.this, MaxNo+" ", Toast.LENGTH_LONG).show();
+     // Toast.makeText(BookingListActivity.this, MaxNo+" ", Toast.LENGTH_LONG).show();
 
 
         dname = findViewById(R.id.d_name);
