@@ -91,7 +91,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
         databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        mStorageRef = FirebaseStorage.getInstance().getReference("workPermits");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
         spinnercity = findViewById(R.id.spinner_country);
 //        spinnerinsurance = findViewById(R.id.spinner_insurance);
@@ -597,7 +597,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+                StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
 
                 trampsRef.putBytes(byteImageDataPP)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -640,7 +640,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+                StorageReference trampsRef =mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
 
                 trampsRef.putBytes(byteImageDataWP)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

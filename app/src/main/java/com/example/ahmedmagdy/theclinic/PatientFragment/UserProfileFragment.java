@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,8 +53,8 @@ public class UserProfileFragment extends Fragment {
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
-    TextView nameEditUser, phoneEditUser, birthdayEditUser, edit1, edit2, edit3, edit4, insuranceEditUser, Email;
-
+    TextView nameEditUser, phoneEditUser, birthdayEditUser,  insuranceEditUser, Email;
+    ImageView edit1, edit2, edit3, edit4;
     CircleImageView photoEdit;
     private ProgressBar progressBarUser;
     byte[] byteImageData;
@@ -79,10 +80,10 @@ public class UserProfileFragment extends Fragment {
         Userid = mAuth.getCurrentUser().getUid();
         Email = (TextView) rootView.findViewById(R.id.email_user);
         Email.setText(FUser.getEmail());
-        edit1 = (TextView) rootView.findViewById(R.id.edit1);
-        edit2 = (TextView) rootView.findViewById(R.id.edit2);
-        edit3 = (TextView) rootView.findViewById(R.id.edit3);
-        edit4 = (TextView) rootView.findViewById(R.id.edit4);
+        edit1 =  rootView.findViewById(R.id.edit1);
+        edit2 =  rootView.findViewById(R.id.edit2);
+        edit3 =  rootView.findViewById(R.id.edit3);
+        edit4 =  rootView.findViewById(R.id.edit4);
         nameEditUser = rootView.findViewById(R.id.user_name);
         phoneEditUser = rootView.findViewById(R.id.user_phone);
         birthdayEditUser = rootView.findViewById(R.id.user_birthday);
@@ -243,10 +244,11 @@ public class UserProfileFragment extends Fragment {
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions = requestOptions.transforms(new RoundedCorners(16));
                     if (userPic != null) {
+                        if ( getActivity()!= null) {
                         Glide.with(getActivity())
                                 .load(userPic)
                                 .apply(requestOptions)
-                                .into(photoEdit);
+                                .into(photoEdit);}
                     } else {
                         Glide.with(getActivity())
                                 .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5")
@@ -427,7 +429,7 @@ public class UserProfileFragment extends Fragment {
                     progressBarUser.setVisibility(View.VISIBLE);
 
 
-                    StorageReference trampsRef = mStorageRef.child("userPic/" + ".jpg");
+                    StorageReference trampsRef = mStorageRef.child("userPic").child(mAuth.getCurrentUser().getUid()+ ".jpg");
 
                     trampsRef.putBytes(byteImageData)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -473,8 +475,8 @@ public class UserProfileFragment extends Fragment {
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText editfield = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
-        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_et);
+        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_et);
         editfield.setHint(whatdata);
 
         submit.setOnClickListener(new View.OnClickListener() {

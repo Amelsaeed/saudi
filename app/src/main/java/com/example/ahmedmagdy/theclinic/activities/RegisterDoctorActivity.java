@@ -91,7 +91,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
         databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        mStorageRef = FirebaseStorage.getInstance().getReference("workPermits");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
         spinnercity = findViewById(R.id.spinner_country);
         spinnergander = findViewById(R.id.spinner_gander);
@@ -705,8 +705,8 @@ textInsurance.setText("");
                     progressBar.setVisibility(View.VISIBLE);
 
 
-                    StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
-
+                    StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
+//mStorageRef.child("doctorPic").child("pp"+mAuth.getCurrentUser().getUid()+ ".jpg");
                     trampsRef.putBytes(byteImageDataPP)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
@@ -748,7 +748,7 @@ textInsurance.setText("");
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+                StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
 
                 trampsRef.putBytes(byteImageDataID)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -790,8 +790,8 @@ textInsurance.setText("");
                     progressBar.setVisibility(View.VISIBLE);
 
 
-                    StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
-
+                    StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
+// mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
                     trampsRef.putBytes(byteImageDataWP)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 

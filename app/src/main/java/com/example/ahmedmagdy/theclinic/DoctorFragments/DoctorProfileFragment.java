@@ -117,7 +117,7 @@ public class DoctorProfileFragment extends Fragment  {
         }
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
-        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");//Photos
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb"); databaseChat.keepSynced(true);
         databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb");databaseBooking.keepSynced(true);
@@ -866,8 +866,8 @@ editDialog(whatData);
                 progressBarImage.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child("homelesspic/" + System.currentTimeMillis() + ".jpg");
-
+                StorageReference trampsRef = mStorageRef.child("doctorPic").child(mAuth.getCurrentUser().getUid()+ ".jpg");
+//mStorageRef.child("userPic").child(mAuth.getCurrentUser().getUid()+ ".jpg");
                 // StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilepics/pro.jpg");
 
 
