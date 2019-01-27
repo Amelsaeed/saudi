@@ -42,6 +42,7 @@ public class MoreFragment extends Fragment {
 
     //gps
     public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
+    private FirebaseAuth mAuth;
 
 
 
@@ -51,7 +52,7 @@ public class MoreFragment extends Fragment {
 
         View rootView = getLayoutInflater().inflate(R.layout.fragment_more,
                 container,false);
-
+        mAuth = FirebaseAuth.getInstance();
         ListView listView  = rootView.findViewById(R.id.listView1);
 
         ArrayList<String> titles = new ArrayList<>();
@@ -237,4 +238,5 @@ public class MoreFragment extends Fragment {
         transaction.commit();
 
     }
+
 }

@@ -228,4 +228,17 @@ public class DatabaseFragment extends Fragment {
             databasePatient.removeEventListener(patientEventListener);
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+
+    }
 }

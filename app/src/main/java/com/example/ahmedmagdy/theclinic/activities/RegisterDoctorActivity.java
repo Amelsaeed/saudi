@@ -283,7 +283,7 @@ textInsurance.setText("");
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
-                // String mcity = spinnercity.getSelectedItem().toString().trim();
+                // String mcity = spinnercity.getSelectedItem().toString().trim();zz
 
             }
 
@@ -487,7 +487,7 @@ textInsurance.setText("");
 
                             String HospName="non";
                             String HospID="non";
-                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander,false);
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander,false,true);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             databaseDoctor.child(Id).child("cDiscount").setValue("0");
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
@@ -499,7 +499,7 @@ textInsurance.setText("");
                             finish();
                             startActivity(intend);
                         }else{
-                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander,false);
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander,false,true);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             databaseDoctor.child(Id).child("cDiscount").setValue("0");
                             //mAuth.signOut();

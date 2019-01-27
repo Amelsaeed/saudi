@@ -99,20 +99,24 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        Activrefrance = FirebaseDatabase.getInstance().getReference("Doctordb")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Activrefrance = FirebaseDatabase.getInstance().getReference("Doctordb");
+
+
         Activrefrance.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final DoctorFirebaseClass user = dataSnapshot.getValue(DoctorFirebaseClass.class);
+                final DoctorFirebaseClass doctorFirebaseClass = dataSnapshot.child(userid).getValue(DoctorFirebaseClass.class);
 
-                if (user.getstatus()){
+                if (doctorFirebaseClass.getstatus()){
                     StatusChat.setVisibility(View.VISIBLE);
                     Active.setText("Active Now");
                 }else {
                     StatusChat.setVisibility(View.GONE);
                     Active.setText("Ofline Now");
                 }
+
+
+
             }
 
             @Override
@@ -557,20 +561,18 @@ public class MessageActivity extends AppCompatActivity {
            status("offline");
            currentUser("none");
        }*/
- /*   @Override
+    @Override
     public void onResume() {
         super.onResume();
-        databaseDoctor.child(userid).child("status").setValue(true);
-        StatusChat.setVisibility(View.VISIBLE);
-        Active.setText("Active Now");
+        databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        databaseDoctor.child(userid).child("status").setValue(false);
-        StatusChat.setVisibility(View.GONE);
-        Active.setText("Ofline Now");
-    }*/
+        databaseDoctor.child(fuser.getUid()).child("status").setValue(false);
+
+    }
 }
 
