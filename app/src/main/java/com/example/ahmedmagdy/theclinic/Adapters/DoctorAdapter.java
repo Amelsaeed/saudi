@@ -192,6 +192,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     uIntent.putExtra("DoctorID", doctorclass.getcId());
                     uIntent.putExtra("DoctorName", doctorclass.getcName());
                     uIntent.putExtra("BookingType",  doctorclass.getCbookingtypestate());
+                    uIntent.putExtra("MaxNo",  doctorclass.getcMaxno());
                     uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(uIntent);
 

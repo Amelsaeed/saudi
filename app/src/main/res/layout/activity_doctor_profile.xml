@@ -67,6 +67,40 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="#000"
         />
+    <TextView
+        android:id="@+id/max_no_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/white_rect"
+        android:padding="8dp"
+        android:layout_below="@id/checkBox1"
+        android:text="Max. reservations no."
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <TextView
+        android:id="@+id/max_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:layout_toRightOf="@id/max_no_tv"
+        android:layout_below="@id/checkBox1"
+        android:background="#3ACCE1"
+        android:padding="8dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000" />
+    <ImageView
+        android:id="@+id/max_no_edit"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/ic_edit"
+        android:scaleType="center"
+        android:layout_toRightOf="@id/max_no"
+        android:layout_below="@id/checkBox1"
+        android:background="@drawable/button_round_blue"
+        android:layout_marginLeft="8dp"
+        />
 
     <Button
         android:id="@+id/doc"
@@ -104,9 +138,9 @@
         android:visibility="gone" />
 
     <ScrollView
-        android:layout_below="@id/checkBox1"
+        android:layout_below="@id/max_no_tv"
         android:layout_above="@id/working_hours_btn"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -417,13 +451,13 @@
                   android:layout_width="match_parent"
                   android:layout_height="100dp"
                   android:maxLines="5"
-                  android:inputType="text"
                   android:gravity="start"
                   android:layout_marginRight="16dp"
                   android:layout_marginLeft="8dp"
                   android:padding="8dp"
                   android:ellipsize="end"
                   android:background="@drawable/textboxx"
+                  android:inputType="text"
                   android:hint="What about you" />
 
           </RelativeLayout>

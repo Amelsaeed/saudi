@@ -117,8 +117,9 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     private String patientName;
     private String patientAge;
     private Boolean BookingType;
+    private String MaxNo;
 
-    public BookingAdapter( Activity context, List<BookingClass> bookingList,String DoctorID,String patientName,String patientAge,Boolean BookingType) {
+    public BookingAdapter( Activity context, List<BookingClass> bookingList,String DoctorID,String patientName,String patientAge,Boolean BookingType, String MaxNo) {
         super((Context) context, R.layout.list_layout_booking, bookingList);
 
         this.context = context;
@@ -127,7 +128,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         this.patientName = patientName;
         this.patientAge = patientAge;
         this.BookingType = BookingType;
-
+        this.MaxNo = MaxNo;
     }
 
 
@@ -788,7 +789,6 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                     if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
                             ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
                         makepatientbooking(timeID, datedmy, position);
-                        Toast.makeText(context, "is booked", Toast.LENGTH_LONG).show();
                     }else{Toast.makeText(context, "Not match", Toast.LENGTH_LONG).show();}
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -833,52 +833,59 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                         // for (DataSnapshot snap: dataSnapshot.getChildren()) {
                         //  dataSnapshot.getChildrenCount();
                         // Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
-                        arrange =String.valueOf( dataSnapshot.getChildrenCount()+1 );
-                        Toast.makeText(context ,"your Arrangement is the"+arrange, Toast.LENGTH_LONG).show();
-                        //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
-                        //String.valueOf( arrange )
-                        DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
-                        DatabaseReference referencea = bookforuser.push();
-                        String randomid = referencea.getKey();
+                        arrange = String.valueOf(dataSnapshot.getChildrenCount() + 1);
+                      //  if(MaxNo == null){
+                        if ((MaxNo == null)||((dataSnapshot.getChildrenCount() + 1) <= (Integer.parseInt(MaxNo)) )) {
+                            Toast.makeText(context, "your Arrangement is the" + arrange, Toast.LENGTH_LONG).show();
+                            //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
+                            //String.valueOf( arrange )
+                            DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
+                            DatabaseReference referencea = bookforuser.push();
+                            String randomid = referencea.getKey();
 
-                        BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, currentBooking.getCbaddress(),timeID , datedmy,arrange);
-                        bookforuser.child(userid).child(DoctorID+datedmy).setValue(bookingtimes);
-                        ///***********for adapt arange in user booking activity**************/
-                        //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
-                        //String.valueOf( arrange )
-                        ////to do/////////-------------------fordoctor------------------------------------------
+                            BookingTimesClass bookingtimes = new BookingTimesClass(DoctorID, mDate, currentBooking.getCbaddress(), timeID, datedmy, arrange);
+                            bookforuser.child(userid).child(DoctorID + datedmy).setValue(bookingtimes);
+                            Toast.makeText(context, "is booked", Toast.LENGTH_LONG).show();
 
-                        DatabaseReference reference1 = databasetimeBooking.push();
-                        //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
-                        // DatabaseReference reference = databasetimeBooking.push();
-                        String timesid = reference1.getKey();
+                            ///***********for adapt arange in user booking activity**************/
+                            //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
+                            //String.valueOf( arrange )
+                            ////to do/////////-------------------fordoctor------------------------------------------
 
-                        //Log.v("Data"," 2-User id :"+ mUserId);
+                            DatabaseReference reference1 = databasetimeBooking.push();
+                            //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
+                            // DatabaseReference reference = databasetimeBooking.push();
+                            String timesid = reference1.getKey();
 
-                        // get age from birthday
-                        //  String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
+                            //Log.v("Data"," 2-User id :"+ mUserId);
+
+                            // get age from birthday
+                            //  String patientAge = UtilClass.calculateAgeFromDate(patientBirthday);
 
 
-                        BookingTimesClass  bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, currentBooking.getCbaddress(),currentBooking.getCbtimestart(),currentBooking.getCbtimeend() , arrange ,picuri,timeID,datedmy,Integer.valueOf(arrange) );
-                        // Database for Account Activity
-                        databasetimeBooking.child(DoctorID).child(timeID)
-                                .child(datedmy)
-                                .child(userid).setValue(bookingtimesclass).addOnCompleteListener(
-                                new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        notify = true;
-                                        if (notify && userid == mAuth.getCurrentUser().getUid()) {
-                                            System.out.println("databasetimebooking listner: pName:" +
-                                                    patientName + " ,, Doctor ID:" + DoctorID +
-                                                    ",, user id : " + userid);
+                            BookingTimesClass bookingtimesclass = new BookingTimesClass(userid, patientName, patientBirthday, mDate, currentBooking.getCbaddress(), currentBooking.getCbtimestart(), currentBooking.getCbtimeend(), arrange, picuri, timeID, datedmy, Integer.valueOf(arrange));
+                            // Database for Account Activity
+                            databasetimeBooking.child(DoctorID).child(timeID)
+                                    .child(datedmy)
+                                    .child(userid).setValue(bookingtimesclass).addOnCompleteListener(
+                                    new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            notify = true;
+                                            if (notify && userid == mAuth.getCurrentUser().getUid()) {
+                                                System.out.println("databasetimebooking listner: pName:" +
+                                                        patientName + " ,, Doctor ID:" + DoctorID +
+                                                        ",, user id : " + userid);
 
-                                            sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                                                sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                                            }
+                                            notify = false;
                                         }
-                                        notify = false;
                                     }
-                                }
-                        );
+                            );
+                        }else{Toast.makeText(context, "doctor reach to the max. no of bookings in this time. try with another time", Toast.LENGTH_LONG).show();
+                        }//here
+
                         //////////////////////***fordoctor****-----------------
                     }
 

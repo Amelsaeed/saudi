@@ -35,6 +35,7 @@ public class DoctorFirebaseClass implements Serializable {
 
     private  String cChatstart;
     private  String cChatend;
+    private  String cMaxno;
 
     public DoctorFirebaseClass(){}
 
@@ -125,7 +126,7 @@ public class DoctorFirebaseClass implements Serializable {
         this.cType = cType;
         this.cAbout = cAbout;
     }                          //DID,        DName,        DSpecialty,         DCity,        DUri,         DInsurance,         DDegree     ,DPrice       ,checked,        HospitalID,        DType,bookingtype,DChatstart,DChatend
-    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,Boolean cbookingtypestate,String cChatstart,String cChatend) {
+    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,Boolean cbookingtypestate,String cChatstart,String cChatend,String cMaxno,String cAbout) {
         this.cId = cId;
         this.cName = cName;
         this.cSpecialty = cSpecialty;
@@ -138,14 +139,22 @@ public class DoctorFirebaseClass implements Serializable {
         this.checked = checked;
         this.cHospitalID = cHospitalID;
         this.cType = cType;
-        this.cAbout = cAbout;
+
         this.cbookingtypestate = cbookingtypestate;
         this.cChatstart = cChatstart;
         this.cChatend = cChatend;
-
+        this.cMaxno = cMaxno;
+        this.cAbout = cAbout;
     }
 
-//DChatstart,DChatend
+    public String getcMaxno() {
+        return cMaxno;
+    }
+
+    public void setcMaxno(String cMaxno) {
+        this.cMaxno = cMaxno;
+    }
+
     public String getcChatstart() {
         return cChatstart;
     }

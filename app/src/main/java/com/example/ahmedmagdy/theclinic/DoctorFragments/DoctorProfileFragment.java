@@ -67,8 +67,8 @@ import java.util.regex.Pattern;
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
 public class DoctorProfileFragment extends Fragment  {
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,chatstarttimeedit,chatendtimeedit;
-    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,chatstarttime,chatendtime;
+    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,chatstarttimeedit,maxnoedit;
+    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,chatstarttime,maxnotv,maxnoet;
     EditText peditbox;
     CheckBox  bookingtypecheck;
     private ProgressBar progressBarImage;
@@ -78,7 +78,7 @@ public class DoctorProfileFragment extends Fragment  {
     private final int CAMERA_REQUEST_CODE = 2;
     private boolean disChecked = false;
     String  idm ;
-
+    String maxnoofpatients;
     int startHour=100;
     int endingHour=100;
 
@@ -107,7 +107,7 @@ public class DoctorProfileFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = getLayoutInflater().inflate(R.layout.activity_doctor_profile, container, false);
+        final View rootView = getLayoutInflater().inflate(R.layout.activity_doctor_profile, container, false);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -151,6 +151,11 @@ public class DoctorProfileFragment extends Fragment  {
         bookingtypecheck= rootView.findViewById(R.id.checkBox1);
         chatstarttimeedit= rootView.findViewById(R.id.ch_start_edit);
         chatstarttime= rootView.findViewById(R.id.ch_start);
+
+        maxnoedit=rootView.findViewById(R.id.max_no_edit);
+        maxnoet=rootView.findViewById(R.id.max_no);
+        maxnotv=rootView.findViewById(R.id.max_no_tv);
+
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
         editDegree.setVisibility(View.VISIBLE);
@@ -261,7 +266,7 @@ public class DoctorProfileFragment extends Fragment  {
                 TextView cancel = (TextView) dialog.findViewById(R.id.cancel_t);
                 TextView refresh = (TextView) dialog.findViewById(R.id.close_t);
                 TextView submit = (TextView) dialog.findViewById(R.id.submit_t);
-
+                TextView on = (TextView) dialog.findViewById(R.id.on_t);
 
 
                 submit.setOnClickListener(new View.OnClickListener() {
@@ -313,6 +318,28 @@ public class DoctorProfileFragment extends Fragment  {
 
                         databaseDoctor.child(doctorId).child("cChatstart").setValue(null );
                         databaseDoctor.child(doctorId).child("cChatend").setValue(null );
+                        databaseChat.child(doctorId).child("cChatstart").setValue(null );
+                        databaseChat.child(doctorId).child("cChatend").setValue(null );
+                        Toast.makeText(getContext(), "Chat is blocked", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+                on.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogstarttime.setEnabled(true);
+                        dialogstarttime.setText( "");
+                        dialogstarttime.setEnabled(false);
+
+                        dialogendingtime.setEnabled(true);
+                        dialogendingtime.setText( "");
+                        dialogendingtime.setEnabled(false);
+
+                        databaseDoctor.child(doctorId).child("cChatstart").setValue("00:00" );
+                        databaseDoctor.child(doctorId).child("cChatend").setValue("23:59");
+                        databaseChat.child(doctorId).child("cChatstart").setValue("00:00");
+                        databaseChat.child(doctorId).child("cChatend").setValue("23:59");
                         Toast.makeText(getContext(), "Chat is blocked", Toast.LENGTH_LONG).show();
 
                         dialog.dismiss();
@@ -342,11 +369,108 @@ public class DoctorProfileFragment extends Fragment  {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(true);
+                    maxnoedit.setVisibility(rootView.GONE);
+                    maxnoet.setVisibility(rootView.GONE);
+                    maxnotv.setVisibility(rootView.GONE);
                 } else {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(false);
+                    maxnoedit.setVisibility(rootView.VISIBLE);
+                    maxnoet.setVisibility(rootView.VISIBLE);
+                    maxnotv.setVisibility(rootView.VISIBLE);
                 }
             }
         });
+        maxnoedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.max_no_dialig);
+                dialog.setTitle("Enter maximum number of reservations");
+                dialog.setCanceledOnTouchOutside(false);
+
+                final EditText dialogmaxno = dialog.findViewById(R.id.max_data_tv_e);
+
+
+                TextView cancelmax = (TextView) dialog.findViewById(R.id.cancel_tv_max);
+               TextView closemax = (TextView) dialog.findViewById(R.id.close_tv_max);
+                TextView submitmax = (TextView) dialog.findViewById(R.id.submit_tv_max);
+              TextView onpenmax = (TextView) dialog.findViewById(R.id.open_tv_max);
+
+
+                submitmax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String maxno = dialogmaxno.getText().toString().trim();
+
+                        if (maxno.isEmpty()) {
+                            dialogmaxno.setError("Please enter maximum number of reservations");
+                            dialogmaxno.requestFocus();
+                            return;}
+                        try {
+                            int num = Integer.parseInt(maxno);
+                            Log.i("",num+" is a number");
+                        } catch (NumberFormatException e) {
+                            dialogmaxno.setError("Ending time must be after starting time /n and in the same day");
+                            dialogmaxno.requestFocus();
+                            return;
+                           // Log.i("",text+" is not a number");
+                        }
+
+                        databaseDoctor.child(doctorId).child("cMaxno").setValue(maxno );
+
+                        Toast.makeText(getContext(), "Maximum number of reservations is saved", Toast.LENGTH_LONG).show();
+
+
+                        dialog.dismiss();
+                        //to refresh activity as you need to go back activity and return
+
+                    }
+                });
+                closemax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogmaxno.setText( "");
+
+
+                        databaseDoctor.child(doctorId).child("cMaxno").setValue("0" );
+
+                        Toast.makeText(getContext(), "Booking is blocked", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+                onpenmax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogmaxno.setText( "");
+
+
+                        databaseDoctor.child(doctorId).child("cMaxno").setValue(null);
+
+                        Toast.makeText(getContext(), "Booking is opened for any no.", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+
+                cancelmax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setCanceledOnTouchOutside(false);
+
+                dialog.show();
+
+                //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
+                // editDialogbook();
+            }
+        });
+
         workingHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -354,6 +478,7 @@ public class DoctorProfileFragment extends Fragment  {
                 intent.putExtra("DoctorID", doctorId);
                 intent.putExtra("DoctorName", DoctorName);
                 intent.putExtra("BookingType", bookingtype);
+                intent.putExtra("MaxNo",  maxnoofpatients);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(intent);
@@ -1038,6 +1163,13 @@ editDialog(whatData);
                 bookingtype = dataSnapshot1.child(doctorId).child("cbookingtypestate").getValue(boolean.class);
                 String mstartingtimechat = dataSnapshot1.child(doctorId).child("cChatstart").getValue(String.class);
                 String mendingtimechat = dataSnapshot1.child(doctorId).child("cChatend").getValue(String.class);
+                 maxnoofpatients = dataSnapshot1.child(doctorId).child("cMaxno").getValue(String.class);
+
+                if (maxnoofpatients != null) {
+                    maxnoet.setText(maxnoofpatients);
+                } else {
+                    maxnoet.setText("Opened for any no.");
+                }
 
                 if ((mstartingtimechat != null)&&(mendingtimechat != null)) {
                     chatstarttime.setText(mstartingtimechat+" - "+mendingtimechat);
