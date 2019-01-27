@@ -78,7 +78,7 @@ import retrofit2.Response;
 public class BookingListActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     Button paddbook;
     TextView dname;
-    String DoctorID, address, idm, startTime, endingTime, arrange, patientName, patientAge;
+    String DoctorID, address, idm, startTime, endingTime, arrange, patientName, patientAge,MaxNo;
     boolean satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate;
     double latitude;
     double longitude;
@@ -135,7 +135,8 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         patientName = intent.getStringExtra("name");
         patientAge = intent.getStringExtra("age");
          BookingType = getIntent().getExtras().getBoolean("BookingType");
-      //Toast.makeText(BookingListActivity.this, BookingType+" ", Toast.LENGTH_LONG).show();
+        MaxNo = intent.getStringExtra("MaxNo");
+     // Toast.makeText(BookingListActivity.this, MaxNo+" ", Toast.LENGTH_LONG).show();
 
 
         dname = findViewById(R.id.d_name);
@@ -1152,7 +1153,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                 }
               //}
                 //}
-                BookingAdapter adapter = new BookingAdapter(BookingListActivity.this, bookingList,DoctorID,patientName,patientAge,BookingType);
+                BookingAdapter adapter = new BookingAdapter(BookingListActivity.this, bookingList,DoctorID,patientName,patientAge,BookingType,MaxNo);
                 //adapter.notifyDataSetChanged();
                 listViewBooking.setAdapter(adapter);
                 progressBarBooking.setVisibility(View.GONE);

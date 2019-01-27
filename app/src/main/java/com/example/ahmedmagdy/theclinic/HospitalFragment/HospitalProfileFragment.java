@@ -271,8 +271,8 @@ public class HospitalProfileFragment extends Fragment {
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText editField = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
-        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_et);
+        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_et);
         editField.setHint(whatdata);
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -481,7 +481,7 @@ public class HospitalProfileFragment extends Fragment {
                 progressBarImage.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child("homelesspic/" + System.currentTimeMillis() + ".jpg");
+                StorageReference trampsRef = mStorageRef.child("Doctorpic" ).child(mAuth.getCurrentUser().getUid()+ ".jpg");
 
                 // StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilepics/pro.jpg");
 

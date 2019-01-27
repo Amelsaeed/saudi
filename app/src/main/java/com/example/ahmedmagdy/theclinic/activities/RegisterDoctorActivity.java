@@ -48,14 +48,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class RegisterDoctorActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback {
+public class RegisterDoctorActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback{
     private ImageView callogo;
 
-    private TextView singIn, signUp, word, textInsurance, wordid;
-    private EditText editTextEmail, editTextPassword, editTextCPassword, editTextName, editTextPhone;
-    private ImageView profilePoto, IDphoto, workPermitphoto;
+    private TextView singIn, signUp,word,textInsurance,wordid;
+    private EditText editTextEmail, editTextPassword, editTextCPassword,editTextName,editTextPhone;
+    private ImageView profilePoto,IDphoto,workPermitphoto;
     private ProgressBar progressBar;
-    private Spinner spinnercity, spinnergander, spinnerspecialty;
+    private Spinner spinnercity, spinnergander,spinnerspecialty;
     DatabaseReference databaseUserReg;
     private DatabaseReference databaseDoctor;
     DatabaseReference databaseHospital;
@@ -66,17 +66,15 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
     //  int GALLERY_REQUEST_CODE;
     //  int CAMERA_REQUEST_CODE ;
 
-    byte[] byteImageDataPP;
-    byte[] byteImageDataID;
-    byte[] byteImageDataWP;
+    byte[] byteImageDataPP;byte[] byteImageDataID;byte[] byteImageDataWP;
     String mdoctorPhotoUrl = "";
     String mdoctorIDUrl = "";
     String mdoctorWPUrl = "";
 
     FirebaseUser fuser;
-    String mtype, HospitalID, HospitalName, ComeFrom, HospitalPassword, HospitalEmail;
+    String mtype,HospitalID,HospitalName,ComeFrom,HospitalPassword,HospitalEmail;
 
-    String getmInsuranceItems = "";
+    String getmInsuranceItems="";
     String[] listItems;
     Boolean[] checkedItems;
     ArrayList<Integer> mInsuranceItems = new ArrayList<>();
@@ -93,12 +91,15 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
         databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        mStorageRef = FirebaseStorage.getInstance().getReference("workPermits");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
         spinnercity = findViewById(R.id.spinner_country);
         spinnergander = findViewById(R.id.spinner_gander);
-        spinnerspecialty = findViewById(R.id.spinner_specialty);
+        spinnerspecialty= findViewById(R.id.spinner_specialty);
         progressBar = findViewById(R.id.progressbar);
+
+
+
 
 
         editTextPhone = findViewById(R.id.edit_phone);
@@ -110,20 +111,21 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
         editTextName = findViewById(R.id.edit_name);
         signUp = findViewById(R.id.getstarted);
         singIn = (TextView) findViewById(R.id.login);
-        word = (TextView) findViewById(R.id.word);
-        wordid = (TextView) findViewById(R.id.wordid);
-        editTextName = findViewById(R.id.edit_name);
-        profilePoto = findViewById(R.id.logo);
-        IDphoto = findViewById(R.id.id_photo);
-        workPermitphoto = findViewById(R.id.work_permit_photo);
+        word= (TextView) findViewById(R.id.word);
+        wordid= (TextView) findViewById(R.id.wordid);
+        editTextName= findViewById(R.id.edit_name);
+        profilePoto= findViewById(R.id.logo);
+        IDphoto= findViewById(R.id.id_photo);
+        workPermitphoto= findViewById(R.id.work_permit_photo);
+
 
 
         ///**************user type*******************//
         Intent intent = getIntent();
-        ComeFrom = intent.getStringExtra("ComeFrom");//, "LogIn");
-        if (ComeFrom.equals("LogIn")) {
+        ComeFrom=intent.getStringExtra("ComeFrom");//, "LogIn");
+        if(ComeFrom.equals("LogIn")) {
             mtype = intent.getStringExtra("selector");
-        } else {
+        }else{
             mtype = "Doctor";
             HospitalName = intent.getStringExtra("HName");
             HospitalID = intent.getStringExtra("HospitalID");
@@ -181,9 +183,9 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
             }
         });
-        final LinearLayout linearInsurance = (LinearLayout) this.findViewById(R.id.spinner_insurance);
-        textInsurance = findViewById(R.id.text_insurance);
-        listItems = getResources().getStringArray(R.array.insurance_array);
+        final LinearLayout linearInsurance=(LinearLayout)this.findViewById(R.id.spinner_insurance);
+        textInsurance= findViewById(R.id.text_insurance);
+        listItems= getResources().getStringArray(R.array.insurance_array);
         checkedItems = new Boolean[listItems.length];
 
         linearInsurance.setOnClickListener(new View.OnClickListener() {
@@ -215,11 +217,11 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
 
-                        getmInsuranceItems = "";
+                      getmInsuranceItems = "";
 
-                        if (isChecked) {
+                        if(isChecked){
                             checkedItems[position] = true;
-                        } else {
+                        }else{
                             checkedItems[position] = false;
                         }
                     }
@@ -230,7 +232,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 
-                        getmInsuranceItems = "";
+                       getmInsuranceItems = "";
                         for (int x = 0; x < listItems.length; x++) {
                             if (checkedItems[x]) {
                                 if (getmInsuranceItems.equals("")) {
@@ -242,7 +244,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                             }
                         }
 
-                        textInsurance.setText(getmInsuranceItems);
+                            textInsurance.setText(getmInsuranceItems);
 
                     }
                 });
@@ -256,7 +258,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
                 });
 /**
  mBuilder.setNeutralButton("clear_all", new DialogInterface.OnClickListener() {
-@Override public void onClick(DialogInterface dialogInterface, int which) {
+@Override
+public void onClick(DialogInterface dialogInterface, int which) {
 for (int i = 0; i < checkedItems.length; i++) {
 checkedItems[i] = false;
 mInsuranceItems.clear();
@@ -298,7 +301,7 @@ textInsurance.setText("");
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
-                // String mcity = spinnercity.getSelectedItem().toString().trim();
+               // String mcity = spinnercity.getSelectedItem().toString().trim();
 
             }
 
@@ -316,7 +319,7 @@ textInsurance.setText("");
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
-                // String mSpecialty = spinnerspecialty.getSelectedItem().toString().trim();
+               // String mSpecialty = spinnerspecialty.getSelectedItem().toString().trim();
 
             }
 
@@ -326,21 +329,23 @@ textInsurance.setText("");
         });
 
 /**
- // spinner for insurance
- ArrayAdapter<CharSequence> adapteri = ArrayAdapter.createFromResource(
- RegisterDoctorActivity.this, R.array.insurance_array, android.R.layout.simple_spinner_item);
- adapteri.setDropDownViewResource(R.layout.spinner_list_item);
- spinnerinsurance.setAdapter(adapteri);
- spinnerinsurance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-@Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
-//String minsurance = spinnerinsurance.getSelectedItem().toString().trim();
+// spinner for insurance
+        ArrayAdapter<CharSequence> adapteri = ArrayAdapter.createFromResource(
+                RegisterDoctorActivity.this, R.array.insurance_array, android.R.layout.simple_spinner_item);
+        adapteri.setDropDownViewResource(R.layout.spinner_list_item);
+        spinnerinsurance.setAdapter(adapteri);
+        spinnerinsurance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorText));
+                //String minsurance = spinnerinsurance.getSelectedItem().toString().trim();
 
-}
+            }
 
-@Override public void onNothingSelected(AdapterView<?> parent) {
-}
-});**/
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });**/
     }
 
 
@@ -350,7 +355,7 @@ textInsurance.setText("");
         String mCPassword = editTextCPassword.getText().toString().trim();
         final String mPhone = editTextPhone.getText().toString().trim();
         final String mName = editTextName.getText().toString().trim();
-        final String mgander = spinnergander.getSelectedItem().toString().trim();
+        final String mgander= spinnergander.getSelectedItem().toString().trim();
 
         final String mSpecialty = spinnerspecialty.getSelectedItem().toString().trim();
         final String mCity = spinnercity.getSelectedItem().toString().trim();
@@ -371,13 +376,11 @@ textInsurance.setText("");
         if (mPhone.isEmpty()) {
             editTextPhone.setError("phone NO. is required");
             editTextPhone.requestFocus();
-            return;
-        }
+            return;}
         if (mPhone.length() != 10) {
             editTextPhone.setError("Invalid phone NO.");
             editTextPhone.requestFocus();
-            return;
-        }
+            return;}
 
         if (mEmail.isEmpty()) {
             editTextEmail.setError("Email is required");
@@ -396,12 +399,13 @@ textInsurance.setText("");
             editTextPassword.requestFocus();
             return;
         }
-        //  =
+       //  =
         if (mPassword.isEmpty()) {
             editTextPassword.setError("Password is required");
             editTextPassword.requestFocus();
             return;
         }
+
 
 
         if (mCPassword.isEmpty()) {
@@ -458,93 +462,91 @@ textInsurance.setText("");
             wordid.requestFocus();
             return;
         }
-        uploadImagePP(mEmail, mPassword, mName, mInsurance, mCity, mSpecialty, mPhone, mgander);
+        uploadImagePP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
     }
-
     private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
         progressBar.setVisibility(View.VISIBLE);
-        if ((!mdoctorIDUrl.equals("")) && (!mdoctorPhotoUrl.equals("")) && (!mdoctorWPUrl.equals(""))) {
-            if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
-                mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
-                        if (task.isSuccessful()) {
+        if((!mdoctorIDUrl.equals(""))&&(!mdoctorPhotoUrl.equals(""))&&(!mdoctorWPUrl.equals(""))){
+        if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
+            mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressBar.setVisibility(View.GONE);
+                    if (task.isSuccessful()) {
 
-                          /*  databaseDoctor.child("status").setValue("offline");*/
-                            /* updateToken(FirebaseInstanceId.getInstance().getToken());*/
-                            Toast.makeText(RegisterDoctorActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
-                            final String Id = mAuth.getCurrentUser().getUid();
 
-                            RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
-                            databaseChat.child(Id).setValue(usersChat);
+                        /* updateToken(FirebaseInstanceId.getInstance().getToken());*/
+                        Toast.makeText(RegisterDoctorActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
+                        final String Id = mAuth.getCurrentUser().getUid();
+
+                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
+                        databaseChat.child(Id).setValue(usersChat);
 ///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
-                            // Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
-                            if (ComeFrom.equals("LogIn")) {
+                       // Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
+                        if(ComeFrom.equals("LogIn")) {
 
-                                String HospName = "non";
-                                String HospID = "non";
-                                DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl, HospName, HospID, mgander, false,true);
-                                databaseDoctor.child(Id).setValue(doctorfirebaseclass);
-                                databaseDoctor.child(Id).child("cDiscount").setValue("0");
-                                // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
+                            String HospName="non";
+                            String HospID="non";
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander,false);
+                            databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            databaseDoctor.child(Id).child("cDiscount").setValue("0");
+                            // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
 
-                                Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
-                                intend.putExtra("comefrom", "2");
+                            Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
+                            intend.putExtra("comefrom", "2");
 
-                                intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                finish();
-                                startActivity(intend);
-                            } else {
-                                DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl, HospitalName, HospitalID, mgander, false,true);
-                                databaseDoctor.child(Id).setValue(doctorfirebaseclass);
-                                databaseDoctor.child(Id).child("cDiscount").setValue("0");
-                                //mAuth.signOut();
+                            intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intend);
+                        }else{
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander,false);
+                            databaseDoctor.child(Id).setValue(doctorfirebaseclass);
+                            databaseDoctor.child(Id).child("cDiscount").setValue("0");
+                            //mAuth.signOut();
 
 
-                                mAuth.signInWithEmailAndPassword(HospitalEmail, HospitalPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        progressBar.setVisibility(View.GONE);
-                                        if (task.isSuccessful()) {
-                                            DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                                                    .child(HospitalID);
+                            mAuth.signInWithEmailAndPassword(HospitalEmail, HospitalPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if (task.isSuccessful()) {
+                                        DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
+                                                .child(HospitalID);
 
                                             // update database
                                             // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
                                             databaseDoctorFav.child(Id).child("cId").setValue(Id);
                                             databaseDoctorFav.child(Id).child("checked").setValue(true);
 
-                                            Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
-                                            intend.putExtra("comefrom", "2");
+                                        Intent intend = new Intent(RegisterDoctorActivity.this, LoginActivity.class);
+                                        intend.putExtra("comefrom", "2");
 
-                                            intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            finish();
-                                            startActivity(intend);
-                                        }
-                                    }
-                                });
-                            }
+                                        intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intend);}
+                                }
+                            });
+                        }
 
 
+
+                    } else {
+                        //Log.e(TAG, task.getException().getMessage());
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            Toast.makeText(RegisterDoctorActivity.this, "you are already registered", Toast.LENGTH_SHORT).show();
                         } else {
-                            //Log.e(TAG, task.getException().getMessage());
-                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(RegisterDoctorActivity.this, "you are already registered", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(RegisterDoctorActivity.this, "REGISTER ERROR", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(RegisterDoctorActivity.this, "REGISTER ERROR", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
-            } else {
-                Toast.makeText(this, R.string.network_connection_msg, Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-            }
+                }
+            });
         } else {
-            registerUser();
+            Toast.makeText(this, R.string.network_connection_msg, Toast.LENGTH_LONG).show();
+            progressBar.setVisibility(View.GONE);
         }
+    }else{registerUser();}
     }
+
 
 
     private void displayImportImageDialog(final int CAMERA_REQUEST_CODE, final int GALLERY_REQUEST_CODE) {
@@ -562,7 +564,7 @@ textInsurance.setText("");
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                openGalleryAction(GALLERY_REQUEST_CODE);
+                openGalleryAction( GALLERY_REQUEST_CODE);
             }
         });
 
@@ -585,7 +587,6 @@ textInsurance.setText("");
 
         dialog.show();
     }
-
     private void openCameraAction(int CAMERA_REQUEST_CODE) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -599,31 +600,28 @@ textInsurance.setText("");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
         if (resultCode == RESULT_OK) {
-            if ((requestCode == 11) || (requestCode == 12) || (requestCode == 13)) {
+            if ((requestCode == 11)||(requestCode == 12)||(requestCode == 13)) {
                 if (data.getData() != null) {
                     imagePath = data.getData();
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
                         Bitmap compressedBitmap = getScaledBitmap(bitmap);
-                        if (requestCode == 11) {
-                            profilePoto.setImageBitmap(compressedBitmap);
+                        if (requestCode == 11){
+                        profilePoto.setImageBitmap(compressedBitmap);
                         }
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
-                        if (requestCode == 11) {
+                        if (requestCode == 11){
                             byteImageDataPP = baos.toByteArray();
-                        } else if (requestCode == 12) {
-                            byteImageDataID = baos.toByteArray();
+                        } else if(requestCode == 12){ byteImageDataID = baos.toByteArray();
                             IDphoto.setImageResource(R.drawable.ic_ok);
-                        } else if (requestCode == 13) {
-                            byteImageDataWP = baos.toByteArray();
+                        }else if(requestCode == 13){ byteImageDataWP = baos.toByteArray();
                             workPermitphoto.setImageResource(R.drawable.ic_ok);
                         }
 
@@ -631,35 +629,31 @@ textInsurance.setText("");
                         e.printStackTrace();
                     }
 
-                    // addDoctorTextView.setEnabled(true);
+                   // addDoctorTextView.setEnabled(true);
                 }
 
-            } else if ((requestCode == 21) || (requestCode == 22) || (requestCode == 23)) {
+            } else  if ((requestCode == 21)||(requestCode == 22)||(requestCode == 23)) {
                 // if (data.getData() != null) {
                 // imagePath = data.getData();
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 // Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
                 Bitmap compressedBitmap = getScaledBitmap(bitmap);
-                if (requestCode == 21) {
-                    profilePoto.setImageBitmap(compressedBitmap);
-                }
+                if (requestCode == 21){
+                profilePoto.setImageBitmap(compressedBitmap);}
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
-                if (requestCode == 21) {
+                if (requestCode == 21){
                     byteImageDataPP = baos.toByteArray();
-                } else if (requestCode == 22) {
-                    byteImageDataID = baos.toByteArray();
+                } else if(requestCode == 22){ byteImageDataID = baos.toByteArray();
                     IDphoto.setImageResource(R.drawable.ic_ok);
-                } else if (requestCode == 23) {
-                    byteImageDataWP = baos.toByteArray();
+                }else if(requestCode == 23){ byteImageDataWP = baos.toByteArray();
                     workPermitphoto.setImageResource(R.drawable.ic_ok);
                 }
 
-                // addDoctorTextView.setEnabled(true);
-            }
+               // addDoctorTextView.setEnabled(true);
+               }
         }
     }
-
     //resize image
     private Bitmap getScaledBitmap(Bitmap bm) {
 
@@ -690,7 +684,7 @@ textInsurance.setText("");
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) profilePoto.getLayoutParams();
         params.width = width;
         params.height = height;
-        // profilePoto.setLayoutParams(params);
+       // profilePoto.setLayoutParams(params);
 
         return scaledBitmap;
 
@@ -708,36 +702,36 @@ textInsurance.setText("");
 
             if (byteImageDataPP != null) {
 
-                progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+                    StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
+//mStorageRef.child("doctorPic").child("pp"+mAuth.getCurrentUser().getUid()+ ".jpg");
+                    trampsRef.putBytes(byteImageDataPP)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
-                trampsRef.putBytes(byteImageDataPP)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(RegisterDoctorActivity.this, "Personal photo is uploaded", Toast.LENGTH_LONG).show();
 
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(RegisterDoctorActivity.this, "Personal photo is uploaded", Toast.LENGTH_LONG).show();
-
-                                mdoctorPhotoUrl = taskSnapshot.getDownloadUrl().toString();
-                                uploadImageID(mEmail, mPassword, mName, mInsurance, mCity, mSpecialty, mPhone, mgander);
+                                    mdoctorPhotoUrl = taskSnapshot.getDownloadUrl().toString();
+                                    uploadImageID(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
 
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                progressBar.setVisibility(View.GONE);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    progressBar.setVisibility(View.GONE);
 
-                                Toast.makeText(RegisterDoctorActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                                // addDoctorTextView.setEnabled(true);
+                                    Toast.makeText(RegisterDoctorActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    // addDoctorTextView.setEnabled(true);
 
-                            }
-                        });
+                                }
+                            });
 
             }
         } else {
@@ -745,7 +739,7 @@ textInsurance.setText("");
         }
     }
 
-    private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
+    private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone,final String mgander) {
 
         if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
@@ -754,7 +748,7 @@ textInsurance.setText("");
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+                StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
 
                 trampsRef.putBytes(byteImageDataID)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -765,7 +759,7 @@ textInsurance.setText("");
                                 Toast.makeText(RegisterDoctorActivity.this, "ID Photo is uploaded", Toast.LENGTH_LONG).show();
 
                                 mdoctorIDUrl = taskSnapshot.getDownloadUrl().toString();
-                                uploadImageWP(mEmail, mPassword, mName, mInsurance, mCity, mSpecialty, mPhone, mgander);
+                                uploadImageWP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
 
 
                             }
@@ -787,42 +781,41 @@ textInsurance.setText("");
             Toast.makeText(RegisterDoctorActivity.this, "Please check the network connection", Toast.LENGTH_LONG).show();
         }
     }
-
     private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
 
         if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
             if (byteImageDataWP != null) {
 
-                progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+                    StorageReference trampsRef = mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
+// mStorageRef.child("docregister").child(System.currentTimeMillis()+ ".jpg");
+                    trampsRef.putBytes(byteImageDataWP)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
-                trampsRef.putBytes(byteImageDataWP)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(RegisterDoctorActivity.this, "Work permit Photo is uploaded", Toast.LENGTH_LONG).show();
 
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(RegisterDoctorActivity.this, "Work permit Photo is uploaded", Toast.LENGTH_LONG).show();
+                                    mdoctorWPUrl = taskSnapshot.getDownloadUrl().toString();
+                                    makeauth(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
 
-                                mdoctorWPUrl = taskSnapshot.getDownloadUrl().toString();
-                                makeauth(mEmail, mPassword, mName, mInsurance, mCity, mSpecialty, mPhone, mgander);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    progressBar.setVisibility(View.GONE);
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(RegisterDoctorActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    // addDoctorTextView.setEnabled(true);
 
-                                Toast.makeText(RegisterDoctorActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                                // addDoctorTextView.setEnabled(true);
-
-                            }
-                        });
+                                }
+                            });
 
             }
         } else {

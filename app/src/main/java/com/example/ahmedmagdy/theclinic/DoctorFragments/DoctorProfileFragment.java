@@ -1,6 +1,7 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,7 +29,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +40,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
+import com.example.ahmedmagdy.theclinic.classes.BookingClass;
+import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
+import com.example.ahmedmagdy.theclinic.classes.MapClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,13 +59,16 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
 public class DoctorProfileFragment extends Fragment  {
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
-    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
+    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,chatstarttimeedit,maxnoedit;
+    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,chatstarttime,maxnotv,maxnoet;
     EditText peditbox;
     CheckBox  bookingtypecheck;
     private ProgressBar progressBarImage;
@@ -69,6 +78,10 @@ public class DoctorProfileFragment extends Fragment  {
     private final int CAMERA_REQUEST_CODE = 2;
     private boolean disChecked = false;
     String  idm ;
+    String maxnoofpatients;
+    int startHour=100;
+    int endingHour=100;
+
     String mTrampPhotoUrl = "";
     String doctorId,drDiscountPrice="0";
     Boolean bookingtype;
@@ -76,7 +89,7 @@ public class DoctorProfileFragment extends Fragment  {
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor, databaseChat, databaseMap;
+    private DatabaseReference databaseDoctor, databaseChat, databaseMap,databaseBooking;
     private FirebaseUser fUser;
     private ValueEventListener doctorEventListener;
 
@@ -94,7 +107,7 @@ public class DoctorProfileFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = getLayoutInflater().inflate(R.layout.activity_doctor_profile, container, false);
+        final View rootView = getLayoutInflater().inflate(R.layout.activity_doctor_profile, container, false);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -104,9 +117,11 @@ public class DoctorProfileFragment extends Fragment  {
         }
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
-        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Photos");//Photos
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
+        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb"); databaseChat.keepSynced(true);
+        databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb");databaseBooking.keepSynced(true);
+
         DatabaseReference reference = databaseMap.push();
         idm = reference.getKey();
 
@@ -134,7 +149,12 @@ public class DoctorProfileFragment extends Fragment  {
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
         bookingtypecheck= rootView.findViewById(R.id.checkBox1);
+        chatstarttimeedit= rootView.findViewById(R.id.ch_start_edit);
+        chatstarttime= rootView.findViewById(R.id.ch_start);
 
+        maxnoedit=rootView.findViewById(R.id.max_no_edit);
+        maxnoet=rootView.findViewById(R.id.max_no);
+        maxnotv=rootView.findViewById(R.id.max_no_tv);
 
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
@@ -152,17 +172,305 @@ public class DoctorProfileFragment extends Fragment  {
 
 
         getallData();
+        chatstarttimeedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.chat_time_dialig);
+                dialog.setTitle("Enter your data");
+                dialog.setCanceledOnTouchOutside(false);
+                final EditText dialogstarttime = dialog.findViewById(R.id.start_time_chat);
+                final EditText dialogendingtime = dialog.findViewById(R.id.ending_time_chat);
+
+                final ImageView dialogstarttimelogo = dialog.findViewById(R.id.timer_chat);
+                final ImageView dialogendingtimelogo = dialog.findViewById(R.id.timer_off_chat);
+                dialogstarttimelogo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //is chkIos checked?
+                        Calendar mcurrentTime = Calendar.getInstance();
+                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                        TimePickerDialog mTimePicker;
+                        mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                //////
+                                String selectedHour00 = String.valueOf(selectedHour);
+                                if (Integer.parseInt(selectedHour00) < 10) {
+                                    selectedHour00 = "0" + selectedHour00;
+                                }
+                                String selectedMinute00 = String.valueOf(selectedMinute);
+                                if (Integer.parseInt(selectedMinute00) < 10) {
+                                    selectedMinute00 = "0" + selectedMinute00;
+                                }
+
+                                ///////////////////////////
+
+                                String  startTime=selectedHour00 + ":" + selectedMinute00;
+                                startHour=selectedHour;
+
+                                dialogstarttime.setEnabled(true);
+                                dialogstarttime.setText( startTime);
+                                dialogstarttime.setEnabled(false);
+
+                            }
+                        }, hour, minute, false);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
+                    }
+                });
+
+                dialogendingtimelogo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //is chkIos checked?
+                        Calendar mcurrentTime1 = Calendar.getInstance();
+                        int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
+                        int minute1 = mcurrentTime1.get(Calendar.MINUTE);
+                        TimePickerDialog mTimePicker1;
+                        mTimePicker1 = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour1, int selectedMinute1) {
+
+                                //////
+                                String selectedHour100 = String.valueOf(selectedHour1);
+                                if (Integer.parseInt(selectedHour100) < 10) {
+                                    selectedHour100 = "0" + selectedHour100;
+                                }
+                                String selectedMinute100 = String.valueOf(selectedMinute1);
+                                if (Integer.parseInt(selectedMinute100) < 10) {
+                                    selectedMinute100 = "0" + selectedMinute100;
+                                }
+
+                                ///////////////////////////
+                              String  endingTime=selectedHour100 + ":" + selectedMinute100;
+                                endingHour=selectedHour1;
+
+                                dialogendingtime.setEnabled(true);
+
+                                dialogendingtime.setText( endingTime);
+                                dialogendingtime.setEnabled(false);
+
+                            }
+                        }, hour1, minute1, false);//Yes 24 hour time
+                        mTimePicker1.setTitle("Select Time");
+                        mTimePicker1.show();
+
+                    }
+                });
+                TextView cancel = (TextView) dialog.findViewById(R.id.cancel_t);
+                TextView refresh = (TextView) dialog.findViewById(R.id.close_t);
+                TextView submit = (TextView) dialog.findViewById(R.id.submit_t);
+                TextView on = (TextView) dialog.findViewById(R.id.on_t);
+
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String getstartingtime = dialogstarttime.getText().toString().trim();
+                        final String getendingtime = dialogendingtime.getText().toString().trim();
+
+
+
+
+                        if (getstartingtime.isEmpty()) {
+                            dialogstarttime.setError("Please fill starting time");
+                            dialogstarttime.requestFocus();
+                            return;}
+                        if (getendingtime.isEmpty()) {
+                            dialogendingtime.setError("Please fill ending times");
+                            dialogendingtime.requestFocus();
+                            return;}
+                        if (endingHour<=startHour) {
+                            dialogendingtime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogendingtime.requestFocus();
+                            dialogstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogstarttime.requestFocus();
+                            return;}
+
+                        databaseDoctor.child(doctorId).child("cChatstart").setValue(getstartingtime );
+                        databaseDoctor.child(doctorId).child("cChatend").setValue(getendingtime );
+                        databaseChat.child(doctorId).child("cChatstart").setValue(getstartingtime );
+                        databaseChat.child(doctorId).child("cChatend").setValue(getendingtime );
+                        Toast.makeText(getContext(), "Ending time and starting time are saved", Toast.LENGTH_LONG).show();
+
+
+                        dialog.dismiss();
+                        //to refresh activity as you need to go back activity and return
+
+                    }
+                });
+                refresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogstarttime.setEnabled(true);
+                        dialogstarttime.setText( "");
+                        dialogstarttime.setEnabled(false);
+
+                        dialogendingtime.setEnabled(true);
+                        dialogendingtime.setText( "");
+                        dialogendingtime.setEnabled(false);
+
+                        databaseDoctor.child(doctorId).child("cChatstart").setValue(null );
+                        databaseDoctor.child(doctorId).child("cChatend").setValue(null );
+                        databaseChat.child(doctorId).child("cChatstart").setValue(null );
+                        databaseChat.child(doctorId).child("cChatend").setValue(null );
+                        Toast.makeText(getContext(), "Chat is blocked", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+                on.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogstarttime.setEnabled(true);
+                        dialogstarttime.setText( "");
+                        dialogstarttime.setEnabled(false);
+
+                        dialogendingtime.setEnabled(true);
+                        dialogendingtime.setText( "");
+                        dialogendingtime.setEnabled(false);
+
+                        databaseDoctor.child(doctorId).child("cChatstart").setValue("00:00" );
+                        databaseDoctor.child(doctorId).child("cChatend").setValue("23:59");
+                        databaseChat.child(doctorId).child("cChatstart").setValue("00:00");
+                        databaseChat.child(doctorId).child("cChatend").setValue("23:59");
+                        Toast.makeText(getContext(), "Chat is blocked", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setCanceledOnTouchOutside(false);
+
+                dialog.show();
+
+                //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
+                // editDialogbook();
+            }
+        });
+
+
         bookingtypecheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(true);
+                    maxnoedit.setVisibility(rootView.GONE);
+                    maxnoet.setVisibility(rootView.GONE);
+                    maxnotv.setVisibility(rootView.GONE);
                 } else {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(false);
+                    maxnoedit.setVisibility(rootView.VISIBLE);
+                    maxnoet.setVisibility(rootView.VISIBLE);
+                    maxnotv.setVisibility(rootView.VISIBLE);
                 }
             }
         });
+        maxnoedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.max_no_dialig);
+                dialog.setTitle("Enter maximum number of reservations");
+                dialog.setCanceledOnTouchOutside(false);
+
+                final EditText dialogmaxno = dialog.findViewById(R.id.max_data_tv_e);
+
+
+                TextView cancelmax = (TextView) dialog.findViewById(R.id.cancel_tv_max);
+               TextView closemax = (TextView) dialog.findViewById(R.id.close_tv_max);
+                TextView submitmax = (TextView) dialog.findViewById(R.id.submit_tv_max);
+              TextView onpenmax = (TextView) dialog.findViewById(R.id.open_tv_max);
+
+
+                submitmax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String maxno = dialogmaxno.getText().toString().trim();
+
+                        if (maxno.isEmpty()) {
+                            dialogmaxno.setError("Please enter maximum number of reservations");
+                            dialogmaxno.requestFocus();
+                            return;}
+                        try {
+                            int num = Integer.parseInt(maxno);
+                            Log.i("",num+" is a number");
+                        } catch (NumberFormatException e) {
+                            dialogmaxno.setError("Ending time must be after starting time /n and in the same day");
+                            dialogmaxno.requestFocus();
+                            return;
+                           // Log.i("",text+" is not a number");
+                        }
+
+                        databaseDoctor.child(doctorId).child("cMaxno").setValue(maxno );
+
+                        Toast.makeText(getContext(), "Maximum number of reservations is saved", Toast.LENGTH_LONG).show();
+
+
+                        dialog.dismiss();
+                        //to refresh activity as you need to go back activity and return
+
+                    }
+                });
+                closemax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogmaxno.setText( "");
+
+
+                        databaseDoctor.child(doctorId).child("cMaxno").setValue("0" );
+
+                        Toast.makeText(getContext(), "Booking is blocked", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+                onpenmax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogmaxno.setText( "");
+
+
+                        databaseDoctor.child(doctorId).child("cMaxno").setValue(null);
+
+                        Toast.makeText(getContext(), "Booking is opened for any no.", Toast.LENGTH_LONG).show();
+
+                        dialog.dismiss();
+                    }
+                });
+
+                cancelmax.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setCanceledOnTouchOutside(false);
+
+                dialog.show();
+
+                //String whatdata = "Ex:from Sat to Mon in address at 15:00 clock";
+                // editDialogbook();
+            }
+        });
+
         workingHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,6 +478,7 @@ public class DoctorProfileFragment extends Fragment  {
                 intent.putExtra("DoctorID", doctorId);
                 intent.putExtra("DoctorName", DoctorName);
                 intent.putExtra("BookingType", bookingtype);
+                intent.putExtra("MaxNo",  maxnoofpatients);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(intent);
@@ -280,13 +589,30 @@ editDialog(whatData);
                 mBuilder.setSingleChoiceItems(listSpecialityItems, -1, new DialogInterface.OnClickListener() {
 
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, final int i) {
                         // TODO Auto-generated method stub
-
+                        pspeciality.setText(listSpecialityItems[i]);
                         databaseDoctor.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
                         databaseChat.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
-                        databaseMap.child(idm).child("cmdoctorspecialty").setValue(listSpecialityItems[i]);
-                        pspeciality.setText(listSpecialityItems[i]);
+////////////***********************uniy map data**********************
+                        databaseBooking.child(doctorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                                        String id= doctorSnapshot.getKey();
+                                        Toast.makeText(getContext(),id, Toast.LENGTH_SHORT).show();
+
+                                        databaseMap.child(doctorId+id).child("cmdoctorspecialty").setValue(listSpecialityItems[i]);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+        ////////////////////////////////////********uniy map data******************
 
                     }
                 });
@@ -434,6 +760,8 @@ editDialog(whatData);
 
             }
         });
+       // uploadtimes(chatstartTime,startHour,chatendingTime, endingHour);
+
         return rootView;
     }
 
@@ -538,8 +866,8 @@ editDialog(whatData);
                 progressBarImage.setVisibility(View.VISIBLE);
 
 
-                StorageReference trampsRef = mStorageRef.child("homelesspic/" + System.currentTimeMillis() + ".jpg");
-
+                StorageReference trampsRef = mStorageRef.child("doctorPic").child(mAuth.getCurrentUser().getUid()+ ".jpg");
+//mStorageRef.child("userPic").child(mAuth.getCurrentUser().getUid()+ ".jpg");
                 // StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilepics/pro.jpg");
 
 
@@ -554,7 +882,26 @@ editDialog(whatData);
                                 databaseDoctor.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
                                 databaseChat.child(fUser.getUid()).child("curi").setValue(mTrampPhotoUrl);
                                 databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
-                                databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
+                               // databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
+                                //***********************uniy map data**********************
+                                databaseBooking.child(doctorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.exists()) {
+                                            for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                                                String id= doctorSnapshot.getKey();
+                                                Toast.makeText(getContext(),id, Toast.LENGTH_SHORT).show();
+
+                                                databaseMap.child(doctorId+id).child("cmdoctorpic").setValue(mTrampPhotoUrl);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                                ////////////////////////////////////********uniy map data******************
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image", "Upload end");
                                     Toast.makeText(getContext(), "Upload end", Toast.LENGTH_LONG).show();
@@ -586,8 +933,8 @@ editDialog(whatData);
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText editField = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
-        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_et);
+        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_et);
         final EditText discountInput = dialog.findViewById(R.id.discount_et);
         final CheckBox discountCheckBox = dialog.findViewById(R.id.discount_cb);
         final LinearLayout linear = dialog.findViewById(R.id.linear_discount);
@@ -683,8 +1030,27 @@ editDialog(whatData);
         if (whatdata.equals("Name")) {
             databaseDoctor.child(doctorId).child("cName").setValue(editfield1);
             databaseChat.child(doctorId).child("cName").setValue(editfield1);
-            databaseMap.child(idm).child("cmname").setValue(editfield1);
+            //databaseMap.child(idm).child("cmname").setValue(editfield1);
             pname.setText(editfield1);
+            //***********************uniy map data**********************
+            databaseBooking.child(doctorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                            String id= doctorSnapshot.getKey();
+                            Toast.makeText(getContext(),id, Toast.LENGTH_SHORT).show();
+
+                            databaseMap.child(doctorId+id).child("cmname").setValue(editfield1);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            ////////////////////////////////////********uniy map data******************
 
         } else if (whatdata.equals("Phone Number")) {
             databaseDoctor.child(doctorId).child("cPhone").setValue(editfield1);
@@ -795,6 +1161,21 @@ editDialog(whatData);
                 String medInsurance = dataSnapshot1.child(doctorId).child("cInsurance").getValue(String.class);
                 drDiscountPrice = dataSnapshot1.child(doctorId).child("cDiscount").getValue(String.class);
                 bookingtype = dataSnapshot1.child(doctorId).child("cbookingtypestate").getValue(boolean.class);
+                String mstartingtimechat = dataSnapshot1.child(doctorId).child("cChatstart").getValue(String.class);
+                String mendingtimechat = dataSnapshot1.child(doctorId).child("cChatend").getValue(String.class);
+                 maxnoofpatients = dataSnapshot1.child(doctorId).child("cMaxno").getValue(String.class);
+
+                if (maxnoofpatients != null) {
+                    maxnoet.setText(maxnoofpatients);
+                } else {
+                    maxnoet.setText("Opened for any no.");
+                }
+
+                if ((mstartingtimechat != null)&&(mendingtimechat != null)) {
+                    chatstarttime.setText(mstartingtimechat+" - "+mendingtimechat);
+                } else {
+                    chatstarttime.setText("Null");
+            }
 
                 if (bookingtype != null) {
                 bookingtypecheck.setChecked(bookingtype);}

@@ -175,7 +175,11 @@ public class FavFragment extends Fragment {
                             String DType = dataSnapshot1.child(DID).child("cType").getValue(String.class);
                             Boolean bookingtype = dataSnapshot1.child(DID).child("cbookingtypestate").getValue(boolean.class);
 
-                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,DType,bookingtype);
+                            String DChatstart = dataSnapshot1.child(DID).child("cChatstart").getValue(String.class);
+                            String DChatend = dataSnapshot1.child(DID).child("cChatend").getValue(String.class);
+                            String DMaxno = dataSnapshot1.child(DID).child("cMaxno").getValue(String.class);
+                            String Dabout = dataSnapshot1.child(DID).child("cAbout").getValue(String.class);
+                            DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,bookingtype,DChatstart,DChatend,DMaxno,Dabout);
                             doctorList.add(0,doctorclass);// i= 0  (index)to start from top
 
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
