@@ -34,15 +34,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class AllDoctorFragment extends Fragment implements View.OnClickListener{
+public class AllDoctorFragment extends Fragment implements View.OnClickListener {
     ImageView addDoctorButton;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor,databaseDoctorFav;
-    private ValueEventListener doctorsListener,doctotFavListener;
+    private DatabaseReference databaseDoctor, databaseDoctorFav;
+    private ValueEventListener doctorsListener, doctotFavListener;
     FirebaseUser fuser;
     private boolean isSearching = false;
     private Filter filter;
@@ -64,48 +65,47 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_all_doctor, container, false);
         addDoctorButton = (ImageView) rootView.findViewById(R.id.adddoctor);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
-        searchView = (SearchView)  rootView.findViewById(R.id.search);
-        doctorList=new ArrayList<>();
-        favList=new ArrayList<>();
+        listViewDoctor = (ListView) rootView.findViewById(R.id.list_view_doctor);
+        searchView = (SearchView) rootView.findViewById(R.id.search);
+        doctorList = new ArrayList<>();
+        favList = new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(false);
         removeFocus();
-        btnproceed= (ImageView)  rootView.findViewById(R.id.map);
+        btnproceed = (ImageView) rootView.findViewById(R.id.map);
         btnproceed.setOnClickListener(this);
         getAllDoctorsMap();
         return rootView;
     }
 
 
-
-    /**  private void updateToken(String token){
-     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
-     Token token1 = new Token(token);
-     reference.child(fuser.getUid()).setValue(token1);
-     }**/
+    /**
+     * private void updateToken(String token){
+     * DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+     * Token token1 = new Token(token);
+     * reference.child(fuser.getUid()).setValue(token1);
+     * }
+     **/
     public void onStart() {
         super.onStart();
 
         /*check if the user is searching
-        *if the search field is empty the data will update
-        * else if the user is searching the data won't update
-        */
+         *if the search field is empty the data will update
+         * else if the user is searching the data won't update
+         */
 
-        if (isSearching){
+        if (isSearching) {
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -124,9 +124,9 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
 
     private void maketableofall() {
 
-       if (!UtilClass.isNetworkConnected(getContext())) {
-           Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
-       }
+        if (!UtilClass.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+        }
 
 
         doctorsListener = new ValueEventListener() {
@@ -134,15 +134,15 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 doctorList.clear();
-                for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
-                    DoctorFirebaseClass doctorclass=doctorSnapshot.getValue(DoctorFirebaseClass.class);
+                for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
+                    DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
 
                     if (isFavourite(doctorclass)) {
                         doctorclass.checked = true;
                     }
 
-                    doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                    doctorList.add(0, doctorclass);// i= 0  (index)to start from top
                 }
 
                 DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
@@ -162,15 +162,16 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
 
         };
         databaseDoctor.addListenerForSingleValueEvent(doctorsListener);
-       // }
+        // }
 
 
     }
+
     private void maketableoffav() {
 
-       if (!UtilClass.isNetworkConnected(getContext())) {
-           Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
-       }
+        if (!UtilClass.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+        }
 
         doctotFavListener = new ValueEventListener() {
 
@@ -259,49 +260,49 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
                 transaction.commit();
                 break;*/
 
-                case R.id.map:
-                    inflateDocMapFragment();
+            case R.id.map:
+                inflateDocMapFragment();
                 break;
         }
     }
 
     //get all doc data
     private void getAllDoctorsMap() {
-        if (UtilClass.isNetworkConnected(getContext())){
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                Query query = ref.child("mapdb");
-                ValueEventListener valueEventListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            UserLocation post = postSnapshot.getValue(UserLocation.class);
-                            mUserLocations.add(post);
-                            System.out.println("qerrrrrrrrrrry Get Data" + post.getCmname());
-                        }
+        if (UtilClass.isNetworkConnected(getContext())) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            Query query = ref.child("mapdb");
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        UserLocation post = postSnapshot.getValue(UserLocation.class);
+                        mUserLocations.add(post);
+                        System.out.println("qerrrrrrrrrrry Get Data" + post.getCmname());
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                };
-                query.addValueEventListener(valueEventListener);
+                }
+            };
+            query.addValueEventListener(valueEventListener);
 
-        }else {
+        } else {
             Toast.makeText(getContext(), getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    private void inflateDocMapFragment(){
+    private void inflateDocMapFragment() {
         DoctorMapFrag fragment = DoctorMapFrag.newInstance();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("intent_user_locs",mUserLocations);
+        bundle.putParcelableArrayList("intent_user_locs", mUserLocations);
         fragment.setArguments(bundle);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container_alldoctorsfrag, fragment , "User List");
+        transaction.replace(R.id.frame_container_alldoctorsfrag, fragment, "User List");
         transaction.addToBackStack("User List");
         transaction.commit();
 
@@ -310,10 +311,10 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onDetach() {
         super.onDetach();
-        if (doctorsListener != null){
+        if (doctorsListener != null) {
             databaseDoctor.removeEventListener(doctorsListener);
         }
-        if (doctotFavListener != null){
+        if (doctotFavListener != null) {
             databaseDoctorFav.removeEventListener(doctotFavListener);
         }
     }
@@ -322,11 +323,25 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener{
     public void onDestroy() {
         super.onDestroy();
 
-        if (doctorsListener != null){
+        if (doctorsListener != null) {
             databaseDoctor.removeEventListener(doctorsListener);
         }
-        if (doctotFavListener != null){
+        if (doctotFavListener != null) {
             databaseDoctorFav.removeEventListener(doctotFavListener);
         }
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
     }
 }

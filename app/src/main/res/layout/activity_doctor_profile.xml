@@ -17,6 +17,19 @@
         android:scaleType="fitXY"
         android:src="@drawable/doctor_logo_m" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/status_profile"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:civ_border_width="4dp"
+        app:civ_border_overlay="true"
+        app:civ_border_color="#fff"
+        android:layout_alignEnd="@+id/edit_photo"
+        android:layout_alignBottom="@+id/edit_photo"
+        android:src="@drawable/ic_status"
+        android:layout_alignRight="@+id/edit_photo"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/pname"
         android:layout_width="wrap_content"

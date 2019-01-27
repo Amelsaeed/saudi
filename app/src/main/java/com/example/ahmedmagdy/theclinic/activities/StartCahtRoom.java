@@ -44,8 +44,9 @@ public class StartCahtRoom extends AppCompatActivity {
     CircleImageView profile_image;
     TextView username;
     FirebaseAuth mAuth;
+    ImageView StatusProfile;
     FirebaseUser firebaseUser;
-    DatabaseReference reference, databaseChat;
+    DatabaseReference reference, databaseChat, databaseDoctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +54,11 @@ public class StartCahtRoom extends AppCompatActivity {
         setContentView(R.layout.activity_start_caht_room);
         Toolbar toolbar = findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
+        StatusProfile = (ImageView) findViewById(R.id.status_profile);
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         mAuth = FirebaseAuth.getInstance();
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         reference = FirebaseDatabase.getInstance().getReference("ChatRoom").child(mAuth.getCurrentUser().getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -239,4 +242,19 @@ public class StartCahtRoom extends AppCompatActivity {
         super.onPause();
         status("offline");
     }*/
+  @Override
+  public void onResume() {
+      super.onResume();
+      databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+
+
+  }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+
+
+    }
 }

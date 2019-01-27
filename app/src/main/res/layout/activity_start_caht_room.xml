@@ -18,10 +18,39 @@
             android:background="@color/colorPrimary"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp" />
+
+               <de.hdodenhof.circleimageview.CircleImageView
+
+                android:id="@+id/status_chat"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignTop="@+id/profile_image"
+                    android:layout_alignEnd="@+id/profile_image"
+                    android:layout_alignRight="@+id/profile_image"
+                    android:layout_alignBottom="@+id/profile_image"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="59dp"
+                    android:layout_marginLeft="59dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="1dp"
+                    app:civ_border_width="4dp"
+                    app:civ_border_overlay="true"
+                    app:civ_border_color="#fff"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="0dp"
+                    android:src="@drawable/ic_status" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/username"
@@ -40,15 +69,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:tabSelectedTextColor="#fff"
             app:tabIndicatorColor="#fff"
-            app:tabTextColor="#fff"/>
+            app:tabSelectedTextColor="#fff"
+            app:tabTextColor="#fff" />
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    />
+        android:layout_height="match_parent" />
 </LinearLayout>

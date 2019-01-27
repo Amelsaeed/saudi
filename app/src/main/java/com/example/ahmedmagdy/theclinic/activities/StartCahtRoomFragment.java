@@ -42,12 +42,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StartCahtRoomFragment extends Fragment {
     CircleImageView profile_image;
+    ImageView StatusProfile;
     TextView username;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     View rootView;
-    DatabaseReference reference, databaseChat;
+    DatabaseReference reference, databaseChat, databaseDoctor;
     Context thiscontext;
+
     public StartCahtRoomFragment() {
         // Required empty public constructor
     }
@@ -56,14 +58,16 @@ public class StartCahtRoomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       rootView = inflater.inflate(R.layout.activity_start_caht_room, container, false);
+        rootView = inflater.inflate(R.layout.activity_start_caht_room, container, false);
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
-        profile_image =  rootView.findViewById(R.id.profile_image);
-        username = rootView. findViewById(R.id.username);
+        StatusProfile = (ImageView) rootView.findViewById(R.id.status_profile);
+        profile_image = rootView.findViewById(R.id.profile_image);
+        username = rootView.findViewById(R.id.username);
         thiscontext = container.getContext();
 
         mAuth = FirebaseAuth.getInstance();
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         reference = FirebaseDatabase.getInstance().getReference("ChatRoom").child(mAuth.getCurrentUser().getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -81,10 +85,10 @@ public class StartCahtRoomFragment extends Fragment {
                 profile_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Display display =getActivity(). getWindowManager().getDefaultDisplay();
+                        Display display = getActivity().getWindowManager().getDefaultDisplay();
                         int width = display.getWidth();
                         int height = display.getHeight();
-                        loadPhoto(profile_image,width,height);
+                        loadPhoto(profile_image, width, height);
                     }
                 });
 
@@ -115,8 +119,8 @@ public class StartCahtRoomFragment extends Fragment {
 
             }
         });
-        final TabLayout tabLayout =  rootView.findViewById(R.id.tab_layout);
-        final ViewPager viewPager =  rootView.findViewById(R.id.view_pager);
+        final TabLayout tabLayout = rootView.findViewById(R.id.tab_layout);
+        final ViewPager viewPager = rootView.findViewById(R.id.view_pager);
 
 
         reference = FirebaseDatabase.getInstance().getReference("Chats");
@@ -154,10 +158,10 @@ public class StartCahtRoomFragment extends Fragment {
             }
 
 
-
         });
         return rootView;
     }
+
     /////////// show photo profile ////////////////////////
     private void loadPhoto(ImageView imageView, int width, int height) {
         final Dialog dialog = new Dialog(getActivity());
@@ -177,7 +181,7 @@ public class StartCahtRoomFragment extends Fragment {
 /////////////////////////////////////////////////////////////////////////////
 
     private boolean onCreateOptionsMenu(Menu menu) {
-        getActivity(). getMenuInflater().inflate(R.menu.menu, menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -230,24 +234,39 @@ public class StartCahtRoomFragment extends Fragment {
         }
     }
 
-  /*  private void status(String status) {
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+    /*  private void status(String status) {
+          reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
+          HashMap<String, Object> hashMap = new HashMap<>();
+          hashMap.put("status", status);
 
-        reference.updateChildren(hashMap);
-    }
+          reference.updateChildren(hashMap);
+      }
 
+      @Override
+      protected void onResume() {
+          super.onResume();
+          status("online");
+      }
+
+      @Override
+      protected void onPause() {
+          super.onPause();
+          status("offline");
+      }*/
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        status("online");
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+
+
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
-        status("offline");
-    }*/
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+
+
+    }
 }
