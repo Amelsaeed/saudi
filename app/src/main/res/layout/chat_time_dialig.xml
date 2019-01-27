@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+       <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+           android:background="@drawable/heder_menu"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <TextView
+            android:id="@+id/text_title"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:text="Detection time:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="5dp"
+               android:layout_marginLeft="5dp"
+
+               android:layout_marginBottom="15dp"
+               android:orientation="horizontal">
+
+               <TextView
+
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="8dp"
+                   android:layout_marginLeft="16dp"
+                   android:layout_marginRight="8dp"
+                   android:text="From:"
+                   android:textColor="@android:color/black"
+                   android:textSize="16sp" />
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="5dp"
+                   android:layout_marginLeft="5dp"
+                   android:background="@drawable/roundwhite"
+                   android:layout_marginBottom="0dp"
+                   android:orientation="horizontal">
+
+                   <ImageView
+                       android:id="@+id/timer_chat"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="8dp"
+                       android:layout_marginLeft="16dp"
+                       android:layout_marginRight="8dp"
+                       android:src="@drawable/ic_timer"
+                       android:layout_gravity="center"
+                       />
+
+                   <EditText
+                       android:id="@+id/start_time_chat"
+
+                       android:layout_width="0dp"
+                       android:layout_height="50dp"
+                       android:layout_weight="1"
+                       android:layout_marginRight="5dp"
+                       android:gravity="center"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                       android:textColor="#000"
+                       android:hint="Starting time"
+                       android:enabled="false"
+                       />
+
+
+
+               </LinearLayout>
+
+
+
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="5dp"
+               android:layout_marginLeft="5dp"
+
+               android:layout_marginBottom="15dp"
+               android:orientation="horizontal">
+
+
+               <TextView
+
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="8dp"
+                   android:layout_marginLeft="16dp"
+                   android:layout_marginRight="8dp"
+                   android:text="To:   "
+                   android:textColor="@android:color/black"
+                   android:textSize="16sp" />
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="5dp"
+                   android:layout_marginLeft="5dp"
+                   android:background="@drawable/roundwhite"
+                   android:layout_marginBottom="0dp"
+                   android:orientation="horizontal">
+
+                   <ImageView
+                       android:id="@+id/timer_off_chat"
+
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="8dp"
+                       android:layout_marginLeft="16dp"
+                       android:layout_marginRight="8dp"
+                       android:src="@drawable/ic_timer_off"
+                       android:gravity="center_vertical"
+                       />
+
+                   <EditText
+                       android:id="@+id/ending_time_chat"
+                       android:layout_width="0dp"
+                       android:layout_height="50dp"
+                       android:layout_weight="1"
+                       android:gravity="center"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                       android:textColor="#000"
+                       android:layout_marginRight="5dp"
+                       android:layout_marginLeft="5dp"
+                       android:hint="Ending  time"
+                       android:enabled="false"
+                       />
+
+
+               </LinearLayout>
+
+
+           </LinearLayout>
+
+
+
+           <TextView
+
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="8dp"
+               android:layout_marginLeft="25dp"
+               android:layout_marginRight="8dp"
+               android:text="* Press close chat if you want to block chat"
+               android:textColor="@android:color/holo_red_dark"
+               android:textSize="12sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cancel_t"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Cancel"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/close_t"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="colse chat"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/submit_t"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Submit"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

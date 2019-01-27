@@ -31,7 +31,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alexzh.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -58,21 +57,20 @@ import java.util.NoSuchElementException;
 
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
-public class DoctorProfileFragment extends Fragment {
+public class DoctorProfileFragment extends Fragment  {
     ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
-    de.hdodenhof.circleimageview.CircleImageView StatusProfile;
     TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
     EditText peditbox;
-    CheckBox bookingtypecheck;
+    CheckBox  bookingtypecheck;
     private ProgressBar progressBarImage;
 
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
     private boolean disChecked = false;
-    String idm;
+    String  idm ;
     String mTrampPhotoUrl = "";
-    String doctorId, drDiscountPrice = "0";
+    String doctorId,drDiscountPrice="0";
     Boolean bookingtype;
     String DoctorName, insuranceItems = "";
     byte[] byteImageData;
@@ -89,6 +87,7 @@ public class DoctorProfileFragment extends Fragment {
     //gps
     //create user location to save all doctor locations
     private static final String TAG = "DoctorProfileFragment";
+
 
 
     @Nullable
@@ -113,14 +112,13 @@ public class DoctorProfileFragment extends Fragment {
 
         progressBarImage = rootView.findViewById(R.id.progressbar_image);
 
-        StatusProfile = ( de.hdodenhof.circleimageview.CircleImageView) rootView.findViewById(R.id.status_profile);
 
         editName = rootView.findViewById(R.id.name_edit);
         editCity = rootView.findViewById(R.id.city_edit);
         editPhone = rootView.findViewById(R.id.phone_edit);
         editDegree = rootView.findViewById(R.id.degree_edit);
         insuranceView = rootView.findViewById(R.id.insur);
-        insuranceEdit = rootView.findViewById(R.id.insur_edit);
+        insuranceEdit = rootView.findViewById(R.id.insurance_edit);
         editSpeciality = rootView.findViewById(R.id.speciality_edit);
         editPrice = rootView.findViewById(R.id.price_edit);
         drEmail = rootView.findViewById(R.id.doctor_email_tv);
@@ -135,7 +133,7 @@ public class DoctorProfileFragment extends Fragment {
 
         peditbox = rootView.findViewById(R.id.peditbox);
         ppicuri = rootView.findViewById(R.id.edit_photo);
-        bookingtypecheck = rootView.findViewById(R.id.checkBox1);
+        bookingtypecheck= rootView.findViewById(R.id.checkBox1);
 
 
         editName.setVisibility(View.VISIBLE);
@@ -353,14 +351,15 @@ editDialog(whatData);
             }
         });
         //Performing action on button click
-        /**   pphone.setOnClickListener(new View.OnClickListener() {
+     /**   pphone.setOnClickListener(new View.OnClickListener() {
 
-        @Override public void onClick(View v) {
-        String number = pphone.getText().toString();
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:" + number));
-        startActivity(callIntent);
-        }
+            @Override
+            public void onClick(View v) {
+                String number = pphone.getText().toString();
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + number));
+           startActivity(callIntent);
+            }
 
         });**/
 
@@ -370,9 +369,9 @@ editDialog(whatData);
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle("Creat a call");
-                alert.setMessage("Are you sure, you want to dialling " + pname.getText().toString() + "?");
+                alert.setMessage("Are you sure, you want to dialling "+pname.getText().toString()+"?");
 // Create TextView
-                final TextView input = new TextView(getActivity());
+                final TextView input = new TextView (getActivity());
                 alert.setView(input);
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -394,25 +393,27 @@ editDialog(whatData);
             }
 
         });
-        // if(!doctorId.equals(uid)){peditbox.setEnabled(false);}
+       // if(!doctorId.equals(uid)){peditbox.setEnabled(false);}
         //--------------------------------------
         peditbox.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                // if(doctorId.equals(uid)) {
+               // if(doctorId.equals(uid)) {
 
-                final String about1 = peditbox.getText().toString().trim();
-                databaseDoctor.child(doctorId).child("cAbout").setValue(about1);
-                //  }else{peditbox.setEnabled(false);}
+                    final String about1 = peditbox.getText().toString().trim();
+                    databaseDoctor.child(doctorId).child("cAbout").setValue(about1);
+              //  }else{peditbox.setEnabled(false);}
                 /**else {
                  //////////////////////////////
                  Toast.makeText(DoctorProfileActivity.this, "You can't change it", Toast.LENGTH_LONG).show();
                  final ValueEventListener postListener1 = new ValueEventListener() {
-                @Override public void onDataChange(DataSnapshot dataSnapshot1) {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot1) {
                 String DoctorAbout = dataSnapshot1.child(DoctorID).child("cAbout").getValue(String.class);
                 if (DoctorAbout != null) {peditbox.setText(DoctorAbout);}
                 }
-                @Override public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
                 }
                 };
@@ -435,6 +436,8 @@ editDialog(whatData);
         });
         return rootView;
     }
+
+
 
 
     private void displayImportImageDialog() {
@@ -591,21 +594,21 @@ editDialog(whatData);
         editField.setHint(whatdata);
 
 
-        if (whatdata.equals("Phone Number")) {
-            editField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_DATETIME_VARIATION_NORMAL);
+        if (whatdata.equals("Phone Number")){
+            editField.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_DATETIME_VARIATION_NORMAL);
             editField.setText(pphone.getText().toString().trim());
         }
 
 
-        if (whatdata.equals("Detection price")) {
+        if (whatdata.equals("Detection price")){
 
             discountCheckBox.setVisibility(View.VISIBLE);
-            editField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            editField.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-            if (!pprice.getText().toString().equals("Detection price")) {
-                editField.setText(pprice.getText().toString().trim().replace("SAR", ""));
-            }
-            if (!drDiscountPrice.equals("0") && !drDiscountPrice.equals("0.0") && drDiscountPrice != null) {
+           if (!pprice.getText().toString().equals("Detection price")){
+               editField.setText(pprice.getText().toString().trim().replace("$",""));
+           }
+            if (!drDiscountPrice.equals("0")&&!drDiscountPrice.equals("0.0") && drDiscountPrice!= null){
                 linear.setVisibility(View.VISIBLE);
                 discountCheckBox.setChecked(true);
                 disChecked = true;
@@ -614,10 +617,10 @@ editDialog(whatData);
             discountCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                    if (checked) {
+                    if (checked){
                         linear.setVisibility(View.VISIBLE);
                         disChecked = true;
-                    } else {
+                    }else {
                         linear.setVisibility(View.GONE);
                         disChecked = false;
                     }
@@ -630,24 +633,24 @@ editDialog(whatData);
             @Override
             public void onClick(View v) {
                 final String editfield1 = editField.getText().toString().trim();
-                double pers = 0;
+                double pers =0;
 
                 if (editfield1.isEmpty()) {
                     editField.setError(getString(R.string.empty_field_msg));
                     editField.requestFocus();
                     return;
                 }
-                if (whatdata.equals("Detection price")) {
+                if (whatdata.equals("Detection price")){
 
-                    if (disChecked) {
+                    if (disChecked){
 
-                        if (TextUtils.isEmpty(discountInput.getText().toString())) {
+                        if (TextUtils.isEmpty(discountInput.getText().toString())){
                             discountInput.setError(getString(R.string.empty_field_msg));
                             discountInput.requestFocus();
                             return;
-                        } else {
+                        }else{
                             pers = Double.parseDouble(discountInput.getText().toString());
-                            if (pers < 0 || pers > 100) {
+                            if (pers< 0 || pers> 100){
                                 discountInput.setError(getString(R.string.invalid_number_msg));
                                 discountInput.requestFocus();
                                 return;
@@ -656,7 +659,7 @@ editDialog(whatData);
                     }
                 }
 
-                getRegData(editfield1, whatdata, pers);
+                getRegData(editfield1, whatdata,pers);
                 dialog.dismiss();
 
             }
@@ -690,9 +693,9 @@ editDialog(whatData);
 
         } else if (whatdata.equals("Detection price")) {
 
-            databaseDoctor.child(doctorId).child("cPrice").setValue(editfield1);
-            databaseDoctor.child(doctorId).child("cDiscount").setValue(String.valueOf(discount));
-            pprice.setText(editfield1);
+           databaseDoctor.child(doctorId).child("cPrice").setValue(editfield1);
+           databaseDoctor.child(doctorId).child("cDiscount").setValue(String.valueOf(discount));
+           pprice.setText(editfield1);
         } else if (whatdata.equals("Average detection time in min")) {
             databaseDoctor.child(doctorId).child("cTime").setValue(editfield1);
         } else if (whatdata.equals("medical insurance")) {
@@ -766,17 +769,18 @@ editDialog(whatData);
     /***-------------------------------------------------***/
 
 
+
     private void getallData() {
 
         //**************************************************//
 
-        if (UtilClass.isNetworkConnected(getContext())) {
+        if (UtilClass.isNetworkConnected(getContext())){
         }
         doctorEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                if (getActivity() == null) {
+                if (getActivity() == null){
                     return;
                 }
                 String DoctorName = dataSnapshot1.child(doctorId).child("cName").getValue(String.class);
@@ -793,8 +797,7 @@ editDialog(whatData);
                 bookingtype = dataSnapshot1.child(doctorId).child("cbookingtypestate").getValue(boolean.class);
 
                 if (bookingtype != null) {
-                    bookingtypecheck.setChecked(bookingtype);
-                }
+                bookingtypecheck.setChecked(bookingtype);}
 
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
@@ -836,26 +839,26 @@ editDialog(whatData);
                 } else {
                     insuranceView.setText("Nothing");
                 }
-                if (DoctorAbout != null) {
+                if(DoctorAbout != null) {
                     peditbox.setText(DoctorAbout);
                 }
 
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new RoundedCorners(16));
                 if (DoctorPic != null) {
-                    if (getActivity() != null) {
+                  if ( getActivity()!= null) {
                         Glide.with(getActivity())
                                 .load(DoctorPic)
                                 .apply(requestOptions)
                                 .into(ppicuri);
                     }
                 } else {
-                    //  if (!getActivity().isFinishing()) {
-                    Glide.with(getActivity())
-                            .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11")
-                            .apply(requestOptions)
-                            .into(ppicuri);
-                    // }
+                  //  if (!getActivity().isFinishing()) {
+                        Glide.with(getActivity())
+                                .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11")
+                                .apply(requestOptions)
+                                .into(ppicuri);
+                   // }
                 }
 
             }
@@ -982,18 +985,7 @@ editDialog(whatData);
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
-        StatusProfile.setVisibility(View.VISIBLE);
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
-        StatusProfile.setVisibility(View.GONE);
-    }
+
 
 }

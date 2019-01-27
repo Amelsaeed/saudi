@@ -99,6 +99,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
     private List<BookingClass> bookingList;
     int startHour, endingHour;
    String userid;
+     Boolean BookingType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +134,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         String DoctorName = intent.getStringExtra("DoctorName");
         patientName = intent.getStringExtra("name");
         patientAge = intent.getStringExtra("age");
-        final Boolean BookingType = getIntent().getExtras().getBoolean("BookingType");
+         BookingType = getIntent().getExtras().getBoolean("BookingType");
       //Toast.makeText(BookingListActivity.this, BookingType+" ", Toast.LENGTH_LONG).show();
 
 
@@ -159,7 +160,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             ab.setDisplayShowTitleEnabled(false);
         }
 //=============================================================
-        listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+ /**      listViewBooking.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int position, long id) {
             if(BookingType){
@@ -198,7 +199,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }else{
-                ///////////////////************rearrange booking*******************//////////////////
+                ///////////////////rearrange booking/////////////////
                 if (mAuth.getCurrentUser() == null) {
                     Toast.makeText(BookingListActivity.this, "Please log in first", Toast.LENGTH_LONG).show();
                 } else{
@@ -210,12 +211,12 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
                 }
 
-                ////////////////////////**rearrange booking***////////////////////////////////
+                ////////////////////////rearrange booking///////////////////////////////
             }
 
             return true;
             }
-        });
+        });**/
 
 
 
@@ -607,7 +608,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
 
 
                         DatabaseReference reference = databaseBooking.push();
-                        String id = reference.getKey();
+                        final String id = reference.getKey();
                         //Log.v("Data"," 2-User id :"+ mUserId);
                         BookingClass bookingclass = new BookingClass(id, getstartingtime,getendingtime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),getsteptime,satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
                         // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
@@ -630,7 +631,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                                 MapClass mapclass = new MapClass(DoctorID,String.valueOf(latitude),String.valueOf(longitude),DoctorName,DoctorSpecialty,DoctorPic,getHC,DoctorGander,DoctorType);
                                 // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                                 // Database for Account Activity
-                                databaseMap.child(idm).setValue(mapclass);
+                                databaseMap.child(id).setValue(mapclass);
                             }
 
                             @Override
@@ -1110,17 +1111,17 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         addresses = geocoder.getFromLocation(latitude, longitude, 1);
 
         address =  addresses.get(0).getAddressLine(0);
-        String city = "City: " + addresses.get(0).getLocality();
-        String state = "State:" + addresses.get(0).getAdminArea();
+        String city =  addresses.get(0).getLocality();
+        String state = addresses.get(0).getAdminArea();
         String country = "Country: " + addresses.get(0).getCountryName();
         // String wholeAddress = address + "\n" + city + "\n" + state + "\n" + country;
         String wholeAddress = address ;
         // pcity.setText(address);
         dialogAddress = (EditText) dialog.findViewById(R.id.dialog_address);
         dialogAddress.setEnabled(true);
-        dialogAddress.setText(address);
+        dialogAddress.setText(state+city);
         dialogAddress.setEnabled(false);
-        return  wholeAddress;
+        return  state+" - "+city;
 
     }
     @Override
@@ -1151,11 +1152,18 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                 }
               //}
                 //}
-                BookingAdapter adapter = new BookingAdapter(BookingListActivity.this, bookingList);
+                BookingAdapter adapter = new BookingAdapter(BookingListActivity.this, bookingList,DoctorID,patientName,patientAge,BookingType);
                 //adapter.notifyDataSetChanged();
                 listViewBooking.setAdapter(adapter);
                 progressBarBooking.setVisibility(View.GONE);
                 // listViewTramp.setAdapter(adapter);
+                /**
+                 DoctorID = intent.getStringExtra("DoctorID");
+                 String DoctorName = intent.getStringExtra("DoctorName");
+                 patientName = intent.getStringExtra("name");
+                 patientAge = intent.getStringExtra("age");
+                 final Boolean BookingType = getIntent().getExtras().getBoolean("BookingType");
+                **/
 
             }
 
@@ -1170,7 +1178,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
          }
     }
 
-
+/**
     private void openClenderAction(final String timeID , final int position) {
         ImageGenerator mImageGenerator = new ImageGenerator(BookingListActivity.this);
 
@@ -1233,10 +1241,10 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
             }
         }, year, month, day);
         mPickerDialog.show();
-    }
-    private void makepatientbooking(final String timeID, final String datedmy, final int position) {
+    }**/
+   /** private void makepatientbooking(final String timeID, final String datedmy, final int position) {
 
-        /*************************************/
+       ///// /*************************************
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -1255,7 +1263,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 mDate = sdf.format(calendar.getTime());
 
-                ////**************for user*********************/
+                ////**************for user********************
 
                 databasetimeBooking.child(DoctorID).child(timeID) .child(datedmy).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -1273,10 +1281,10 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
 
                                 BookingTimesClass bookingtimes = new BookingTimesClass( DoctorID,  mDate, currentBooking.getCbaddress(),timeID , datedmy,arrange);
                                 bookforuser.child(userid).child(DoctorID+datedmy).setValue(bookingtimes);
-                                ///***********for adapt arange in user booking activity**************/
+                                ///***********for adapt arange in user booking activity*************
                                 //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
                                 //String.valueOf( arrange )
-                                ////to do/////////-------------------fordoctor------------------------------------------
+                                ////to do/////////fordoctor***********************
 
                                 DatabaseReference reference1 = databasetimeBooking.push();
                                 //final DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes").child(DoctorID).child(timeID).child(datedmy);
@@ -1309,7 +1317,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                                             }
                                         }
                                 );
-                                //////////////////////***fordoctor****-----------------
+                                //////////////////////***fordoctor****
                             }
 
                             @Override
@@ -1318,7 +1326,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                             }
                         });
 
-                ////**************for user*********************/
+                ////**************for user********************
 
 
 
@@ -1331,9 +1339,9 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         };
         databaseUserReg .addValueEventListener(postListener);
 
-        /*************************************/
+        /////////////////////*************************************
 
-    }
+    }**/
     public static String getDayNameFromDate(String date) throws ParseException {
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy_MM_dd");
         Date dt = inFormat.parse(date);

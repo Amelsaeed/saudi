@@ -39,8 +39,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -228,10 +232,59 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                 } else {
                     DoctorFirebaseClass doctorclasss = doctorList.get(position);
-                    Intent intent = new Intent(context, MessageActivity.class);
-                    intent.putExtra("userid", doctorclasss.getcId());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    if ((doctorclasss.getcChatstart()!= null)&&(doctorclasss.getcChatend()!= null)){
+                        ///////////////current time chat////cal 3**********************
+                        Calendar caldef = Calendar.getInstance();
+                    SimpleDateFormat formatterdef = new SimpleDateFormat("yyyy_MM_dd");
+                    String currentdatedef = formatterdef.format(caldef.getTime());
+
+                    Calendar cal2 = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+                    String currentdate = sdf.format(cal2.getTime());
+
+//****************************start time chat////cal 1*************************
+                    //  String a="17:00";  String b="18:00";
+                    SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+
+                    Date date5 = null;
+                    try {
+                        date5 = formatter1.parse(currentdatedef + " " + doctorclasss.getcChatstart());
+
+                        // date5 = formatter1.parse(a);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar cal1 = Calendar.getInstance();
+                    cal1.setTime(date5);
+                    ///////////////*ending time chat////cal 3**********************
+
+                    SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+                    Date date6 = null;
+                    try {
+                        date6 = formatter2.parse(currentdatedef + " " + doctorclasss.getcChatend());
+                        //   date6 = formatter2.parse(b);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar cal3 = Calendar.getInstance();
+                    cal3.setTime(date6);
+
+
+                    int timecomp1 = cal2.compareTo(cal1);
+                    int timecomp2 = cal2.compareTo(cal3);
+
+                    if ((timecomp1 >= 0) && (timecomp2 <= 0)) {
+                        Intent intent = new Intent(context, MessageActivity.class);
+                        intent.putExtra("userid", doctorclasss.getcId());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    } else {
+                        Toast.makeText(context, "Doctor is available from " + doctorclasss.getcChatstart() + " To " + doctorclasss.getcChatend(), Toast.LENGTH_LONG).show();
+                    }
+
+///****************************past date*************************
+                }else{Toast.makeText(context, "Doctor Don't activate chat times yet" , Toast.LENGTH_LONG).show();
+                }
                 }
 
 
