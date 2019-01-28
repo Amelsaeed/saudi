@@ -891,8 +891,8 @@ editDialog(whatData);
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText editField = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_e);
-        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_e);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_et);
+        TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_et);
         final EditText discountInput = dialog.findViewById(R.id.discount_et);
         final CheckBox discountCheckBox = dialog.findViewById(R.id.discount_cb);
         final LinearLayout linear = dialog.findViewById(R.id.linear_discount);
