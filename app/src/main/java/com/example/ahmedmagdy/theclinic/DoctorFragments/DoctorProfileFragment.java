@@ -124,6 +124,7 @@ public class DoctorProfileFragment extends Fragment {
         progressBarImage = rootView.findViewById(R.id.progressbar_image);
 
         StatusProfile = rootView.findViewById(R.id.status_profile);
+        StatusProfile.setVisibility(View.VISIBLE);
         editName = rootView.findViewById(R.id.name_edit);
         editCity = rootView.findViewById(R.id.city_edit);
         editPhone = rootView.findViewById(R.id.phone_edit);
@@ -1307,19 +1308,20 @@ editDialog(whatData);
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
-
+/*
     @Override
     public void onResume() {
         super.onResume();
         databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
-        StatusProfile.setVisibility(View.VISIBLE);
+        databaseChat.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
         databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+        databaseChat.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
         StatusProfile.setVisibility(View.GONE);
-    }
-
+    }*/
 }

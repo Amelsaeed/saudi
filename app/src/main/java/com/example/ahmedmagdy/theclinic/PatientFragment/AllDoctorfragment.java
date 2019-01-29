@@ -45,7 +45,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor,databaseDoctorFav;
+    private DatabaseReference databaseDoctor,databaseChat,databaseDoctorFav;
     FirebaseUser fuser;
     private ImageView btnproceed;
 
@@ -86,6 +86,8 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
         favList=new ArrayList<>();
         listViewDoctor.setTextFilterEnabled(false);
         removeFocus();
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
         btnproceed= (ImageView)  rootView.findViewById(R.id.map);
         //get all data
         getAllDoctorsMap();
@@ -271,4 +273,8 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
                 break;
     }
 }
+
+
+
+
 }

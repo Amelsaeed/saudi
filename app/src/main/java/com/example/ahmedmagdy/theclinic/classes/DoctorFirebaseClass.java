@@ -40,7 +40,9 @@ public class DoctorFirebaseClass implements Serializable {
     public DoctorFirebaseClass(){}
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
-                               String cEmail, String cType,String cPhone,String cUri,String cUriID,String cUriWP,String cHospitalName,String cHospitalID,String cGandr,Boolean cbookingtypestate,Boolean status) {
+                               String cEmail, String cType,String cPhone,String cUri,
+                               String cUriID,String cUriWP,String cHospitalName,String cHospitalID
+            ,String cGandr,Boolean cbookingtypestate,Boolean status) {
         this.cId = cId;
         this.cName = cName;
         this.cInsurance = cInsurance;

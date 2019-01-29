@@ -479,7 +479,7 @@ textInsurance.setText("");
                         Toast.makeText(RegisterDoctorActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
                         final String Id = mAuth.getCurrentUser().getUid();
 
-                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
+                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl,true);
                         databaseChat.child(Id).setValue(usersChat);
 ///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
                        // Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();

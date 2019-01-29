@@ -68,7 +68,7 @@ public class DatabaseFragment extends Fragment {
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseChat.keepSynced(true);
+
 
         listViewpatient = rootView.findViewById(R.id.list_view_data);
         searchView = rootView.findViewById(R.id.searchdata);
@@ -228,17 +228,17 @@ public class DatabaseFragment extends Fragment {
             databasePatient.removeEventListener(patientEventListener);
         }
     }
-    @Override
+ /*   @Override
     public void onResume() {
         super.onResume();
         databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
-
+        databaseChat.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
-
-    }
+        databaseChat.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+    }*/
 }

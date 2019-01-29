@@ -15,6 +15,7 @@ public class RegisterClass {
     private String cUri;
     private String cInsurance;
     private String cspecialty;
+    private Boolean status;
 
 
 
@@ -22,7 +23,7 @@ public class RegisterClass {
   //  Id,mName, mInsurance, mCity, mSpecialty, mEmail, mtype,mPhone
     public RegisterClass() {}
 
-    public RegisterClass(String cId, String cname, String cInsurance, String ccity, String cbirthday, String cemail, String ctype,String cUri) {
+    public RegisterClass(String cId, String cname, String cInsurance, String ccity, String cbirthday, String cemail, String ctype,String cUri,Boolean status) {
         this.cId = cId;
         this.cname = cname;
         this.cInsurance = cInsurance;
@@ -31,6 +32,7 @@ public class RegisterClass {
         this.cemail = cemail;
         this.ctype = ctype;
         this.cUri = cUri;
+        this.status = status;
     }
 
     public RegisterClass(String cId, String cname, String cInsurance, String ccity, String cbirthday, String cemail, String ctype) {
@@ -42,14 +44,16 @@ public class RegisterClass {
         this.cemail = cemail;
         this.ctype = ctype;
         this.cUri = cUri;
+
     }
-    public RegisterClass(String cId, String cname, String cInsurance, String ccity, String cemail, String ctype) {
+    public RegisterClass(String cId, String cname, String cInsurance, String ccity, String cemail, String ctype,Boolean status) {
         this.cId = cId;
         this.cname = cname;
         this.cInsurance = cInsurance;
         this.ccity = ccity;
         this.cemail = cemail;
         this.ctype = ctype;
+        this.status = status;
     }
 
     public String getcInsurance() {
@@ -130,5 +134,13 @@ public class RegisterClass {
 
     public void setCUri(String cUri) {
         this.cUri = cUri;
+    }
+    public Boolean getstatus() {
+            return status;
+    }
+
+
+    public void setstatus(Boolean status) {
+        this.status = status;
     }
 }

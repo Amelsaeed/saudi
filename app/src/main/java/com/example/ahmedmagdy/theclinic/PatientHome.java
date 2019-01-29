@@ -17,9 +17,12 @@ import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class PatientHome extends AppCompatActivity {
-
+    private DatabaseReference databaseDoctor,databaseChat;
+    FirebaseUser fuser;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,6 +77,11 @@ public class PatientHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseDoctor.keepSynced(true);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -92,6 +100,29 @@ public class PatientHome extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        databaseChat.child(fuser.getUid()).child("status").setValue(true);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        databaseChat.child(fuser.getUid()).child("status").setValue(false);
+    }
+
+
+/*    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseChat.child(fuser.getUid()).child("status").setValue(false);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseChat.child(fuser.getUid()).child("status").setValue(false);
+    }*/
 
 }

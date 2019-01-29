@@ -15,13 +15,21 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.DatabaseFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DoctorHome extends AppCompatActivity {
+    private DatabaseReference databaseDoctor, databaseChat;
+    FirebaseUser fuser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
+
+
         BottomNavigationView navigationView = findViewById(R.id.dr_bottom_nav);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,8 +51,8 @@ public class DoctorHome extends AppCompatActivity {
                     case R.id.nav_profile:
                         selectedFragment = new DoctorProfileFragment();
                         break;
-                        case R.id.nav_menu:
-                            selectedFragment = new MoreFragmentPatient();
+                    case R.id.nav_menu:
+                        selectedFragment = new MoreFragmentPatient();
                         break;
 
                 }
@@ -61,5 +69,24 @@ public class DoctorHome extends AppCompatActivity {
                 .replace(R.id.fragment_container, new AllDoctorFragment()).commit();
     }
 
+    @Override
+    public void onResume() {
 
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
+        databaseDoctor.keepSynced(true);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseChat.child(fuser.getUid()).child("status").setValue(true);
+        databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
+        super.onResume();
+    }
+    
+
+    @Override
+    public void onStop() {
+        databaseChat.child(fuser.getUid()).child("status").setValue(false);
+        databaseDoctor.child(fuser.getUid()).child("status").setValue(false);
+        super.onStop();
+    }
 }

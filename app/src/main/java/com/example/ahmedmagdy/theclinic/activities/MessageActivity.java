@@ -69,7 +69,7 @@ public class MessageActivity extends AppCompatActivity {
     TextView username;
 
     FirebaseUser fuser;
-    DatabaseReference reference, chatRef ,Activrefrance;
+    DatabaseReference reference, chatRef, Activrefrance;
     CircleImageView StatusChat;
     TextView Active;
     ImageButton btn_send;
@@ -98,22 +98,17 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        Activrefrance = FirebaseDatabase.getInstance().getReference("Doctordb");
+/*        Activrefrance = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
         Activrefrance.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final DoctorFirebaseClass doctorFirebaseClass = dataSnapshot.child(userid).getValue(DoctorFirebaseClass.class);
+                final RegisterClass doctorFirebaseClass = dataSnapshot.child(userid).getValue(RegisterClass.class);
 
-                if (doctorFirebaseClass.getstatus()){
-                    StatusChat.setVisibility(View.VISIBLE);
-                    Active.setText("Active Now");
-                }else {
-                    StatusChat.setVisibility(View.GONE);
-                    Active.setText("Ofline Now");
-                }
+
 
 
 
@@ -123,7 +118,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
         StatusChat = (CircleImageView) findViewById(R.id.status_doctor_chat);
@@ -196,7 +191,6 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
         reference = FirebaseDatabase.getInstance().getReference("ChatRoom").child(userid);
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -211,7 +205,13 @@ public class MessageActivity extends AppCompatActivity {
                         String UsreName = dataSnapshot1.child(userid).child("cname").getValue(String.class);
                         username.setText(UsreName);
 
-
+                        if (user.getstatus()) {
+                            StatusChat.setVisibility(View.VISIBLE);
+                            Active.setText("Active Now");
+                        } else {
+                            StatusChat.setVisibility(View.GONE);
+                            Active.setText("Ofline Now");
+                        }
                     }
 
                     @Override
@@ -561,18 +561,8 @@ public class MessageActivity extends AppCompatActivity {
            status("offline");
            currentUser("none");
        }*/
-    @Override
-    public void onResume() {
-        super.onResume();
-        databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
 
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        databaseDoctor.child(fuser.getUid()).child("status").setValue(false);
 
-    }
 }
 

@@ -254,19 +254,5 @@ public class StartCahtRoomFragment extends Fragment {
           super.onPause();
           status("offline");
       }*/
-    @Override
-    public void onResume() {
-        super.onResume();
-        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
 
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
-
-
-    }
 }

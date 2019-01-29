@@ -42,7 +42,7 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener 
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor, databaseDoctorFav;
+    private DatabaseReference databaseDoctor,databaseChat, databaseDoctorFav;
     private ValueEventListener doctorsListener, doctotFavListener;
     FirebaseUser fuser;
     private boolean isSearching = false;
@@ -75,7 +75,8 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener 
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseDoctor.keepSynced(true);
-
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         listViewDoctor = (ListView) rootView.findViewById(R.id.list_view_doctor);
         searchView = (SearchView) rootView.findViewById(R.id.search);
@@ -330,18 +331,12 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener 
             databaseDoctorFav.removeEventListener(doctotFavListener);
         }
 
-
     }
+/*    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseChat.child(fuser.getUid()).child("status").setValue(true);
+    }*/
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
-    }
 }

@@ -2,11 +2,19 @@ package com.example.ahmedmagdy.theclinic.classes;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.ahmedmagdy.theclinic.DoctorHome;
+import com.example.ahmedmagdy.theclinic.HospitalHome;
+import com.example.ahmedmagdy.theclinic.PatientHome;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseDatabaseConnectionHandler implements Application.ActivityLifecycleCallbacks {
 
@@ -27,7 +35,10 @@ public class FirebaseDatabaseConnectionHandler implements Application.ActivityLi
         Log.d(TAG, "onActivityStarted: count=" + count);
         if (count > 0)
             FirebaseDatabase.getInstance().goOnline();
-    }
+
+
+        }
+
 
     @Override
     public void onActivityResumed(Activity activity) {
