@@ -1,6 +1,7 @@
 package com.example.ahmedmagdy.theclinic;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,19 +10,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
+import com.example.ahmedmagdy.theclinic.activities.RegisterDoctorActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class PatientHome extends AppCompatActivity {
-    private DatabaseReference databaseDoctor,databaseChat;
+    ValueEventListener seenListener;
+    private DatabaseReference databaseChat, databaseChat1;
     FirebaseUser fuser;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,7 +53,8 @@ public class PatientHome extends AppCompatActivity {
                     } else {
                         fragment = new FavFragment();
 
-                        loadFragment(fragment);}
+                        loadFragment(fragment);
+                    }
                     return true;
 
                 case R.id.Reservations:
@@ -76,9 +84,6 @@ public class PatientHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseChat.keepSynced(true);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -103,23 +108,84 @@ public class PatientHome extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        databaseChat.child(fuser.getUid()).child("status").setValue(true);
+        if (fuser != null) {
+            databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+            databaseChat.keepSynced(true);
+            fuser = FirebaseAuth.getInstance().getCurrentUser();
+            databaseChat.child(fuser.getUid()).child("status").setValue(true);
+        }
     }
+
+
 
     @Override
-    public void onStop() {
-        super.onStop();
-        databaseChat.child(fuser.getUid()).child("status").setValue(false);
-    }
-
-
-/*    @Override
     protected void onDestroy() {
         super.onDestroy();
-        databaseChat.child(fuser.getUid()).child("status").setValue(false);
+        if (fuser != null) {
+            databaseChat.keepSynced(false);
+            databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
+            databaseChat1.child(fuser.getUid()).child("status").setValue(false);
+        }
+    }
+
+
+
+
+
+/*    private void currentUser(String userid) {
+        SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+        editor.putString("currentuser", userid);
+        editor.apply();
+    }
+
+    public void status(Boolean b) {
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom").child(fuser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", b);
+
+        databaseChat.updateChildren(hashMap);
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (fuser != null) {
+            status(true);
+        }
+        // currentUser(userid);
+    }*/
+/*
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }*/
+
+/*    @Override
+    public void onResume() {
+        super.onResume();
+        databaseChat.child(fuser.getUid()).child("status").setValue(true);
+    }*/
+
+/*    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }*/
+
+
+ /*   @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(PatientHome.this, "Finsh", Toast.LENGTH_LONG).show();
+//        databaseChat.removeEventListener(seenListener);
+        databaseChat.keepSynced(false);
+        status(false);
+        currentUser("none");
+    }*/
+
+/*    @Override
     public void onPause() {
         super.onPause();
         databaseChat.child(fuser.getUid()).child("status").setValue(false);

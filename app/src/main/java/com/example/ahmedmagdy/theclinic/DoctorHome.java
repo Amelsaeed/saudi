@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DoctorHome extends AppCompatActivity {
-    private DatabaseReference databaseDoctor, databaseChat;
+    private DatabaseReference databaseDoctor, databaseChat,databaseDoctor1, databaseChat1;
     FirebaseUser fuser;
 
     @Override
@@ -71,7 +71,7 @@ public class DoctorHome extends AppCompatActivity {
 
     @Override
     public void onResume() {
-
+        super.onResume();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseChat.keepSynced(true);
@@ -79,14 +79,19 @@ public class DoctorHome extends AppCompatActivity {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         databaseChat.child(fuser.getUid()).child("status").setValue(true);
         databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
-        super.onResume();
+
     }
     
 
+
     @Override
-    public void onStop() {
-        databaseChat.child(fuser.getUid()).child("status").setValue(false);
-        databaseDoctor.child(fuser.getUid()).child("status").setValue(false);
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseChat.keepSynced(false);
+        databaseDoctor.keepSynced(false);
+        databaseDoctor1 = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat1.child(fuser.getUid()).child("status").setValue(false);
+        databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
     }
 }
