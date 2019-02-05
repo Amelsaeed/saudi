@@ -280,27 +280,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                    String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
 
-                if (usertype == null) {
-                    initAuthStateListener();
-                } else {
-                    if (usertype.equals("User")) {
-                        Intent iii = new Intent(LoginActivity.this, PatientHome.class);
-                        startActivity(iii);
-                        finish();
-                    } else if (usertype.equals("Doctor")) {
-                        Intent iii = new Intent(LoginActivity.this, DoctorHome.class);
-                        startActivity(iii);
-                        finish();
-                    } else if (usertype.equals("Hospital")) {
-                        Intent iii = new Intent(LoginActivity.this, HospitalHome.class);
-                        startActivity(iii);
-                        finish();
+                    if (usertype == null) {
+                        initAuthStateListener();
+                    } else {
+                        if (usertype.equals("User")) {
+                            Intent iii = new Intent(LoginActivity.this, PatientHome.class);
+                            startActivity(iii);
+                            finish();
+                        } else if (usertype.equals("Doctor")) {
+                            Intent iii = new Intent(LoginActivity.this, DoctorHome.class);
+                            startActivity(iii);
+                            finish();
+                        } else if (usertype.equals("Hospital")) {
+                            Intent iii = new Intent(LoginActivity.this, HospitalHome.class);
+                            startActivity(iii);
+                            finish();
+                        }
                     }
                 }
-            }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
