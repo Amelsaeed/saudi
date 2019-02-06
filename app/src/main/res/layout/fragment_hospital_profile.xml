@@ -24,6 +24,28 @@
         android:layout_marginBottom="327dp"
         app:view_borderWidth="5dp" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/statis_doctor"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/ssdsds"
+        android:layout_alignStart="@+id/profile_hospital"
+        android:layout_alignLeft="@+id/profile_hospital"
+        android:layout_alignEnd="@+id/profile_hospital"
+        android:layout_alignRight="@+id/profile_hospital"
+        android:layout_alignBottom="@+id/profile_hospital"
+        android:layout_marginStart="67dp"
+        android:layout_marginLeft="67dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="11dp"
+        android:src="@drawable/ic_status"
+        app:civ_border_color="#fff"
+        app:civ_border_width="4dp"
+        tools:ignore="MissingConstraints" />
+
+
     <ProgressBar
         android:id="@+id/proo"
         android:layout_width="wrap_content"

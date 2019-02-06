@@ -335,7 +335,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                         Toast.makeText(RegisterPatientActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
                         String Id = mAuth.getCurrentUser().getUid();
 
-                        RegisterClass usersChat = new RegisterClass(Id,mName, mInsurance, mCity, mEmail, mtype,true);
+                        RegisterClass usersChat = new RegisterClass(Id,mName, mInsurance, mCity, mEmail, mtype,false);
                         databaseChat.child(Id).setValue(usersChat);
 
 

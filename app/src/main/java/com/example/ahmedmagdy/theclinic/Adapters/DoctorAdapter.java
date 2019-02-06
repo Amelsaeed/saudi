@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
+import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MessageActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,7 +73,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         final View listViewItem = inflater.inflate(R.layout.list_layout_doctors, null, true);
-        de.hdodenhof.circleimageview.CircleImageView StatusDoctcr = (  de.hdodenhof.circleimageview.CircleImageView) listViewItem.findViewById(R.id.statis_doctor);
+        de.hdodenhof.circleimageview.CircleImageView StatusDoctcr = (de.hdodenhof.circleimageview.CircleImageView) listViewItem.findViewById(R.id.statis_doctor);
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
 
         DoctorFirebaseClass doctorclasss = doctorList.get(position);
@@ -99,7 +100,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
         final TextView ahospitalname = (TextView) listViewItem.findViewById(R.id.hospital_name);
         final ImageView ahospitalpic = (ImageView) listViewItem.findViewById(R.id.hospital_pic);
-
+        final RelativeLayout relativeLayout = (RelativeLayout) listViewItem.findViewById(R.id.relativeFav);
         final LinearLayout lineardoctorsalary = listViewItem.findViewById(R.id.linear_doctor_salary);
         final LinearLayout lineardoctordegree = listViewItem.findViewById(R.id.linear_doctor_degree);
         //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
@@ -165,9 +166,9 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (fuser == null) {
-
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
                     buttonView.setChecked(false);
+
                 } else {
                     DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
                     DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
@@ -204,6 +205,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
                 if ((fuser == null)) {
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+
                 } else {
                     DoctorFirebaseClass doctorclass = doctorList.get(position);
                     Intent uIntent = new Intent(context, BookingListActivity.class);
@@ -221,63 +223,64 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onClick(View v) {
                 if (fuser == null) {
-
                     Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+
                 } else {
                     DoctorFirebaseClass doctorclasss = doctorList.get(position);
-                    if ((doctorclasss.getcChatstart()!= null)&&(doctorclasss.getcChatend()!= null)){
+                    if ((doctorclasss.getcChatstart() != null) && (doctorclasss.getcChatend() != null)) {
                         ///////////////current time chat////cal 3**********************
                         Calendar caldef = Calendar.getInstance();
-                    SimpleDateFormat formatterdef = new SimpleDateFormat("yyyy_MM_dd");
-                    String currentdatedef = formatterdef.format(caldef.getTime());
+                        SimpleDateFormat formatterdef = new SimpleDateFormat("yyyy_MM_dd");
+                        String currentdatedef = formatterdef.format(caldef.getTime());
 
-                    Calendar cal2 = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH:mm");
-                    String currentdate = sdf.format(cal2.getTime());
+                        Calendar cal2 = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+                        String currentdate = sdf.format(cal2.getTime());
 
 //****************************start time chat////cal 1*************************
-                    //  String a="17:00";  String b="18:00";
-                    SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+                        //  String a="17:00";  String b="18:00";
+                        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
 
-                    Date date5 = null;
-                    try {
-                        date5 = formatter1.parse(currentdatedef + " " + doctorclasss.getcChatstart());
+                        Date date5 = null;
+                        try {
+                            date5 = formatter1.parse(currentdatedef + " " + doctorclasss.getcChatstart());
 
-                        // date5 = formatter1.parse(a);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Calendar cal1 = Calendar.getInstance();
-                    cal1.setTime(date5);
-                    ///////////////*ending time chat////cal 3**********************
+                            // date5 = formatter1.parse(a);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Calendar cal1 = Calendar.getInstance();
+                        cal1.setTime(date5);
+                        ///////////////*ending time chat////cal 3**********************
 
-                    SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
-                    Date date6 = null;
-                    try {
-                        date6 = formatter2.parse(currentdatedef + " " + doctorclasss.getcChatend());
-                        //   date6 = formatter2.parse(b);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Calendar cal3 = Calendar.getInstance();
-                    cal3.setTime(date6);
+                        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy_MM_dd HH:mm");
+                        Date date6 = null;
+                        try {
+                            date6 = formatter2.parse(currentdatedef + " " + doctorclasss.getcChatend());
+                            //   date6 = formatter2.parse(b);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Calendar cal3 = Calendar.getInstance();
+                        cal3.setTime(date6);
 
 
-                    int timecomp1 = cal2.compareTo(cal1);
-                    int timecomp2 = cal2.compareTo(cal3);
+                        int timecomp1 = cal2.compareTo(cal1);
+                        int timecomp2 = cal2.compareTo(cal3);
 
-                    if ((timecomp1 >= 0) && (timecomp2 <= 0)) {
-                        Intent intent = new Intent(context, MessageActivity.class);
-                        intent.putExtra("userid", doctorclasss.getcId());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    } else {
-                        Toast.makeText(context, "Doctor is available from " + doctorclasss.getcChatstart() + " To " + doctorclasss.getcChatend(), Toast.LENGTH_LONG).show();
-                    }
+                        if ((timecomp1 >= 0) && (timecomp2 <= 0)) {
+                            Intent intent = new Intent(context, MessageActivity.class);
+                            intent.putExtra("userid", doctorclasss.getcId());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        } else {
+                            Toast.makeText(context, "Doctor is available from " + doctorclasss.getcChatstart() + " To " + doctorclasss.getcChatend(), Toast.LENGTH_LONG).show();
+                        }
 
 ///****************************past date*************************
-                }else{Toast.makeText(context, "Doctor Don't activate chat times yet" , Toast.LENGTH_LONG).show();
-                }
+                    } else {
+                        Toast.makeText(context, "Doctor Don't activate chat times yet", Toast.LENGTH_LONG).show();
+                    }
                 }
 
 
@@ -339,8 +342,9 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
         if ((doctorclass.getcType()).equals("Hospital")) {
 
-
+            relativeLayout.setVisibility(View.GONE);
             Book.setVisibility(View.GONE);
+            ChatRoom.setVisibility(View.GONE);
             lineardoctorsalary.setVisibility(View.GONE);
             lineardoctordegree.setVisibility(View.GONE);
         } else {
@@ -440,7 +444,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                             adoctorinsurance.setText(items.get(i));
                             return;
                         } else {
-                            adoctorinsurance.setText("Other");
+                            adoctorinsurance.setText("Insurance");
                             //   Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
 
                         }
