@@ -372,9 +372,8 @@
                   android:scaleType="center"
                   android:background="@drawable/button_round_blue"
                   android:layout_marginLeft="8dp"
-                  android:visibility="gone"
                   android:layout_toRightOf="@id/pphone"
-                  android:layout_below="@id/degree_edit"
+                  android:layout_below="@id/phone_tv"
                   android:layout_marginTop="8dp"
                   />
 
