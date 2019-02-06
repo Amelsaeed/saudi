@@ -57,6 +57,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
     private List<DoctorFirebaseClass> mSearchList;
     private FirebaseAuth mAuth;
     private FirebaseUser fuser;
+    private DatabaseReference databaseDoctor;
 
     private String a1;
 
@@ -71,6 +72,20 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         final View listViewItem = inflater.inflate(R.layout.list_layout_doctors, null, true);
+        de.hdodenhof.circleimageview.CircleImageView StatusDoctcr = (  de.hdodenhof.circleimageview.CircleImageView) listViewItem.findViewById(R.id.statis_doctor);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+
+        DoctorFirebaseClass doctorclasss = doctorList.get(position);
+
+
+        if (doctorclasss.getstatus()) {
+
+            StatusDoctcr.setVisibility(View.VISIBLE);
+        } else {
+            StatusDoctcr.setVisibility(View.GONE);
+        }
+
+
         final TextView adoctorname = (TextView) listViewItem.findViewById(R.id.doctor_name);
         final TextView adoctorspecialty = (TextView) listViewItem.findViewById(R.id.doctor_specialty);
         final TextView adoctorcity = (TextView) listViewItem.findViewById(R.id.doctor_city);
@@ -100,6 +115,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         favcheckbox.setChecked(doctorclass.getChecked());
         ImageView Insuranceall = (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);
         ImageView specialtyDetail = (ImageView) listViewItem.findViewById(R.id.doctor_specialty_all);
+
+
         /**  final Button singout = (Button) listViewItem.findViewById(R.id.singout);
          singout.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
@@ -156,6 +173,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
                             .child(mAuth.getCurrentUser().getUid());
                     DoctorFirebaseClass doctorclass = doctorList.get(position);
+
                     if (isChecked) {
                         // update database
                         // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
@@ -191,8 +209,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     Intent uIntent = new Intent(context, BookingListActivity.class);
                     uIntent.putExtra("DoctorID", doctorclass.getcId());
                     uIntent.putExtra("DoctorName", doctorclass.getcName());
-                    uIntent.putExtra("BookingType",  doctorclass.getCbookingtypestate());
-                    uIntent.putExtra("MaxNo",  doctorclass.getcMaxno());
+                    uIntent.putExtra("BookingType", doctorclass.getCbookingtypestate());
                     uIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(uIntent);
 
@@ -319,6 +336,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         });*/
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
 
+
         if ((doctorclass.getcType()).equals("Hospital")) {
 
 
@@ -336,28 +354,28 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
         if (doctorclass.getcPrice() != null) {
-            String docPrice = doctorclass.getcPrice().trim().replace("$","");
-            double price =  Double.parseDouble(docPrice);
+            String docPrice = doctorclass.getcPrice().trim().replace(" SAR", "");
+            double price = Double.parseDouble(docPrice);
             DecimalFormat df1 = new DecimalFormat("###.##");
             String fPrice = df1.format(price);
 
-            String mDiscount = doctorclass.getcDiscount().trim().replace("$","");
+            String mDiscount = doctorclass.getcDiscount().trim().replace(" SAR", "");
             double ds = Double.parseDouble(mDiscount);
             DecimalFormat d = new DecimalFormat("###.##");
             String disc = d.format(ds);
-            if (disc.equals("0")){
-                adoctorsalary.setText(fPrice + "$");
-            }else {
-                adoctorsalary.setText(fPrice + "$");
+            if (disc.equals("0")) {
+                adoctorsalary.setText(fPrice + " SAR");
+            } else {
+                adoctorsalary.setText(fPrice + " SAR");
                 adoctorsalary.setTextColor(Color.RED);
-                adoctorsalary.setPaintFlags(adoctorsalary.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                adoctorsalary.setPaintFlags(adoctorsalary.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
                 //calculate price after discount
-                double discountPrice = price - (price * ds/100 );
+                double discountPrice = price - (price * ds / 100);
                 DecimalFormat df2 = new DecimalFormat("###.##");
                 String disPrice = df2.format(discountPrice);
-              //  String disPrice = String.format(Locale.ENGLISH,"%.2f",discountPrice);
-                doctorDiscPrice.setText(disPrice + "$");
+                //  String disPrice = String.format(Locale.ENGLISH,"%.2f",discountPrice);
+                doctorDiscPrice.setText(disPrice + " SAR");
             }
 
 
@@ -373,38 +391,39 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         String InsuranceList = doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));
         // Toast.makeText(context, doctorclass.getcHospitalID(), Toast.LENGTH_LONG).show();
-        if (doctorclass.getcHospitalID()!= null) {
-        if (!doctorclass.getcHospitalID().equalsIgnoreCase("non")) {
-            DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-            final ValueEventListener postListener1 = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot1) {
+        if (doctorclass.getcHospitalID() != null) {
+            if (!doctorclass.getcHospitalID().equalsIgnoreCase("non")) {
+                DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+                final ValueEventListener postListener1 = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot1) {
 
-                    String HospitalName = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cName").getValue(String.class);
-                    String Hospitalpic = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cUri").getValue(String.class);
-                    ahospitalname.setText(HospitalName);
-                    //  Toast.makeText(context, HospitalName+ "/"+Hospitalpic, Toast.LENGTH_LONG).show();
-                    if (!context.isFinishing()) {
-                        Glide.with(context)
-                                .load(Hospitalpic)
-                                .apply(RequestOptions.circleCropTransform())
-                                // .apply(requestOptions)
-                                .into(ahospitalpic);
+                        String HospitalName = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cName").getValue(String.class);
+                        String Hospitalpic = dataSnapshot1.child(doctorclass.getcHospitalID()).child("cUri").getValue(String.class);
+                        ahospitalname.setText(HospitalName);
+                        //  Toast.makeText(context, HospitalName+ "/"+Hospitalpic, Toast.LENGTH_LONG).show();
+                        if (!context.isFinishing()) {
+                            Glide.with(context)
+                                    .load(Hospitalpic)
+                                    .apply(RequestOptions.circleCropTransform())
+                                    // .apply(requestOptions)
+                                    .into(ahospitalpic);
 
+                        }
                     }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Getting Post failed, log a message
-                }
-            };
-            databaseDoctor.addValueEventListener(postListener1);
-            // adoctordegree.setText(doctorclass.getcDegree());
-        }//else{adoctordegree.setText("Degree not detected");}
-    }
-      //  final ArrayList<String> items = (ArrayList<String>)Arrays.asList(InsuranceList.split(","));
-       //final String[] items = InsuranceList.split(",");
-  ////////////***********************************************
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Getting Post failed, log a message
+                    }
+                };
+                databaseDoctor.addValueEventListener(postListener1);
+                // adoctordegree.setText(doctorclass.getcDegree());
+            }//else{adoctordegree.setText("Degree not detected");}
+        }
+        //  final ArrayList<String> items = (ArrayList<String>)Arrays.asList(InsuranceList.split(","));
+        //final String[] items = InsuranceList.split(",");
+        ////////////***********************************************
         if (mAuth.getCurrentUser() != null) {
             DatabaseReference databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
@@ -413,16 +432,16 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                 public void onDataChange(DataSnapshot dataSnapshot1) {
                     String userInsurancetype = dataSnapshot1.child(fuser.getUid()).child("cInsurance").getValue(String.class);
                     for (int i = 0; i < items.size(); i++) {
-                      //  Toast.makeText(context, userInsurancetype, Toast.LENGTH_LONG).show();
+                        //  Toast.makeText(context, userInsurancetype, Toast.LENGTH_LONG).show();
 
                         if (items.get(i).equalsIgnoreCase(userInsurancetype)) {
-                          //  Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
+                            //  Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
 
                             adoctorinsurance.setText(items.get(i));
                             return;
                         } else {
                             adoctorinsurance.setText("Other");
-                         //   Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
+                            //   Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -436,56 +455,58 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             };
             databaseChat.addValueEventListener(postListener1);
 
-        }else{ adoctorinsurance.setText("Not detected");}
+        } else {
+            adoctorinsurance.setText("Not detected");
+        }
         /////*//////////////**************************/////
-    /**    for (int i = 0; i < items.length; i++) {
-            // Creation row
-            final TableRow tableRow = new TableRow(context);
-            tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        /**    for (int i = 0; i < items.length; i++) {
+         // Creation row
+         final TableRow tableRow = new TableRow(context);
+         tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-            // Creation textView
-            final TextView text = new TextView(context);
-            text.setText(items[i]);
-            text.setGravity(Gravity.CENTER);
-            text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+         // Creation textView
+         final TextView text = new TextView(context);
+         text.setText(items[i]);
+         text.setGravity(Gravity.CENTER);
+         text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-            tableRow.addView(text);
-          //  tableRow.addView(button);
+         tableRow.addView(text);
+         //  tableRow.addView(button);
 
-            tableLayout.addView(tableRow);
-        }**/
+         tableLayout.addView(tableRow);
+         }**/
 ////////////***********************************************
         /** int totalno= items.length;
          int r= 7;
          int c= totalno % r;**/
-     /**   int a = 0;
-        for (int i = 0; i < 7; i++) {
-            // Creation row
-            final TableRow tableRow = new TableRow(context);
-            tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        /**   int a = 0;
+         for (int i = 0; i < 7; i++) {
+         // Creation row
+         final TableRow tableRow = new TableRow(context);
+         tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-            for (int j = 0; j < 5; j++) {
+         for (int j = 0; j < 5; j++) {
 
-                final TextView text = new TextView(context);
+         final TextView text = new TextView(context);
 
-                if (a < items.size()) {
-                    text.setText("* "+ items.get(a));
-                    text.setTextColor(Color.parseColor("#FFFFFF"));
-                    text.setTextSize(10);
-                } else {
-                    text.setText(" ");
-                }
+         if (a < items.size()) {
+         text.setText("* "+ items.get(a));
+         text.setTextColor(Color.parseColor("#FFFFFF"));
+         text.setTextSize(10);
+         } else {
+         text.setText(" ");
+         }
 
-                a++;
-                //text.setGravity(Gravity.CENTER);
-                text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-                text.setPadding(10, 0, 10, 1);
-                tableRow.addView(text);
+         a++;
+         //text.setGravity(Gravity.CENTER);
+         text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+         text.setPadding(10, 0, 10, 1);
+         tableRow.addView(text);
 
-            }
-            tableLayout.addView(tableRow);
+         }
+         tableLayout.addView(tableRow);
 
-        }**/
+         }**/
 /////////////////************************************
         a1 = doctorclass.getcUri();
         if (a1 != null) {
@@ -539,8 +560,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                                             .contains(constraint.toString()) ||
                                     tramp.getcSpecialty().toLowerCase()
                                             .contains(constraint.toString()) ||
-                                          tramp.getcPhone().toLowerCase()
-                                                    .contains(constraint.toString()) ||
+                                    tramp.getcPhone().toLowerCase()
+                                            .contains(constraint.toString()) ||
                                     tramp.getcInsurance().toLowerCase().contains(constraint.toString())
                                     )
                                 resultsList.add(tramp);
@@ -558,5 +579,6 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             }
         };
     }
+
 
 }

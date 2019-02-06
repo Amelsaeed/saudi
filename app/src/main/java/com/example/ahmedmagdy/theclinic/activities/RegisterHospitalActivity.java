@@ -411,7 +411,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             Toast.makeText(RegisterHospitalActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
                             String Id = mAuth.getCurrentUser().getUid();
 
-                            RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl);
+                            RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl,true);
                             databaseChat.child(Id).setValue(usersChat);
                             mdoctorIDUrl=mPassword;
 

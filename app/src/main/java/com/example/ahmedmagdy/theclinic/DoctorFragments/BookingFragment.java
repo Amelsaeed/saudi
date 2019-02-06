@@ -56,6 +56,7 @@ public class BookingFragment extends Fragment {
     private FirebaseAuth mAuth;
     String selectedDay, selectedDate, vDate, doctorId;
     ArrayList<BookingTimesClass> mBookingsGroupList;
+    private DatabaseReference databaseChat,databaseDoctor;
     HashMap<BookingTimesClass, List<BookingTimesClass>> mBookingsChildList;
 
     @Nullable
@@ -67,7 +68,9 @@ public class BookingFragment extends Fragment {
         expandableListView = rootView.findViewById(R.id.booking_expandable_list);
         calendarPick = rootView.findViewById(R.id.calendar_pick);
 
-
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseDoctor.keepSynced(true);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         progressBar = rootView.findViewById(R.id.dr_booking_pb);
         dateView = rootView.findViewById(R.id.booking_date);
         dayView = rootView.findViewById(R.id.booking_day);
@@ -332,11 +335,25 @@ public class BookingFragment extends Fragment {
 
     }
 
-    @Override
+/*    @Override
     public void onDetach() {
         super.onDetach();
         if (mBookingListener != null) {
             mBookingRef.removeEventListener(mBookingListener);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+        databaseChat.child(mAuth.getCurrentUser().getUid()).child("status").setValue(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseDoctor.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+        databaseChat.child(mAuth.getCurrentUser().getUid()).child("status").setValue(false);
+    }*/
 }
