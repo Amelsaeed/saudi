@@ -479,7 +479,7 @@ textInsurance.setText("");
                         Toast.makeText(RegisterDoctorActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
                         final String Id = mAuth.getCurrentUser().getUid();
 
-                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl,true);
+                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl,false);
                         databaseChat.child(Id).setValue(usersChat);
 ///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
                        // Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
@@ -487,7 +487,7 @@ textInsurance.setText("");
 
                             String HospName="non";
                             String HospID="non";
-                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander,false,true);
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospName,HospID,mgander,false,false);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             databaseDoctor.child(Id).child("cDiscount").setValue("0");
                             // databaseDoctorReg.child(mAuth.getCurrentUser().getUid()).setValue(regdatadoctor);
@@ -499,7 +499,7 @@ textInsurance.setText("");
                             finish();
                             startActivity(intend);
                         }else{
-                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander,false,true);
+                            DoctorFirebaseClass doctorfirebaseclass = new DoctorFirebaseClass(Id, mName, mInsurance, mCity, mSpecialty, mEmail, mtype, mPhone, mdoctorPhotoUrl, mdoctorIDUrl, mdoctorWPUrl,HospitalName,HospitalID,mgander,false,false);
                             databaseDoctor.child(Id).setValue(doctorfirebaseclass);
                             databaseDoctor.child(Id).child("cDiscount").setValue("0");
                             //mAuth.signOut();

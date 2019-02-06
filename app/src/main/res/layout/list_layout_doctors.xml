@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="215dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -71,25 +71,9 @@
                                 app:layout_constraintBottom_toBottomOf="@+id/doctor_photo"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="1.0"
-                                app:layout_constraintStart_toEndOf="@+id/hospital_name"
                                 tools:ignore="MissingConstraints" />
 
-                            <TextView
-                                android:id="@+id/hospital_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:layout_marginRight="8dp"
-                                android:gravity="center"
-                                android:textColor="#000"
-                                android:textSize="12dp"
-                                android:textStyle="bold"
-                                android:visibility="gone"
-                                app:layout_constraintEnd_toEndOf="@+id/doctor_photo"
-                                app:layout_constraintStart_toStartOf="@+id/doctor_photo"
-                                app:layout_constraintTop_toTopOf="@+id/hospital_pic"
-                                tools:ignore="MissingConstraints" />
+
 
 
                         </android.support.constraint.ConstraintLayout>
@@ -196,23 +180,24 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/doctor_specialty_all"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:background="@drawable/pencil_icon" />
+                                android:background="@drawable/ic_sp" />
 
                             <TextView
                                 android:id="@+id/doctor_specialty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff" />
-
+<!--
                             <ImageView
                                 android:id="@+id/doctor_specialty_all"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"
-                                android:background="@drawable/ic_all_out" />
+                                android:background="@drawable/ic_all_out" />-->
                         </LinearLayout>
 
                         <LinearLayout
@@ -227,7 +212,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:background="@drawable/pencil_icon" />
+                                android:background="@drawable/ic_do" />
 
                             <TextView
                                 android:id="@+id/doctor_degree"
@@ -244,10 +229,11 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/doctor_Insurance_all"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:background="@drawable/pencil_icon" />
+                                android:background="@drawable/ic_in" />
 
                             <TextView
                                 android:id="@+id/doctor_Insurance"
@@ -255,12 +241,12 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff" />
 
-                            <ImageView
+                      <!--      <ImageView
                                 android:id="@+id/doctor_Insurance_all"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"
-                                android:background="@drawable/ic_all_out" />
+                                android:background="@drawable/ic_all_out" />-->
 
                         </LinearLayout>
                     </LinearLayout>
@@ -297,10 +283,9 @@
                             android:orientation="vertical">
 
                             <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="-10dp"
-                                android:paddingRight="-10dp">
+                                android:id="@+id/relativeFav"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -341,6 +326,15 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/hospital_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textSize="16dp"
+                android:textStyle="bold" />
             <!--
                         <android.support.v7.widget.RecyclerView
                             android:layout_width="match_parent"

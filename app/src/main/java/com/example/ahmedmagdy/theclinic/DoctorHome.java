@@ -81,7 +81,7 @@ public class DoctorHome extends AppCompatActivity {
         databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
 
     }
-    
+
 
 
     @Override
@@ -94,4 +94,8 @@ public class DoctorHome extends AppCompatActivity {
         databaseChat1.child(fuser.getUid()).child("status").setValue(false);
         databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
     }
+
+
+
+
 }
