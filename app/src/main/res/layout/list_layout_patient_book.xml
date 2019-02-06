@@ -110,7 +110,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:background="@drawable/pencil_icon" />
+                                android:background="@drawable/ic_sp" />
 
                             <TextView
                                 android:id="@+id/doctor_specialty_b"
@@ -149,7 +149,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:background="@drawable/ic_data" />
+                                android:background="@drawable/ic_time" />
 
                             <TextView
                                 android:id="@+id/doctor_date_b"
@@ -170,7 +170,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:background="@drawable/ic_data" />
+                                android:background="@drawable/ic_check" />
 
                             <TextView
                                 android:id="@+id/doctor_current_date_b"
