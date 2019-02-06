@@ -130,8 +130,8 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener 
         }
 
 
-        doctorsListener = new ValueEventListener() {
-
+      //  doctorsListener = new ValueEventListener() {
+ databaseDoctor.orderByChild("cType").equalTo("Doctor").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 doctorList.clear();
@@ -159,10 +159,9 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
+ });
 
 
-        };
-        databaseDoctor.addListenerForSingleValueEvent(doctorsListener);
         // }
 
 

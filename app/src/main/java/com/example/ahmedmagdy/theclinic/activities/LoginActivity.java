@@ -228,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
         /** mAuthListener = new FirebaseAuth.AuthStateListener() {
         @Override public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();**/
-        if (fuser != null) {
+        if (mAuth.getCurrentUser() != null) {
             // User is signed in
 
             // Toast.makeText(LoginActivity.this, "good", Toast.LENGTH_SHORT).show();
@@ -273,32 +273,34 @@ public class LoginActivity extends AppCompatActivity {
         //**************************************************//
         // private void getallData();
 
-        if (UtilClass.isNetworkConnected(LoginActivity.this)){
-
+        if (!UtilClass.isNetworkConnected(LoginActivity.this)){
+            Toast.makeText(LoginActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+        }
 
         final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
+                  if (mAuth.getCurrentUser() != null) {
+                String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
 
-                    String usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
-
-                    if (usertype == null) {
-                        initAuthStateListener();
-                    } else {
-                        if (usertype.equals("User")) {
-                            Intent iii = new Intent(LoginActivity.this, PatientHome.class);
-                            startActivity(iii);
-                            finish();
-                        } else if (usertype.equals("Doctor")) {
-                            Intent iii = new Intent(LoginActivity.this, DoctorHome.class);
-                            startActivity(iii);
-                            finish();
-                        } else if (usertype.equals("Hospital")) {
-                            Intent iii = new Intent(LoginActivity.this, HospitalHome.class);
-                            startActivity(iii);
-                            finish();
-                        }
+                if (usertype == null) {
+                    initAuthStateListener();
+                } else {
+                    if (usertype.equals("User")) {
+                        Intent iii = new Intent(LoginActivity.this, PatientHome.class);
+                        startActivity(iii);
+                        finish();
+                    } else if (usertype.equals("Doctor")) {
+                        Intent iii = new Intent(LoginActivity.this, DoctorHome.class);
+                        startActivity(iii);
+                        finish();
+                    } else if (usertype.equals("Hospital")) {
+                        Intent iii = new Intent(LoginActivity.this, HospitalHome.class);
+                        startActivity(iii);
+                        finish();
                     }
+                }
+            }
                 }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -306,7 +308,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         databaseChat.addValueEventListener(postListener1);
-        }
+
     }
 
 /*

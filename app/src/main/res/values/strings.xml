@@ -39,46 +39,99 @@
     </string-array>
 
     <string-array name="spiciality_array">
-        <item>bones</item>
-        <item>tooth</item>
-        <item>ayes</item>
+        <item>Dermatology (Skin)</item>
+        <item>Dentistry (Teeth)</item>
+        <item>Psychiatry (Mental, Emotional or Behavioral Disorders)</item>
+        <item>Pediatrics and New Born (Child)</item>
+        <item>Neurology (Brain and Nerves)</item>
+        <item>Orthopedics (Bones)</item>
+        <item>Gynaecology and Infertility</item>
+        <item>Ear, Nose and Throat</item>
+        <item>Cardiology and Vascular Disease (Heart)</item>
+        <item>Allergy and Immunology (Sensitivity and Immunity)</item>
+        <item>Andrology and Male Infertility</item>
+        <item>Audiology</item>
+        <item>Cardiology and Thoracic Surgery (Heart and Chest)</item>
+        <item>Chest and Respiratory</item>
+        <item>Diabetes and Endocrinology</item>
+        <item>Diagnostic Radiology (Scan Centers)</item>
+        <item>Dietitian and Nutrition</item>
+        <item>Elders (Old People Health)</item>
+        <item>Family Medicine</item>
+        <item>Gastroenterology and Endoscopy</item>
+        <item>General Practice</item>
+        <item>General Surgery</item>
+        <item>Hematology</item>
+        <item>Hepatology (Liver Doctor)</item>
+        <item>Internal Medicine</item>
+        <item>IVF and infertility</item>
+        <item>Laboratories</item>
+        <item>Nephrology</item>
+        <item>Neurosurgery (Brain and Nerves Surgery)</item>
+        <item>Obesity and Laparoscopic Surgery</item>
+        <item>Oncology (Tumor)</item>
+        <item>Oncology Surgery (Tumor Surgery)</item>
+        <item>Ophthalmology (Eyes)</item>
+        <item>Osteopathy (Osteopath Medicine)</item>
+        <item>Pain Management</item>
+        <item>Pediatric Surgery</item>
+        <item>Phoniatrics (Speech)</item>
+        <item>Physiotherapy and Sport Injuries</item>
+        <item>Plastic Surgery</item>
+        <item>Rheumatology</item>
+        <item>Spinal Surgery</item>
+        <item>Urology (Urinary System)</item>
+        <item>Vascular Surgery (Arteries and Vien Surgery)</item>
+
     </string-array>
 
     <string-array name="Degree_array">
-        <item>Master</item>
-        <item>Master_master</item>
-        <item>Doctor</item>
-        <item>Doctor_Doctor</item>
+        <item>Professor</item> <!-- أاستاذ -->
+        <item>Lecturer</item> <!-- مدرس -->
+        <item>Consultant</item> <!-- استشارى -->
+        <item>Specialist</item> <!-- اخصائى -->
     </string-array>
 
     <string-array name="insurance_array">
         <item>ACIG</item>
-        <item>amana</item>
+        <item>Amana</item>
         <item>AL ALAMIYA</item>
         <item>AXA</item>
         <item>alnima tokio</item>
         <item>AL-ETIHAD</item>
-        <item>Arabian Shield Insurance</item>
-
-        <item>Al Rajhi Takaful</item>
         <item>ALSAGR</item>
         <item>Allianz</item>
+        <item>AlAlamia</item>
+        <item>Arabia Insurance</item>
+        <item>Arabian Shield </item>
+        <item>AlRajhi</item>
+        <item>Al-Ahlia</item>
+        <item>Allianz Saudi Fransi</item>
         <item>Bupa</item>
         <item>BURUJ</item>
         <item>ENAYA</item>
         <item>GGI</item>
         <item>GULF</item>
+        <item>GULF Union</item>
+        <item>GulfGeneral</item>
         <item>MetLife</item>
         <item>malath</item>
         <item>MEDGULF</item>
+        <item>Saico</item>
         <item>SALAMA</item>
         <item>SOLIDARITY</item>
+        <item>Wafa</item>
         <item>Walaa</item>
+        <item>Wataniya</item>
         <item>Njom</item>
         <item>Star</item>
         <item>Shark</item>
         <item>Smsma</item>
         <item>Saudi</item>
+        <item>Tawuniya</item>
+        <item>Trade Union</item>
+        <item>United-UCA</item>
+
     </string-array>
 
     <string-array name="discount_array">
