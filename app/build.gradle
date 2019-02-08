@@ -59,6 +59,10 @@ dependencies {
     // Maps utils (required for custom markers)
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
 
+    //direction
+    implementation 'com.google.maps:google-maps-services:0.9.1'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+
     // glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
