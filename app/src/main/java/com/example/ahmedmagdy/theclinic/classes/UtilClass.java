@@ -14,6 +14,9 @@ public class UtilClass {
     // calculate age from birthday
     public static String calculateAgeFromDate(String date) {
 
+        if (date == null || !date.contains("_")){
+            return "0";
+        }
         String[] sDate = date.split("_");
 
         int year = Integer.parseInt(sDate[0]);
@@ -24,20 +27,56 @@ public class UtilClass {
         Calendar today = Calendar.getInstance();
 
         cln.set(year, month, day);
+        String mAge = "0";
 
-        int age = today.get(Calendar.YEAR) - cln.get(Calendar.YEAR);
 
-        if (today.get(Calendar.MONTH) < cln.get(Calendar.MONTH)) {
-            age--;
-        } else if (today.get(Calendar.MONTH) == cln.get(Calendar.MONTH)) {
-            if (today.get(Calendar.DAY_OF_MONTH) < cln.get(Calendar.DAY_OF_MONTH)) {
-                age--;
-            }
-        }
+        int nYears = today.get(Calendar.YEAR) - cln.get(Calendar.YEAR);
+        int nMonths = (today.get(Calendar.MONTH)+1) - cln.get(Calendar.MONTH);
+        int nDays = today.get(Calendar.DAY_OF_MONTH) - cln.get(Calendar.DAY_OF_MONTH);
+         if(nYears == 0){
+             if (nMonths == 0){
+               if (nDays>0) {
+                   mAge = nDays + " days";
+               }
+             }else if (nMonths ==  1){
+                 if (nDays>=0){
+                     mAge ="1 month";
+                 }else {
+                     mAge = String.valueOf(30 - Math.abs(nDays)) + " days";
+                 }
+             }else if (nMonths > 1){
+                 mAge = nMonths + " months";
+             }
+         }else if (nYears == 1){
+             if (nMonths == 0){
+                 mAge = "1 year";
+             }else if (nMonths > 0){
+                 mAge =  "1 year "  + nMonths + " months";
+             }else {
+                 mAge = (12 - Math.abs(nMonths)) + " months";
+             }
+         }else if (nYears > 1 && nYears < 3){
+             if (nMonths == 0){
+                 mAge =  nYears + " year";
+             }else if (nMonths > 0){
+                 mAge =  nYears + " years " + nMonths + " months";
+             }else {
+                 mAge = (nYears - 1) + " years " + (12 - Math.abs(nMonths)) + " months";
+             }
+         }else if (nYears >= 3){
+           if (nMonths >= 0){
+               mAge = nYears + "";
+           }else {
+               if (nYears == 3){
+                   mAge = "2 years " + (12 - Math.abs(nMonths)) + " months";
+               }else {
+                   mAge = (nYears- 1) +" years";
+               }
+           }
+         }
 
-        Integer ageInt = new Integer(age);
 
-        return ageInt.toString();
+        return mAge;
     }
 
     public static String getInstanceDate() {
