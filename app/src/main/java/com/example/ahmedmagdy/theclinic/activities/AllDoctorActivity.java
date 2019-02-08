@@ -104,7 +104,7 @@ public class AllDoctorActivity extends AppCompatActivity {
                     Intent it = new Intent(AllDoctorActivity.this, FavActivity.class);
                     startActivity(it);
                 } else {
-                    Toast.makeText(AllDoctorActivity.this, "You should log in firstly", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AllDoctorActivity.this, R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
                     Intent it = new Intent(AllDoctorActivity.this, LoginActivity.class);
                     startActivity(it);
                 }

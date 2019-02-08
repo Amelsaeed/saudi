@@ -172,7 +172,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
             public void onClick(View view) {
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterHospitalActivity.this);
-                mBuilder.setTitle("SELECT Insurance");
+                mBuilder.setTitle(R.string.select_insurance);
 
                 String insur = textInsurance.getText().toString();
                 String[] insurances = insur.split(",");
@@ -206,7 +206,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
                 });
 
                 mBuilder.setCancelable(false);
-                mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 
@@ -228,7 +228,7 @@ public class RegisterHospitalActivity extends AppCompatActivity implements OnReq
                 });
 
 
-                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -299,7 +299,7 @@ public void onNothingSelected(AdapterView<?> parent) {
         final String mPhone = editTextPhone.getText().toString().trim();
         final String mName = editTextName.getText().toString().trim();
 
-        final String mSpecialty = "all";
+        final String mSpecialty = getString(R.string.all);
         final String mCity = spinnercity.getSelectedItem().toString().trim();
         final String mInsurance = getmInsuranceItems;
 //        final String mInsurance = spinnerinsurance.getSelectedItem().toString().trim();
@@ -311,52 +311,52 @@ public void onNothingSelected(AdapterView<?> parent) {
  }**/
 
         if (mName.isEmpty()) {
-            editTextName.setError("Name is required");
+            editTextName.setError(getString(R.string.name_is_required));
             editTextName.requestFocus();
             return;
         }
 
         if (mPhone.isEmpty()) {
-            editTextPhone.setError("phone NO. is required");
+            editTextPhone.setError(getString(R.string.phone_no_is_required));
             editTextPhone.requestFocus();
             return;}
         if (mPhone.length() != 10) {
-            editTextPhone.setError("Invalid phone NO.");
+            editTextPhone.setError(getString(R.string.invalid_phone_no));
             editTextPhone.requestFocus();
             return;}
 
         if (mEmail.isEmpty()) {
-            editTextEmail.setError("Email is required");
+            editTextEmail.setError(getString(R.string.email_is_required));
             editTextEmail.requestFocus();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            editTextEmail.setError("Please enter a valid email");
+            editTextEmail.setError(getString(R.string.please_enter_a_valid_email));
             editTextEmail.requestFocus();
             return;
         }
 
         if (mPassword.length() < 6) {
-            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.setError(getString(R.string.minimum_length_of_password_should_be_6));
             editTextPassword.requestFocus();
             return;
         }
 
         if (mPassword.isEmpty()) {
-            editTextPassword.setError("Password is required");
+            editTextPassword.setError(getString(R.string.password_is_required));
             editTextPassword.requestFocus();
             return;
         }
 
         if (mCPassword.isEmpty()) {
-            editTextCPassword.setError("you should confirm your password");
+            editTextCPassword.setError(getString( R.string.you_should_confirm_your_password));
             editTextCPassword.requestFocus();
             return;
         }
 
         if (!mCPassword.equals(mPassword)) {
-            editTextCPassword.setError("it must be the same as password");
+            editTextCPassword.setError(getString(R.string.it_must_be_the_same_as_password));
             editTextCPassword.requestFocus();
             return;
         }
@@ -369,7 +369,7 @@ public void onNothingSelected(AdapterView<?> parent) {
          }
          **/
         if (getmInsuranceItems.equals("")) {
-            textInsurance.setError("Please insert list of Insurance");
+            textInsurance.setError(getString(R.string.please_insert_list_of_insurance));
             textInsurance.requestFocus();
             return;
         }
@@ -378,9 +378,9 @@ public void onNothingSelected(AdapterView<?> parent) {
         // if (mdoctorPhotoUrl.equals("")) {
         if (byteImageDataPP == null) {
 
-            Toast.makeText(RegisterHospitalActivity.this, "Personal photo is required", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterHospitalActivity.this, R.string.personal_photo_is_required, Toast.LENGTH_LONG).show();
 
-            word.setError("Personal photo is required");
+            word.setError(getString(R.string.personal_photo_is_required));
             word.requestFocus();
             return;
         }
@@ -388,9 +388,9 @@ public void onNothingSelected(AdapterView<?> parent) {
 
         if (byteImageDataWP == null) {
             //if (mdoctorWPUrl.equals("")) {
-            Toast.makeText(RegisterHospitalActivity.this, "Work permit photo is required", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterHospitalActivity.this, R.string.work_permit_photo_is_required, Toast.LENGTH_LONG).show();
 
-            wordid.setError("Work permit photo is required");
+            wordid.setError(getString(R.string.work_permit_photo_is_required));
             wordid.requestFocus();
             return;
         }
@@ -408,7 +408,7 @@ public void onNothingSelected(AdapterView<?> parent) {
 
 
                             /* updateToken(FirebaseInstanceId.getInstance().getToken());*/
-                            Toast.makeText(RegisterHospitalActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterHospitalActivity.this, R.string.user_created, Toast.LENGTH_SHORT).show();
                             String Id = mAuth.getCurrentUser().getUid();
 
                             RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl,false);
@@ -429,9 +429,9 @@ public void onNothingSelected(AdapterView<?> parent) {
                         } else {
                             //Log.e(TAG, task.getException().getMessage());
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(RegisterHospitalActivity.this, "you are already registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterHospitalActivity.this, R.string.you_are_already_registered, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(RegisterHospitalActivity.this, "REGISTER ERROR", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterHospitalActivity.this, R.string.register_error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -449,7 +449,7 @@ public void onNothingSelected(AdapterView<?> parent) {
 
         final Dialog dialog = new Dialog(RegisterHospitalActivity.this);
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(getString(R.string.import_image_from));
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -494,7 +494,7 @@ public void onNothingSelected(AdapterView<?> parent) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -605,7 +605,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(RegisterHospitalActivity.this, "Personal photo is uploaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterHospitalActivity.this, R.string.personal_photo_is_uploaded, Toast.LENGTH_LONG).show();
 
                                 mdoctorPhotoUrl = taskSnapshot.getDownloadUrl().toString();
                                 uploadImageWP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
@@ -618,7 +618,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             public void onFailure(@NonNull Exception exception) {
                                 progressBar.setVisibility(View.GONE);
 
-                                Toast.makeText(RegisterHospitalActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterHospitalActivity.this, R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                                 // addDoctorTextView.setEnabled(true);
 
@@ -648,7 +648,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(RegisterHospitalActivity.this, "Work permit Photo is uploaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterHospitalActivity.this, R.string.work_permit_photo_is_uploaded, Toast.LENGTH_LONG).show();
 
                                 mdoctorWPUrl = taskSnapshot.getDownloadUrl().toString();
                                 makeauth(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone);
@@ -660,7 +660,7 @@ public void onNothingSelected(AdapterView<?> parent) {
                             public void onFailure(@NonNull Exception exception) {
                                 progressBar.setVisibility(View.GONE);
 
-                                Toast.makeText(RegisterHospitalActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterHospitalActivity.this, R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                                 // addDoctorTextView.setEnabled(true);
 

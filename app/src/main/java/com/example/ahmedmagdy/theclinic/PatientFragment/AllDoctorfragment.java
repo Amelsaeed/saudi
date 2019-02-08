@@ -1,8 +1,11 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
@@ -45,7 +48,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener{
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
-    private DatabaseReference databaseDoctor,databaseChat,databaseDoctorFav;
+    private DatabaseReference databaseDoctor,databaseChat,databaseDoctorFav,databaseChat2;
     FirebaseUser fuser;
     private ImageView btnproceed;
 

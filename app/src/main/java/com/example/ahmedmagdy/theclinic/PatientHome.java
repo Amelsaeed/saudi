@@ -1,14 +1,21 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -28,7 +35,7 @@ import java.util.HashMap;
 
 public class PatientHome extends AppCompatActivity {
     ValueEventListener seenListener;
-    private DatabaseReference databaseChat, databaseChat1;
+    private DatabaseReference databaseChat, databaseChat1,databaseChat2;
     FirebaseUser fuser;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,8 +91,6 @@ public class PatientHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseChat.keepSynced(true);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -105,33 +110,54 @@ public class PatientHome extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void status(boolean status){
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom").child(fuser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        databaseChat.updateChildren(hashMap);
+    }
+
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         if (fuser != null) {
-            databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-            databaseChat.keepSynced(true);
-            fuser = FirebaseAuth.getInstance().getCurrentUser();
-            databaseChat.child(fuser.getUid()).child("status").setValue(true);
+            status(true);
         }
+
     }
-
-
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (fuser != null) {
-            databaseChat.keepSynced(false);
-            databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
-            databaseChat1.child(fuser.getUid()).child("status").setValue(false);
-        }
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.exitapp);
+        alertDialogBuilder
+                .setMessage(R.string.click_yes_to_exit)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (fuser !=null) {
+                                    databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
+                                    databaseChat1.child(fuser.getUid()).child("status").setValue(false);
+                                }
+                                moveTaskToBack(true);
+                                Process.killProcess(Process.myPid());
+                                System.exit(1);
+
+                            }
+                        })
+
+                .setNegativeButton(R.string.noo, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
-
-
-
-
-
 /*    private void currentUser(String userid) {
         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
         editor.putString("currentuser", userid);

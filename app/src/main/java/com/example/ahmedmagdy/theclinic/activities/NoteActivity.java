@@ -101,7 +101,7 @@ public class NoteActivity  extends AppCompatActivity {
             });
 
         } else
-            Toast.makeText(this, "Please check your network connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.network_connection_msg, Toast.LENGTH_SHORT).show();
 
     }
 

@@ -258,7 +258,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
 
 
         if (mName.isEmpty()) {
-            editTextName.setError("Name is required");
+            editTextName.setError(getString(R.string.name_is_required));
             editTextName.requestFocus();
             return;
         }
@@ -266,37 +266,37 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
 
 
         if (mEmail.isEmpty()) {
-            editTextEmail.setError("Email is required");
+            editTextEmail.setError(getString(R.string.email_is_required));
             editTextEmail.requestFocus();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            editTextEmail.setError("Please enter a valid email");
+            editTextEmail.setError(getString(R.string.please_enter_a_valid_email));
             editTextEmail.requestFocus();
             return;
         }
 
         if (mPassword.length() < 6) {
-            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.setError(getString(R.string.minimum_length_of_password_should_be_6));
             editTextPassword.requestFocus();
             return;
         }
 
         if (mPassword.isEmpty()) {
-            editTextPassword.setError("Password is required");
+            editTextPassword.setError(getString(R.string.password_is_required));
             editTextPassword.requestFocus();
             return;
         }
 
         if (mCPassword.isEmpty()) {
-            editTextCPassword.setError("you should confirm your password");
+            editTextCPassword.setError(getString(R.string.you_should_confirm_your_password));
             editTextCPassword.requestFocus();
             return;
         }
 
         if (!mCPassword.equals(mPassword)) {
-            editTextCPassword.setError("it must be the same as password");
+            editTextCPassword.setError(getString(R.string.it_must_be_the_same_as_password));
             editTextCPassword.requestFocus();
             return;
         }
@@ -332,7 +332,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                     progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         /* updateToken(FirebaseInstanceId.getInstance().getToken());*/
-                        Toast.makeText(RegisterPatientActivity.this, "USER CREATED", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterPatientActivity.this, R.string.user_created, Toast.LENGTH_SHORT).show();
                         String Id = mAuth.getCurrentUser().getUid();
 
                         RegisterClass usersChat = new RegisterClass(Id,mName, mInsurance, mCity, mEmail, mtype,false);
@@ -353,9 +353,9 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                     } else {
                         //Log.e(TAG, task.getException().getMessage());
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                            Toast.makeText(RegisterPatientActivity.this, "you are already registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterPatientActivity.this, R.string.you_are_already_registered, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(RegisterPatientActivity.this, "REGISTER ERROR", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterPatientActivity.this, R.string.register_error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

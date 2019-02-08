@@ -20,9 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseDatabaseConnectionHandler implements Application.ActivityLifecycleCallbacks {
-    private DatabaseReference databaseDoctor, databaseChat;
-    FirebaseUser fuser;
-    RegisterClass registerClass;
+
 
     private static final String TAG = FirebaseDatabaseConnectionHandler.class.getSimpleName();
 
@@ -58,17 +56,11 @@ public class FirebaseDatabaseConnectionHandler implements Application.ActivityLi
 
     @Override
     public void onActivityStopped(Activity activity) {
-/*
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        fuser = FirebaseAuth.getInstance().getCurrentUser();*/
         count--;
         Log.d(TAG, "onActivityStopped: count=" + count);
 
         if (count == 0) {
-/*
-            databaseDoctor.child(fuser.getUid()).child("status").setValue(false);
-            databaseChat.child(fuser.getUid()).child("status").setValue(false);*/
+
             Log.d(TAG, "onActivityStopped: going offline in 5 seconds..");
             mHandler.postDelayed(new Runnable() {
                 @Override
