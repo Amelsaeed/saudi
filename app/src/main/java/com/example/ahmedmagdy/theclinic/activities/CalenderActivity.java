@@ -131,7 +131,7 @@ public class CalenderActivity extends AppCompatActivity {
         selectedDateStrForFirebase = DateFormat.format("yyyy_MM_d", defaultSelectedDate).toString();
 
        // Toast.makeText(CalenderActivity.this, selectedDateStr+ " selected!", Toast.LENGTH_SHORT).show();
-        Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ " selected!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ getString(R.string.selected), Toast.LENGTH_SHORT).show();
         checkdate(dayname);
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
@@ -150,7 +150,7 @@ public class CalenderActivity extends AppCompatActivity {
                 // SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM d, yyyy");
                 //Toast.makeText(CalenderActivity.this, formatter+ " selected!", Toast.LENGTH_SHORT).show();
                 Log.i("onDateSelected", selectedDateStr + " - Position = " + position);
-                Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ " selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ getString(R.string.selected), Toast.LENGTH_SHORT).show();
 
                 String dayname = DateFormat.format("EEE", date).toString();
                 // month = Integer.parseInt(DateFormat.format("MMM", defaultSelectedDate).toString());
@@ -345,10 +345,10 @@ if (patientName == null){
         if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
                 ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
             // makepatientbooking(timeID, datedmy, position);
-            Toast.makeText(CalenderActivity.this, "Doctor is ON", Toast.LENGTH_LONG).show();
+            Toast.makeText(CalenderActivity.this, R.string.doctor_is_on, Toast.LENGTH_LONG).show();
             dayAvaliable=true;
         }else{
-            Toast.makeText(CalenderActivity.this, "Doctor is Off", Toast.LENGTH_LONG).show();
+            Toast.makeText(CalenderActivity.this, R.string.doctor_is_off, Toast.LENGTH_LONG).show();
             dayAvaliable=false;
 
         }

@@ -106,7 +106,7 @@ public class AddDoctorActivity extends AppCompatActivity {
 
         final Dialog dialog = new Dialog(AddDoctorActivity.this);
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(R.string.import_image_from);
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -151,7 +151,7 @@ public class AddDoctorActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -221,7 +221,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                         getRegData();
                         reloadCount++;
                     } else {
-                        Toast.makeText(AddDoctorActivity.this, "an error occurred", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddDoctorActivity.this, R.string.an_error_occurred, Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -266,7 +266,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                 uploadImage();
 
             } else {
-                Toast.makeText(this, "you should fill all fields", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.you_should_fill_all_fields, Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
                 addDoctorTextView.setEnabled(true);
 
@@ -305,7 +305,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception exception) {
                                 progressBar.setVisibility(View.GONE);
 
-                                Toast.makeText(AddDoctorActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AddDoctorActivity.this, R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                                 addDoctorTextView.setEnabled(true);
 
@@ -313,7 +313,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                         });
             }
         } else {
-            Toast.makeText(AddDoctorActivity.this, "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(AddDoctorActivity.this, R.string.please_check_the_network_connection, Toast.LENGTH_LONG).show();
         }
     }
     private void uploadData() {
@@ -332,7 +332,7 @@ public class AddDoctorActivity extends AppCompatActivity {
        // databaseHome.child(country).child(id).setValue(homefirebaseclass);
       //  Log.v("Data"," 3-User id :"+ mUserId);
 
-        Toast.makeText(this, "tramp data saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.tramp_data_saved, Toast.LENGTH_LONG).show();
         nameEditText.setText("");
         specialtyEditText.setText("");
         cityEditText.setText("");

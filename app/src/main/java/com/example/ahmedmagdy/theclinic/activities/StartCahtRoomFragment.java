@@ -138,9 +138,9 @@ public class StartCahtRoomFragment extends Fragment {
                 }
 
                 if (unread == 0) {
-                    viewPagerAdapter.addFragment(new ChatsFragment(), "Chat Patient");
+                    viewPagerAdapter.addFragment(new ChatsFragment(),  getString(R.string.chat_patient));
                 } else {
-                    viewPagerAdapter.addFragment(new ChatsFragment(), "(" + unread + ") Chat Patient");
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "(" + unread + ")"+  getString(R.string.chat_patient));
                 }
 
                 /*viewPagerAdapter.addFragment(new UsersFragment(), "Users");

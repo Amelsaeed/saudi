@@ -1,5 +1,6 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -60,6 +61,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference databaseUserReg, databaseChat;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,17 +178,17 @@ public class UserProfileActivity extends AppCompatActivity {
                     if (userName != null) {
                         nameEditUser.setText(userName);
                     } else {
-                        nameEditUser.setText("Your name");
+                        nameEditUser.setText(R.string.your_name);
                     }
                     if (userPhone != null) {
                         phoneEditUser.setText(userPhone);
                     } else {
-                        phoneEditUser.setText("your phone");
+                        phoneEditUser.setText(R.string.your_phone);
                     }
                     if (userbithdar != null) {
                         birthdayEditUser.setText(userbithdar);
                     } else {
-                        birthdayEditUser.setText("Your birthday");
+                        birthdayEditUser.setText(R.string.your_birthday);
                     }
 
                     RequestOptions requestOptions = new RequestOptions();
@@ -223,7 +225,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (user != null) {
             if (name.isEmpty()) {
-                nameEditUser.setError("User name is required");
+                nameEditUser.setError(getString(R.string.user_name_is_required));
                 nameEditUser.requestFocus();
                 return;
             }
@@ -238,7 +240,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         final Dialog dialog = new Dialog(UserProfileActivity.this);
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(R.string.import_image_from);
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -284,7 +286,7 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
 
     @Override
@@ -388,7 +390,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                 databaseChat.child(Userid).child("cUri").setValue(PhotoUrl);
 
                                 if (!PhotoUrl.equals("")) {
-                                    Toast.makeText(UserProfileActivity.this, "Upload end", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(UserProfileActivity.this, R.string.upload_end, Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -400,7 +402,7 @@ public class UserProfileActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception exception) {
                                 progressBarUser.setVisibility(View.GONE);
 
-                                Toast.makeText(UserProfileActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(UserProfileActivity.this, R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -416,7 +418,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         final Dialog dialog = new Dialog(UserProfileActivity.this);
         dialog.setContentView(R.layout.edit_data_dialig);
-        dialog.setTitle("Edit your data");
+        dialog.setTitle(R.string.edit_your_data);
         dialog.setCanceledOnTouchOutside(false);
 
         final EditText editfield = (EditText) dialog.findViewById(R.id.edit_data_tv_e);
@@ -430,7 +432,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 final String editfield1 = editfield.getText().toString().trim();
 
                 if (editfield1.isEmpty()) {
-                    editfield.setError("Please fill the field");
+                    editfield.setError(getString(R.string.please_fill_the_field));
                     editfield.requestFocus();
                     return;
                 }
@@ -480,13 +482,13 @@ public class UserProfileActivity extends AppCompatActivity {
                     if (DoctorName != null) {
                         nameEditUser.setText(DoctorName);
                     } else {
-                        nameEditUser.setText("Name");
+                        nameEditUser.setText(R.string.name);
                     }
 
                     if (DoctorPhone != null) {
                         phoneEditUser.setText(DoctorPhone);
                     } else {
-                        phoneEditUser.setText("Phone Number");
+                        phoneEditUser.setText(R.string.phone_number);
                     }
 
                 }

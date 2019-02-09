@@ -1,11 +1,14 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -19,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class DoctorHome extends AppCompatActivity {
     private DatabaseReference databaseDoctor, databaseChat,databaseDoctor1, databaseChat1;
@@ -70,6 +75,48 @@ public class DoctorHome extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+            databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+            databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+            fuser = FirebaseAuth.getInstance().getCurrentUser();
+            databaseChat.child(fuser.getUid()).child("status").setValue(true);
+            databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.exitapp);
+        alertDialogBuilder
+                .setMessage(R.string.click_yes_to_exit)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                    databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
+                                    databaseDoctor1 = FirebaseDatabase.getInstance().getReference("Doctordb");
+                                    databaseChat1.child(fuser.getUid()).child("status").setValue(false);
+                                    databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
+
+                                moveTaskToBack(true);
+                                Process.killProcess(Process.myPid());
+                                System.exit(1);
+
+                            }
+                        })
+
+                .setNegativeButton(R.string.noo, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+/*    @Override
     public void onResume() {
         super.onResume();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
@@ -80,11 +127,11 @@ public class DoctorHome extends AppCompatActivity {
         databaseChat.child(fuser.getUid()).child("status").setValue(true);
         databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
 
-    }
+    }*/
 
 
 
-    @Override
+  /*  @Override
     protected void onDestroy() {
         super.onDestroy();
         databaseChat.keepSynced(false);
@@ -94,7 +141,7 @@ public class DoctorHome extends AppCompatActivity {
         databaseChat1.child(fuser.getUid()).child("status").setValue(false);
         databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
     }
-
+*/
 
 
 

@@ -94,7 +94,7 @@ public class AllHospitalFragment extends Fragment {
                     Intent it = new Intent(getActivity(), FavActivity.class);
                     startActivity(it);
                 } else {
-                    Toast.makeText(getActivity(), "You should log in firstly", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
                     Intent it = new Intent(getActivity(), LoginActivity.class);
                     startActivity(it);
                 }

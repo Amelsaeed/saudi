@@ -261,7 +261,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
                 final Dialog dialog = new Dialog(BookingListActivity.this);
                 dialog.setContentView(R.layout.booking_data_dialig);
-                dialog.setTitle("Edit your data");
+                dialog.setTitle(R.string.edit_your_data);
                 dialog.setCanceledOnTouchOutside(false);
                 //
                 //
@@ -275,7 +275,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
                         //We have it, Get the location.
                         getLocation(dialog);
                     } else {
-                        Toast.makeText(BookingListActivity.this, "Please Give us permission so you can use the app", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookingListActivity.this, R.string.please_give_us_permission_so_you_can_use_the_app, Toast.LENGTH_SHORT).show();
                     }
                 }
                 //--------------------------------------
@@ -325,7 +325,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
                             }
                         }, hour, minute, false);//Yes 24 hour time
-                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.setTitle(getString(R.string.select_time));
                         mTimePicker.show();
 
                     }
@@ -364,7 +364,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
                             }
                         }, hour1, minute1, false);//Yes 24 hour time
-                        mTimePicker1.setTitle("Select Time");
+                        mTimePicker1.setTitle(R.string.select_time);
                         mTimePicker1.show();
 
                     }
@@ -577,24 +577,24 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
 
 
                         if (getaddress.isEmpty()) {
-                            dialogAddress.setError("Please fill the address");
+                            dialogAddress.setError(getString(R.string.please_fill_the_address));
                             dialogAddress.requestFocus();
                             return;
                         }
                         if (getstartingtime.isEmpty()) {
-                            dialogstarttime.setError("Please fill starting time");
+                            dialogstarttime.setError(getString(R.string.please_fill_starting_time));
                             dialogstarttime.requestFocus();
                             return;
                         }
                         if (getendingtime.isEmpty()) {
-                            dialogendingtime.setError("Please fill ending times");
+                            dialogendingtime.setError(getString(R.string.please_fill_ending_times));
                             dialogendingtime.requestFocus();
                             return;
                         }
                         if (endingHour <= startHour) {
-                            dialogendingtime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogendingtime.setError(getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                             dialogendingtime.requestFocus();
-                            dialogstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogstarttime.setError(getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                             dialogstarttime.requestFocus();
                             return;
                         }
@@ -1019,7 +1019,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                     longitude = location.getLongitude();
                     showAddress(latitude, longitude, dialog);
                 } else {
-                    Toast.makeText(BookingListActivity.this, "Error we didn't get the Location\n Please try again after Few seconds", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BookingListActivity.this, R.string.error_we_didnot_get_the_location_please_try_again_after_few_seconds, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -1060,7 +1060,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     isPermissionGranted = true;
                 } else {
-                    Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.permission_not_granted, Toast.LENGTH_SHORT).show();
                     isPermissionGranted = false;
                 }
                 break;
@@ -1352,7 +1352,7 @@ mCurrentDate.set(Year, ((Month+1)),Day);
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code() == 200) {
                                         if (response.body().success != 1) {
-                                            Toast.makeText(BookingListActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(BookingListActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }

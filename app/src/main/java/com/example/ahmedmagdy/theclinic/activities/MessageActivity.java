@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -185,7 +186,7 @@ public class MessageActivity extends AppCompatActivity {
                 if (!msg.equals("")) {
                     sendMessage(fuser.getUid(), userid, msg);
                 } else {
-                    Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MessageActivity.this, R.string.you_cannott_send_empty_message, Toast.LENGTH_SHORT).show();
                 }
                 text_send.setText("");
             }
@@ -207,10 +208,10 @@ public class MessageActivity extends AppCompatActivity {
 
                         if (user.getstatus()) {
                             StatusChat.setVisibility(View.VISIBLE);
-                            Active.setText("Active Now");
+                            Active.setText(R.string.active_now);
                         } else {
                             StatusChat.setVisibility(View.GONE);
-                            Active.setText("Ofline Now");
+                            Active.setText(R.string.ofline_now);
                         }
                     }
 
@@ -295,7 +296,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK) {
-            progressDialog.setMessage("Sending photo........");
+            progressDialog.setMessage(getString(R.string.sending_photo));
             progressDialog.show();
             notify = true;
             Uri selectedImageUri = data.getData();
@@ -304,7 +305,7 @@ public class MessageActivity extends AppCompatActivity {
                 imageRef.putFile(selectedImageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.setMessage("Photo sent.........");
+                        progressDialog.setMessage(getString(R.string.photo_sent));
                         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -355,7 +356,7 @@ public class MessageActivity extends AppCompatActivity {
             chatRef.child(userid)
                     .child(fuser.getUid()).child("id").setValue(fuser.getUid());
 
-            final String msg = "New Photo Message";
+            final String msg = getString(R.string.new_photo_message);
 
             reference = FirebaseDatabase.getInstance().getReference("ChatRoom").child(fuser.getUid());
             reference.addValueEventListener(new ValueEventListener() {
@@ -473,7 +474,7 @@ public class MessageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(), R.mipmap.ic_person,
-                            username + ": " + message, "New Message", userid);
+                            username + ": " + message, getString(R.string.new_message), userid);
 
                     Sender sender = new Sender(data, token.getToken());
 
@@ -483,7 +484,7 @@ public class MessageActivity extends AppCompatActivity {
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code() == 200) {
                                         if (response.body().success != 1) {
-                                            Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MessageActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -531,15 +532,15 @@ public class MessageActivity extends AppCompatActivity {
         });
 
     }
-
-    /*   private void currentUser(String userid) {
+/*
+       private void currentUser(String userid) {
            SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
            editor.putString("currentuser", userid);
            editor.apply();
        }
 
-       private void status(String status){
-           reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+       private void status(boolean status){
+           reference = FirebaseDatabase.getInstance().getReference("ChatRoom").child(fuser.getUid());
 
            HashMap<String, Object> hashMap = new HashMap<>();
            hashMap.put("status", status);
@@ -550,19 +551,17 @@ public class MessageActivity extends AppCompatActivity {
        @Override
        protected void onResume() {
            super.onResume();
-           status("online");
+           status(true);
            currentUser(userid);
        }
 
-       @Override
-       protected void onPause() {
-           super.onPause();
-           reference.removeEventListener(seenListener);
-           status("offline");
-           currentUser("none");
-       }*/
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        reference.removeEventListener(seenListener);
+        status(false);
+        currentUser("none");
+    }*/
 
 }
 

@@ -17,5 +17,6 @@ public class saudi extends Application {
         registerActivityLifecycleCallbacks(new FirebaseDatabaseConnectionHandler());
 
     }
+
 }
 

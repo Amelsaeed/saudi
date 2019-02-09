@@ -110,25 +110,25 @@ public class LoginActivity extends AppCompatActivity {
         String mPassword = editTextPassword.getText().toString().trim();
 
         if (mEmail.isEmpty()) {
-            editTextemail.setError("Email is required");
+            editTextemail.setError(getString(R.string.email_is_required));
             editTextemail.requestFocus();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            editTextemail.setError("Please enter a valid email");
+            editTextemail.setError(getString(R.string.please_enter_a_valid_email));
             editTextemail.requestFocus();
             return;
         }
 
         if (mPassword.length() < 6) {
-            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.setError(getString(R.string.minimum_length_of_password_should_be_6));
             editTextPassword.requestFocus();
             return;
         }
 
         if (mPassword.isEmpty()) {
-            editTextPassword.setError("Password is required");
+            editTextPassword.setError(getString(R.string.password_is_required));
             editTextPassword.requestFocus();
             return;
         }
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         //Log.d(TAG, "SIGNIN SUCCESS");
-                        Toast.makeText(LoginActivity.this, "SIGNIN SUCCESS", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, R.string.signin_sccess, Toast.LENGTH_SHORT).show();
                         //  getallData();
                         fuser = FirebaseAuth.getInstance().getCurrentUser();
                         initAuthStateListener();
@@ -324,9 +324,9 @@ public class LoginActivity extends AppCompatActivity {
     private void displayResetPasswordDialog(String email) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-        alertDialog.setTitle("reset_password_dialog_title");
-        alertDialog.setMessage("sending_email");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setTitle(getString(R.string.reset_password_dialog_title));
+        alertDialog.setMessage(getString(R.string.sending_email));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -353,13 +353,13 @@ public class LoginActivity extends AppCompatActivity {
                 final String mEmail = editTextemail.getText().toString().trim();
 
                 if (mEmail.isEmpty()) {
-                    editTextemail.setError("Email is required");
+                    editTextemail.setError(getString(R.string.email_is_required));
                     editTextemail.requestFocus();
                     return;
                 }
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-                    editTextemail.setError("Please enter a valid email");
+                    editTextemail.setError(getString(R.string.please_enter_a_valid_email));
                     editTextemail.requestFocus();
                     return;
                 }
@@ -377,7 +377,7 @@ public class LoginActivity extends AppCompatActivity {
                                         displayResetPasswordDialog(mEmail);
                                         dialog.dismiss();
                                     } else {
-                                        errorMessage.setText("reset password error message");
+                                        errorMessage.setText(R.string.reset_password_error_message);
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }

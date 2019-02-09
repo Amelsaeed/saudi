@@ -192,7 +192,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Doctor's name", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.doctor_is_name, Toast.LENGTH_LONG).show();
             }
         });
         pcity.setOnLongClickListener(new View.OnLongClickListener() {
@@ -207,7 +207,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Doctor's state and city", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.doctor_is_state_and_city, Toast.LENGTH_LONG).show();
             }
         });
         pspeciality.setOnLongClickListener(new View.OnLongClickListener() {
@@ -222,7 +222,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Doctor's specialty", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.doctor_is_specialty, Toast.LENGTH_LONG).show();
             }
         });
         pdegree.setOnLongClickListener(new View.OnLongClickListener() {
@@ -237,7 +237,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Doctor's degree", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.doctor_is_degree, Toast.LENGTH_LONG).show();
             }
         });
         pphone.setOnLongClickListener(new View.OnLongClickListener() {
@@ -252,7 +252,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Doctor's Phone Number", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.doctor_is_phone_number, Toast.LENGTH_LONG).show();
             }
         });
         pprice.setOnLongClickListener(new View.OnLongClickListener() {
@@ -267,7 +267,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Detection price", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.detection_price, Toast.LENGTH_LONG).show();
             }
         });
         ptime.setOnLongClickListener(new View.OnLongClickListener() {
@@ -282,7 +282,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             @Override
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Toast.makeText(DoctorProfileActivity.this, "Average detection time in min", Toast.LENGTH_LONG).show();
+                Toast.makeText(DoctorProfileActivity.this, R.string.average_detection_time_in_min, Toast.LENGTH_LONG).show();
             }
         });
         //--------Gps---------------------
@@ -414,7 +414,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
         final Dialog dialog = new Dialog(DoctorProfileActivity.this);
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(R.string.import_image_from);
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -459,7 +459,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -531,7 +531,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                                 databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image","Upload end");
-                                    Toast.makeText(DoctorProfileActivity.this, "Upload end", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(DoctorProfileActivity.this, R.string.upload_end, Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -543,7 +543,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                             public void onFailure(@NonNull Exception exception) {
                                 progressBarImage.setVisibility(View.GONE);
 
-                                Toast.makeText(DoctorProfileActivity.this, "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(DoctorProfileActivity.this, R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -685,7 +685,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code() == 200) {
                                         if (response.body().success != 1) {
-                                            Toast.makeText(DoctorProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(DoctorProfileActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -726,7 +726,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                 final String editfield1 = editfield.getText().toString().trim();
 
                 if (editfield1.isEmpty()) {
-                    editfield.setError("Please fill the field");
+                    editfield.setError(getString(R.string.please_fill_the_field));
                     editfield.requestFocus();
                     return;}
                 getRegData(editfield1, whatdata);
@@ -792,25 +792,25 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                 String DoctorTime = dataSnapshot1.child(DoctorID).child("cTime").getValue(String.class);
                 if(DoctorName != null) {
                     pname.setText(DoctorName);
-                }else{pname.setText("Name");}
+                }else{pname.setText(R.string.name);}
                 if(DoctorCity != null) {
                     pcity.setText(DoctorCity);
-                }else{pcity.setText("State/ City/ Region");}
+                }else{pcity.setText(R.string.state_city_region);}
                 if(DoctorSpecialty != null) {
                     pspeciality.setText(DoctorSpecialty);
-                }else{pspeciality.setText("Specialty");}
+                }else{pspeciality.setText(R.string.specialty);}
                 if(DoctorDegree != null) {
                     pdegree.setText(DoctorDegree);
-                }else{pdegree.setText("Degree");}
+                }else{pdegree.setText(R.string.degree);}
                 if(DoctorPhone != null) {
                     pphone.setText(DoctorPhone);
-                }else{pphone.setText("Phone Number");}
+                }else{pphone.setText(R.string.phone_number);}
                 if(DoctorPrice != null) {
                     pprice.setText(DoctorPrice);
-                }else{pprice.setText("Detection price");}
+                }else{pprice.setText(R.string.detection_price);}
                 if(DoctorTime != null) {
-                    ptime.setText(DoctorTime+"min.");
-                }else{ptime.setText("Not yet");}
+                    ptime.setText(DoctorTime+getString(R.string.min));
+                }else{ptime.setText(R.string.not_yet);}
             }
 
             @Override
@@ -828,7 +828,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
         final Dialog dialog = new Dialog(DoctorProfileActivity.this);
         dialog.setContentView(R.layout.booking_data_dialig);
-        dialog.setTitle("Edit your data");
+        dialog.setTitle(R.string.edit_your_data);
         dialog.setCanceledOnTouchOutside(false);
         getLocation();
         //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
@@ -1041,25 +1041,25 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
                 if(DoctorName != null) {
                     pname.setText(DoctorName);
-                }else{pname.setText("Name");}
+                }else{pname.setText(R.string.name);}
                 if(DoctorCity != null) {
                     pcity.setText(DoctorCity);
-                }else{pcity.setText("State/ City/ Region");}
+                }else{pcity.setText(R.string.state_city_region);}
                 if(DoctorSpecialty != null) {
                     pspeciality.setText(DoctorSpecialty);
-                }else{pspeciality.setText("Specialty");}
+                }else{pspeciality.setText(R.string.specialty);}
                 if(DoctorDegree != null) {
                     pdegree.setText(DoctorDegree);
-                }else{pdegree.setText("Degree");}
+                }else{pdegree.setText(R.string.degree);}
                 if(DoctorPhone != null) {
                     pphone.setText(DoctorPhone);
-                }else{pphone.setText("Phone Number");}
+                }else{pphone.setText(R.string.phone_number);}
                 if(DoctorPrice != null) {
-                    pprice.setText(DoctorPrice+"$");
-                }else{pprice.setText("Detection price");}
+                    pprice.setText(DoctorPrice+"SAR");
+                }else{pprice.setText(R.string.detection_price);}
                 if(DoctorTime != null) {
-                    ptime.setText(DoctorTime+"min.");
-                }else{ptime.setText("Not yet");}
+                    ptime.setText(DoctorTime+R.string.min);
+                }else{ptime.setText(R.string.not_yet);}
                 if(DoctorAbout != null) {
                     peditbox.setText(DoctorAbout);
                 }
@@ -1167,7 +1167,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                     longitude = location.getLongitude();
                     showAddress(latitude,longitude);
                 }else{
-                    Toast.makeText(DoctorProfileActivity.this, "Error we didn't get the Location\n Please try again after Few seconds", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DoctorProfileActivity.this, R.string.error_we_didnot_get_the_location_please_try_again_after_few_seconds, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -1206,7 +1206,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     isPermissionGranted = true;
                 }else{
-                    Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.permission_not_granted, Toast.LENGTH_SHORT).show();
                     isPermissionGranted = false;
                 }
                 break;
