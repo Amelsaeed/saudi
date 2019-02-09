@@ -10,7 +10,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,9 +26,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.AddDoctorActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,25 +43,33 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
 
 import android.location.LocationListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.ahmedmagdy.theclinic.map.Constants.ERROR_DIALOG_REQUEST;
+import static com.example.ahmedmagdy.theclinic.map.Constants.LOCATION_UPDATE_MIN_DISTANCE;
+import static com.example.ahmedmagdy.theclinic.map.Constants.LOCATION_UPDATE_MIN_TIME;
 import static com.example.ahmedmagdy.theclinic.map.Constants.MAPVIEW_BUNDLE_KEY;
 import static com.example.ahmedmagdy.theclinic.map.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.ahmedmagdy.theclinic.map.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 
-public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener, View.OnClickListener{
 
     private static final String TAG = "DoctorMapFragment";
     public static int cunterRefresh = 0;
@@ -77,8 +90,6 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
     private ArrayList<UserLocation> mUserLocs = new ArrayList<>();
     private GeoApiContext mGeoApiContext = null;
     /*direction*/
-    public static final int LOCATION_UPDATE_MIN_DISTANCE = 10;
-    public static final int LOCATION_UPDATE_MIN_TIME = 5000;
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -139,6 +150,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
         View view = inflater.inflate(R.layout.fragment_doctor_map, container, false);
 
         mMapView = view.findViewById(R.id.user_list_map);
+        view.findViewById(R.id.btn_reset_map).setOnClickListener(this);
 
         checkMapServices();
 
@@ -172,7 +184,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
         );
 
         System.out.println(TAG + " mMapBoundary " + mMapBoundary);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 10));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 20));
 
     }
 
@@ -254,6 +266,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
             setCameraView();
 
             //add my marker
+            getCurrentLocation();
             LatLng gps = new LatLng(myLat, myLng);
             System.out.println(TAG+" gps marker "+gps);
             if( gps != null){
@@ -282,10 +295,6 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
                 mClusterMarkers = new ArrayList<>();
             }
 
-            /*if(mPolyLinesData.size() > 0){
-                mPolyLinesData.clear();
-                mPolyLinesData = new ArrayList<>();
-            }*/
         }
     }
 
@@ -366,7 +375,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
         if (checkMapServices()) {
             if (mLocationPermissionGranted) {
                 getLocationPermission();
-                getCurrentLocation();
+                //getCurrentLocation();
                 Toast.makeText(getContext(), "Permission granted Successfully",
                         Toast.LENGTH_LONG).show();
             } else {
@@ -403,7 +412,6 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
         mGoogleMap = map;
         addMapMarkers();
         mGoogleMap.setOnInfoWindowClickListener(this);
-        getCurrentLocation();
     }
 
     @Override
@@ -505,7 +513,39 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
                 .setCancelable(true)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        calculateDirections(marker);
+                        //calculateDirections(marker);
+                        /*test goog dir*/
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Open Google Maps?")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                            String latitude = String.valueOf(marker.getPosition().latitude);
+                                            String longitude = String.valueOf(marker.getPosition().longitude);
+                                            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
+                                            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                            mapIntent.setPackage("com.google.android.apps.maps");
+
+                                            try{
+                                                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                                    startActivity(mapIntent);
+                                                }
+                                            }catch (NullPointerException e){
+                                                Log.e(TAG, "onClick: NullPointerException: Couldn't open map." + e.getMessage() );
+                                                Toast.makeText(getActivity(), "Couldn't open map", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            final AlertDialog alert = builder.create();
+                            alert.show();
+
+                        /*test goog dir*/
                         dialog.dismiss();
                     }
                 })
@@ -519,7 +559,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
 
     }
 
-    private void calculateDirections(Marker marker) {
+    /*private void calculateDirections(Marker marker) {
         System.out.println(TAG + "calculateDirections: calculating directions." +
                 " .. myLocLatLng >>> " + myLat + "," + myLng);
 
@@ -540,8 +580,10 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
         directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
             @Override
             public void onResult(DirectionsResult result) {
-                System.out.println(TAG + "onResult: routes: " + result.routes[0].toString());
-                System.out.println(TAG + "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+                Toast.makeText(getContext(), "onResult: routes: " + result.routes[0].toString()
+                        , Toast.LENGTH_SHORT).show();
+                //System.out.println(TAG + "onResult: routes: " + result.routes[0].toString());
+                //System.out.println(TAG + "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
             }
 
             @Override
@@ -550,6 +592,18 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback, Googl
 
             }
         });
+    }*/
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_reset_map:{
+                addMapMarkers();
+                break;
+            }
+
+        }
     }
 
     /*check map permissions */
