@@ -43,7 +43,7 @@
         android:layout_marginTop="10dp"
         android:layout_below="@id/Lin_tramp_h"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:text="user name"/>
+        android:text=""/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

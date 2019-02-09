@@ -127,7 +127,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:text="City"
+                android:text="@string/city"
+                android:gravity="left"
                 android:textColor="#000"
                 android:textStyle="bold" />
 
@@ -167,7 +168,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:text="Number phone"
+                android:text="@string/phone_number"
+                android:gravity="left"
                 android:textColor="#000"
                 android:textStyle="bold" />
 
@@ -207,7 +209,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:text="Insurance"
+                android:gravity="left"
+                android:text="@string/insurance"
                 android:textColor="#000"
                 android:textStyle="bold" />
 

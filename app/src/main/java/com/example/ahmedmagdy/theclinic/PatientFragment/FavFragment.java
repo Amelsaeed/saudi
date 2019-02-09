@@ -287,7 +287,7 @@ if (UtilClass.isNetworkConnected(getContext())) {
             if (UserName != null) {
                 usernamef.setText(UserName);
             } else {
-                usernamef.setText("Name");
+                usernamef.setText(R.string.name);
             }
 
 

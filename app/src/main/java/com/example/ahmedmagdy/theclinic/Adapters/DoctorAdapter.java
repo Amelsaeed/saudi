@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -92,8 +93,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctorcity = (TextView) listViewItem.findViewById(R.id.doctor_city);
         final TextView adoctorsalary = (TextView) listViewItem.findViewById(R.id.doctor_salary);
         final TextView doctorDiscPrice = listViewItem.findViewById(R.id.doctor_disc_salary);
-        final ImageView Book = (ImageView) listViewItem.findViewById(R.id.book123);
-        final ImageView ChatRoom = (ImageView) listViewItem.findViewById(R.id.chatroom);
+        final RelativeLayout Book = (RelativeLayout) listViewItem.findViewById(R.id.book123);
+        final RelativeLayout ChatRoom = (RelativeLayout) listViewItem.findViewById(R.id.chatroom);
 
         final TextView adoctordegree = (TextView) listViewItem.findViewById(R.id.doctor_degree);
         final TextView adoctorinsurance = (TextView) listViewItem.findViewById(R.id.doctor_Insurance);
@@ -166,7 +167,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (fuser == null) {
-                    Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
                     buttonView.setChecked(false);
 
                 } else {
@@ -184,7 +185,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                         // databaseDoctorFav.setValue(doctorclass);
                         //databaseDoctorFav.child("checked").setValue(isChecked);
 
-                        Toast.makeText(context, doctorclass.getcName() + " is added to your fav.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, doctorclass.getcName() + context.getString(R.string.is_added_to_your_fav), Toast.LENGTH_LONG).show();
                         // Intent intent = new Intent(context, FavActivity.class);
                         //context.startActivity(intent);
 //return;
@@ -192,7 +193,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                         // databaseDoctor.child(doctorclass.getcId()).child("checked").setValue(isChecked);
                         databaseDoctorFav.child(doctorclass.getcId()).setValue(null);
 
-                        Toast.makeText(context, "Removed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.removed, Toast.LENGTH_LONG).show();
 
                     }
                 }
@@ -204,7 +205,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             public void onClick(View v) {
 
                 if ((fuser == null)) {
-                    Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
 
                 } else {
                     DoctorFirebaseClass doctorclass = doctorList.get(position);
@@ -223,7 +224,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             @Override
             public void onClick(View v) {
                 if (fuser == null) {
-                    Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
 
                 } else {
                     DoctorFirebaseClass doctorclasss = doctorList.get(position);
@@ -274,12 +275,21 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         } else {
-                            Toast.makeText(context, "Doctor is available from " + doctorclasss.getcChatstart() + " To " + doctorclasss.getcChatend(), Toast.LENGTH_LONG).show();
-                        }
+                            android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+                            alertDialogBuilder.setTitle(R.string.attention);
+                            alertDialogBuilder
+                                    .setIcon(R.drawable.ic_attention)
+                                    .setMessage(context.getString(R.string.doctor_is_available_from) + doctorclasss.getcChatstart() + context.getString(R.string.to) + doctorclasss.getcChatend())
+                                    .setCancelable(true);
+
+                            android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+
+                            }
 
 ///****************************past date*************************
                     } else {
-                        Toast.makeText(context, "Doctor Don't activate chat times yet", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.doctor_donot_activate_chat_times_yet, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -308,18 +318,18 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                 DoctorFirebaseClass doctorclasss = doctorList.get(position);
                 // Toast.makeText(context, doctorclasss.getcAbout(), Toast.LENGTH_LONG).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle("Specialization Details");
+                alert.setTitle(R.string.specialization_details);
                 if (doctorclasss.getcAbout() != null) {
                     alert.setMessage(doctorclasss.getcAbout());
                 } else {
-                    alert.setMessage("Nothing to show");
+                    alert.setMessage(R.string.nothing_to_show);
                 }
 // Create TextView
                 final TextView input = new TextView(context);
                 alert.setView(input);
 
 
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Canceled.
                     }
@@ -384,7 +394,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
 
         } else {
-            adoctorsalary.setText("price not detected");
+            adoctorsalary.setText(R.string.price_not_detected);
         }
 
         if (doctorclass.getcDegree() != null) {
@@ -444,7 +454,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                             adoctorinsurance.setText(items.get(i));
                             return;
                         } else {
-                            adoctorinsurance.setText("Insurance");
+                            adoctorinsurance.setText(R.string.insurance);
                             //   Toast.makeText(context, userInsurancetype+"/"+items.get(i), Toast.LENGTH_LONG).show();
 
                         }
@@ -460,7 +470,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             databaseChat.addValueEventListener(postListener1);
 
         } else {
-            adoctorinsurance.setText("Not detected");
+            adoctorinsurance.setText(R.string.not_detected);
         }
         /////*//////////////**************************/////
         /**    for (int i = 0; i < items.length; i++) {

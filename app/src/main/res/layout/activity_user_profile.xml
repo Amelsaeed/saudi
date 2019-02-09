@@ -124,7 +124,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:text="Your Number phone :"
+                android:gravity="left"
+                android:text="@string/your_number_phone"
                 android:textColor="#000"
                 android:textStyle="bold" />
 
@@ -164,7 +165,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:text="Your Insurance :"
+                android:gravity="left"
+                android:text="@string/your_insurance2"
                 android:textColor="#000"
                 android:textStyle="bold" />
 
@@ -202,7 +204,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:text="Your Birthday :"
+                android:gravity="left"
+                android:text="@string/your_birthday2"
                 android:textColor="#000"
                 android:textStyle="bold" />
 

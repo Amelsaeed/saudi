@@ -24,8 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Doctor  "
+            android:text="@string/doctor"
             android:gravity="center"
+            android:layout_marginRight="5dp"
             android:textColor="#695050"
             android:textSize="12dp"
             android:layout_alignTop="@+id/toolbarbook"
@@ -38,7 +39,7 @@
             android:layout_alignTop="@+id/toolbarbook"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="user name"
+            android:text=""
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
     </LinearLayout>
@@ -76,7 +77,7 @@
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:gravity="center"
-            android:text="add Time"
+            android:text="@string/add_time"
             android:background="@drawable/button_round_red"
             android:textAllCaps="false"
             android:textSize="16sp" />

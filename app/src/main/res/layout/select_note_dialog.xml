@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="8dp"
-        android:text="Select what you want to do"
+        android:text="@string/what_do_you_want_to_do"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 
@@ -32,7 +32,7 @@
             android:layout_marginLeft="4dp"
             android:textSize="12dp"
             android:backgroundTint="@color/colorPrimary"
-            android:text="Add New Note" />
+            android:text="@string/add_new_note" />
 
         <Button
             android:id="@+id/show_btn_select_note_dialog"
@@ -42,7 +42,7 @@
             android:textSize="12dp"
             android:layout_marginLeft="4dp"
             android:backgroundTint="@color/colorPrimary"
-            android:text="Show notes" />
+            android:text="@string/show_notes" />
 
         <Button
             android:id="@+id/ok_btn_select_note_dialog"
@@ -52,7 +52,7 @@
             android:layout_marginRight="4dp"
             android:layout_marginLeft="4dp"
             android:backgroundTint="@color/colorPrimary"
-            android:text="ok"
+            android:text="@string/ok"
             android:visibility="gone"/>
 
         <Button
@@ -63,7 +63,7 @@
             android:textSize="12dp"
             android:layout_marginLeft="4dp"
             android:backgroundTint="@color/colorPrimary"
-            android:text="cancel"/>
+            android:text="@string/cancel"/>
 
     </LinearLayout>
 

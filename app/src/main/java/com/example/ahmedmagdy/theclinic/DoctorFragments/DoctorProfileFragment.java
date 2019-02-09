@@ -179,7 +179,7 @@ public class DoctorProfileFragment extends Fragment {
 
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.chat_time_dialig);
-                dialog.setTitle("Enter your data");
+                dialog.setTitle(R.string.enter_your_data);
                 dialog.setCanceledOnTouchOutside(false);
                 final EditText dialogstarttime = dialog.findViewById(R.id.start_time_chat);
                 final EditText dialogendingtime = dialog.findViewById(R.id.ending_time_chat);
@@ -219,7 +219,7 @@ public class DoctorProfileFragment extends Fragment {
 
                             }
                         }, hour, minute, false);//Yes 24 hour time
-                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.setTitle(R.string.select_time);
                         mTimePicker.show();
 
                     }
@@ -258,7 +258,7 @@ public class DoctorProfileFragment extends Fragment {
 
                             }
                         }, hour1, minute1, false);//Yes 24 hour time
-                        mTimePicker1.setTitle("Select Time");
+                        mTimePicker1.setTitle(R.string.select_time);
                         mTimePicker1.show();
 
                     }
@@ -277,19 +277,19 @@ public class DoctorProfileFragment extends Fragment {
 
 
                         if (getstartingtime.isEmpty()) {
-                            dialogstarttime.setError("Please fill starting time");
+                            dialogstarttime.setError(getString(R.string.please_fill_starting_time));
                             dialogstarttime.requestFocus();
                             return;
                         }
                         if (getendingtime.isEmpty()) {
-                            dialogendingtime.setError("Please fill ending times");
+                            dialogendingtime.setError(getString(R.string.please_fill_ending_times));
                             dialogendingtime.requestFocus();
                             return;
                         }
                         if (endingHour <= startHour) {
-                            dialogendingtime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogendingtime.setError(getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                             dialogendingtime.requestFocus();
-                            dialogstarttime.setError("Ending time must be after starting time /n and in the same day");
+                            dialogstarttime.setError(getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                             dialogstarttime.requestFocus();
                             return;
                         }
@@ -298,7 +298,7 @@ public class DoctorProfileFragment extends Fragment {
                         databaseDoctor.child(doctorId).child("cChatend").setValue(getendingtime);
                         databaseChat.child(doctorId).child("cChatstart").setValue(getstartingtime);
                         databaseChat.child(doctorId).child("cChatend").setValue(getendingtime);
-                        Toast.makeText(getContext(), "Ending time and starting time are saved", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.ending_time_and_starting_time_are_saved, Toast.LENGTH_LONG).show();
 
 
                         dialog.dismiss();
@@ -321,7 +321,7 @@ public class DoctorProfileFragment extends Fragment {
                         databaseDoctor.child(doctorId).child("cChatend").setValue(null);
                         databaseChat.child(doctorId).child("cChatstart").setValue(null);
                         databaseChat.child(doctorId).child("cChatend").setValue(null);
-                        Toast.makeText(getContext(), "Chat is blocked", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.chat_is_blocked, Toast.LENGTH_LONG).show();
 
                         dialog.dismiss();
                     }
@@ -388,7 +388,7 @@ public class DoctorProfileFragment extends Fragment {
 
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.max_no_dialig);
-                dialog.setTitle("Enter maximum number of reservations");
+                dialog.setTitle(R.string.enter_maximum_number_of_reservations);
                 dialog.setCanceledOnTouchOutside(false);
 
                 final EditText dialogmaxno = dialog.findViewById(R.id.max_data_tv_e);
@@ -406,7 +406,7 @@ public class DoctorProfileFragment extends Fragment {
                         final String maxno = dialogmaxno.getText().toString().trim();
 
                         if (maxno.isEmpty()) {
-                            dialogmaxno.setError("Please enter maximum number of reservations");
+                            dialogmaxno.setError(getString(R.string.please_enter_maximum_number_of_reservations));
                             dialogmaxno.requestFocus();
                             return;
                         }
@@ -414,7 +414,7 @@ public class DoctorProfileFragment extends Fragment {
                             int num = Integer.parseInt(maxno);
                             Log.i("", num + " is a number");
                         } catch (NumberFormatException e) {
-                            dialogmaxno.setError("Ending time must be after starting time /n and in the same day");
+                            dialogmaxno.setError(getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                             dialogmaxno.requestFocus();
                             return;
                             // Log.i("",text+" is not a number");
@@ -422,7 +422,7 @@ public class DoctorProfileFragment extends Fragment {
 
                         databaseDoctor.child(doctorId).child("cMaxno").setValue(maxno);
 
-                        Toast.makeText(getContext(), "Maximum number of reservations is saved", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.maximum_number_of_reservations_is_saved, Toast.LENGTH_LONG).show();
 
 
                         dialog.dismiss();
@@ -438,7 +438,7 @@ public class DoctorProfileFragment extends Fragment {
 
                         databaseDoctor.child(doctorId).child("cMaxno").setValue("0");
 
-                        Toast.makeText(getContext(), "Booking is blocked", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.booking_is_blocked, Toast.LENGTH_LONG).show();
 
                         dialog.dismiss();
                     }
@@ -451,7 +451,7 @@ public class DoctorProfileFragment extends Fragment {
 
                         databaseDoctor.child(doctorId).child("cMaxno").setValue(null);
 
-                        Toast.makeText(getContext(), "Booking is opened for any no.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.booking_is_opened_for_any_no, Toast.LENGTH_LONG).show();
 
                         dialog.dismiss();
                     }
@@ -554,7 +554,7 @@ editDialog(whatData);
             public void onClick(View view) {
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle("SELECT City");
+                mBuilder.setTitle(R.string.select_city);
 
                 mBuilder.setSingleChoiceItems(listCityItems, -1, new DialogInterface.OnClickListener() {
 
@@ -569,7 +569,7 @@ editDialog(whatData);
                 });
 
 
-                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -586,7 +586,7 @@ editDialog(whatData);
             public void onClick(View view) {
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle("SELECT Specialty");
+                mBuilder.setTitle(R.string.select_specialty);
 
                 mBuilder.setSingleChoiceItems(listSpecialityItems, -1, new DialogInterface.OnClickListener() {
 
@@ -603,7 +603,7 @@ editDialog(whatData);
                 });
 
 
-                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -635,7 +635,7 @@ editDialog(whatData);
             public void onClick(View view) {
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle("SELECT Degree");
+                mBuilder.setTitle(R.string.select_degree);
 
                 mBuilder.setSingleChoiceItems(listDegreeItems, -1, new DialogInterface.OnClickListener() {
 
@@ -650,7 +650,7 @@ editDialog(whatData);
                 });
 
 
-                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -678,13 +678,13 @@ editDialog(whatData);
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Creat a call");
-                alert.setMessage("Are you sure, you want to dialling " + pname.getText().toString() + "?");
+                alert.setTitle(R.string.creat_a_call);
+                alert.setMessage(getString(R.string.are_you_sure_you_want_to_dialling) + pname.getText().toString() + "?");
 // Create TextView
                 final TextView input = new TextView(getActivity());
                 alert.setView(input);
 
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String number = pphone.getText().toString();
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -694,7 +694,7 @@ editDialog(whatData);
                     }
                 });
 
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Canceled.
                     }
@@ -750,7 +750,7 @@ editDialog(whatData);
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(R.string.import_image_from);
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -796,7 +796,7 @@ editDialog(whatData);
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
 
     @Override
@@ -863,7 +863,7 @@ editDialog(whatData);
                                 databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image", "Upload end");
-                                    Toast.makeText(getContext(), "Upload end", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), R.string.upload_end, Toast.LENGTH_LONG).show();
 
                                 }
                             }
@@ -872,13 +872,13 @@ editDialog(whatData);
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 progressBarImage.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                             }
                         });
             }
         } else {
-            Toast.makeText(getContext(), "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.network_connection_msg, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1025,42 +1025,42 @@ editDialog(whatData);
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
                 } else {
-                    pname.setText("Name");
+                    pname.setText(R.string.name);
                 }
                 if (DoctorCity != null) {
                     pcity.setText(DoctorCity);
                 } else {
-                    pcity.setText("State/ City/ Region");
+                    pcity.setText(R.string.state_city_region);
                 }
                 if (DoctorSpecialty != null) {
                     pspeciality.setText(DoctorSpecialty);
                 } else {
-                    pspeciality.setText("Specialty");
+                    pspeciality.setText(R.string.specialty);
                 }
                 if (DoctorDegree != null) {
                     pdegree.setText(DoctorDegree);
                 } else {
-                    pdegree.setText("Degree");
+                    pdegree.setText(R.string.degree);
                 }
                 if (DoctorPhone != null) {
                     pphone.setText(DoctorPhone);
                 } else {
-                    pphone.setText("Phone Number");
+                    pphone.setText(R.string.phone_number);
                 }
                 if (DoctorPrice != null) {
                     pprice.setText(DoctorPrice);
                 } else {
-                    pprice.setText("Detection price");
+                    pprice.setText(R.string.detection_price);
                 }
                 if (DoctorTime != null) {
-                    ptime.setText(DoctorTime + "min.");
+                    ptime.setText(DoctorTime + R.string.min);
                 } else {
-                    ptime.setText("Not yet");
+                    ptime.setText(R.string.not_yet);
                 }
                 if (medInsurance != null) {
                     insuranceView.setText(medInsurance);
                 } else {
-                    insuranceView.setText("Not yet");
+                    insuranceView.setText(R.string.not_yet);
                 }
             }
 
@@ -1108,13 +1108,13 @@ editDialog(whatData);
                 if (maxnoofpatients != null) {
                     maxnoet.setText(maxnoofpatients);
                 } else {
-                    maxnoet.setText("Opened for any no.");
+                    maxnoet.setText(R.string.opened_for_any_no);
                 }
 
                 if ((mstartingtimechat != null) && (mendingtimechat != null)) {
                     chatstarttime.setText(mstartingtimechat + " - " + mendingtimechat);
                 } else {
-                    chatstarttime.setText("Null");
+                    chatstarttime.setText(R.string.nulll);
                 }
 
 
@@ -1125,42 +1125,42 @@ editDialog(whatData);
                 if (DoctorName != null) {
                     pname.setText(DoctorName);
                 } else {
-                    pname.setText("Name");
+                    pname.setText(R.string.name);
                 }
                 if (DoctorCity != null) {
                     pcity.setText(DoctorCity);
                 } else {
-                    pcity.setText("State/ City/ Region");
+                    pcity.setText(R.string.state_city_region);
                 }
                 if (DoctorSpecialty != null) {
                     pspeciality.setText(DoctorSpecialty);
                 } else {
-                    pspeciality.setText("Specialty");
+                    pspeciality.setText(R.string.specialty);
                 }
                 if (DoctorDegree != null) {
                     pdegree.setText(DoctorDegree);
                 } else {
-                    pdegree.setText("Degree");
+                    pdegree.setText(R.string.degree);
                 }
                 if (DoctorPhone != null) {
                     pphone.setText(DoctorPhone);
                 } else {
-                    pphone.setText("Phone Number");
+                    pphone.setText(R.string.phone_number);
                 }
                 if (DoctorPrice != null) {
-                    pprice.setText(DoctorPrice + "$");
+                    pprice.setText(DoctorPrice + "SAR");
                 } else {
-                    pprice.setText("Detection price");
+                    pprice.setText(R.string.detection_price);
                 }
                 if (DoctorTime != null) {
-                    ptime.setText(DoctorTime + "min.");
+                    ptime.setText(DoctorTime + R.string.min);
                 } else {
-                    ptime.setText("Not yet");
+                    ptime.setText(R.string.not_yet);
                 }
                 if (medInsurance != null) {
                     insuranceView.setText(medInsurance);
                 } else {
-                    insuranceView.setText("Nothing");
+                    insuranceView.setText(R.string.nothing);
                 }
                 if (DoctorAbout != null) {
                     peditbox.setText(DoctorAbout);
@@ -1258,7 +1258,7 @@ editDialog(whatData);
 
         }
 
-        mBuilder.setTitle("Select insurance");
+        mBuilder.setTitle(R.string.select_insurance);
 
         mBuilder.setMultiChoiceItems(insuranceList, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -1274,7 +1274,7 @@ editDialog(whatData);
 
         mBuilder.setCancelable(false);
 
-        mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 insuranceItems = "";
@@ -1289,7 +1289,7 @@ editDialog(whatData);
                     }
                 }
                 if (insuranceItems.equals("")) {
-                    insuranceView.setText("Nothing");
+                    insuranceView.setText(R.string.nothing);
                 } else {
                     insuranceView.setText(insuranceItems);
                 }
@@ -1298,7 +1298,7 @@ editDialog(whatData);
             }
         });
 
-        mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+        mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

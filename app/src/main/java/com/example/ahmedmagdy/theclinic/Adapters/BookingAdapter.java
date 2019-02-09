@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -135,7 +136,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
     @NonNull
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         final View listViewItem = inflater.inflate(R.layout.list_layout_booking, null, true);
 
@@ -178,13 +179,15 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
         // final ImageView abookingphoto = (ImageView) listViewItem.findViewById(R.id.image_book);
 
-        BookingClass bookingclass = bookingList.get(position);
+        final BookingClass bookingclass = bookingList.get(position);
 
         dlocationcardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                    Toast.makeText(context, "Map will be here", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("google.navigation:q=" + bookingclass.getCbaddress()));
+                context.startActivity(intent);
 
             }
         });
@@ -198,7 +201,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                 final Dialog dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.edit_delete_dialog);
-                dialog.setTitle("Choose what you need");
+                dialog.setTitle(R.string.choose_what_you_need);
                 dialog.setCanceledOnTouchOutside(false);
                 final Button editbtn = dialog.findViewById(R.id.edit_select_dialog);
                 final Button deletebtn = dialog.findViewById(R.id.delete_select_dialog);
@@ -234,7 +237,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                         final Dialog dialog = new Dialog(context);
                         dialog.setContentView(R.layout.booking_data_dialig);
-                        dialog.setTitle("Edit your data");
+                        dialog.setTitle(R.string.edit_your_data);
                         dialog.setCanceledOnTouchOutside(false);
                         //
                         //
@@ -249,7 +252,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                 getLocation(dialog);
                             }
                             else {
-                                Toast.makeText(context, "Please Give us permission so you can use the app", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.please_give_us_permission_so_you_can_use_the_app, Toast.LENGTH_SHORT).show();
                             }
                         }
                         //--------------------------------------
@@ -300,7 +303,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                                     }
                                 }, hour, minute, false);//Yes 24 hour time
-                                mTimePicker.setTitle("Select Time");
+                                mTimePicker.setTitle(R.string.select_time);
                                 mTimePicker.show();
 
                             }
@@ -339,7 +342,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                                     }
                                 }, hour1, minute1, false);//Yes 24 hour time
-                                mTimePicker1.setTitle("Select Time");
+                                mTimePicker1.setTitle(R.string.select_time);
                                 mTimePicker1.show();
 
                             }
@@ -503,21 +506,21 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
 
                                 if (getaddress.isEmpty()) {
-                                    dialogAddress.setError("Please fill the address");
+                                    dialogAddress.setError(context.getString(R.string.please_fill_the_address));
                                     dialogAddress.requestFocus();
                                     return;}
                                 if (getstartingtime.isEmpty()) {
-                                    dialogstarttime.setError("Please fill starting time");
+                                    dialogstarttime.setError(context.getString(R.string.please_fill_starting_time));
                                     dialogstarttime.requestFocus();
                                     return;}
                                 if (getendingtime.isEmpty()) {
-                                    dialogendingtime.setError("Please fill ending times");
+                                    dialogendingtime.setError(context.getString(R.string.please_fill_ending_times));
                                     dialogendingtime.requestFocus();
                                     return;}
                                 if (endingHour<=startHour) {
-                                    dialogendingtime.setError("Ending time must be after starting time /n and in the same day");
+                                    dialogendingtime.setError(context.getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                                     dialogendingtime.requestFocus();
-                                    dialogstarttime.setError("Ending time must be after starting time /n and in the same day");
+                                    dialogstarttime.setError(context.getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                                     dialogstarttime.requestFocus();
                                     return;}
 
@@ -633,7 +636,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 }else{
                     ///////////////////************rearrange booking*******************//////////////////
                     if (mAuth.getCurrentUser() == null) {
-                        Toast.makeText(context, "Please log in first", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
                     } else{
 
                         BookingClass bookingclass = bookingList.get(position);
@@ -789,7 +792,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                     if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
                             ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
                         makepatientbooking(timeID, datedmy, position);
-                    }else{Toast.makeText(context, "Not match", Toast.LENGTH_LONG).show();}
+                    }else{Toast.makeText(context, R.string.not_match, Toast.LENGTH_LONG).show();}
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -836,7 +839,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                         arrange = String.valueOf(dataSnapshot.getChildrenCount() + 1);
                       //  if(MaxNo == null){
                         if ((MaxNo == null)||((dataSnapshot.getChildrenCount() + 1) <= (Integer.parseInt(MaxNo)) )) {
-                            Toast.makeText(context, "your Arrangement is the" + arrange, Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, context.getString(R.string.your_arrangement_is_the) + arrange, Toast.LENGTH_LONG).show();
                             //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
                             //String.valueOf( arrange )
                             DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
@@ -845,7 +848,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                             BookingTimesClass bookingtimes = new BookingTimesClass(DoctorID, mDate, currentBooking.getCbaddress(), timeID, datedmy, arrange);
                             bookforuser.child(userid).child(DoctorID + datedmy).setValue(bookingtimes);
-                            Toast.makeText(context, "is booked", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, R.string.is_booked, Toast.LENGTH_LONG).show();
 
                             ///***********for adapt arange in user booking activity**************/
                             //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("rangementid").setValue(randomid);
@@ -877,13 +880,13 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                                         patientName + " ,, Doctor ID:" + DoctorID +
                                                         ",, user id : " + userid);
 
-                                                sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                                                sendNotifiaction(DoctorID, patientName, context.getString(R.string.booking_time_with_you));
                                             }
                                             notify = false;
                                         }
                                     }
                             );
-                        }else{Toast.makeText(context, "doctor reach to the max. no of bookings in this time. try with another time", Toast.LENGTH_LONG).show();
+                        }else{Toast.makeText(context, R.string.doctor_reach_to_the_max_no_of_bookings_in_this_time_try_with_another_time, Toast.LENGTH_LONG).show();
                         }//here
 
                         //////////////////////***fordoctor****-----------------
@@ -924,7 +927,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking",
+                            username + ": " + message, context.getString(R.string.booking),
                             receiver);
                     Sender sender = new Sender(data,token.getToken());
                     // Sender sender = new Sender(data, token.getToken());
@@ -941,7 +944,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code() == 200) {
                                         if (response.body().success != 1) {
-                                            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -1004,7 +1007,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                     longitude = location.getLongitude();
                     showAddress(latitude,longitude,dialog);
                 }else{
-                    Toast.makeText(context, "Error we didn't get the Location\n Please try again after Few seconds", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.error_we_didnot_get_the_location_please_try_again_after_few_seconds, Toast.LENGTH_LONG).show();
                 }
             }
         });

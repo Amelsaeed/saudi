@@ -172,7 +172,7 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View view) {
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle("SELECT Degree");
+                mBuilder.setTitle(R.string.select_degree);
 
                 mBuilder.setSingleChoiceItems(listInsuranceItem, -1, new DialogInterface.OnClickListener() {
 
@@ -186,7 +186,7 @@ public class UserProfileFragment extends Fragment {
                 });
 
 
-                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -223,22 +223,22 @@ public class UserProfileFragment extends Fragment {
                     if (userName != null) {
                         nameEditUser.setText(userName);
                     } else {
-                        nameEditUser.setText("Your name");
+                        nameEditUser.setText(getString(R.string.your_name));
                     }
                     if (userPhone != null) {
                         phoneEditUser.setText(userPhone);
                     } else {
-                        phoneEditUser.setText("your phone");
+                        phoneEditUser.setText(getString(R.string.your_phone));
                     }
                     if (userbithdar != null) {
                         birthdayEditUser.setText(userbithdar);
                     } else {
-                        birthdayEditUser.setText("Your birthday");
+                        birthdayEditUser.setText(getString(R.string.your_birthday));
                     }
                     if (userinsurance != null) {
                         insuranceEditUser.setText(userinsurance);
                     } else {
-                        insuranceEditUser.setText("Your insurance");
+                        insuranceEditUser.setText(R.string.your_insurance);
                     }
 
                     RequestOptions requestOptions = new RequestOptions();
@@ -276,7 +276,7 @@ public class UserProfileFragment extends Fragment {
 
         if (user != null) {
             if (name.isEmpty()) {
-                nameEditUser.setError("User name is required");
+                nameEditUser.setError(getString(R.string.user_name_is_required));
                 nameEditUser.requestFocus();
                 return;
             }
@@ -291,7 +291,7 @@ public class UserProfileFragment extends Fragment {
 
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(R.string.import_image_from);
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -337,7 +337,7 @@ public class UserProfileFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
 
     @Override
@@ -443,7 +443,7 @@ public class UserProfileFragment extends Fragment {
                                     databaseChat.child(Userid).child("cUri").setValue(PhotoUrl);
 
                                     if (!PhotoUrl.equals("")) {
-                                        Toast.makeText(getActivity(), "Upload end", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), R.string.upload_end, Toast.LENGTH_LONG).show();
 
                                     }
 
@@ -455,13 +455,13 @@ public class UserProfileFragment extends Fragment {
                                 public void onFailure(@NonNull Exception exception) {
                                     progressBarUser.setVisibility(View.GONE);
 
-                                    Toast.makeText(getActivity(), "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                                 }
                             });
                 }
             } else {
-                Toast.makeText(getActivity(), "please check the network connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.please_check_the_network_connection, Toast.LENGTH_LONG).show();
             }
 
     }
@@ -485,7 +485,7 @@ public class UserProfileFragment extends Fragment {
                 final String editfield1 = editfield.getText().toString().trim();
 
                 if (editfield1.isEmpty()) {
-                    editfield.setError("Please fill the field");
+                    editfield.setError(getString(R.string.please_fill_the_field));
                     editfield.requestFocus();
                     return;
                 }
@@ -533,13 +533,13 @@ public class UserProfileFragment extends Fragment {
                     if (DoctorName != null) {
                         nameEditUser.setText(DoctorName);
                     } else {
-                        nameEditUser.setText("Name");
+                        nameEditUser.setText(R.string.name);
                     }
 
                     if (DoctorPhone != null) {
                         phoneEditUser.setText(DoctorPhone);
                     } else {
-                        phoneEditUser.setText("Phone Number");
+                        phoneEditUser.setText(R.string.phone_number);
                     }
 
                 }

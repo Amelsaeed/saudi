@@ -22,10 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-
             android:layout_below="@+id/logo"
-
-            android:text="* Please press to logo for uploading your personal photos"
+            android:text="@string/please_press_to_logo_for_uploading_your_personal_photos"
             android:textColor="#ff0202"
             android:textSize="10dp" />
 
@@ -39,7 +37,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textColor="@color/colorPrimary"
             android:textSize="20dp" />
 
@@ -75,7 +73,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
                     android:letterSpacing="0.1"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:textColor="#000"
                     android:maxLines="1"
                     android:inputType="textEmailAddress"
@@ -110,7 +108,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
                     android:letterSpacing="0.1"
-                    android:hint="Phone No."
+                    android:hint="@string/phone_no"
                     android:textColor="#000"
                     android:maxLines="1"
                     android:inputType="textEmailAddress"
@@ -146,7 +144,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
                     android:letterSpacing="0.1"
-                    android:hint="Email Address"
+                    android:hint="@string/email_address"
                     android:textColor="#000"
                     android:maxLines="1"
                     android:inputType="textEmailAddress"
@@ -179,7 +177,7 @@
                     android:background="#00000000"
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:textColor="#000"
                     android:letterSpacing="0.1"
@@ -215,7 +213,8 @@
                     android:layout_height="50dp"
                     android:background="#00000000"
                     android:paddingLeft="10dp"
-                    android:paddingRight="40dp"                    android:hint="Confirm Password"
+                    android:paddingRight="40dp"
+                    android:hint="@string/confirm_password"
                     android:inputType="textPassword"
                     android:textColorHint="#9c9999"
                     android:textColor="#000"
@@ -282,7 +281,7 @@
 
                 <TextView
                     android:id="@+id/text_insurance"
-                    android:text="Insurance"
+                    android:text="@string/insurance"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
                     android:textAlignment="viewStart"
@@ -310,7 +309,7 @@
 
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="* Please upload your work permit photo"
+                android:text="@string/please_upload_your_work_permit_photo"
                 android:textColor="#f90101"
                 android:textSize="10sp" />
             <LinearLayout
@@ -345,7 +344,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/round"
 
-                android:text="Singup"
+                android:text="@string/singup"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="#fff"
@@ -368,7 +367,7 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Login !"
+                    android:text="@string/login2"
                     android:textColor="#0d0d0d"/>
             </LinearLayout>
 

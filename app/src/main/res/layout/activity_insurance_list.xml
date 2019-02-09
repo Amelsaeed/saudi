@@ -40,8 +40,9 @@
             android:layout_alignTop="@+id/toolbarbook"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Doctor  "
+            android:text="@string/doctor"
             android:textColor="#695050"
+            android:layout_marginRight="5dp"
             android:textSize="12dp"
             android:textStyle="bold" />
         <TextView
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="user name"
+            android:text=""
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
     </LinearLayout>

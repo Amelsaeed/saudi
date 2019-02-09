@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/splashbackground"
     tools:context="com.example.ahmedmagdy.theclinic.activities.LoginActivity">
     <ImageView
         android:id="@+id/logo"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
         android:gravity="center"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/colorPrimary"
         android:layout_marginBottom="20dp"
         android:textSize="40dp" />
@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:drawablePadding="10dp"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:paddingLeft="10dp"
                 android:maxLines="1"
                 android:inputType="textEmailAddress"
@@ -92,7 +92,7 @@
                 android:layout_height="50dp"
                 android:background="#00000000"
                 android:paddingLeft="10dp"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:elevation="2dp"
                 android:textColor="#000"
@@ -114,7 +114,7 @@
             android:background="@drawable/round"
             android:textAppearance="?android:textAppearanceMedium"
             android:gravity="center"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="#fff"
             android:textStyle="bold" />
 
@@ -132,14 +132,14 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Create Account"
+                android:text="@string/create_account"
                 android:textColor="#000"/>
             <TextView
                 android:id="@+id/forget"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Forgot your password ?"
+                android:text="@string/forgot_your_password"
                 android:textColor="#000"
                 android:gravity="end"/>
         </LinearLayout>
@@ -148,7 +148,7 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Browsing app without login"
+            android:text="@string/browsing_app_without_login"
             android:textColor="#000"
             android:gravity="center"/>
 

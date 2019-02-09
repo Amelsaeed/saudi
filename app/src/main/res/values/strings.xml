@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">The Clinic</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">UpCare</string>
 
 
     <string-array name="step_array">
@@ -22,7 +22,7 @@
     </string-array>
 
     <string-array name="type_array">
-        <item>User</item>
+        <item>Patient</item>
         <item>Doctor</item>
         <item>Hospital</item>
     </string-array>
@@ -101,36 +101,28 @@
         <item>AL-ETIHAD</item>
         <item>ALSAGR</item>
         <item>Allianz</item>
-        <item>AlAlamia</item>
-        <item>Arabia Insurance</item>
+
         <item>Arabian Shield </item>
         <item>AlRajhi</item>
-        <item>Al-Ahlia</item>
-        <item>Allianz Saudi Fransi</item>
+
         <item>Bupa</item>
         <item>BURUJ</item>
         <item>ENAYA</item>
         <item>GGI</item>
         <item>GULF</item>
-        <item>GULF Union</item>
-        <item>GulfGeneral</item>
+
+
         <item>MetLife</item>
         <item>malath</item>
         <item>MEDGULF</item>
-        <item>Saico</item>
+
         <item>SALAMA</item>
         <item>SOLIDARITY</item>
         <item>Wafa</item>
         <item>Walaa</item>
-        <item>Wataniya</item>
-        <item>Njom</item>
-        <item>Star</item>
-        <item>Shark</item>
-        <item>Smsma</item>
-        <item>Saudi</item>
+
         <item>Tawuniya</item>
-        <item>Trade Union</item>
-        <item>United-UCA</item>
+
 
     </string-array>
 
@@ -243,7 +235,7 @@
     <string name="minimum_length_of_password_should_be_6">Minimum length of password should be 6</string>
     <string name="password_is_required">Password is required</string>
     <string name="signin_sccess">SIGNIN SUCCESS</string>
-    <string name="reset_password_dialog_title">reset password dialog title</string>
+    <string name="reset_password_dialog_title">reset password message</string>
     <string name="sending_email">sending email</string>
     <string name="ok">OK</string>
     <string name="reset_password_error_message">reset password error message</string>
@@ -277,7 +269,128 @@
     <string name="your_phone">Your phone</string>
     <string name="your_birthday">Your birthday</string>
     <string name="user_name_is_required">User name is required</string>
-
+    <string name="choose_what_you_need">Choose what you need</string>
+    <string name="not_match">Not match</string>
+    <string name="your_arrangement_is_the">your Arrangement is the</string>
+    <string name="is_booked">is booked</string>
+    <string name="booking_time_with_you">Booking time with you</string>
+    <string name="doctor_reach_to_the_max_no_of_bookings_in_this_time_try_with_another_time">doctor reach to the max. no of bookings in this time. try with another time</string>
+    <string name="booking">Booking</string>
+    <string name="this_patient_added_to_your_database">This patient added to your database</string>
+    <string name="what_do_you_want_to_do">What do you want to do ?</string>
+    <string name="text_is_required">Text is required</string>
+    <string name="note_added">Note Added.</string>
+    <string name="is_added_to_your_fav">is added to your fav.</string>
+    <string name="removed">Removed</string>
+    <string name="doctor_is_available_from">Doctor is available from \n  </string>
+    <string name="to">\n To \n  </string>
+    <string name="attention">Attention</string>
+    <string name="doctor_donot_activate_chat_times_yet">Doctor Don\'t activate chat times yet</string>
+    <string name="specialization_details">Specialization Details</string>
+    <string name="nothing_to_show">Nothing to show</string>
+    <string name="cancel">Cancel</string>
+    <string name="price_not_detected">price not detected</string>
+    <string name="insurance">Insurance</string>
+    <string name="not_detected">Not detected</string>
+    <string name="seen">Seen</string>
+    <string name="delivered">Delivered</string>
+    <string name="note_deleted">Note Deleted.</string>
+    <string name="note_updated">Note Updated.</string>
+    <string name="doctor_is_off_this_day">Doctor is off this day</string>
+    <string name="another_one_select_this_period">Another one select this period</string>
+    <string name="this_date_has_passed">This date has passed</string>
+    <string name="add_new_patient">Add new patient</string>
+    <string name="enter_your_data">Enter your data</string>
+    <string name="ending_time_and_starting_time_are_saved">Ending time and starting time are saved</string>
+    <string name="chat_is_blocked">Chat is blocked</string>
+    <string name="enter_maximum_number_of_reservations">Enter maximum number of reservations</string>
+    <string name="please_enter_maximum_number_of_reservations">Please enter maximum number of reservations</string>
+    <string name="maximum_number_of_reservations_is_saved">Maximum number of reservations is saved</string>
+    <string name="booking_is_blocked">Booking is blocked</string>
+    <string name="booking_is_opened_for_any_no">Booking is opened for any no.</string>
+    <string name="select_city">SELECT City</string>
+    <string name="select_specialty">SELECT Specialty</string>
+    <string name="select_degree">SELECT Degree</string>
+    <string name="creat_a_call">Creat a call</string>
+    <string name="are_you_sure_you_want_to_dialling">Are you sure, you want to dialling</string>
+    <string name="opened_for_any_no">Opened for any no.</string>
+    <string name="nulll">Null</string>
+    <string name="nothing">Nothing</string>
+    <string name="your_insurance">Your insurance</string>
+    <string name="add">Add</string>
+    <string name="search_by_name">Search by name</string>
+    <string name="search">Search</string>
+    <string name="doctor">Doctor</string>
+    <string name="add_time">add Time</string>
+    <string name="today">Today</string>
+    <string name="no_data">No data!</string>
+    <string name="no_data_added_to_favorites">No data added to favorites!</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_account" tools:ignore="ExtraTranslation">Create Account</string>
+    <string name="forgot_your_password">Forgot your password ?</string>
+    <string name="browsing_app_without_login">Browsing app without login</string>
+    <string name="type_a_message">Type a message.. </string>
+    <string name="patient">Patient</string>
+    <string name="hospital">Hospital</string>
+    <string name="please_press_to_logo_for_uploading_your_personal_photos">* Please press to logo for uploading your personal photos</string>
+    <string name="phone_no">Phone No.</string>
+    <string name="email_address">Email Address</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="please_upload_your_id_and_work_permit_photos">* Please upload your ID and work permit photos</string>
+    <string name="singup">Singup</string>
+    <string name="login2">Login !</string>
+    <string name="please_upload_your_work_permit_photo">* Please upload your work permit photo</string>
+    <string name="birthday">Birthday</string>
+    <string name="your_number_phone">Your Number phone :</string>
+    <string name="your_insurance2">Your Insurance :</string>
+    <string name="your_birthday2">Your Birthday :</string>
+    <string name="edit_your_note">Edit your Note</string>
+    <string name="enter_your_note_here">Enter your note here....</string>
+    <string name="submit">Submit</string>
+    <string name="age">Age</string>
+    <string name="detection_time">Detection time:</string>
+    <string name="from">From:</string>
+    <string name="starting_time">Starting time</string>
+    <string name="to2">To:</string>
+    <string name="ending_time">Ending time</string>
+    <string name="avg_detection_period_in_min">Avg.Detection period in min.</string>
+    <string name="address">Address</string>
+    <string name="be_sure_gps_is_opened_or_press_refresh">* Be sure GPS is opened or press Refresh</string>
+    <string name="refresh">Refresh</string>
+    <string name="press_close_chat_if_you_want_to_block_chat">* Press close chat if you want to block chat</string>
+    <string name="always_on">Always on</string>
+    <string name="colse_chat">Colse Chat</string>
+    <string name="book_for_your_account">Book for your account</string>
+    <string name="book_for_another_acount">Book for another acount</string>
+    <string name="reset_password">Reset password</string>
+    <string name="please_enter_your_email_address">Please enter your email address :</string>
+    <string name="please_enter_your_data">Please enter your data :</string>
+    <string name="data">Data</string>
+    <string name="select_what_you_want_to_do">Select what you want to do</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="city">City</string>
+    <string name="gallery">Gallery</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="book">Book</string>
+    <string name="location">Location</string>
+    <string name="favorite">Favorite</string>
+    <string name="address2">address:</string>
+    <string name="last_seen">last seen:</string>
+    <string name="maximum_number_of_reservations">Maximum number of reservations</string>
+    <string name="discount">Discount</string>
+    <string name="discount_percentage">Discount percentage</string>
+    <string name="close">close</string>
+    <string name="open">open</string>
+    <string name="note_text">note text</string>
+    <string name="add_new_note">Add New Note</string>
+    <string name="show_notes">Show notes</string>
+    <string name="save">Save</string>
+    <string name="back">back</string>
+    <string name="logout">Logout</string>
+    <string name="talk_me">Talk Me</string>
 
 
 </resources>

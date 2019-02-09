@@ -169,7 +169,7 @@ public class NoteAdapter extends ArrayAdapter<NoteClass> implements Filterable {
                 public void onClick(View view) {
                     database.removeValue();
                     // success
-                    Toast.makeText(mContext, "Note Deleted.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.note_deleted, Toast.LENGTH_SHORT).show();
                     // remove date form list
                     mList.remove(position);
                     notifyDataSetChanged();
@@ -196,7 +196,7 @@ public class NoteAdapter extends ArrayAdapter<NoteClass> implements Filterable {
                     String date = UtilClass.getInstanceDate();
                     // check if edit text not empty
                     if (text.isEmpty()) {
-                        editText.setError("Text is required");
+                        editText.setError(mContext.getString(R.string.text_is_required));
                         editText.requestFocus();
                         return;
                     }
@@ -212,7 +212,7 @@ public class NoteAdapter extends ArrayAdapter<NoteClass> implements Filterable {
                     mList.get(position).setcDate(date);
                     notifyDataSetChanged();
                     // feed back message
-                    Toast.makeText(mContext,"Note Updated.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,R.string.note_updated,Toast.LENGTH_SHORT).show();
                     /*
                     if(database.setValue(note).isSuccessful())
                         // success

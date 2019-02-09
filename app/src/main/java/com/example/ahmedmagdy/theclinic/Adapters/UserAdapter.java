@@ -143,7 +143,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                                 mContext.startActivity(intent);
 
                             } else {
-                                Toast.makeText(mContext, "Doctor is available from " + DChatstart + " To " + DChatend, Toast.LENGTH_LONG).show();
+                                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(mContext);
+                                alertDialogBuilder.setTitle(R.string.attention);
+                                alertDialogBuilder
+                                        .setIcon(R.drawable.ic_attention)
+                                        .setMessage(mContext.getString(R.string.doctor_is_available_from) + DChatstart + mContext.getString(R.string.to) + DChatend)
+                                        .setCancelable(true);
+
+                                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+
+                            /*    Toast.makeText(mContext, "Doctor is available from " + DChatstart + " To " + DChatend, Toast.LENGTH_LONG).show();*/
                             }
 
 ///****************************past date*************************
@@ -208,7 +218,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
                     if (firebaseUser != null && chat != null) {
-                        if (chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen() && chat.getSender().equals(userid)) {
+                        if (chat.getReceiver().equals(firebaseUser.getUid()) &&
+                                !chat.isIsseen() && chat.getSender().equals(userid)) {
                             theLastMessage = chat.getMessage();
 
                         }

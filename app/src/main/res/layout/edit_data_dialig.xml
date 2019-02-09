@@ -19,7 +19,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
 
-            android:text="Edit your data"
+            android:text="@string/edit_your_data"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -32,7 +32,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
-            android:text="Please enter your data :"
+            android:text="@string/please_enter_your_data"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -40,7 +40,7 @@
             android:id="@+id/edit_data_tv_e"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Data"
+            android:hint="@string/data"
             android:paddingLeft="10dp"
             android:maxLines="1"
             android:inputType="textMultiLine"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />

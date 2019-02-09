@@ -65,15 +65,13 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginLeft="8dp"
                                 android:src="@drawable/ic_status"
-                                app:civ_border_width="4dp"
-                                app:civ_border_overlay="true"
                                 app:civ_border_color="#fff"
+                                app:civ_border_overlay="true"
+                                app:civ_border_width="4dp"
                                 app:layout_constraintBottom_toBottomOf="@+id/doctor_photo"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="1.0"
                                 tools:ignore="MissingConstraints" />
-
-
 
 
                         </android.support.constraint.ConstraintLayout>
@@ -106,7 +104,8 @@
                                 android:id="@+id/type_list"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Doctor"
+                                android:layout_marginRight="5dp"
+                                android:text="@string/doctor"
                                 android:textColor="#c9c8c8"
                                 android:textSize="8dp" />
 
@@ -190,14 +189,14 @@
                                 android:id="@+id/doctor_specialty"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
-                                android:textColor="#fff"/>
-<!--
-                            <ImageView
-                                android:id="@+id/doctor_specialty_all"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:background="@drawable/ic_all_out" />-->
+                                android:textColor="#fff" />
+                            <!--
+                                                        <ImageView
+                                                            android:id="@+id/doctor_specialty_all"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:layout_marginLeft="15dp"
+                                                            android:background="@drawable/ic_all_out" />-->
                         </LinearLayout>
 
                         <LinearLayout
@@ -241,12 +240,12 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff" />
 
-                      <!--      <ImageView
-                                android:id="@+id/doctor_Insurance_all"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:background="@drawable/ic_all_out" />-->
+                            <!--      <ImageView
+                                      android:id="@+id/doctor_Insurance_all"
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:layout_marginLeft="15dp"
+                                      android:background="@drawable/ic_all_out" />-->
 
                         </LinearLayout>
                     </LinearLayout>
@@ -254,30 +253,42 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:addStatesFromChildren="false"
-                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <RelativeLayout
-                            android:id="@+id/rilative_book"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/book123"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:layout_marginBottom="5dp">
 
                             <ImageView
-                                android:id="@+id/book123"
+                                android:id="@+id/book13"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
                                 android:background="@drawable/bg_book" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/book13"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="29dp"
+                                android:layout_marginBottom="52dp"
+                                android:text="@string/book"
+                                android:textStyle="bold"
+                                android:textSize="10dp"
+                                android:textAllCaps="true"
+                                android:textColor="#fff" />
                         </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/rilative_fav"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:orientation="vertical">
@@ -288,7 +299,7 @@
                                 android:layout_height="wrap_content">
 
                                 <ImageView
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/bg_fav" />
 
@@ -305,24 +316,43 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
-                                    android:text="Favorite"
+                                    android:text="@string/favorite"
                                     android:textColor="#f90303"
-                                    android:textSize="12dp" />
+                                    android:textSize="10dp" />
+
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:id="@+id/chatroom"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/chatroom1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_chat_btn" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/ssss"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginBottom="-42dp"
+                                    android:background="@drawable/log_chat" />
+                                <TextView
+                                    android:id="@+id/ssss"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="42dp"
+                                    android:text="@string/talk_me"
+                                    android:textColor="#f90303"
+                                    android:textSize="10dp"
+                                    android:textStyle="italic" />
                             </RelativeLayout>
                         </LinearLayout>
-
-
-                        <ImageView
-                            android:id="@+id/chatroom"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="-10dp"
-                            app:srcCompat="@drawable/ic_chat_room" />
-
                     </LinearLayout>
-
-
                 </LinearLayout>
 
             </RelativeLayout>

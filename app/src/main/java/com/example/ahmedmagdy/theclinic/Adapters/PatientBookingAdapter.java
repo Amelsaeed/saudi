@@ -131,7 +131,7 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
             public void onClick(View v) {
                 if(cardviewcancel.getCardBackgroundColor().getDefaultColor()==Color.parseColor("#FFDFDBDB")){
                     //  if (userIdForAll.equals(userid)){
-                    Toast.makeText(context, "This date has passed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.this_date_has_passed, Toast.LENGTH_LONG).show();
 
                 }else {
                     final BookingTimesClass doctorclass = doctorList.get(position);

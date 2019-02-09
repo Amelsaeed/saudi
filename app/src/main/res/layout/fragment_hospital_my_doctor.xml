@@ -24,7 +24,7 @@
             android:layout_marginTop="4dp"
             app:iconifiedByDefault="false"
             android:focusable="false"
-            app:queryHint="Search"/>
+            app:queryHint="@string/search"/>
         <ImageButton
             android:id="@+id/add_doctor"
             android:layout_width="50dp"

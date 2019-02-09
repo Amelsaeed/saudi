@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:drawableLeft="@android:drawable/ic_menu_search"
-        android:hint="Search..." />
+        android:hint="@string/search" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_below="@id/search_users"

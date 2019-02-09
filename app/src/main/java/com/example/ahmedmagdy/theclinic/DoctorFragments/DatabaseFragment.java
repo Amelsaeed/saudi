@@ -161,7 +161,7 @@ public class DatabaseFragment extends Fragment {
                     if (UserName != null) {
                         usernamef.setText(UserName);
                     } else {
-                        usernamef.setText("Name");
+                        usernamef.setText(R.string.name);
                     }
 
                 }

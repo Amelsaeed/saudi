@@ -30,7 +30,7 @@
             android:background="@drawable/button_round_clear"
             android:focusable="false"
             app:iconifiedByDefault="false"
-            app:queryHint="Search" />
+            app:queryHint="@string/search" />
 
         <ImageView
             android:id="@+id/adddoctor"

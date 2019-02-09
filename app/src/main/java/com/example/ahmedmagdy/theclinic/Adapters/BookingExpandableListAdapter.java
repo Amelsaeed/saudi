@@ -163,7 +163,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     databasePatient.child(currentChild.getCtid()).child("checked").setValue(isChecked);
                     databasePatient.child(currentChild.getCtid()).child("ctdate").setValue(mDate);
 
-                    Toast.makeText(mContext ,  "This patient added to your database", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext ,  R.string.this_patient_added_to_your_database, Toast.LENGTH_LONG).show();
                         //////////////////////////*****************************************************/*
                     DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
                     final ValueEventListener postListener1 = new ValueEventListener() {
@@ -293,7 +293,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
         if (type.equals("select")) {
             dialog.setContentView(R.layout.select_note_dialog);
             // set button
-            dialog.setTitle("What do you want to do ?");
+            dialog.setTitle(R.string.what_do_you_want_to_do);
             create = dialog.findViewById(R.id.add_btn_select_note_dialog);
             show = dialog.findViewById(R.id.show_btn_select_note_dialog);
             cancel = dialog.findViewById(R.id.cancel_btn_select_note_dialog);
@@ -337,7 +337,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     String date = UtilClass.getInstanceDate();
                     // check if edit text not empty
                     if (text.isEmpty()) {
-                        editText.setError("Text is required");
+                        editText.setError(mContext.getString(R.string.text_is_required));
                         editText.requestFocus();
                         return;
                     }
@@ -347,7 +347,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     NoteClass note = new NoteClass(noteId,text,item.getCtid(),userId,date);
 
                     database.child(noteId).setValue(note);
-                    Toast.makeText(mContext,"Note Added.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,R.string.note_added,Toast.LENGTH_SHORT).show();
                     // feed back message
                     /*
                     if(database.child(noteId).setValue(note).isSuccessful())

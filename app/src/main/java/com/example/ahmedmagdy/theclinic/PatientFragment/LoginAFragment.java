@@ -94,25 +94,25 @@ public class LoginAFragment extends Fragment {
         String mPassword = editTextPassword.getText().toString().trim();
 
         if (mEmail.isEmpty()) {
-            editTextemail.setError("Email is required");
+            editTextemail.setError(getString(R.string.email_is_required));
             editTextemail.requestFocus();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-            editTextemail.setError("Please enter a valid email");
+            editTextemail.setError(getString(R.string.please_enter_a_valid_email));
             editTextemail.requestFocus();
             return;
         }
 
         if (mPassword.length() < 6) {
-            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.setError(getString(R.string.minimum_length_of_password_should_be_6));
             editTextPassword.requestFocus();
             return;
         }
 
         if (mPassword.isEmpty()) {
-            editTextPassword.setError("Password is required");
+            editTextPassword.setError(getString(R.string.password_is_required));
             editTextPassword.requestFocus();
             return;
         }
@@ -126,7 +126,7 @@ public class LoginAFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         //Log.d(TAG, "SIGNIN SUCCESS");
-                        Toast.makeText(getActivity(), "SIGNIN SUCCESS", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.signin_sccess, Toast.LENGTH_SHORT).show();
                         /** Intent intend= new Intent(LoginActivity.this, AllDoctorActivity.class);
                          intend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                          finish();
@@ -279,9 +279,9 @@ public class LoginAFragment extends Fragment {
     private void displayResetPasswordDialog(String email) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("reset_password_dialog_title");
-        alertDialog.setMessage("sending_email");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setTitle(getString(R.string.reset_password_dialog_title));
+        alertDialog.setMessage(getString(R.string.sending_email));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -308,13 +308,13 @@ public class LoginAFragment extends Fragment {
                 final String mEmail = editTextemail.getText().toString().trim();
 
                 if (mEmail.isEmpty()) {
-                    editTextemail.setError("Email is required");
+                    editTextemail.setError(getString(R.string.email_is_required));
                     editTextemail.requestFocus();
                     return;
                 }
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-                    editTextemail.setError("Please enter a valid email");
+                    editTextemail.setError(getString(R.string.please_enter_a_valid_email));
                     editTextemail.requestFocus();
                     return;
                 }
@@ -332,13 +332,13 @@ public class LoginAFragment extends Fragment {
                                         displayResetPasswordDialog(mEmail);
                                         dialog.dismiss();
                                     } else {
-                                        errorMessage.setText("reset password error message");
+                                        errorMessage.setText(getString(R.string.reset_password_dialog_title));
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
                 } else {
-                    Toast.makeText(getActivity(), "network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.please_check_the_network_connection, Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 }
 

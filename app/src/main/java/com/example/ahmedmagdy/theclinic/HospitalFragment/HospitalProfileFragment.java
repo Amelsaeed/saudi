@@ -152,7 +152,7 @@ public class HospitalProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle("SELECT City");
+                mBuilder.setTitle(R.string.select_city);
 
                 mBuilder.setSingleChoiceItems(listCityItems, -1, new DialogInterface.OnClickListener() {
 
@@ -167,7 +167,7 @@ public class HospitalProfileFragment extends Fragment {
                 });
 
 
-                mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -212,7 +212,7 @@ public class HospitalProfileFragment extends Fragment {
 
         }
 
-        mBuilder.setTitle("Select insurance");
+        mBuilder.setTitle(R.string.select_insurance);
 
         mBuilder.setMultiChoiceItems(insuranceList, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -228,7 +228,7 @@ public class HospitalProfileFragment extends Fragment {
 
         mBuilder.setCancelable(false);
 
-        mBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 insuranceItems = "";
@@ -243,7 +243,7 @@ public class HospitalProfileFragment extends Fragment {
                     }
                 }
                 if (insuranceItems.equals("")) {
-                    Insurance.setText("Nothing");
+                    Insurance.setText(R.string.nothing);
                 } else {
                     Insurance.setText(insuranceItems);
                 }
@@ -252,7 +252,7 @@ public class HospitalProfileFragment extends Fragment {
             }
         });
 
-        mBuilder.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+        mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -281,7 +281,7 @@ public class HospitalProfileFragment extends Fragment {
                 final String editfield1 = editField.getText().toString().trim();
 
                 if (editfield1.isEmpty()) {
-                    editField.setError("Please fill the field");
+                    editField.setError(getString(R.string.please_fill_the_field));
                     editField.requestFocus();
                     return;
                 }
@@ -323,7 +323,7 @@ public class HospitalProfileFragment extends Fragment {
                 final String editfield1 = editField.getText().toString().trim();
 
                 if (editfield1.isEmpty()) {
-                    editField.setError("Please fill the field");
+                    editField.setError(getString(R.string.please_fill_the_field));
                     editField.requestFocus();
                     return;
                 }
@@ -350,7 +350,7 @@ public class HospitalProfileFragment extends Fragment {
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.import_image_dialog);
-        dialog.setTitle("Import image from:");
+        dialog.setTitle(R.string.import_image_from);
         dialog.setCanceledOnTouchOutside(false);
 
         TextView gallery = (TextView) dialog.findViewById(R.id.gallery_tv);
@@ -388,7 +388,7 @@ public class HospitalProfileFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), GALLERY_REQUEST_CODE);
     }
     private void openCameraAction() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -500,7 +500,7 @@ public class HospitalProfileFragment extends Fragment {
 
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image", "Upload end");
-                                    Toast.makeText(getContext(), "Upload end", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), R.string.upload_end, Toast.LENGTH_LONG).show();
 
                                 }
                             }
@@ -509,13 +509,13 @@ public class HospitalProfileFragment extends Fragment {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 progressBarImage.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), "an error occurred while  uploading image", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                             }
                         });
             }
         } else {
-            Toast.makeText(getContext(), "please check the network connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.network_connection_msg, Toast.LENGTH_LONG).show();
         }
     }
 }

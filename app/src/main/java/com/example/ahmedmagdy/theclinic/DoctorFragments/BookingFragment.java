@@ -124,7 +124,7 @@ public class BookingFragment extends Fragment {
     private void openAddPatientDialog() {
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.add_patient_fragment);
-        dialog.setTitle("Add new patient");
+        dialog.setTitle(R.string.add_new_patient);
         dialog.setCanceledOnTouchOutside(false);
         final EditText nameField = dialog.findViewById(R.id.pat_name_et);
         final EditText ageField = dialog.findViewById(R.id.pat_age_et);

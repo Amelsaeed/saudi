@@ -19,7 +19,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
 
-            android:text="Edit your data"
+            android:text="@string/edit_your_data"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -32,7 +32,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
-            android:text="Please enter your data :"
+            android:text="@string/please_enter_your_data"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -40,7 +40,7 @@
             android:id="@+id/max_data_tv_e"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Maximum number of reservations"
+            android:hint="@string/maximum_number_of_reservations"
             android:paddingLeft="10dp"
             android:maxLines="1"
             android:inputType="number"
@@ -52,7 +52,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:id="@+id/discount_cb"
-               android:text="Discount"
+               android:text="@string/discount"
                android:textSize="14sp"
                android:padding="4dp"
                android:visibility="gone"
@@ -73,7 +73,7 @@
                   android:id="@+id/discount_et"
                   android:layout_weight="1"
                   android:textSize="14sp"
-                  android:hint="Discount percentage"
+                  android:hint="@string/discount_percentage"
                   android:background="@drawable/white_rect"
                   android:inputType="numberDecimal"
                   android:padding="4dp"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="close"
+                android:text="@string/close"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="open"
+                android:text="@string/open"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />

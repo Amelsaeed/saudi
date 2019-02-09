@@ -243,7 +243,7 @@ public class HospitalMyDoctorFragment extends Fragment {
 
                 if(UserName != null) {
                     usernamef.setText(UserName);
-                }else{usernamef.setText("Name");}
+                }else{usernamef.setText(R.string.name);}
 
 
             }

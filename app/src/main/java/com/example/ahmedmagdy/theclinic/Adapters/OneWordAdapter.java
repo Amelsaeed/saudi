@@ -217,7 +217,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                         cardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
                         //datedmy=booking day= 15-1-2018
                         makepatientbooking(TimeID, datedmy, position);
-                        Toast.makeText(context, "Is booked", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,  R.string.is_booked, Toast.LENGTH_LONG).show();
 
 
 
@@ -225,12 +225,12 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                         /**  Intent intent = new Intent(context,CalenderActivity.class);
                           context.finish();
                           context.startActivity(intent);**/
-                    }else {Toast.makeText(context, "Doctor is off this day", Toast.LENGTH_LONG).show();
+                    }else {Toast.makeText(context, R.string.doctor_is_off_this_day, Toast.LENGTH_LONG).show();
                     }
                 }else{
                     if(cardview.getCardBackgroundColor().getDefaultColor()==Color.parseColor("#FFDFDBDB")){
                   //  if (userIdForAll.equals(userid)){
-                        Toast.makeText(context, "Another one select this period", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.another_one_select_this_period, Toast.LENGTH_LONG).show();
 
                     }else{
                         cardview.setCardBackgroundColor(Color.parseColor("#ffffff"));
@@ -238,7 +238,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                                 .child(datedmy)
                                 .child(userid).setValue(null);
                        bookforuser.child(userid).child(DoctorID+datedmy).setValue(null);
-                        Toast.makeText(context, "Removed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.removed, Toast.LENGTH_LONG).show();
                     }
 
 
@@ -332,7 +332,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                                                 patientName + " ,, Doctor ID:" + DoctorID +
                                                 ",, user id : " + userid);
 
-                                        sendNotifiaction(DoctorID, patientName, "Booking time with you");
+                                        sendNotifiaction(DoctorID, patientName, context.getString(R.string.booking_time_with_you));
                                     }
                                     notify = false;
                                 }
@@ -418,7 +418,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking",
+                            username + ": " + message, context.getString(R.string.booking),
                             receiver);
 
                     Sender sender = new Sender(data, token.getToken());
@@ -435,7 +435,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code() == 200) {
                                         if (response.body().success != 1) {
-                                            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }

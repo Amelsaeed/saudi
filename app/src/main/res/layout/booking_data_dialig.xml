@@ -17,15 +17,13 @@
 
         <TextView
             android:id="@+id/text_title"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="5dp"
-
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
-            android:text="Detection time:"
+            android:text="@string/detection_time"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -34,7 +32,6 @@
                android:layout_height="wrap_content"
                android:layout_marginRight="5dp"
                android:layout_marginLeft="5dp"
-
                android:layout_marginBottom="15dp"
                android:orientation="horizontal">
 
@@ -45,7 +42,7 @@
                    android:layout_marginBottom="8dp"
                    android:layout_marginLeft="16dp"
                    android:layout_marginRight="8dp"
-                   android:text="From:"
+                   android:text="@string/from"
                    android:textColor="@android:color/black"
                    android:textSize="16sp" />
 
@@ -79,7 +76,7 @@
                        android:gravity="center"
                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                        android:textColor="#000"
-                       android:hint="Starting time"
+                       android:hint="@string/starting_time"
                        android:enabled="false"
                        />
 
@@ -107,7 +104,7 @@
                    android:layout_marginBottom="8dp"
                    android:layout_marginLeft="16dp"
                    android:layout_marginRight="8dp"
-                   android:text="To:   "
+                   android:text="@string/to2"
                    android:textColor="@android:color/black"
                    android:textSize="16sp" />
                <LinearLayout
@@ -141,7 +138,7 @@
                        android:textColor="#000"
                        android:layout_marginRight="5dp"
                        android:layout_marginLeft="5dp"
-                       android:hint="Ending  time"
+                       android:hint="@string/ending_time"
                        android:enabled="false"
                        />
 
@@ -167,7 +164,7 @@
                    android:layout_marginBottom="8dp"
                    android:layout_marginLeft="16dp"
                    android:layout_marginRight="8dp"
-                   android:text="Avg.Detection period in min."
+                   android:text="@string/avg_detection_period_in_min"
                    android:textColor="@android:color/black"
                    android:textSize="16sp" />
                <LinearLayout
@@ -252,7 +249,7 @@
                android:id="@+id/dialog_address"
                android:layout_width="match_parent"
                android:layout_height="50dp"
-               android:hint="Address"
+               android:hint="@string/address"
                android:background="@drawable/roundwhite"
                android:layout_gravity="center"
                android:layout_marginRight="15dp"
@@ -274,7 +271,7 @@
                android:layout_marginBottom="8dp"
                android:layout_marginLeft="25dp"
                android:layout_marginRight="8dp"
-               android:text="* Be sure GPS is opened or press Refresh"
+               android:text="@string/be_sure_gps_is_opened_or_press_refresh"
                android:textColor="@android:color/holo_red_dark"
                android:textSize="12sp" />
            <LinearLayout
@@ -310,7 +307,6 @@
 
                    <TextView
                        android:id="@+id/sat_text"
-
                        android:text="Sat"
                        android:textAlignment="center"
                        android:textColor="@android:color/black"
@@ -318,7 +314,6 @@
                        android:textStyle="bold"
                        android:gravity="center"
                        android:layout_gravity="center"
-
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content" />
 
@@ -528,7 +523,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -538,7 +533,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Refresh"
+                android:text="@string/refresh"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -549,7 +544,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
