@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">UpCare</string>
-
+    <string name="app_name">The Clinic</string>
 
     <string-array name="gander_array">
         <item>ذكر</item>

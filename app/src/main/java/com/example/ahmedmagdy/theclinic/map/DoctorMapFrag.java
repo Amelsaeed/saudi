@@ -89,7 +89,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
     private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
     private ArrayList<UserLocation> mUserLocs = new ArrayList<>();
     private GeoApiContext mGeoApiContext = null;
-    /*direction*/
+    /*direction
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -121,7 +121,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
         }
     };
     private LocationManager mLocationManager;
-    /*direction*/
+    direction*/
 
 
     public static DoctorMapFrag newInstance() {
@@ -154,7 +154,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
 
         checkMapServices();
 
-        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        //mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         initGoogleMap(savedInstanceState);
 
@@ -266,14 +266,14 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
             setCameraView();
 
             //add my marker
-            getCurrentLocation();
+            /*getCurrentLocation();
             LatLng gps = new LatLng(myLat, myLng);
             System.out.println(TAG+" gps marker "+gps);
             if( gps != null){
                 mGoogleMap.addMarker(new MarkerOptions()
                         .position(gps)
                         .title(getString(R.string.mylocation)));
-            }
+            }*/
 
         } else {
             //for doctor profile
@@ -417,7 +417,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
     @Override
     public void onPause() {
         mMapView.onPause();
-        mLocationManager.removeUpdates(mLocationListener);
+        //mLocationManager.removeUpdates(mLocationListener);
         super.onPause();
     }
 
@@ -612,7 +612,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
     /*refresh*/
     /*refresh*/
 
-    private void getCurrentLocation() {
+    /*private void getCurrentLocation() {
         boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -663,5 +663,5 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gps, 12));
         }
 
-    }
+    }*/
 }
