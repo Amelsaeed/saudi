@@ -81,7 +81,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="40dp"
                     android:textColor="#000"
-                    android:textColorHint="#000"
+                    android:textColorHint="#fff"
                     android:textSize="13dp" />
             </LinearLayout>
             <LinearLayout
@@ -115,7 +115,7 @@
                     android:maxLines="1"
                     android:gravity="left|center"
                     android:inputType="textEmailAddress"
-                    android:textColorHint="#000"
+                    android:textColorHint="#fff"
                     android:drawablePadding="10dp"
                     android:textSize="13dp"
                     />
@@ -152,7 +152,7 @@
                     android:maxLines="1"
                     android:gravity="left|center"
                     android:inputType="textEmailAddress"
-                    android:textColorHint="#000"
+                    android:textColorHint="#fff"
                     android:drawablePadding="10dp"
                     android:textSize="13dp"
                     />
@@ -185,7 +185,7 @@
                     android:inputType="textPassword"
                     android:textColor="#000"
                     android:letterSpacing="0.1"
-                    android:textColorHint="#000"
+                    android:textColorHint="#fff"
                     android:gravity="left|center"
                     android:drawablePadding="10dp"
                     android:textSize="13dp"
@@ -221,7 +221,7 @@
                     android:paddingRight="40dp"
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"
-                    android:textColorHint="#000"
+                    android:textColorHint="#fff"
                     android:gravity="left|center"
                     android:textColor="#000"
                     android:textSize="13dp"
@@ -244,7 +244,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_location_city"
+                    android:src="@drawable/ic_six"
                     android:layout_gravity="center"
                     android:paddingLeft="10dp"
                     />
@@ -256,7 +256,7 @@
                     android:paddingRight="0dp"
                     android:spinnerMode="dropdown"
                     android:textAlignment="gravity"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="13dp"
@@ -291,7 +291,7 @@
                     android:paddingRight="0dp"
                     android:spinnerMode="dropdown"
                     android:textAlignment="gravity"
-                    android:textColor="#9c9999"
+                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="13dp"
@@ -313,7 +313,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_spec"
+                    android:src="@drawable/ic_sp_black"
                     android:layout_gravity="center"
                     android:paddingLeft="10dp"
                     />
@@ -325,7 +325,7 @@
                     android:paddingRight="0dp"
                     android:spinnerMode="dropdown"
                     android:textAlignment="gravity"
-                    android:textColor="#9c9999"
+                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="13dp"
@@ -359,7 +359,7 @@
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
                     android:textAlignment="viewStart"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="13dp"

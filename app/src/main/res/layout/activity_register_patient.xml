@@ -67,8 +67,9 @@
                     android:hint="@string/name"
                     android:textColor="#000"
                     android:maxLines="1"
+                    android:gravity="left|center"
                     android:inputType="textEmailAddress"
-                    android:textColorHint="#9c9999"
+                    android:textColorHint="#fff"
                     android:drawablePadding="10dp"
                     android:textSize="13dp"
                     />
@@ -141,7 +142,8 @@
                     android:textColor="#000"
                     android:maxLines="1"
                     android:inputType="textEmailAddress"
-                    android:textColorHint="#9c9999"
+                    android:textColorHint="#fff"
+                    android:gravity="left|center"
                     android:drawablePadding="10dp"
                     android:textSize="13dp"
                     />
@@ -174,7 +176,8 @@
                     android:inputType="textPassword"
                     android:textColor="#000"
                     android:letterSpacing="0.1"
-                    android:textColorHint="#9c9999"
+                    android:textColorHint="#fff"
+                    android:gravity="left|center"
                     android:drawablePadding="10dp"
                     android:textSize="13dp"
                     />
@@ -209,7 +212,8 @@
                     android:paddingRight="40dp"
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"
-                    android:textColorHint="#9c9999"
+                    android:textColorHint="#fff"
+                    android:gravity="left|center"
                     android:textColor="#000"
                     android:textSize="13dp"
                     android:letterSpacing="0.1"
@@ -247,7 +251,8 @@
                     android:paddingRight="40dp"
                     android:hint="@string/birthday"
                     android:inputType="date"
-                    android:textColorHint="#9c9999"
+                    android:textColorHint="#fff"
+                    android:gravity="left|center"
                     android:textColor="#000"
                     android:textSize="13dp"
                     android:letterSpacing="0.1"
@@ -324,12 +329,12 @@
                     android:paddingRight="0dp"
                     android:spinnerMode="dropdown"
                     android:textAlignment="viewStart"
-                    android:textColor="#9c9999"
+                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="13dp"
                     android:layout_weight="1"
-                    android:gravity="start"
+                    android:gravity="left"
                     android:layout_gravity="start" />
 
             </LinearLayout>
@@ -359,12 +364,12 @@
                     android:paddingRight="0dp"
                     android:spinnerMode="dropdown"
                     android:textAlignment="viewStart"
-                    android:textColor="#9c9999"
+                    android:textColor="#fff"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textSize="13dp"
                     android:layout_weight="1"
-                    android:gravity="start"
+                    android:gravity="left"
                     android:layout_gravity="start" />
 
             </LinearLayout>

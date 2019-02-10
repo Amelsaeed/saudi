@@ -1,7 +1,11 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class RegisterPatientActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback{
     private ImageView callogo;
@@ -65,6 +70,9 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (fuser != null){
+            loadLocale();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_patient);
 
@@ -373,5 +381,20 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
         reference.child(fuser.getUid()).setValue(token1);
     }
 
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
 
+    }
+    public void  loadLocale(){
+        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
+    }
 }

@@ -1,9 +1,13 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -46,6 +50,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 public class RegisterDoctorActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback{
@@ -83,6 +88,9 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (fuser != null){
+            loadLocale();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_doctor);
 
@@ -821,5 +829,21 @@ textInsurance.setText("");
         } else {
             Toast.makeText(RegisterDoctorActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
         }
+    }
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+
+    }
+    public void  loadLocale(){
+        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
     }
 }

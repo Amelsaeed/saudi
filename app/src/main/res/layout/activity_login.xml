@@ -59,6 +59,7 @@
                 android:hint="@string/email"
                 android:paddingLeft="10dp"
                 android:maxLines="1"
+                android:gravity="left|center"
                 android:inputType="textEmailAddress"
                 android:elevation="2dp"
                 android:textColor="#000"
@@ -96,6 +97,7 @@
                 android:inputType="textPassword"
                 android:elevation="2dp"
                 android:textColor="#000"
+                android:gravity="left|center"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="13dp"
                 android:layout_weight="1"
@@ -124,6 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:gravity="center"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -133,6 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/create_account"
+                android:gravity="left"
                 android:textColor="#000"/>
             <TextView
                 android:id="@+id/forget"
@@ -141,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/forgot_your_password"
                 android:textColor="#000"
-                android:gravity="end"/>
+                android:gravity="right" />
         </LinearLayout>
         <TextView
             android:id="@+id/go_to_home"

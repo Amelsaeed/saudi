@@ -391,6 +391,9 @@
     <string name="back">back</string>
     <string name="logout">Logout</string>
     <string name="talk_me">Talk Me</string>
+    <string name="degree_not_detected">Degree not detected</string>
+    <string name="choose_anguage">Choose Language</string>
+    <string name="language_settings">Language Sٍettings</string>
 
 
 </resources>

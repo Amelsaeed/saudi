@@ -1,7 +1,11 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.NonNull;
@@ -24,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class DoctorHome extends AppCompatActivity {
     private DatabaseReference databaseDoctor, databaseChat,databaseDoctor1, databaseChat1;
@@ -32,6 +37,7 @@ public class DoctorHome extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         setContentView(R.layout.activity_doctor_home);
 
 
@@ -72,6 +78,22 @@ public class DoctorHome extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new AllDoctorFragment()).commit();
+    }
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+
+    }
+    public void  loadLocale(){
+        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
     }
 
     @Override

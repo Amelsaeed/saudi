@@ -1,9 +1,15 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +50,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MoreFragmentPatient extends Fragment {
@@ -61,22 +68,23 @@ public class MoreFragmentPatient extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         View rootView = inflater.inflate(R.layout.fragment_more, container, false);
         mAuth = FirebaseAuth.getInstance();
+        loadLocale();
         //run get data for map
         getAllDoctorsMap();
         ArrayList<String> titles = new ArrayList<>();
         titles.add(getString(R.string.chat_room));
         titles.add(getString(R.string.doctor_map));
         titles.add(getString(R.string.Profile));
-
         titles.add(getString(R.string.hospitals));
         titles.add(getString(R.string.contact_us));
         titles.add(getString(R.string.rate_us));
-
         titles.add(getString(R.string.share));
         titles.add(getString(R.string.about));
+        titles.add(getString(R.string.language_settings));
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -95,6 +103,7 @@ public class MoreFragmentPatient extends Fragment {
         icons.add(R.drawable.rating);
         icons.add(R.drawable.ic_share_black_24dp);
         icons.add(R.drawable.ic_help);
+        icons.add(R.drawable.ic_language);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseChat.keepSynced(true);
         if (user == null) {
@@ -141,14 +150,60 @@ public class MoreFragmentPatient extends Fragment {
                         about();
                         break;
                     case 8:
+                        setting();
+                        break;
+                    case 9:
                         signOutClicked();
                         break;
                 }
+            }
+
+            private void setting() {
+                showChangeLanguageDialog();
+            }
+
+            private void showChangeLanguageDialog() {
+                final String[] listItme = {"English", "العربية"};
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                mBuilder.setTitle(R.string.choose_anguage);
+                mBuilder.setIcon(R.drawable.ic_language);
+                mBuilder.setSingleChoiceItems(listItme, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (i == 0) {
+                            setLocale("en");
+                            getActivity().recreate();
+                        } else if (i == 1) {
+                            setLocale("ar");
+                            getActivity().recreate();
+                        }
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
             }
         });
 
 
         return rootView;
+    }
+
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getActivity().getResources().updateConfiguration(configuration,getActivity().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+
+    }
+    public void  loadLocale(){
+        SharedPreferences pref = getActivity().getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
     }
 
 
@@ -188,15 +243,16 @@ public class MoreFragmentPatient extends Fragment {
             Intent it = new Intent(getActivity(), LoginActivity.class);
             it.putExtra("comefrom", "2");
             startActivity(it);
-        } else
-        { getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new StartCahtRoomFragment()).addToBackStack(null).commit();
+        } else {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new StartCahtRoomFragment()).addToBackStack(null).commit();
 
-    }}
+        }
+    }
 
     private void profileClicked() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-       if (user == null) {
+        if (user == null) {
             Intent it = new Intent(getActivity(), LoginActivity.class);
             it.putExtra("comefrom", "2");
             startActivity(it);

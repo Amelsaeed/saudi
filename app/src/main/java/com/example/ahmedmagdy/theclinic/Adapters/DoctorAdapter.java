@@ -400,7 +400,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         if (doctorclass.getcDegree() != null) {
             adoctordegree.setText(doctorclass.getcDegree());
         } else {
-            adoctordegree.setText("Degree not detected");
+            adoctordegree.setText(R.string.degree_not_detected);
         }
         String InsuranceList = doctorclass.getcInsurance();
         final List<String> items = Arrays.asList(InsuranceList.split(","));

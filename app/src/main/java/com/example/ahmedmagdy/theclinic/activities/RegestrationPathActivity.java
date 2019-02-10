@@ -1,6 +1,10 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +12,14 @@ import android.widget.ImageView;
 
 import com.example.ahmedmagdy.theclinic.R;
 
+import java.util.Locale;
+
 public class RegestrationPathActivity extends AppCompatActivity {
     ImageView gotouser,gotoudoctor,gotohospital;
     String selector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regestration_path);
 
@@ -56,5 +63,21 @@ public class RegestrationPathActivity extends AppCompatActivity {
                 //finish();
             }
         });
+    }
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+
+    }
+    public void  loadLocale(){
+        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
     }
 }

@@ -109,11 +109,6 @@
                                 android:textColor="#c9c8c8"
                                 android:textSize="8dp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" "
-                                android:textColor="#fff" />
 
                             <TextView
                                 android:id="@+id/doctor_name"

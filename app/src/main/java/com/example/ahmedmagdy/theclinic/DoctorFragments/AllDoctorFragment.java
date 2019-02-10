@@ -1,6 +1,9 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
+import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
@@ -36,6 +40,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class AllDoctorFragment extends Fragment implements View.OnClickListener {
     ImageView addDoctorButton;
@@ -71,6 +76,7 @@ public class AllDoctorFragment extends Fragment implements View.OnClickListener 
         View rootView = inflater.inflate(R.layout.activity_all_doctor, container, false);
         addDoctorButton = (ImageView) rootView.findViewById(R.id.adddoctor);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
         progressBar = (ProgressBar) rootView.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");

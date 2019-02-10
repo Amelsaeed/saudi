@@ -395,4 +395,7 @@
     <string name="back">للخلف</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="talk_me">تحدث معي</string>
+    <string name="degree_not_detected">الدرجة العلمية غير محددة</string>
+    <string name="choose_anguage">إختار اللغة</string>
+    <string name="language_settings">إعدادات اللغة</string>
 </resources>

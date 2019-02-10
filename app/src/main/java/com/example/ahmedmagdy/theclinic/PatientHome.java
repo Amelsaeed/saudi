@@ -1,9 +1,12 @@
 package com.example.ahmedmagdy.theclinic;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
@@ -32,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class PatientHome extends AppCompatActivity {
     ValueEventListener seenListener;
@@ -89,6 +93,7 @@ public class PatientHome extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadLocale();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -216,5 +221,21 @@ public class PatientHome extends AppCompatActivity {
         super.onPause();
         databaseChat.child(fuser.getUid()).child("status").setValue(false);
     }*/
+public void setLocale(String lang) {
+    Locale locale = new Locale(lang);
+    Locale.setDefault(locale);
+    Configuration configuration = new Configuration();
+    configuration.locale = locale;
+    getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
+    SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+    editor.putString("My_Lang",lang);
+    editor.apply();
+
+}
+    public void  loadLocale(){
+        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
+    }
 
 }

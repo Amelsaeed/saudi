@@ -1,6 +1,10 @@
 package com.example.ahmedmagdy.theclinic;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -19,12 +23,15 @@ import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Locale;
+
 public class HospitalHome extends AppCompatActivity  {
 
     FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadLocale();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_home);
         frameLayout = (FrameLayout)findViewById(R.id.fragment_container);
@@ -73,5 +80,20 @@ public class HospitalHome extends AppCompatActivity  {
                 }
             };
 
+    public void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
 
+    }
+    public void  loadLocale(){
+        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
+    }
 }

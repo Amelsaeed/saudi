@@ -148,7 +148,7 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                     databasetimeBooking.child(doctorclass.getCtid()).child(doctorclass.getCtPeriod())
                             .child(doctorclass.getCtbookingdate())
                             .child(userid).setValue(null);
-                    Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.cancel, Toast.LENGTH_LONG).show();
                 }
             }
         });
