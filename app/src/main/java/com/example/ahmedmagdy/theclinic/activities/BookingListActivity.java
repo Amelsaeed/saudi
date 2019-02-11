@@ -79,6 +79,7 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
     Button paddbook;
     TextView dname;
     String DoctorID, address, idm, startTime, endingTime, arrange, patientName, patientAge, MaxNo;
+    String DoctorName;
     boolean satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate;
     double latitude;
     double longitude;
@@ -137,18 +138,37 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
 
         Intent intent = getIntent();
         DoctorID = intent.getStringExtra("DoctorID");
-        String DoctorName = intent.getStringExtra("DoctorName");
+       //  DoctorName = intent.getStringExtra("DoctorName");
         patientName = intent.getStringExtra("name");
         patientAge = intent.getStringExtra("age");
         BookingType = getIntent().getExtras().getBoolean("BookingType");
         MaxNo = intent.getStringExtra("MaxNo");
         // Toast.makeText(BookingListActivity.this, MaxNo+" ", Toast.LENGTH_LONG).show();
 
-
         dname = findViewById(R.id.d_name);
-        if (DoctorName != null) {
-            dname.setText(DoctorName);
-        }
+
+
+        final ValueEventListener postListener1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                 DoctorName = dataSnapshot1.child(DoctorID).child("cName").getValue(String.class);
+              //  MaxNo = dataSnapshot1.child(DoctorID).child("cMaxno").getValue(String.class);
+               // BookingType = dataSnapshot1.child(DoctorID).child("cbookingtypestate").getValue(boolean.class);
+
+                if (DoctorName != null) {
+                    dname.setText(DoctorName);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+        databaseDoctor.addValueEventListener(postListener1);
 
         // Toast.makeText(DoctorProfileActivity.this, DoctorID, Toast.LENGTH_LONG).show();
 
@@ -1094,7 +1114,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         // pcity.setText(address);
         dialogAddress = (EditText) dialog.findViewById(R.id.dialog_address);
         dialogAddress.setEnabled(true);
-        dialogAddress.setText(state + city);
+        dialogAddress.setText(state+" - " + city);
         dialogAddress.setEnabled(false);
         return state + " - " + city;
 
@@ -1111,6 +1131,9 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
         progressBarBooking.setVisibility(View.VISIBLE);
         // getRegData();
         if (UtilClass.isNetworkConnected(BookingListActivity.this)) {
+        } else {
+            Toast.makeText(BookingListActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
+        }
             final DatabaseReference databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);
 
             //databaseTramp.child(country).child("Individual").child("users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1131,14 +1154,6 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
                     //adapter.notifyDataSetChanged();
                     listViewBooking.setAdapter(adapter);
                     progressBarBooking.setVisibility(View.GONE);
-                    // listViewTramp.setAdapter(adapter);
-                    /**
-                     DoctorID = intent.getStringExtra("DoctorID");
-                     String DoctorName = intent.getStringExtra("DoctorName");
-                     patientName = intent.getStringExtra("name");
-                     patientAge = intent.getStringExtra("age");
-                     final Boolean BookingType = getIntent().getExtras().getBoolean("BookingType");
-                     **/
 
                 }
 
@@ -1148,9 +1163,7 @@ if (((CheckBox) v).isChecked()) {fristate =true; } else { fristate =false;}
             });
 
 
-        } else {
-            Toast.makeText(BookingListActivity.this, getString(R.string.network_connection_msg), Toast.LENGTH_LONG).show();
-        }
+
     }
 
 /**

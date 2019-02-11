@@ -231,6 +231,48 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/linear_calender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/roundwhite"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/calender_logo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_calender"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10dp"
+                    />
+
+
+                <EditText
+                    android:id="@+id/calender"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#00000000"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="40dp"
+                    android:hint="@string/birthday"
+                    android:inputType="date"
+                    android:textColorHint="#fff"
+                    android:gravity="left|center"
+                    android:textColor="#000"
+                    android:textSize="13dp"
+                    android:letterSpacing="0.1"
+                    android:layout_weight="1"
+                    android:enabled="false"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/linaddress"
 
                 android:layout_width="match_parent"

@@ -308,6 +308,13 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
             editTextCPassword.requestFocus();
             return;
         }
+
+            if (mBirthDayCalender.isEmpty()) {
+                editTextcal.setError("Birthdar is required");
+                editTextcal.requestFocus();
+                return;
+            }
+
       /**  if (mtype.equalsIgnoreCase("Doctor")  ||  mtype.equalsIgnoreCase("Hospital")) {
             if (mCity.isEmpty()) {
                 editTextAddress.setError("City is required");
@@ -315,13 +322,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
                 return;
             }
         }
-        if (mtype.equalsIgnoreCase("User")) {
-            if (mBirthDayCalender.isEmpty()) {
-                editTextcal.setError("Birthdar is required");
-                editTextcal.requestFocus();
-                return;
-            }
-        }
+
 
         if (mtype.equalsIgnoreCase("Doctor")  ||  mtype.equalsIgnoreCase("Hospital")) {
             if (mSpecialty.isEmpty()) {
@@ -345,7 +346,7 @@ public class RegisterPatientActivity extends AppCompatActivity implements OnRequ
 
                         RegisterClass usersChat = new RegisterClass(Id,mName, mInsurance, mCity, mEmail, mtype,false);
                         databaseChat.child(Id).setValue(usersChat);
-
+                        databaseChat.child(Id).child("cbirthday").setValue(mBirthDayCalender);
 
 
                             RegisterClass regdatauser = new RegisterClass(Id,mName, mInsurance, mCity,mBirthDayCalender , mEmail, mtype);

@@ -57,6 +57,14 @@ public class NoteAdapter extends ArrayAdapter<NoteClass> implements Filterable {
         final Button delete = convertView.findViewById(R.id.delete_btn_display_note);
         final Button save = convertView.findViewById(R.id.save_btn_display_note);
         // set data to view
+        mAuth = FirebaseAuth.getInstance();
+        if(! mAuth.getCurrentUser().getUid().equals(note.getcDoctorId())){
+            edit.setVisibility(View.GONE);
+            delete.setVisibility(View.GONE);
+        }else{
+            edit.setVisibility(View.VISIBLE);
+            delete.setVisibility(View.VISIBLE);
+        }
         displayTextView.setText(note.getcText());
         displayDateView.setText(note.getcDate());
         // on click edit btn

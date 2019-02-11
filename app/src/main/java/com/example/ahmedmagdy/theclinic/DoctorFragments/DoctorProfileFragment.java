@@ -1,10 +1,12 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,6 +55,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -64,8 +68,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorProfileFragment extends Fragment {
 
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit;
-    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView;
+    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,pbirthdayedit;
+    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,pbirthday;
     ImageView chatstarttimeedit, maxnoedit;
     TextView chatstarttime, maxnotv, maxnoet;
     EditText peditbox;
@@ -85,6 +89,7 @@ public class DoctorProfileFragment extends Fragment {
     String doctorId, drDiscountPrice = "0";
     Boolean bookingtype;
     String DoctorName, insuranceItems = "";
+    String  cityItems = "";
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -136,6 +141,9 @@ public class DoctorProfileFragment extends Fragment {
         drEmail = rootView.findViewById(R.id.doctor_email_tv);
         pname = rootView.findViewById(R.id.pname);
 
+        pbirthday = rootView.findViewById(R.id.birthday);
+        pbirthdayedit = rootView.findViewById(R.id.birthday_edit);
+
         pcity = rootView.findViewById(R.id.ppcity);
         pspeciality = rootView.findViewById(R.id.pspeciality);
         pdegree = rootView.findViewById(R.id.pdegree);
@@ -171,7 +179,73 @@ public class DoctorProfileFragment extends Fragment {
 
 
         getallData();
+        final ValueEventListener postListener1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot1) {
 
+                String bbirthday = dataSnapshot1.child(doctorId).child("cbirthday").getValue(String.class);
+                if (bbirthday != null) {
+                    pbirthday.setText(bbirthday);
+                }else{
+                    pbirthday.setText("");
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+        databaseChat.addValueEventListener(postListener1);
+
+        pbirthdayedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                ImageGenerator mImageGenerator = new ImageGenerator(getActivity());
+
+// Set the icon size to the generated in dip.
+                mImageGenerator.setIconSize(50, 50);
+
+// Set the size of the date and month font in dip.
+                mImageGenerator.setDateSize(30);
+                mImageGenerator.setMonthSize(10);
+
+// Set the position of the date and month in dip.
+                mImageGenerator.setDatePosition(42);
+                mImageGenerator.setMonthPosition(14);
+
+// Set the color of the font to be generated
+                mImageGenerator.setDateColor(Color.parseColor("#3c6eaf"));
+                mImageGenerator.setMonthColor(Color.WHITE);
+
+                // abookingphoto.setOnClickListener(new View.OnClickListener() {
+                //  @Override
+                //   public void onClick(View v) {
+                final Calendar mCurrentDate = Calendar.getInstance();
+                int year = mCurrentDate.get(Calendar.YEAR);
+                int month = mCurrentDate.get(Calendar.MONTH);
+                int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog mPickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
+                        String datedmy = Year + "_" + (Month + 1) + "_" + Day;
+                        Toast.makeText(getActivity(), datedmy, Toast.LENGTH_LONG).show();
+                        databaseChat.child(doctorId).child("cbirthday").setValue(datedmy);
+
+                        pbirthday.setText(datedmy);
+                        // Toast.makeText(context, id+doctorID, Toast.LENGTH_LONG).show();
+                        //makepatientbooking(timeID, datedmy);
+                        //editTextcal.setText(Year+"_"+ ((Month/10)+1)+"_"+Day);
+                        mCurrentDate.set(Year, ((Month + 1)), Day);
+                        //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
+                    }
+                }, year, month, day);
+                mPickerDialog.show();
+            }
+        });
         chatstarttimeedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -478,7 +552,7 @@ public class DoctorProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), BookingListActivity.class);
                 intent.putExtra("DoctorID", doctorId);
-                intent.putExtra("DoctorName", DoctorName);
+               // intent.putExtra("DoctorName", DoctorName);
                 intent.putExtra("BookingType", bookingtype);
                 intent.putExtra("MaxNo", maxnoofpatients);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -548,7 +622,16 @@ editDialog(whatData);
                 displayImportImageDialog();
             }
         });
-        listCityItems = getResources().getStringArray(R.array.countries_array);
+        editCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // String whatData = "medical insurance";
+                // editDialog(whatData);
+                displayCityDialog();
+
+            }
+        });
+      /**  listCityItems = getResources().getStringArray(R.array.countries_array);
         editCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -579,7 +662,7 @@ editDialog(whatData);
                 AlertDialog mDialog = mBuilder.create();
                 mDialog.show();
             }
-        });
+        });**/
         listSpecialityItems = getResources().getStringArray(R.array.spiciality_array);
         editSpeciality.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1238,7 +1321,75 @@ editDialog(whatData);
         return Math.round((float) dp * density);
     }
 
+    private void displayCityDialog() {
+        final String[] cityList = getResources().getStringArray(R.array.countries_array);
 
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+        String city = pcity.getText().toString();
+        String[] cities = city.split(",");
+        final boolean[] checkedItemscity = new boolean[cityList.length];
+        boolean checked;
+        for (int x = 0; x < cityList.length; x++) {
+            checked = false;
+            for (int y = 0; y < cities.length; y++) {
+                if (cityList[x].equals(cities[y])) {
+                    checked = true;
+                }
+            }
+            checkedItemscity[x] = checked;
+
+        }
+
+        mBuilder.setTitle(R.string.select_cities);
+
+        mBuilder.setMultiChoiceItems(cityList, checkedItemscity, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                cityItems = "";
+                if (isChecked) {
+                    checkedItemscity[position] = true;
+                } else {
+                    checkedItemscity[position] = false;
+                }
+            }
+        });
+
+        mBuilder.setCancelable(false);
+
+        mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                cityItems = "";
+                for (int x = 0; x < cityList.length; x++) {
+                    if (checkedItemscity[x]) {
+                        if (cityItems.equals("")) {
+                            cityItems = cityList[x];
+                        } else {
+                            cityItems = cityItems + "," + cityList[x];
+                        }
+
+                    }
+                }
+                if (cityItems.equals("")) {
+                    pcity.setText(R.string.nothing);
+                } else {
+                    pcity.setText(cityItems);
+                }
+
+                databaseDoctor.child(doctorId).child("cCity").setValue(cityItems);
+            }
+        });
+
+        mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
+    }
     private void displayInsurancesDialog() {
         final String[] insuranceList = getResources().getStringArray(R.array.insurance_array);
 

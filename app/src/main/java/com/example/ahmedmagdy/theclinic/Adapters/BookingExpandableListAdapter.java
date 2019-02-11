@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.DoctorHome;
 import com.example.ahmedmagdy.theclinic.HospitalHome;
 import com.example.ahmedmagdy.theclinic.PatientHome;
@@ -43,6 +45,7 @@ import java.util.regex.Pattern;
 
 public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
     int c;
+    DatabaseReference databasePatient;
     private Context mContext;
     private FirebaseAuth mAuth;
     private List<BookingTimesClass> mListDataHeader; // header titles
@@ -101,7 +104,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_header, viewGroup, false);
         }
-
+        databasePatient = FirebaseDatabase.getInstance().getReference("Doctorpatientdb").child(mAuth.getCurrentUser().getUid());databasePatient.keepSynced(true);
         TextView bookingAddress = convertView.findViewById(R.id.booking_ad_tv);
         TextView bookingTime =  convertView.findViewById(R.id.booking_time_tv);
 
@@ -125,7 +128,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
         TextView patientAge = (TextView) convertView.findViewById(R.id.patient_age_tv);
         TextView bookingHour = convertView.findViewById(R.id.patient_book_hour);
         TextView bookingTime = convertView.findViewById(R.id.book_time_tv);
-
+        final TextView bookingLastSeen = convertView.findViewById(R.id.patient_book_lastseen);
         ImageView patientPicture = (ImageView) convertView.findViewById(R.id.patient_image);
         CheckBox patientdpcheckBox = (CheckBox) convertView.findViewById(R.id.patient_check_box) ;
 
@@ -141,21 +144,23 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                 String mDate = sdf.format(calendar.getTime());
                 /*************get new time *****************/
 
-                DatabaseReference databasePatient = FirebaseDatabase.getInstance().getReference("Doctorpatientdb")
-                            .child(mAuth.getCurrentUser().getUid());
+
+
 
 
                 final DatabaseReference mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes")
                         .child(mAuth.getCurrentUser().getUid()).child(currentChild.getCttimeid())
                         .child(currentChild.getCtbookingdate());
-              //  mBookingRef.child("JXxuQBgn2NUnSA8lypvipMPI6G23").child("ctArrangement").setValue(String.valueOf(1));
+                mBookingRef.keepSynced(true);
+
+                //  mBookingRef.child("JXxuQBgn2NUnSA8lypvipMPI6G23").child("ctArrangement").setValue(String.valueOf(1));
               //  mBookingRef.child("rLXUUcDyhdcaoHZEN0h55MIm0Gd2").child("ctArrangement").setValue(String.valueOf(2));
 
                /** databasetimeBooking.child(DoctorID) databasetimeBooking.child(DoctorID).child(timeID)
                 .child(datedmy)
                 .child(timesid).setValue(bookingtimesclass);**/
                 final DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
-
+                bookforuser.keepSynced(true);
                 if (isChecked) {
                     mBookingRef.child(currentChild.getCtid()).child("checked").setValue(isChecked);
 
@@ -166,6 +171,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                     Toast.makeText(mContext ,  R.string.this_patient_added_to_your_database, Toast.LENGTH_LONG).show();
                         //////////////////////////*****************************************************/*
                     DatabaseReference databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+                    databaseDoctor.keepSynced(true);
                     final ValueEventListener postListener1 = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -259,6 +265,46 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
         patientName.setText(currentChild.getCtname());
         bookingHour.setText(currentChild.getCtPeriod());
         bookingTime.setText(currentChild.getCtdate());
+       String a11 = currentChild.getCtpicuri();
+        if (a11 != null) {
+
+            /** RequestOptions requestOptions = new RequestOptions();
+             requestOptions = requestOptions.transforms(new RoundedCorners(16));**/
+            //requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+
+            Glide.with(mContext)
+                    .load(a11)
+                    .apply(RequestOptions.circleCropTransform())
+                    // .apply(requestOptions)
+                    .into(patientPicture);
+        } else {
+            Glide.with(mContext)
+                    .load("https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5")
+                    .apply(RequestOptions.circleCropTransform())
+                    // .apply(requestOptions)
+                    .into(patientPicture);
+        }
+        final ValueEventListener postListener1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot1) {
+
+                String lastseen = dataSnapshot1.child(currentChild.getCtid()).child("ctdate").getValue(String.class);
+                //  MaxNo = dataSnapshot1.child(DoctorID).child("cMaxno").getValue(String.class);
+                // BookingType = dataSnapshot1.child(DoctorID).child("cbookingtypestate").getValue(boolean.class);
+
+                if (lastseen != null) {
+                    bookingLastSeen.setText(lastseen);
+                }else{bookingLastSeen.setText("First Seen");}
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        };
+        databasePatient.addValueEventListener(postListener1);
 
 
         // notes dialog show select dialog on click list item

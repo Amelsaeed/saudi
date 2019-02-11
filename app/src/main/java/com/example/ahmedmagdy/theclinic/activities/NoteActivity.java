@@ -80,6 +80,8 @@ public class NoteActivity  extends AppCompatActivity {
     private void prepareData() {
 
         if (UtilClass.isNetworkConnected(this)) {
+        } else{
+            Toast.makeText(this, R.string.network_connection_msg, Toast.LENGTH_SHORT).show();}
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -100,8 +102,6 @@ public class NoteActivity  extends AppCompatActivity {
                 }
             });
 
-        } else
-            Toast.makeText(this, R.string.network_connection_msg, Toast.LENGTH_SHORT).show();
 
     }
 

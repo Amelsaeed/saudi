@@ -2,6 +2,7 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -25,10 +26,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 import com.example.ahmedmagdy.theclinic.R;
+import com.example.ahmedmagdy.theclinic.activities.NoteActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,7 +49,9 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
     private Activity context;
     private List<BookingTimesClass> mSearchList;
     private String a1;
-
+    FirebaseAuth mAuth;
+    String userid;
+    DatabaseReference databaseChat;
 
 
     public PatientBookingAdapter(Activity context, List<BookingTimesClass> doctorList) {
@@ -68,9 +75,10 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
         final TextView aparrange = (TextView) listViewItem.findViewById(R.id.arrange);
         final CardView cardviewbook= (CardView) listViewItem.findViewById(R.id.book123);
         final CardView cardviewcancel= (CardView) listViewItem.findViewById(R.id.book_cancel);
-
-
-
+        final CardView cardviewnote= (CardView) listViewItem.findViewById(R.id.note);
+        mAuth = FirebaseAuth.getInstance();
+        userid = mAuth.getCurrentUser().getUid();
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");databaseChat.keepSynced(true);
 
         final ImageView apphoto = (ImageView) listViewItem.findViewById(R.id.doctor_photo_b);
 
@@ -135,9 +143,8 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
 
                 }else {
                     final BookingTimesClass doctorclass = doctorList.get(position);
-                    FirebaseAuth mAuth;
-                    mAuth = FirebaseAuth.getInstance();
-                    String userid = mAuth.getCurrentUser().getUid();
+
+
 
                     DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");
                     DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
@@ -152,7 +159,34 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                 }
             }
         });
+        cardviewnote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ValueEventListener postListener1 = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot1) {
 
+                       String UserName = dataSnapshot1.child(userid).child("cname").getValue(String.class);
+                        //  MaxNo = dataSnapshot1.child(DoctorID).child("cMaxno").getValue(String.class);
+                        // BookingType = dataSnapshot1.child(DoctorID).child("cbookingtypestate").getValue(boolean.class);
+
+                        if (UserName != null) {
+                            Intent intent = new Intent(context,NoteActivity.class);
+                            intent.putExtra("id", userid);
+                            intent.putExtra("name",UserName);
+                            context.startActivity(intent);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Getting Post failed, log a message
+                    }
+                };
+                databaseChat.addValueEventListener(postListener1);
+
+
+            }
+        });
 
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
 

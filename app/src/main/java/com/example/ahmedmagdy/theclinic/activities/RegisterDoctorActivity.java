@@ -2,6 +2,7 @@ package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,10 +49,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kd.dynamic.calendar.generator.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
@@ -57,7 +62,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
     private ImageView callogo;
 
     private TextView singIn, signUp,word,textInsurance,wordid;
-    private EditText editTextEmail, editTextPassword, editTextCPassword,editTextName,editTextPhone;
+    private EditText editTextEmail, editTextPassword, editTextCPassword,editTextName,editTextPhone,editTextcal;
     private ImageView profilePoto,IDphoto,workPermitphoto;
     private ProgressBar progressBar;
     private Spinner spinnercity, spinnergander,spinnerspecialty;
@@ -68,6 +73,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
     private StorageReference mStorageRef;
     FirebaseAuth mAuth;
     private Uri imagePath;
+
     //  int GALLERY_REQUEST_CODE;
     //  int CAMERA_REQUEST_CODE ;
 
@@ -78,6 +84,10 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
     FirebaseUser fuser;
     String mtype,HospitalID,HospitalName,ComeFrom,HospitalPassword,HospitalEmail;
+
+    String caltext;
+    Calendar mCurrentDate;
+    int year,month,day;
 
     String getmInsuranceItems="";
     String[] listItems;
@@ -102,6 +112,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
 //        updateToken(FirebaseInstanceId.getInstance().getToken());
         spinnercity = findViewById(R.id.spinner_country);
+        editTextcal= findViewById(R.id.calender);
         spinnergander = findViewById(R.id.spinner_gander);
         spinnerspecialty= findViewById(R.id.spinner_specialty);
         progressBar = findViewById(R.id.progressbar);
@@ -142,6 +153,53 @@ public class RegisterDoctorActivity extends AppCompatActivity implements OnReque
 
 
         }
+        ///////////////Calender//////////////////
+
+
+        // Create an object of ImageGenerator class in your activity
+// and pass the context as the parameter
+        ImageGenerator mImageGenerator = new ImageGenerator(this);
+
+// Set the icon size to the generated in dip.
+        mImageGenerator.setIconSize(50, 50);
+
+// Set the size of the date and month font in dip.
+        mImageGenerator.setDateSize(30);
+        mImageGenerator.setMonthSize(10);
+
+// Set the position of the date and month in dip.
+        mImageGenerator.setDatePosition(42);
+        mImageGenerator.setMonthPosition(14);
+
+// Set the color of the font to be generated
+        mImageGenerator.setDateColor(Color.parseColor("#3c6eaf"));
+        mImageGenerator.setMonthColor(Color.WHITE);
+
+        callogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentDate = Calendar.getInstance();
+                year=mCurrentDate.get(Calendar.YEAR);
+                month=mCurrentDate.get(Calendar.MONTH);
+                day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
+                //final String abc= getAge(year, month, day);
+
+                DatePickerDialog mPickerDialog =  new DatePickerDialog(RegisterDoctorActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
+                        caltext=Year+"_"+ (Month+1)+"_"+Day;
+                        editTextcal.setText(caltext);
+                        //  Toast.makeText(RegisterPatientActivity.this,"Your age= "+abc, Toast.LENGTH_LONG).show();
+
+                        mCurrentDate.set(Year, (Month+1),Day);
+                        //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
+                    }
+                }, year, month, day);
+                mPickerDialog.show();
+            }
+        });///////////////////*Calender////////////////////---------------------
+
+
 
         profilePoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -364,6 +422,7 @@ textInsurance.setText("");
         final String mPhone = editTextPhone.getText().toString().trim();
         final String mName = editTextName.getText().toString().trim();
         final String mgander= spinnergander.getSelectedItem().toString().trim();
+        final String mBirthDayCalender = editTextcal.getText().toString().trim();
 
         final String mSpecialty = spinnerspecialty.getSelectedItem().toString().trim();
         final String mCity = spinnercity.getSelectedItem().toString().trim();
@@ -427,6 +486,11 @@ textInsurance.setText("");
             editTextCPassword.requestFocus();
             return;
         }
+        if (mBirthDayCalender.isEmpty()) {
+            editTextcal.setError("Birthdar is required");
+            editTextcal.requestFocus();
+            return;
+        }
         /**      if (mtype.equalsIgnoreCase("Doctor")  ||  mtype.equalsIgnoreCase("Hospital")) {
          if (mCity.isEmpty()) {
          editTextAddress.setError("City is required");
@@ -470,9 +534,9 @@ textInsurance.setText("");
             wordid.requestFocus();
             return;
         }
-        uploadImagePP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
+        uploadImagePP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander,mBirthDayCalender);
     }
-    private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
+    private void makeauth(final String mEmail, String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander,final String mBirthDayCalender) {
         progressBar.setVisibility(View.VISIBLE);
         if((!mdoctorIDUrl.equals(""))&&(!mdoctorPhotoUrl.equals(""))&&(!mdoctorWPUrl.equals(""))){
         if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
@@ -487,8 +551,9 @@ textInsurance.setText("");
                         Toast.makeText(RegisterDoctorActivity.this, R.string.user_created, Toast.LENGTH_SHORT).show();
                         final String Id = mAuth.getCurrentUser().getUid();
 
-                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mCity, mEmail, mtype, mdoctorPhotoUrl,false);
+                        RegisterClass usersChat = new RegisterClass(Id, mName, mInsurance, mPhone, mBirthDayCalender, mEmail, mtype, mdoctorPhotoUrl,false);
                         databaseChat.child(Id).setValue(usersChat);
+                     //   databaseChat.child(Id).child("cbirthday").setValue(mBirthDayCalender);
 ///////////////////////////////////******ComeFrom*************/////////////////////////////////////////////////
                        // Toast.makeText(RegisterDoctorActivity.this, HospitalID, Toast.LENGTH_SHORT).show();
                         if(ComeFrom.equals("LogIn")) {
@@ -704,7 +769,7 @@ textInsurance.setText("");
         return Math.round((float) dp * density);
     }
 
-    private void uploadImagePP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
+    private void uploadImagePP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander,final String mBirthDayCalender) {
 
         if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
@@ -724,7 +789,7 @@ textInsurance.setText("");
                                     Toast.makeText(RegisterDoctorActivity.this, R.string.personal_photo_is_uploaded, Toast.LENGTH_LONG).show();
 
                                     mdoctorPhotoUrl = taskSnapshot.getDownloadUrl().toString();
-                                    uploadImageID(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
+                                    uploadImageID(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander, mBirthDayCalender);
 
 
                                 }
@@ -747,7 +812,7 @@ textInsurance.setText("");
         }
     }
 
-    private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone,final String mgander) {
+    private void uploadImageID(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone,final String mgander,final String mBirthDayCalender) {
 
         if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
@@ -767,7 +832,7 @@ textInsurance.setText("");
                                 Toast.makeText(RegisterDoctorActivity.this, R.string.id_photo_is_uploaded, Toast.LENGTH_LONG).show();
 
                                 mdoctorIDUrl = taskSnapshot.getDownloadUrl().toString();
-                                uploadImageWP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
+                                uploadImageWP(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander,mBirthDayCalender);
 
 
                             }
@@ -789,7 +854,7 @@ textInsurance.setText("");
             Toast.makeText(RegisterDoctorActivity.this, R.string.network_connection_msg, Toast.LENGTH_LONG).show();
         }
     }
-    private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander) {
+    private void uploadImageWP(final String mEmail, final String mPassword, final String mName, final String mInsurance, final String mCity, final String mSpecialty, final String mPhone, final String mgander,final String mBirthDayCalender) {
 
         if (UtilClass.isNetworkConnected(RegisterDoctorActivity.this)) {
 
@@ -809,7 +874,7 @@ textInsurance.setText("");
                                     Toast.makeText(RegisterDoctorActivity.this, R.string.work_permit_photo_is_uploaded, Toast.LENGTH_LONG).show();
 
                                     mdoctorWPUrl = taskSnapshot.getDownloadUrl().toString();
-                                    makeauth(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander);
+                                    makeauth(mEmail, mPassword,mName, mInsurance, mCity, mSpecialty,  mPhone,mgander, mBirthDayCalender);
 
                                 }
                             })

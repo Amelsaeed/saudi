@@ -20,7 +20,7 @@
         android:layout_height="64dp"
         android:layout_marginRight="8dp"
         android:layout_below="@id/book_time_tv"
-        android:src="@drawable/doctor_logo" />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,29 +29,111 @@
         android:layout_below="@id/book_time_tv"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/patient_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text=""
-            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/patient_age_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text=""
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/patient_book_hour"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textColor="@android:color/black"
+                android:text="Name: "
+                android:textSize="8dp" />
+
+            <TextView
+                android:id="@+id/patient_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text=""
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:text="20:15"
-            />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textColor="@android:color/black"
+                android:text="Age: "
+                android:textSize="8dp" />
+
+            <TextView
+                android:id="@+id/patient_age_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text=""
+                android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textColor="@android:color/black"
+                android:text="Time/ Arrange: "
+                android:textSize="8dp" />
+
+            <TextView
+                android:id="@+id/patient_book_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text=""
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textColor="@android:color/black"
+                android:text="Last seen: "
+                android:textSize="8dp" />
+
+            <TextView
+                android:id="@+id/patient_book_lastseen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text=""
+                />
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

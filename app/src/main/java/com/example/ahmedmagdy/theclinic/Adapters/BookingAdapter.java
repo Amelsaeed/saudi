@@ -86,7 +86,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     List<BookingClass> bookingList;
     private FirebaseAuth mAuth;
     private DatabaseReference databasetimeBooking,databaseBooking,databaseMap;
-    private DatabaseReference databaseUserReg,databaseDoctor;
+    private DatabaseReference databaseUserReg,databaseDoctor,databaseChat;
 
     private FirebaseUser fuser;
     String userid,arrange,startTime, endingTime,address;
@@ -149,6 +149,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);databaseBooking.keepSynced(true);
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");databaseMap.keepSynced(true);
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");databaseChat.keepSynced(true);
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         final TextView abookingtimestart = (TextView) listViewItem.findViewById(R.id.time_book_start);
@@ -909,7 +910,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 // Getting Post failed, log a message
             }
         };
-        databaseUserReg .addValueEventListener(postListener);
+        databaseChat .addValueEventListener(postListener);
 
         /*************************************/
     }
