@@ -78,7 +78,16 @@ dependencies {
 
     //sharprefreance
     implementation 'io.paperdb:paperdb:2.5'
+
+    //LikeButton
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+
+
 }
+
+
+
 
 
 apply plugin: 'com.google.gms.google-services'

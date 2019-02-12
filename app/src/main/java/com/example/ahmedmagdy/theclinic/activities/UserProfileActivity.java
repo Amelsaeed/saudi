@@ -7,12 +7,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexzh.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -51,7 +57,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private final int CAMERA_REQUEST_CODE = 2;
     TextView nameEditUser, phoneEditUser, birthdayEditUser, edit1, edit2, edit3;
 
-    ImageView photoEdit;
+    CircleImageView photoEdit;
     private ProgressBar progressBarUser;
     byte[] byteImageData;
     String PhotoUrl = "", Userid;
@@ -82,14 +88,24 @@ public class UserProfileActivity extends AppCompatActivity {
         birthdayEditUser = findViewById(R.id.user_birthday);
 
 
-        photoEdit = (ImageView) findViewById(R.id.user_photo);
+        photoEdit = (CircleImageView) findViewById(R.id.user_photoo);
         progressBarUser = findViewById(R.id.progressbar_user);
 
 
         photoEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Display display = getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();
+                int height = display.getHeight();
+                loadPhoto(photoEdit, width, height);
+            }
+        });
+        photoEdit.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
                 displayImportImageDialog();
+                return false;
             }
         });
 
@@ -235,7 +251,24 @@ public class UserProfileActivity extends AppCompatActivity {
             databaseChat.child(Userid).child("cphone").setValue(phone);
         }
     }
+    /////////// show photo profile ////////////////////////
+    private void loadPhoto(ImageView imageView, int width, int height) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.custom_fullimage_dialoge,
+                (ViewGroup) findViewById(R.id.layout_root));
+        de.hdodenhof.circleimageview.CircleImageView image = (de.hdodenhof.circleimageview.CircleImageView) layout.findViewById(R.id.fullimage);
+        image.setImageDrawable(imageView.getDrawable());
+        image.getLayoutParams().height = height;
+        image.getLayoutParams().width = width;
+        image.requestLayout();
+        dialog.setContentView(layout);
+        dialog.show();
+    }
 
+    /////////////////////////////////////////////////////////////////////////////
     private void displayImportImageDialog() {
 
         final Dialog dialog = new Dialog(UserProfileActivity.this);

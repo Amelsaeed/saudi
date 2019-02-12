@@ -397,6 +397,7 @@
     <string name="note_card">Notes</string>
     <string name="select_cities">Selecte cities</string>
     <string name="press_to_show">Press to show</string>
+    <string name="no_booking_added">No booking added!</string>
 
 
 </resources>

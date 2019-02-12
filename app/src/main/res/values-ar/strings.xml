@@ -401,4 +401,5 @@
     <string name="note_card">تقارير</string>
     <string name="select_cities">أختر المدن</string>
     <string name="press_to_show">إضغط للعرض</string>
+    <string name="no_booking_added">لم تتم إضافة أي حجز!</string>
 </resources>

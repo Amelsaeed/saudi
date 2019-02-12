@@ -13,7 +13,7 @@ import android.os.Build;
 public class OreoNotification extends ContextWrapper {
 
     private static final String CHANNEL_ID = "com.koddev.chatapp";
-    private static final String CHANNEL_NAME = "chatapp";
+    private static final String CHANNEL_NAME = "ChatApp";
 
     private NotificationManager notificationManager;
 
@@ -31,8 +31,8 @@ public class OreoNotification extends ContextWrapper {
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                 CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT);
-        channel.enableLights(false);
-        channel.enableVibration(true);
+        channel.enableLights(true);
+        channel.enableVibration(false);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
         getManager().createNotificationChannel(channel);

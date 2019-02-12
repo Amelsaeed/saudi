@@ -8,14 +8,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +51,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.NoSuchElementException;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class UserProfileFragment extends Fragment {
     private Uri imagePath;
@@ -90,14 +95,24 @@ public class UserProfileFragment extends Fragment {
         insuranceEditUser = rootView.findViewById(R.id.user_insurance);
 
 
-        photoEdit = (CircleImageView) rootView.findViewById(R.id.user_photo);
+        photoEdit = (CircleImageView) rootView.findViewById(R.id.user_photoo);
         progressBarUser = rootView.findViewById(R.id.progressbar_user);
 
 
         photoEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Display display = getActivity().getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();
+                int height = display.getHeight();
+                loadPhoto(photoEdit, width, height);
+            }
+        });
+        photoEdit.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
                 displayImportImageDialog();
+                return false;
             }
         });
 
@@ -286,7 +301,24 @@ public class UserProfileFragment extends Fragment {
             databaseChat.child(Userid).child("cphone").setValue(phone);
         }
     }
+    /////////// show photo profile ////////////////////////
+    private void loadPhoto(ImageView imageView, int width, int height) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.custom_fullimage_dialoge,
+                (ViewGroup) getActivity().findViewById(R.id.layout_root));
+        de.hdodenhof.circleimageview.CircleImageView image = (de.hdodenhof.circleimageview.CircleImageView) layout.findViewById(R.id.fullimage);
+        image.setImageDrawable(imageView.getDrawable());
+        image.getLayoutParams().height = height;
+        image.getLayoutParams().width = width;
+        image.requestLayout();
+        dialog.setContentView(layout);
+        dialog.show();
+    }
 
+    /////////////////////////////////////////////////////////////////////////////
     private void displayImportImageDialog() {
 
         final Dialog dialog = new Dialog(getActivity());
