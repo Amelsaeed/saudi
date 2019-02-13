@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -110,6 +112,8 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
 
         bookingTime.setText(header.getCtStartTime() + " - " + header.getCtEndTime());
         bookingAddress.setText(header.getCtAddress());
+
+
 
         return convertView;
     }
@@ -314,6 +318,9 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                 showDialog("select",currentChild,childPosition);
             }
         });
+
+        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.scale);
+        convertView.startAnimation(animation);
 
         return convertView;
     }

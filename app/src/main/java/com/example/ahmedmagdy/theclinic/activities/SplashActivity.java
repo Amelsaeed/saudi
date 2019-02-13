@@ -55,8 +55,8 @@ public class SplashActivity extends AppCompatActivity {
 
          }**/
         // load the animation file (my_anim)
-        myAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.myanime);
-        myImageView.startAnimation(myAnimation);
+      /*  myAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.myanime);
+        myImageView.startAnimation(myAnimation);*/
 
         Thread timer = new Thread(new Runnable() {
             @Override
@@ -64,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
                 try {
                     /* Thread.sleep(3000);*/
                     if (fuser == null) {
-                        Thread.sleep(3000);
+                        Thread.sleep(4000);
                     } else {
                         Thread.sleep(0000);
                     }

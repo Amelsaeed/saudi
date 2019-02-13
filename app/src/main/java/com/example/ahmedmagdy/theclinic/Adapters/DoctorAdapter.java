@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -541,6 +543,11 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     // .apply(requestOptions)
                     .into(adoctorphoto);
         }
+
+
+        Animation animation = AnimationUtils.loadAnimation(context,R.anim.scale);
+        listViewItem.startAnimation(animation);
+
 
         return listViewItem;
     }

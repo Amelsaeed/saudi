@@ -72,10 +72,10 @@
     </string-array>
 
     <string-array name="Degree_array">
-        <item>أاستاذ</item> <!-- أاستاذ -->
+        <item>أستاذ</item> <!-- أاستاذ -->
         <item>مدرس</item> <!-- مدرس -->
-        <item>استشارى</item> <!-- استشارى -->
-        <item>اخصائى</item> <!-- اخصائى -->
+        <item>أستشارى</item> <!-- استشارى -->
+        <item>أخصائى</item> <!-- اخصائى -->
     </string-array>
 
     <string-array name="insurance_array">
@@ -379,7 +379,7 @@
     <string name="gallery">معرض الهاتف</string>
     <string name="open_camera">فتح الكاميرا</string>
     <string name="book">إحجز</string>
-    <string name="location">موقعك</string>
+    <string name="location">الموقع</string>
     <string name="favorite">المفضلة</string>
     <string name="address2">:العنوان</string>
     <string name="last_seen">:اخر ظهور</string>
@@ -402,4 +402,8 @@
     <string name="select_cities">أختر المدن</string>
     <string name="press_to_show">إضغط للعرض</string>
     <string name="no_booking_added">لم تتم إضافة أي حجز!</string>
+    <string name="name2">: الاسم</string>
+    <string name="age2">: العمر</string>
+    <string name="time2">: توقيت / الدور</string>
+    <string name="seen2">: أخر ظهور</string>
 </resources>

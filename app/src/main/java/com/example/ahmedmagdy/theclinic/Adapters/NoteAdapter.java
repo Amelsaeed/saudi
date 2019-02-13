@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -103,7 +105,8 @@ public class NoteAdapter extends ArrayAdapter<NoteClass> implements Filterable {
                 save.setVisibility(View.GONE);
             }
         });
-
+        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.scale);
+        convertView.startAnimation(animation);
         return convertView;
     }
 
