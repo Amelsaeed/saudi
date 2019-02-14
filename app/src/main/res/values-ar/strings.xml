@@ -406,4 +406,6 @@
     <string name="age2">: العمر</string>
     <string name="time2">: توقيت / الدور</string>
     <string name="seen2">: أخر ظهور</string>
+    <string name="stop">تم وقف حسابك لحين سداد المستحق عليك
+شكراً لتفهمك ذلك</string>
 </resources>

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,9 +17,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -48,6 +51,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 public class HospitalProfileFragment extends Fragment {
@@ -137,9 +142,21 @@ public class HospitalProfileFragment extends Fragment {
         ProfileHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayImportImageDialog();
+                Display display = getActivity().getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();
+                int height = display.getHeight();
+                loadPhoto(ProfileHospital, width, height);
             }
         });
+        ProfileHospital.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                displayImportImageDialog();
+                return false;
+            }
+        });
+
+
         EditName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -346,6 +363,24 @@ public class HospitalProfileFragment extends Fragment {
 
         dialog.show();
     }
+    /////////// show photo profile ////////////////////////
+    private void loadPhoto(ImageView imageView, int width, int height) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.custom_fullimage_dialoge,
+                (ViewGroup) getActivity().findViewById(R.id.layout_root));
+        de.hdodenhof.circleimageview.CircleImageView image = (de.hdodenhof.circleimageview.CircleImageView) layout.findViewById(R.id.fullimage);
+        image.setImageDrawable(imageView.getDrawable());
+        image.getLayoutParams().height = height;
+        image.getLayoutParams().width = width;
+        image.requestLayout();
+        dialog.setContentView(layout);
+        dialog.show();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     private void displayImportImageDialog() {
 
         final Dialog dialog = new Dialog(getContext());
