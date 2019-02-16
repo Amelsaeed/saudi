@@ -348,8 +348,9 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext,NoteActivity.class);
-                    intent.putExtra("id",item.getCtid());
-                    intent.putExtra("name",item.getCtname());
+                    intent.putExtra("iduser",item.getCtid());
+                    intent.putExtra("nameuser",item.getCtname());
+                    intent.putExtra("iddoctor",mAuth.getCurrentUser().getUid());
                     mContext.startActivity(intent);
                 }
             });

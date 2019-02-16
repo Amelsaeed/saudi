@@ -172,8 +172,9 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
 
                         if (UserName != null) {
                             Intent intent = new Intent(context,NoteActivity.class);
-                            intent.putExtra("id", userid);
-                            intent.putExtra("name",UserName);
+                            intent.putExtra("iduser", userid);
+                            intent.putExtra("nameuser",UserName);
+                            intent.putExtra("iddoctor",doctorclass.getCtid());
                             context.startActivity(intent);
                         }
                     }

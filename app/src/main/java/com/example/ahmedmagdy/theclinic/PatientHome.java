@@ -59,11 +59,9 @@ public class PatientHome extends AppCompatActivity {
                     if (user == null) {
                         Intent it = new Intent(PatientHome.this, LoginActivity.class);
                         it.putExtra("comefrom", "2");
-
                         startActivity(it);
                     } else {
                         fragment = new FavFragment();
-
                         loadFragment(fragment);
                     }
                     return true;
@@ -72,7 +70,6 @@ public class PatientHome extends AppCompatActivity {
                     if (user == null) {
                         Intent it = new Intent(PatientHome.this, LoginActivity.class);
                         it.putExtra("comefrom", "2");
-
                         startActivity(it);
                     } else {
                         fragment = new UserBookingFragment();

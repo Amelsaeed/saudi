@@ -38,7 +38,7 @@ public class NoteActivity  extends AppCompatActivity {
     private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private TextView mTextView;
-    private String id;
+    private String iduser,iddoctor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,8 +46,9 @@ public class NoteActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_note);
         // get intent data
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        String name = intent.getStringExtra("name");
+        iduser = intent.getStringExtra("iduser");
+        String name = intent.getStringExtra("nameuser");
+        iddoctor = intent.getStringExtra("iddoctor");
         // init var's
         mDatabase = FirebaseDatabase.getInstance().getReference("Notes");mDatabase.keepSynced(true);
         mAuth = FirebaseAuth.getInstance();
@@ -88,7 +89,7 @@ public class NoteActivity  extends AppCompatActivity {
                     mList.clear();
                     for(DataSnapshot doctorSnapshot: dataSnapshot.getChildren()){
                         NoteClass note = doctorSnapshot.getValue(NoteClass.class);
-                        if(id.equals(note.getcUserId()))
+                        if((iduser.equals(note.getcUserId()))&&(iddoctor.equals(note.getcDoctorId())))
                             mList.add(note);
                     }
                     NoteAdapter adapter = new NoteAdapter(NoteActivity.this, mList);
