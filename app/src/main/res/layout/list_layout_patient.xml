@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -27,41 +26,74 @@
             android:layout_gravity="center_vertical"
             android:scaleType="fitXY" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
-            android:gravity="center_vertical">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/p_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
-                android:longClickable="true"
-                android:text="Name"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
-                android:textIsSelectable="true"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/p_age"
-                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/name2"
+                    android:textColor="@android:color/black"
+                    android:textSize="8dp" />
+
+                <TextView
+                    android:id="@+id/p_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:longClickable="true"
+                    android:text=""
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/black"
+                    android:textIsSelectable="true"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/p_name"
-                android:longClickable="true"
-                android:text="age"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="@android:color/black"
-                android:textIsSelectable="true" />
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/age2"
+                    android:textColor="@android:color/black"
+                    android:textSize="8dp" />
+
+                <TextView
+                    android:id="@+id/p_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:longClickable="true"
+                    android:text=""
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/p_age"
-
                 android:orientation="horizontal">
 
                 <TextView
@@ -69,20 +101,20 @@
                     android:layout_height="wrap_content"
                     android:longClickable="true"
                     android:text="@string/last_seen"
+                    android:textSize="8dp"
+                    android:layout_marginRight="10dp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/black"
-                    android:textIsSelectable="true" />
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/p_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/p_phone"
                     android:longClickable="true"
-                    android:text="date"
+                    android:text=""
+                    android:textSize="16dp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/black"
-                    android:textIsSelectable="true" />
+                    android:textColor="@android:color/black" />
 
             </LinearLayout>
 
@@ -90,8 +122,10 @@
                 android:id="@+id/r"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/doctor_city"></RelativeLayout>
+                android:layout_below="@+id/doctor_city">
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

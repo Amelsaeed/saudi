@@ -36,13 +36,14 @@ public class DoctorFirebaseClass implements Serializable {
     private  String cChatstart;
     private  String cChatend;
     private  String cMaxno;
+    private Boolean stop;
 
     public DoctorFirebaseClass(){}
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
                                String cEmail, String cType,String cPhone,String cUri,
                                String cUriID,String cUriWP,String cHospitalName,String cHospitalID
-            ,String cGandr,Boolean cbookingtypestate,Boolean status) {
+            ,String cGandr,Boolean cbookingtypestate,Boolean status,Boolean stop) {
         this.cId = cId;
         this.cName = cName;
         this.cInsurance = cInsurance;
@@ -59,6 +60,7 @@ public class DoctorFirebaseClass implements Serializable {
         this.cGandr = cGandr;
         this.cbookingtypestate = cbookingtypestate;
         this.status = status;
+        this.stop=stop;
     }
 
     public DoctorFirebaseClass(String cId, String cName, String cInsurance, String cCity, String cSpecialty,
@@ -113,7 +115,7 @@ public class DoctorFirebaseClass implements Serializable {
     }
   //                                 DID, DName, DSpecialty,                DCity,          DUri,            DInsurance,   DDegree        ,DPrice,checked,HospitalID,DType,DType,bookingtype
 
-    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,String cAbout, Boolean status) {
+    public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,String cAbout, Boolean status,Boolean stop) {
         this.cId = cId;
         this.cName = cName;
         this.cSpecialty = cSpecialty;
@@ -129,6 +131,7 @@ public class DoctorFirebaseClass implements Serializable {
         this.cType = cType;
         this.cAbout = cAbout;
         this.status = status ;
+        this.stop = stop;
     }                          //DID,        DName,        DSpecialty,         DCity,        DUri,         DInsurance,         DDegree     ,DPrice       ,checked,        HospitalID,        DType,bookingtype,DChatstart,DChatend
     public DoctorFirebaseClass(String cId, String cName, String cSpecialty, String cCity, String cUri,String cInsurance,String cDegree,String cPrice,Boolean checked,String cHospitalID,String cType,Boolean cbookingtypestate,String cChatstart,String cChatend,String cMaxno,String cAbout) {
         this.cId = cId;
@@ -368,6 +371,18 @@ public class DoctorFirebaseClass implements Serializable {
 
     public void setstatus(Boolean status) {
         this.status = status;
+    }
+
+
+    public Boolean getStop() {
+        if (stop == null)
+            return false;
+        else
+            return stop;
+    }
+
+    public void setStop(Boolean stop) {
+        this.stop = stop;
     }
 }
 

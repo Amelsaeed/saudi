@@ -26,6 +26,18 @@
             app:queryHint="Search" />
 
     </LinearLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_uss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Lin_tramp_h"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-3dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
 
     <LinearLayout
         android:id="@+id/ss"
@@ -38,7 +50,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/toolbarbook"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/doctor"
             android:textColor="#695050"
@@ -49,20 +60,19 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text=""
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
     </LinearLayout>
-
+</android.support.v7.widget.CardView>
 
 
     <GridView
         android:id="@+id/insurance_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ss"
+        android:layout_below="@+id/card_uss"
         android:layout_marginTop="20dp"
         android:numColumns="3" />
 

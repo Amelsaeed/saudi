@@ -2,16 +2,22 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -48,6 +54,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by AHMED MAGDY on 10/21/2018.
@@ -87,7 +95,11 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
             StatusDoctcr.setVisibility(View.GONE);
         }
 
-
+       /* if (doctorclasss.getStop()) {
+            listViewItem.setVisibility(View.GONE);
+        } else {
+            listViewItem.setVisibility(View.VISIBLE);
+        }*/
         final TextView adoctorname = (TextView) listViewItem.findViewById(R.id.doctor_name);
         final TextView adoctorspecialty = (TextView) listViewItem.findViewById(R.id.doctor_specialty);
         final TextView adoctorcity = (TextView) listViewItem.findViewById(R.id.doctor_city);
@@ -95,10 +107,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView doctorDiscPrice = listViewItem.findViewById(R.id.doctor_disc_salary);
         final RelativeLayout Book = (RelativeLayout) listViewItem.findViewById(R.id.book123);
         final RelativeLayout ChatRoom = (RelativeLayout) listViewItem.findViewById(R.id.chatroom);
-
         final TextView adoctordegree = (TextView) listViewItem.findViewById(R.id.doctor_degree);
         final TextView adoctorinsurance = (TextView) listViewItem.findViewById(R.id.doctor_Insurance);
-
         final TextView ahospitalname = (TextView) listViewItem.findViewById(R.id.hospital_name);
         final ImageView ahospitalpic = (ImageView) listViewItem.findViewById(R.id.hospital_pic);
         final RelativeLayout relativeLayout = (RelativeLayout) listViewItem.findViewById(R.id.relativeFav);
@@ -118,7 +128,24 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         ImageView Insuranceall = (ImageView) listViewItem.findViewById(R.id.doctor_Insurance_all);
         ImageView specialtyDetail = (ImageView) listViewItem.findViewById(R.id.doctor_specialty_all);
 
-
+        adoctorphoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Display display = context.getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();
+                int height = display.getHeight();
+                loadPhoto(adoctorphoto, width, height);
+            }
+        });
+        ahospitalpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Display display = context.getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();
+                int height = display.getHeight();
+                loadPhoto(ahospitalpic, width, height);
+            }
+        });
         /**  final Button singout = (Button) listViewItem.findViewById(R.id.singout);
          singout.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
@@ -285,7 +312,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                             android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
 
-                            }
+                        }
 
 ///****************************past date*************************
                     } else {
@@ -419,7 +446,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                         if (!context.isFinishing()) {
                             Glide.with(context)
                                     .load(Hospitalpic)
-                                    .apply(RequestOptions.circleCropTransform())
+                                    // .apply(RequestOptions.circleCropTransform())
                                     // .apply(requestOptions)
                                     .into(ahospitalpic);
 
@@ -542,6 +569,11 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                     .into(adoctorphoto);
         }
 
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale);
+        listViewItem.startAnimation(animation);
+
+
         return listViewItem;
     }
 
@@ -594,5 +626,22 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         };
     }
 
+    /////////// show photo profile ////////////////////////
+    private void loadPhoto(ImageView imageView, int width, int height) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.custom_fullimage_dialoge,
+                (ViewGroup) context.findViewById(R.id.layout_root));
+        de.hdodenhof.circleimageview.CircleImageView image = (de.hdodenhof.circleimageview.CircleImageView) layout.findViewById(R.id.fullimage);
+        image.setImageDrawable(imageView.getDrawable());
+        image.getLayoutParams().height = height;
+        image.getLayoutParams().width = width;
+        image.requestLayout();
+        dialog.setContentView(layout);
+        dialog.show();
+    }
 
+    /////////////////////////////////////////////////////////////////////////////
 }

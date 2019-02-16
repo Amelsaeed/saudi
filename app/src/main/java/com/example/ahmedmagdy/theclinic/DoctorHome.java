@@ -15,6 +15,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.ahmedmagdy.theclinic.DoctorFragments.AllDoctorFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.BookingFragment;
@@ -22,10 +24,14 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.DatabaseFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
+import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -39,7 +45,44 @@ public class DoctorHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         loadLocale();
         setContentView(R.layout.activity_doctor_home);
+        final Button Stop = findViewById(R.id.btn_stop);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseDoctor.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final DoctorFirebaseClass user = dataSnapshot.getValue(DoctorFirebaseClass.class);
 
+                /////////////////////////////////////////////  //////////////////////////////////////////////
+
+                ValueEventListener postListener1 = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot1) {
+
+
+                        if (user.getStop()) {
+                            Stop.setVisibility(View.VISIBLE);
+
+                        } else {
+                            Stop.setVisibility(View.GONE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Getting Post failed, log a message
+                    }
+                };
+                databaseDoctor.addValueEventListener(postListener1);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         BottomNavigationView navigationView = findViewById(R.id.dr_bottom_nav);
 

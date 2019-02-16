@@ -21,6 +21,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -741,7 +743,8 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
        // dsatcheckbox.setEnabled(false); dsuncheckbox.setEnabled(false); dmoncheckbox.setEnabled(false); dtuscheckbox.setEnabled(false);
       //  dwedcheckbox.setEnabled(false); dthucheckbox.setEnabled(false); dfricheckbox.setEnabled(false);
 
-
+        Animation animation = AnimationUtils.loadAnimation(context,R.anim.scale);
+        listViewItem.startAnimation(animation);
         return listViewItem;
     }
 

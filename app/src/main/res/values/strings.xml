@@ -397,6 +397,13 @@
     <string name="note_card">Notes</string>
     <string name="select_cities">Selecte cities</string>
     <string name="press_to_show">Press to show</string>
+    <string name="no_booking_added">No booking added!</string>
+    <string name="name2">Name :</string>
+    <string name="age2">Age :</string>
+    <string name="time2">Time/ Arrange :</string>
+    <string name="seen2">Last seen :</string>
+    <string name="stop">Your account has been suspended pending payment of your due \n
+Thanks for your understanding</string>
 
 
 </resources>

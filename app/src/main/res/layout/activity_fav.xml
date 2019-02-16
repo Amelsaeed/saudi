@@ -35,6 +35,18 @@
 
             android:visibility="gone" />
     </LinearLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_us"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Lin_tramp_h"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-3dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
 
     <TextView
         android:id="@+id/user_name"
@@ -46,6 +58,7 @@
         android:layout_below="@id/Lin_tramp_h"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text=""/>
+    </android.support.v7.widget.CardView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +73,7 @@
         style="@style/Widget.AppCompat.Light.ListView.DropDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_name" />
+        android:layout_below="@+id/card_us" />
     <ProgressBar
         android:id="@+id/fav_progress_bar"
         android:layout_width="wrap_content"

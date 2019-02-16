@@ -19,6 +19,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -181,6 +183,9 @@ public class MoreFragmentPatient extends Fragment {
                     }
                 });
                 AlertDialog mDialog = mBuilder.create();
+                Animation myAnimation;
+                myAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.myanime);
+
                 mDialog.show();
             }
         });

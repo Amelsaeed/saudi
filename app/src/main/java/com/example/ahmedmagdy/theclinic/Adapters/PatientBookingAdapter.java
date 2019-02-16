@@ -15,6 +15,8 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -211,7 +213,8 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                     // .apply(requestOptions)
                     .into(apphoto);
         }
-
+        Animation animation = AnimationUtils.loadAnimation(context,R.anim.scale);
+        listViewItem.startAnimation(animation);
         return listViewItem;
     }
 
