@@ -344,7 +344,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
 
                                         //  onewordclass.getWord() -- mDate -- datedmy -- arrange
                                         String msg = context.getString(R.string.booking_time_with_you)+" , on "+datedmy+" - "+
-                                                onewordclass.getWord()+" , No. "+arrange;
+                                                startTime+" , No. "+arrange;
                                         sendNotifiaction(DoctorID, patientName, msg);
                                     }
                                     notify = false;

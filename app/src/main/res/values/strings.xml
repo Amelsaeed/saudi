@@ -273,7 +273,7 @@
     <string name="not_match">Not match</string>
     <string name="your_arrangement_is_the">your Arrangement is the</string>
     <string name="is_booked">is booked</string>
-    <string name="booking_time_with_you">Booking time with you</string>
+    <string name="booking_time_with_you">Booking appointment with you</string>
     <string name="doctor_reach_to_the_max_no_of_bookings_in_this_time_try_with_another_time">doctor reach to the max. no of bookings in this time. try with another time</string>
     <string name="booking">Booking</string>
     <string name="this_patient_added_to_your_database">This patient added to your database</string>
