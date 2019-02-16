@@ -464,8 +464,6 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void sendNotifiaction(String receiver, final String username, final String message) {
-
-
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
@@ -474,7 +472,7 @@ public class MessageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(), R.mipmap.ic_person,
-                            username + ": " + message, getString(R.string.new_message), userid);
+                            username + ": " + message, "New Message", userid,"m");
 
                     Sender sender = new Sender(data, token.getToken());
 
@@ -484,7 +482,7 @@ public class MessageActivity extends AppCompatActivity {
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code() == 200) {
                                         if (response.body().success != 1) {
-                                            Toast.makeText(MessageActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -503,6 +501,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void readMesagges(final String myid, final String userid, final String imageurl) {
         mchat = new ArrayList<>();

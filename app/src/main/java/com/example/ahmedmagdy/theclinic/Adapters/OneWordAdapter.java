@@ -417,9 +417,8 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
-                            username + ": " + message, context.getString(R.string.booking),
-                            receiver);
+                    Data data = new Data(fuser.getUid(),  R.drawable.ic_stat_name,
+                            username + ": " + message, "Booking", receiver,"b");
 
                     Sender sender = new Sender(data, token.getToken());
 

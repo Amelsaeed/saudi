@@ -1347,9 +1347,11 @@ mCurrentDate.set(Year, ((Month+1)),Day);
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
+                    /*Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
                             username + ": " + message, "Booking",
-                            receiver);
+                            receiver);*/
+                    Data data = new Data(fuser.getUid(),  R.drawable.ic_stat_name,
+                            username + ": " + message, "Booking", receiver,"b");
                     Sender sender = new Sender(data, token.getToken());
                     // Sender sender = new Sender(data, token.getToken());
 

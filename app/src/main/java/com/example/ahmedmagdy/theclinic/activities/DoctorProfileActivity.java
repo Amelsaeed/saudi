@@ -667,9 +667,9 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking",
-                            receiver);
+                    Data data = new Data(fuser.getUid(),  R.drawable.ic_stat_name,
+                            username + ": " + message, "Booking", receiver,"b");
+
 
                     Sender sender = new Sender(data, token.getToken());
 

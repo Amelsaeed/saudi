@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.ahmedmagdy.theclinic.activities.DoctorBookingsActivity;
 import com.example.ahmedmagdy.theclinic.activities.MessageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,11 +52,18 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String icon = remoteMessage.getData().get("icon");
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
+        String type = remoteMessage.getData().get("type");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();/*
         int j = convertStringToInteger(user.replaceAll("[\\D]", ""));*/
         int requestID = (int) System.currentTimeMillis();
-        Intent intent = new Intent(this, MessageActivity.class);
+        Intent intent;
+        if(type.equals("m")){
+            intent = new Intent(this, MessageActivity.class);
+        }
+        else{
+            intent = new Intent(this, DoctorBookingsActivity.class);
+        }
         Bundle bundle = new Bundle();
         bundle.putString("userid", user);
         intent.putExtras(bundle);
@@ -82,6 +90,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String icon = remoteMessage.getData().get("icon");
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
+        String type = remoteMessage.getData().get("type");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         /*System.out.println("excp1 : "+user.replaceAll("[\\D]",""));
@@ -89,7 +98,13 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         /*request uniqe id for pending intent*/
         int requestID = (int) System.currentTimeMillis();
         /*int j= new Random().nextInt();*/
-        Intent intent = new Intent(this, MessageActivity.class);
+        Intent intent;
+        if(type.equals("m")){
+            intent = new Intent(this, MessageActivity.class);
+        }
+        else{
+            intent = new Intent(this, DoctorBookingsActivity.class);
+        }
         Bundle bundle = new Bundle();
         bundle.putString("userid", user);
         intent.putExtras(bundle);
