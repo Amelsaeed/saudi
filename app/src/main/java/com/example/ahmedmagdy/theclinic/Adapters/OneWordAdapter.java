@@ -73,6 +73,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     // private int colorResourceID;
     private Activity context;
     List<OneWordClass> timingList;
+    private String arrange;
     //private List<String> positioncolorList;
     //private List<BookingTimesClass> positioncolorList;
 
@@ -270,6 +271,14 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
 
         if (patName == null){
 
+            databasetimeBooking.child(DoctorID).child(TimeID) .child(datedmy).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    //  dataSnapshot.getChildrenCount();
+                    // Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
+                     arrange = String.valueOf(dataSnapshot.getChildrenCount() + 1);
+
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -328,11 +337,15 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     notify = true;
                                     if (notify && userid == mAuth.getCurrentUser().getUid()) {
-                                        System.out.println("databasetimebooking listner: pName:" +
+
+                                        System.out.println("oneword_databasetimebooking listner: pName:" +
                                                 patientName + " ,, Doctor ID:" + DoctorID +
                                                 ",, user id : " + userid);
 
-                                        sendNotifiaction(DoctorID, patientName, context.getString(R.string.booking_time_with_you));
+                                        //  onewordclass.getWord() -- mDate -- datedmy -- arrange
+                                        String msg = context.getString(R.string.booking_time_with_you)+" , on "+datedmy+" - "+
+                                                onewordclass.getWord()+" , No. "+arrange;
+                                        sendNotifiaction(DoctorID, patientName, msg);
                                     }
                                     notify = false;
                                 }
@@ -381,6 +394,14 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                 }
             };
             databaseUserReg .addValueEventListener(postListener);
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
 
         }else {
 

@@ -880,11 +880,16 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             notify = true;
                                             if (notify && userid == mAuth.getCurrentUser().getUid()) {
-                                                System.out.println("databasetimebooking listner: pName:" +
-                                                        patientName + " ,, Doctor ID:" + DoctorID +
-                                                        ",, user id : " + userid);
 
-                                                sendNotifiaction(DoctorID, patientName, context.getString(R.string.booking_time_with_you));
+                                                // mDate or datedmy // currentBooking.getCbtimestart() // arrange
+
+                                                String datedmy2 = datedmy.replaceAll("_", "-");
+                                                System.out.println("booking_databasetimebooking_2"+",, datedmy: " + datedmy2+",, mDate: "
+                                                        +mDate +",, getCbtimestart: " + currentBooking.getCbtimestart()+",, arrange: " + arrange);
+
+                                                String msg = context.getString(R.string.booking_time_with_you)+" , on "+datedmy2+" - "+
+                                                                currentBooking.getCbtimestart()+" , No. "+arrange;
+                                                sendNotifiaction(DoctorID, patientName, msg);
                                             }
                                             notify = false;
                                         }
