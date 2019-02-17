@@ -57,11 +57,11 @@ import java.util.Locale;
 
 public class MoreFragmentPatient extends Fragment {
     private FirebaseAuth mAuth;
-    DatabaseReference databaseChat;
-    String usertype;
-    //gps
+    private DatabaseReference databaseChat;
+    public String usertype;
+    String type;
     public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
-
+    ListView listview;
 
     public MoreFragmentPatient() {
         // Required empty public constructor
@@ -70,125 +70,206 @@ public class MoreFragmentPatient extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_more, container, false);
         mAuth = FirebaseAuth.getInstance();
         loadLocale();
         //run get data for map
-        getAllDoctorsMap();
-        ArrayList<String> titles = new ArrayList<>();
-        titles.add(getString(R.string.chat_room));
-        titles.add(getString(R.string.doctor_map));
-        titles.add(getString(R.string.Profile));
-        titles.add(getString(R.string.hospitals));
-        titles.add(getString(R.string.contact_us));
-        titles.add(getString(R.string.rate_us));
-        titles.add(getString(R.string.share));
-        titles.add(getString(R.string.about));
-        titles.add(getString(R.string.language_settings));
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        if (user == null) {
-            titles.add(getString(R.string.sign_in));
-        } else {
-            titles.add(getString(R.string.sign_out));
-        }
-        //words.add("Sign out");
-        ArrayList<Integer> icons = new ArrayList<>();
-        icons.add(R.drawable.chat_room);
-        icons.add(R.drawable.map_all);
-        icons.add(R.drawable.ic_person);
-        icons.add(R.drawable.ic_hospital_12);
-        icons.add(R.drawable.ic_email);
-        icons.add(R.drawable.rating);
-        icons.add(R.drawable.ic_share_black_24dp);
-        icons.add(R.drawable.ic_help);
-        icons.add(R.drawable.ic_language);
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseChat.keepSynced(true);
-        if (user == null) {
-            icons.add(R.drawable.icn_sign_in);
-        } else {
-            icons.add(R.drawable.icn_sign_out);
-        }
-        // icons.add(R.drawable.icn_sign_out);
+        listview = (ListView) rootView.findViewById(R.id.listView1);
 
-
-        ListView listview = (ListView) rootView.findViewById(R.id.listView1);
-        MoreAdapter adapter = new MoreAdapter(getActivity(), titles, icons);
-
-        listview.setAdapter(adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final ValueEventListener postListener1 = new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:
-                        ChatRoomClicked();
+            public void onDataChange(DataSnapshot dataSnapshot1) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                        break;
-                    case 1:
-                        inflateDocMapFragment();
-                        break;
-                    case 2:
-                        profileClicked();
-                        break;
-                    case 3:
-                        HospitalsClicked();
-                        break;
-                    case 4:
-                        emailClicked();
-
-                        break;
-                    case 5:
-                        rateClicked();
-                        break;
-                    case 6:
-                        shareClicked();
-
-                        break;
-                    case 7:
-                        about();
-                        break;
-                    case 8:
-                        setting();
-                        break;
-                    case 9:
-                        signOutClicked();
-                        break;
+                usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                ArrayList<String> titles = new ArrayList<>();
+                if (usertype.equals("Doctor")) {
+                    titles.add(getString(R.string.favorite));
+                    titles.add(getString(R.string.my_reservations));
                 }
-            }
 
-            private void setting() {
-                showChangeLanguageDialog();
-            }
+                titles.add(getString(R.string.chat_room));
+                titles.add(getString(R.string.doctor_map));
+                titles.add(getString(R.string.Profile));
+                titles.add(getString(R.string.hospitals));
+                titles.add(getString(R.string.contact_us));
+                titles.add(getString(R.string.rate_us));
+                titles.add(getString(R.string.share));
+                titles.add(getString(R.string.about));
+                titles.add(getString(R.string.language_settings));
 
-            private void showChangeLanguageDialog() {
-                final String[] listItme = {"English", "العربية"};
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle(R.string.choose_anguage);
-                mBuilder.setIcon(R.drawable.ic_language);
-                mBuilder.setSingleChoiceItems(listItme, -1, new DialogInterface.OnClickListener() {
+                if (user == null) {
+                    titles.add(getString(R.string.sign_in));
+                } else {
+                    titles.add(getString(R.string.sign_out));
+                }
+
+                ArrayList<Integer> icons = new ArrayList<>();
+                if (usertype.equals("Doctor")) {
+                    icons.add(R.drawable.ic_favorite_border_black_24dp);
+                    icons.add(R.drawable.ic_insert_invitation_black_24dp);
+                }
+                icons.add(R.drawable.chat_room);
+                icons.add(R.drawable.map_all);
+                icons.add(R.drawable.ic_person);
+                icons.add(R.drawable.ic_hospital_12);
+                icons.add(R.drawable.ic_email);
+                icons.add(R.drawable.rating);
+                icons.add(R.drawable.ic_share_black_24dp);
+                icons.add(R.drawable.ic_help);
+                icons.add(R.drawable.ic_language);
+                if (user == null) {
+                    icons.add(R.drawable.icn_sign_in);
+                } else {
+                    icons.add(R.drawable.icn_sign_out);
+                }
+                MoreAdapter adapter = new MoreAdapter(getActivity(), titles, icons);
+
+                listview.setAdapter(adapter);
+
+                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0) {
-                            setLocale("en");
-                            getActivity().recreate();
-                        } else if (i == 1) {
-                            setLocale("ar");
-                            getActivity().recreate();
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        if (usertype.equals("Doctor")) {
+                            switch (i) {
+                                case 0:
+                                    if (user == null) {
+                                        Intent it = new Intent(getActivity(), LoginActivity.class);
+                                        it.putExtra("comefrom", "2");
+                                        startActivity(it);
+                                    } else {
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                                new FavFragment()).addToBackStack(null).commit();
+                                    }
+                                    break;
+                                case 1:
+                                    if (user == null) {
+                                        Intent it = new Intent(getActivity(), LoginActivity.class);
+                                        it.putExtra("comefrom", "2");
+                                        startActivity(it);
+                                    } else {
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                                new UserBookingFragment()).addToBackStack(null).commit();
+                                    }
+                                    break;
+                                case 2:
+                                    ChatRoomClicked();
+                                    break;
+                                case 3:
+                                    inflateDocMapFragment();
+                                    break;
+                                case 4:
+                                    profileClicked();
+
+                                    break;
+                                case 5:
+                                    HospitalsClicked();
+                                    break;
+                                case 6:
+                                    emailClicked();
+
+                                    break;
+                                case 7:
+                                    rateClicked();
+                                    break;
+                                case 8:
+                                    shareClicked();
+
+                                    break;
+                                case 9:
+                                    about();
+                                    break;
+                                case 10:
+                                    setting();
+                                    break;
+                                case 11:
+                                    signOutClicked();
+                                    break;
+                            }
+                        } else {
+                            switch (i) {
+                                case 0:
+                                    ChatRoomClicked();
+
+                                    break;
+                                case 1:
+                                    inflateDocMapFragment();
+                                    break;
+                                case 2:
+                                    profileClicked();
+                                    break;
+                                case 3:
+                                    HospitalsClicked();
+                                    break;
+                                case 4:
+                                    emailClicked();
+
+                                    break;
+                                case 5:
+                                    rateClicked();
+                                    break;
+                                case 6:
+                                    shareClicked();
+
+                                    break;
+                                case 7:
+                                    about();
+                                    break;
+                                case 8:
+                                    setting();
+                                    break;
+                                case 9:
+                                    signOutClicked();
+                                    break;
+                            }
                         }
-                        dialogInterface.dismiss();
+
+                    }
+
+                    private void setting() {
+                        showChangeLanguageDialog();
+                    }
+
+                    private void showChangeLanguageDialog() {
+                        final String[] listItme = {"English", "العربية"};
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                        mBuilder.setTitle(R.string.choose_anguage);
+                        mBuilder.setIcon(R.drawable.ic_language);
+                        mBuilder.setSingleChoiceItems(listItme, -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (i == 0) {
+                                    setLocale("en");
+                                    getActivity().recreate();
+                                } else if (i == 1) {
+                                    setLocale("ar");
+                                    getActivity().recreate();
+                                }
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog mDialog = mBuilder.create();
+                        Animation myAnimation;
+                        myAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.myanime);
+
+                        mDialog.show();
                     }
                 });
-                AlertDialog mDialog = mBuilder.create();
-                Animation myAnimation;
-                myAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.myanime);
-
-                mDialog.show();
             }
-        });
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        databaseChat.addValueEventListener(postListener1);
+        getAllDoctorsMap();
 
 
         return rootView;
@@ -199,15 +280,16 @@ public class MoreFragmentPatient extends Fragment {
         Locale.setDefault(locale);
         Configuration configuration = new Configuration();
         configuration.locale = locale;
-        getActivity().getResources().updateConfiguration(configuration,getActivity().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
-        editor.putString("My_Lang",lang);
+        getActivity().getResources().updateConfiguration(configuration, getActivity().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang", lang);
         editor.apply();
 
     }
-    public void  loadLocale(){
-        SharedPreferences pref = getActivity().getSharedPreferences("Setting",Activity.MODE_PRIVATE);
-        String language = pref.getString("My_Lang","");
+
+    public void loadLocale() {
+        SharedPreferences pref = getActivity().getSharedPreferences("Setting", Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang", "");
         setLocale(language);
     }
 
@@ -262,37 +344,21 @@ public class MoreFragmentPatient extends Fragment {
             it.putExtra("comefrom", "2");
             startActivity(it);
         } else {
-            final ValueEventListener postListener1 = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot1) {
+            if (usertype.equals("User")) {
 
-                    usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
-                    if (usertype.equals("User")) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new UserProfileFragment()).addToBackStack(null).commit();
+            } else if (usertype.equals("Doctor")) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new DoctorProfileFragment()).addToBackStack(null).commit();
+            } else if (usertype.equals("Hospital")) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HospitalProfileFragment()).addToBackStack(null).commit();
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new UserProfileFragment()).addToBackStack(null).commit();
-                    } else if (usertype.equals("Doctor")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new DoctorProfileFragment()).addToBackStack(null).commit();
-                    } else if (usertype.equals("Hospital")) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new HospitalProfileFragment()).addToBackStack(null).commit();
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Getting Post failed, log a message
-                }
-            };
-            databaseChat.addValueEventListener(postListener1);
-
-
+            }
         }
 
     }
-
 
     private void rateClicked() {
         try {
