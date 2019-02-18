@@ -59,7 +59,6 @@ public class MoreFragmentPatient extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseChat;
     public String usertype;
-    String type;
     public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
     ListView listview;
 
@@ -84,8 +83,11 @@ public class MoreFragmentPatient extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot1) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);
+                if (user == null) {
+                    usertype="User";
+                }
+                else{
+                usertype = dataSnapshot1.child(mAuth.getCurrentUser().getUid()).child("ctype").getValue(String.class);}
                 ArrayList<String> titles = new ArrayList<>();
                 if (usertype.equals("Doctor")) {
                     titles.add(getString(R.string.favorite));
