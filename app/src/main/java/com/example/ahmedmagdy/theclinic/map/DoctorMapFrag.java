@@ -89,6 +89,8 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
     private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
     private ArrayList<UserLocation> mUserLocs = new ArrayList<>();
     private GeoApiContext mGeoApiContext = null;
+    private double mDoctorBookingLocLat ;
+    private double mDoctorBookingLocLng ;
     /*direction
     private LocationListener mLocationListener = new LocationListener() {
         @Override
@@ -135,6 +137,8 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
 
         if (getArguments() != null) {
             mUserLocs = getArguments().getParcelableArrayList("intent_user_locs");
+            mDoctorBookingLocLat = getArguments().getDouble("lat") ;
+            mDoctorBookingLocLng = getArguments().getDouble("lng") ;
             /*for(UserLocation u : mUserLocs){
                 System.out.println(TAG+": "+u);
             }*/

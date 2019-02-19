@@ -1,9 +1,13 @@
 package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +16,12 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +30,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,14 +44,15 @@ import com.example.ahmedmagdy.theclinic.Notifications.Data;
 import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;
 import com.example.ahmedmagdy.theclinic.Notifications.Sender;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
+import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
-import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.example.ahmedmagdy.theclinic.classes.MapClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
+import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
+import com.example.ahmedmagdy.theclinic.map.UserLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,6 +71,7 @@ import com.kd.dynamic.calendar.generator.ImageGenerator;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -98,11 +103,12 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     boolean satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate;
     EditText dialogAddress;
 
-    double latitude;
-    double longitude;
+    double latitude , longitude;
+    double docLatitude , docLongitude;
     final int theRequestCodeForLocation = 1;
     Boolean isPermissionGranted;
     private FusedLocationProviderClient mFusedLocationClient;
+    public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
 
 
     /**public String id;
@@ -187,11 +193,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         dlocationcardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("google.navigation:q=" + bookingclass.getCbaddress()));
-                context.startActivity(intent);
-
+                inflateDocMapFragment();
             }
         });
         if (!DoctorID.equals(mAuth.getCurrentUser().getUid())) {
@@ -1100,4 +1102,52 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         context.finish();
         return true;
     }**/
+    @SuppressLint("ResourceType")
+    private void inflateDocMapFragment() {
+        getAllDoctorsMap();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = ((AppCompatActivity)
+                context).getSupportFragmentManager().beginTransaction();
+
+        DoctorMapFrag fragment = new DoctorMapFrag();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("intent_user_locs", mUserLocations);
+        //bundle.putString("YourKey1", "YourValue");
+        //docLatitude , docLongitude
+        System.out.println("BookingAdapterList : lat: "+docLatitude+" ,lng: "+docLongitude);
+        bundle.putDouble("lat", docLatitude);
+        bundle.putDouble("lng", docLongitude);
+        fragment.setArguments(bundle);
+
+        fragmentTransaction.add(R.id.activity_booking_list_frame_id, fragment,"User List");
+        fragmentTransaction.addToBackStack("User List");
+        fragmentTransaction.commit();
+    }
+    //get all doc data
+    private void getAllDoctorsMap() {
+        if (UtilClass.isNetworkConnected(getContext())) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            Query query = ref.child("mapdb");
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println("qerrrrrrrrrrry Count " + "" + dataSnapshot.getChildrenCount());
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        UserLocation post = postSnapshot.getValue(UserLocation.class);
+                        mUserLocations.add(post);
+                        System.out.println("qerrrrrrrrrrry Get Data" + post.getCmname());
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            query.addValueEventListener(valueEventListener);
+
+        } else {
+            Toast.makeText(getContext(), context.getString(R.string.network_connection_msg), Toast.LENGTH_SHORT).show();
+        }
+    }
 }

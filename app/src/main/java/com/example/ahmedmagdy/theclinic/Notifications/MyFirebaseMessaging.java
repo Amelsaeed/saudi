@@ -63,6 +63,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         }
         else{
             intent = new Intent(this, DoctorBookingsActivity.class);
+            //intent.putExtra("selectedDate", sessionId);
         }
         Bundle bundle = new Bundle();
         bundle.putString("userid", user);
