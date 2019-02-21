@@ -671,7 +671,16 @@ editDialog(whatData);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle(R.string.select_specialty);
 
-                mBuilder.setSingleChoiceItems(listSpecialityItems, -1, new DialogInterface.OnClickListener() {
+                String spec = pspeciality.getText().toString();
+                int checkedSpec = -1;
+                for (int i=0 ; i< listSpecialityItems.length; i++){
+                    if (listSpecialityItems[i].equals(spec) ){
+                        checkedSpec = i;
+                        break;
+                    }
+                }
+
+                mBuilder.setSingleChoiceItems(listSpecialityItems, checkedSpec, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -720,7 +729,17 @@ editDialog(whatData);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle(R.string.select_degree);
 
-                mBuilder.setSingleChoiceItems(listDegreeItems, -1, new DialogInterface.OnClickListener() {
+                String deg = pdegree.getText().toString();
+                int checkedDegree = -1;
+
+                for (int i =0 ; i< listDegreeItems.length; i++){
+                    if (listDegreeItems[i].equals(deg)){
+                        checkedDegree = i;
+                        break;
+                    }
+                }
+
+                mBuilder.setSingleChoiceItems(listDegreeItems, checkedDegree, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

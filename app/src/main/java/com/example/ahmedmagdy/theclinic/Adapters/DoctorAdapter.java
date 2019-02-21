@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Display;
@@ -35,7 +34,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.MessageActivity;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -395,7 +393,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         adoctorspecialty.setText(doctorclass.getcSpecialty());
         adoctorcity.setText(doctorclass.getcCity());
         if (doctorclass.getcPrice() != null) {
-            String docPrice = doctorclass.getcPrice().trim().replace(" SAR", "");
+            String docPrice = doctorclass.getcPrice().trim().replace("SAR", "");
             double price = Double.parseDouble(docPrice);
             DecimalFormat df1 = new DecimalFormat("###.##");
             String fPrice = df1.format(price);
