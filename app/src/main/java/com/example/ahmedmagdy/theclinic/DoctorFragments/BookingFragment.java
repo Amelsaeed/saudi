@@ -41,6 +41,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BookingFragment extends Fragment {
 
@@ -83,6 +85,7 @@ public class BookingFragment extends Fragment {
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
         mBookingRef.keepSynced(true);
         selectedDate = UtilClass.getInstanceDate();
+
         vDate = UtilClass.dateFormat(UtilClass.getInstanceDate());
 
         try {
