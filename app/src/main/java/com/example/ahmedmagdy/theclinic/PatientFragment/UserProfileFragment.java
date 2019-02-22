@@ -189,7 +189,16 @@ public class UserProfileFragment extends Fragment {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 mBuilder.setTitle(R.string.select_degree);
 
-                mBuilder.setSingleChoiceItems(listInsuranceItem, -1, new DialogInterface.OnClickListener() {
+                String insur = insuranceEditUser.getText().toString();
+                int checkedInsur = -1;
+                for (int i = 0; i< listInsuranceItem.length; i++ ){
+                    if (listInsuranceItem[i].equals(insur)){
+                       checkedInsur = i;
+                       break;
+                    }
+                }
+
+                mBuilder.setSingleChoiceItems(listInsuranceItem, checkedInsur, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

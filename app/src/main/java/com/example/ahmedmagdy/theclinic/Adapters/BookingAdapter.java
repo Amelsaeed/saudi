@@ -5,9 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +41,6 @@ import com.example.ahmedmagdy.theclinic.Notifications.Data;
 import com.example.ahmedmagdy.theclinic.Notifications.MyResponse;
 import com.example.ahmedmagdy.theclinic.Notifications.Sender;
 import com.example.ahmedmagdy.theclinic.Notifications.Token;
-import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.CalenderActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingClass;
@@ -90,45 +86,47 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
 
     private Activity context;
-    List<BookingClass> bookingList;
+    private List<BookingClass> bookingList;
     private FirebaseAuth mAuth;
-    private DatabaseReference databasetimeBooking,databaseBooking,databaseMap;
-    private DatabaseReference databaseUserReg,databaseDoctor,databaseChat;
+    private DatabaseReference databasetimeBooking, databaseBooking, databaseMap;
+    private DatabaseReference databaseUserReg, databaseDoctor, databaseChat;
 
     private FirebaseUser fuser;
-    String userid,arrange,startTime, endingTime,address;
-    boolean notify = false;
-    APIService apiService;
-    int startHour, endingHour;
-    boolean satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate;
-    EditText dialogAddress;
+    private String userid, arrange, startTime, endingTime, address;
+    private boolean notify = false;
+    private APIService apiService;
+    private int startHour, endingHour;
+    private boolean satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate;
+    private EditText dialogAddress;
 
-    double latitude , longitude;
-    double docLatitude , docLongitude;
-    final int theRequestCodeForLocation = 1;
-    Boolean isPermissionGranted;
+   private double latitude, longitude;
+   private double docLatitude, docLongitude;
+   private final int theRequestCodeForLocation = 1;
+   private Boolean isPermissionGranted;
     private FusedLocationProviderClient mFusedLocationClient;
     public static ArrayList<UserLocation> mUserLocations = new ArrayList<>();
 
 
-    /**public String id;
-    public String doctorID;
-
-    public BookingAdapter(DoctorProfileActivity context , List<BookingClass> bookingList, String id, String doctorID) {
-        super((Context) context, R.layout.list_layout_booking, bookingList);
-
-        this.context = context;
-        this.bookingList = bookingList;
-        this.id = id;
-        this.doctorID = doctorID;
-    }**/
+    /**
+     * public String id;
+     * public String doctorID;
+     * <p>
+     * public BookingAdapter(DoctorProfileActivity context , List<BookingClass> bookingList, String id, String doctorID) {
+     * super((Context) context, R.layout.list_layout_booking, bookingList);
+     * <p>
+     * this.context = context;
+     * this.bookingList = bookingList;
+     * this.id = id;
+     * this.doctorID = doctorID;
+     * }
+     **/
     private String DoctorID;
     private String patientName;
     private String patientAge;
     private Boolean BookingType;
     private String MaxNo;
 
-    public BookingAdapter( Activity context, List<BookingClass> bookingList,String DoctorID,String patientName,String patientAge,Boolean BookingType, String MaxNo) {
+    public BookingAdapter(Activity context, List<BookingClass> bookingList, String DoctorID, String patientName, String patientAge, Boolean BookingType, String MaxNo) {
         super((Context) context, R.layout.list_layout_booking, bookingList);
 
         this.context = context;
@@ -141,7 +139,6 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     }
 
 
-
     @NonNull
     @Override
     public View getView(final int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
@@ -152,12 +149,18 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         mAuth = FirebaseAuth.getInstance();
         userid = mAuth.getCurrentUser().getUid();
 
-        databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");databasetimeBooking.keepSynced(true);
-        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");databaseUserReg.keepSynced(true);
-        databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);databaseBooking.keepSynced(true);
-        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");databaseMap.keepSynced(true);
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");databaseChat.keepSynced(true);
+        databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");
+        databasetimeBooking.keepSynced(true);
+        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
+        databaseUserReg.keepSynced(true);
+        databaseBooking = FirebaseDatabase.getInstance().getReference("bookingdb").child(DoctorID);
+        databaseBooking.keepSynced(true);
+        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
+        databaseMap.keepSynced(true);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseDoctor.keepSynced(true);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         final TextView abookingtimestart = (TextView) listViewItem.findViewById(R.id.time_book_start);
@@ -225,7 +228,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                     @Override
                     public void onClick(View view) {
                         BookingClass bookingclass = bookingList.get(position);
-                        databaseMap.child(DoctorID+bookingclass.getCbid()).setValue(null);
+                        databaseMap.child(DoctorID + bookingclass.getCbid()).setValue(null);
                         databaseBooking.child(bookingclass.getCbid()).setValue(null);
                         dialog.dismiss();
 
@@ -239,24 +242,29 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                     public void onClick(View view) {
 
 ////////////////////////////////syart of edit box/////////////////////
+                        dialog.dismiss();
+                        BookingClass currentBooking = bookingList.get(position);
 
                         final Dialog dialog = new Dialog(context);
                         dialog.setContentView(R.layout.booking_data_dialig);
                         dialog.setTitle(R.string.edit_your_data);
                         dialog.setCanceledOnTouchOutside(false);
+
+                        dialogAddress = dialog.findViewById(R.id.dialog_address);
+                         dialogAddress.setText(currentBooking.getCbaddress());
                         //
                         //
                         //--------get location from Gps---------------------
-                        if(isPermissionGranted){
+                        if (isPermissionGranted) {
 
                             getLocation(dialog);
-                        }else{
+                        } else {
+
                             requestPermission();
-                            if(isPermissionGranted){
+                            if (isPermissionGranted) {
                                 //We have it, Get the location.
                                 getLocation(dialog);
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(context, R.string.please_give_us_permission_so_you_can_use_the_app, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -266,14 +274,25 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                         //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
 
 
-
                         final EditText dialogstarttime = dialog.findViewById(R.id.start_time);
                         final EditText dialogendingtime = dialog.findViewById(R.id.ending_time);
 
                         final ImageView dialogstarttimelogo = dialog.findViewById(R.id.timer);
                         final ImageView dialogendingtimelogo = dialog.findViewById(R.id.timer_off);
                         final Spinner dialogspinnerstep = dialog.findViewById(R.id.step_time);
-                        final Spinner dialogspinnerHC= dialog.findViewById(R.id.hospital_clinic);
+                        final Spinner dialogspinnerHC = dialog.findViewById(R.id.hospital_clinic);
+
+                        String startingTime = currentBooking.getCbtimestart();
+                        String[] tm = startingTime.split(":");
+                        startHour = Integer.parseInt(tm[0]);
+                        dialogstarttime.setText(startingTime);
+
+                        String endTime = currentBooking.getCbtimeend();
+                        String[] te = endTime.split(":");
+                        endingHour = Integer.parseInt(te[0]);
+
+                        dialogendingtime.setText(endTime);
+
 
                         dialogstarttimelogo.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -299,11 +318,11 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                                         ///////////////////////////
 
-                                        startTime=selectedHour00 + ":" + selectedMinute00;
-                                        startHour=selectedHour;
+                                        startTime = selectedHour00 + ":" + selectedMinute00;
+                                        startHour = selectedHour;
 
                                         dialogstarttime.setEnabled(true);
-                                        dialogstarttime.setText( startTime);
+                                        dialogstarttime.setText(startTime);
                                         dialogstarttime.setEnabled(false);
 
                                     }
@@ -337,12 +356,12 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                         }
 
                                         ///////////////////////////
-                                        endingTime=selectedHour100 + ":" + selectedMinute100;
-                                        endingHour=selectedHour1;
+                                        endingTime = selectedHour100 + ":" + selectedMinute100;
+                                        endingHour = selectedHour1;
 
                                         dialogendingtime.setEnabled(true);
 
-                                        dialogendingtime.setText( endingTime);
+                                        dialogendingtime.setText(endingTime);
                                         dialogendingtime.setEnabled(false);
 
                                     }
@@ -372,6 +391,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                         adapterHC.setDropDownViewResource(R.layout.spinner_list_item);
                         dialogspinnerHC.setAdapter(adapterHC);
 
+
                         dialogspinnerHC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -391,6 +411,13 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                         adapters.setDropDownViewResource(R.layout.spinner_list_item);
                         dialogspinnerstep.setAdapter(adapters);
 
+                        String selectedStep = currentBooking.getSteptime();
+                        if (selectedStep != null) {
+                            int stepPostition = adapters.getPosition(selectedStep);
+                            dialogspinnerstep.setSelection(stepPostition);
+                        }
+
+
                         dialogspinnerstep.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -403,100 +430,147 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                             public void onNothingSelected(AdapterView<?> parent) {
                             }
                         });
+                        if (currentBooking.getSatchecked()) {
+                            dsatcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            satstate = true;
+                        }else {
+                            satstate = false;
+                        }
                         dsatcardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dsatcardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dsatcardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dsatcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    satstate =true;
-                                }else{
+                                    satstate = true;
+                                } else {
                                     dsatcardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    satstate =false;
+                                    satstate = false;
                                 }
                             }
                         });
+
+                        if (currentBooking.getSunchecked()) {
+                            dsuncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            sunstate = true;
+                        }else {
+                            sunstate = false;
+                        }
                         dsuncardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dsuncardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dsuncardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dsuncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    sunstate =true;
-                                }else{
+                                    sunstate = true;
+                                } else {
 
                                     dsuncardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    satstate =false;
+                                    satstate = false;
                                 }
                             }
                         });
+
+                        if (currentBooking.getMonchecked()) {
+                            dmoncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                           monstate = true;
+                        }else {
+                            monstate = false;
+                        }
                         dmoncardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dmoncardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dmoncardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dmoncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    monstate =true;
-                                }else{
+                                    monstate = true;
+                                } else {
 
                                     dmoncardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    monstate =false;
+                                    monstate = false;
                                 }
                             }
                         });
+
+                        if (currentBooking.getTuschecked()) {
+                            dtuscardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            tusstate = true;
+                        }else {
+                            tusstate = false;
+                        }
                         dtuscardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dtuscardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dtuscardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dtuscardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    tusstate =true;
-                                }else{
+                                    tusstate = true;
+                                } else {
 
                                     dtuscardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    tusstate =false;
+                                    tusstate = false;
                                 }
                             }
                         });
+
+                        if (currentBooking.getWedchecked()) {
+                            dwedcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            wedstate = true;
+                        }else {
+                            wedstate = false;
+                        }
                         dwedcardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dwedcardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dwedcardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dwedcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    wedstate =true;
-                                }else{
+                                    wedstate = true;
+                                } else {
 
                                     dwedcardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    wedstate =false;
+                                    wedstate = false;
                                 }
                             }
                         });
+
+                        if (currentBooking.getTuschecked()) {
+                            dthucardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            thustate = true;
+                        }else{
+                            thustate = false;
+                        }
                         dthucardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dthucardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dthucardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dthucardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    thustate =true;
-                                }else{
+                                    thustate = true;
+                                } else {
 
                                     dthucardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    thustate =false;
+                                    thustate = false;
                                 }
                             }
                         });
+
+                        if (currentBooking.getFrichecked()) {
+                            dfricardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
+                            fristate = true;
+                        }else{
+                            fristate = false;
+                        }
                         dfricardview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(dfricardview.getCardBackgroundColor().getDefaultColor()==-1){
+                                if (dfricardview.getCardBackgroundColor().getDefaultColor() == -1) {
                                     dfricardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-                                    fristate =true;
-                                }else{
+                                    fristate = true;
+                                } else {
 
                                     dfricardview.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                                    fristate =false;
+                                    fristate = false;
                                 }
                             }
                         });
+
+
                         ////////////////////
-
-
-
 
 
                         submit.setOnClickListener(new View.OnClickListener() {
@@ -506,31 +580,34 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                 final String getstartingtime = dialogstarttime.getText().toString().trim();
                                 final String getendingtime = dialogendingtime.getText().toString().trim();
                                 final String getsteptime = dialogspinnerstep.getSelectedItem().toString().trim();
-                                final String  getHC= dialogspinnerHC.getSelectedItem().toString().trim();
-
+                                final String getHC = dialogspinnerHC.getSelectedItem().toString().trim();
 
 
                                 if (getaddress.isEmpty()) {
                                     dialogAddress.setError(context.getString(R.string.please_fill_the_address));
                                     dialogAddress.requestFocus();
-                                    return;}
+                                    return;
+                                }
                                 if (getstartingtime.isEmpty()) {
                                     dialogstarttime.setError(context.getString(R.string.please_fill_starting_time));
                                     dialogstarttime.requestFocus();
-                                    return;}
+                                    return;
+                                }
                                 if (getendingtime.isEmpty()) {
                                     dialogendingtime.setError(context.getString(R.string.please_fill_ending_times));
                                     dialogendingtime.requestFocus();
-                                    return;}
-                                if (endingHour<=startHour) {
+                                    return;
+                                }
+                                if (endingHour <= startHour) {
                                     dialogendingtime.setError(context.getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                                     dialogendingtime.requestFocus();
                                     dialogstarttime.setError(context.getString(R.string.ending_time_must_be_after_starting_time_and_in_the_same_day));
                                     dialogstarttime.requestFocus();
-                                    return;}
+                                    return;
+                                }
 
 
-                                BookingClass bookingclass1 = new BookingClass(bookingclass.getCbid(), getstartingtime,getendingtime, getaddress,DoctorID,String.valueOf(latitude),String.valueOf(longitude),getsteptime,satstate,sunstate,monstate,tusstate,wedstate,thustate,fristate);
+                                BookingClass bookingclass1 = new BookingClass(bookingclass.getCbid(), getstartingtime, getendingtime, getaddress, DoctorID, String.valueOf(latitude), String.valueOf(longitude), getsteptime, satstate, sunstate, monstate, tusstate, wedstate, thustate, fristate);
                                 // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                                 // Database for Account Activity
                                 databaseBooking.child(bookingclass.getCbid()).setValue(bookingclass1);
@@ -544,14 +621,16 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                         String DoctorPic = dataSnapshot1.child(DoctorID).child("cUri").getValue(String.class);
                                         String DoctorGander = dataSnapshot1.child(DoctorID).child("cGandr").getValue(String.class);
                                         String DoctorType = dataSnapshot1.child(DoctorID).child("cType").getValue(String.class);
-                                        if (DoctorPic == null){DoctorPic= "https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11";}
+                                        if (DoctorPic == null) {
+                                            DoctorPic = "https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/doctor_logo_m.jpg?alt=media&token=d3108b95-4e16-4549-99b6-f0fa466e0d11";
+                                        }
                                         // DatabaseReference reference = databaseMap.push();
                                         // String idm = reference.getKey();
                                         //Log.v("Data"," 2-User id :"+ mUserId);
-                                        MapClass mapclass = new MapClass(DoctorID,String.valueOf(latitude),String.valueOf(longitude),DoctorName,DoctorSpecialty,DoctorPic,getHC,DoctorGander,DoctorType);
+                                        MapClass mapclass = new MapClass(DoctorID, String.valueOf(latitude), String.valueOf(longitude), DoctorName, DoctorSpecialty, DoctorPic, getHC, DoctorGander, DoctorType);
                                         // BookingAdapter myAdapter = new BookingAdapter(DoctorProfileActivity.this, bookingList, id, DoctorID);
                                         // Database for Account Activity
-                                        databaseMap.child(DoctorID+bookingclass.getCbid()).setValue(mapclass);
+                                        databaseMap.child(DoctorID + bookingclass.getCbid()).setValue(mapclass);
                                     }
 
                                     @Override
@@ -559,7 +638,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                         // Getting Post failed, log a message
                                     }
                                 };
-                                databaseDoctor .addValueEventListener(postListener1);
+                                databaseDoctor.addValueEventListener(postListener1);
 
                                 ///////////////////////////////////////////////
 
@@ -603,7 +682,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
             @Override
             public void onClick(View v) {
 
-                if(BookingType){
+                if (BookingType) {
                     BookingClass bookingclass = bookingList.get(position);
                     final String timeID = bookingclass.getCbid();
                     String comefrom = "1";
@@ -638,11 +717,11 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                }else{
+                } else {
                     ///////////////////************rearrange booking*******************//////////////////
                     if (mAuth.getCurrentUser() == null) {
                         Toast.makeText(context, R.string.you_should_log_in_firstly, Toast.LENGTH_LONG).show();
-                    } else{
+                    } else {
 
                         BookingClass bookingclass = bookingList.get(position);
                         final String timeID = bookingclass.getCbid();
@@ -664,75 +743,75 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         abookingaddress.setText(bookingclass.getCbaddress());
 
 
-        Boolean csatcheckbox=(bookingclass.getSatchecked());
-        Boolean csuncheckbox=(bookingclass.getSunchecked());
-        Boolean cmoncheckbox=(bookingclass.getMonchecked());
-        Boolean ctuscheckbox=(bookingclass.getTuschecked());
-        Boolean cwedcheckbox=(bookingclass.getWedchecked());
-        Boolean cthucheckbox=(bookingclass.getThuchecked());
-        Boolean cfricheckbox=(bookingclass.getFrichecked());
+        Boolean csatcheckbox = (bookingclass.getSatchecked());
+        Boolean csuncheckbox = (bookingclass.getSunchecked());
+        Boolean cmoncheckbox = (bookingclass.getMonchecked());
+        Boolean ctuscheckbox = (bookingclass.getTuschecked());
+        Boolean cwedcheckbox = (bookingclass.getWedchecked());
+        Boolean cthucheckbox = (bookingclass.getThuchecked());
+        Boolean cfricheckbox = (bookingclass.getFrichecked());
 
-        if (csatcheckbox){
+        if (csatcheckbox) {
 
             dsatcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-            }else{
+        } else {
             dsatcardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dsattextview.setTextColor(Color.parseColor("#ffffff"));
-            }
-            //////////////////***********************
-        if (csuncheckbox){
+        }
+        //////////////////***********************
+        if (csuncheckbox) {
 
             dsuncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-        }else{
+        } else {
             dsuncardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dsuntextview.setTextColor(Color.parseColor("#ffffff"));
         }
         //////////////////***********************
 
-        if (cmoncheckbox){
+        if (cmoncheckbox) {
 
             dmoncardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-        }else{
+        } else {
             dmoncardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dmontextview.setTextColor(Color.parseColor("#ffffff"));
         }
         //////////////////***********************
 
-        if (ctuscheckbox){
+        if (ctuscheckbox) {
 
             dtuscardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-        }else{
+        } else {
             dtuscardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dtustextview.setTextColor(Color.parseColor("#ffffff"));
         }
         //////////////////***********************
-        if (cwedcheckbox){
+        if (cwedcheckbox) {
 
             dwedcardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-        }else{
+        } else {
             dwedcardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dwedtextview.setTextColor(Color.parseColor("#ffffff"));
         }
         //////////////////***********************
-        if (cthucheckbox){
+        if (cthucheckbox) {
 
             dthucardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-        }else{
+        } else {
             dthucardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dthutextview.setTextColor(Color.parseColor("#ffffff"));
         }
         //////////////////***********************
 
-        if (cfricheckbox){
+        if (cfricheckbox) {
 
             dfricardview.setCardBackgroundColor(Color.parseColor("#1c71b6"));
-        }else{
+        } else {
             dfricardview.setCardBackgroundColor(Color.parseColor("#FFDFDBDB"));//"#79d1c0",FFDFDBDB
 
             dfritextview.setTextColor(Color.parseColor("#ffffff"));
@@ -740,17 +819,15 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         //////////////////***********************
 
 
+        // dsatcheckbox.setEnabled(false); dsuncheckbox.setEnabled(false); dmoncheckbox.setEnabled(false); dtuscheckbox.setEnabled(false);
+        //  dwedcheckbox.setEnabled(false); dthucheckbox.setEnabled(false); dfricheckbox.setEnabled(false);
 
-
-       // dsatcheckbox.setEnabled(false); dsuncheckbox.setEnabled(false); dmoncheckbox.setEnabled(false); dtuscheckbox.setEnabled(false);
-      //  dwedcheckbox.setEnabled(false); dthucheckbox.setEnabled(false); dfricheckbox.setEnabled(false);
-
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.scale);
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale);
         listViewItem.startAnimation(animation);
         return listViewItem;
     }
 
-    private void openClenderAction(final String timeID , final int position) {
+    private void openClenderAction(final String timeID, final int position) {
         ImageGenerator mImageGenerator = new ImageGenerator(context);
 
 // Set the icon size to the generated in dip.
@@ -772,33 +849,63 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         //  @Override
         //   public void onClick(View v) {
         final Calendar mCurrentDate = Calendar.getInstance();
-        int year=mCurrentDate.get(Calendar.YEAR);
-        int month=mCurrentDate.get(Calendar.MONTH);
-        int day=mCurrentDate.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog mPickerDialog =  new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+        int year = mCurrentDate.get(Calendar.YEAR);
+        int month = mCurrentDate.get(Calendar.MONTH);
+        int day = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog mPickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int Year, int Month, int Day) {
                 String month1 = String.valueOf(Month + 1);
                 if (Integer.parseInt(month1) < 10) {
                     month1 = "0" + month1;
                 }
-                String datedmy= Year+"_"+ month1+"_"+Day;
+                String datedmy = Year + "_" + month1 + "_" + Day;
                 try {
-                    String dayname=getDayNameFromDate( datedmy);
+                    String dayname = getDayNameFromDate(datedmy);
                     //Toast.makeText(DoctorProfileActivity.this, dayname, Toast.LENGTH_LONG).show();
                     BookingClass bookingclass = bookingList.get(position);
-                    String a,b,c,d,e,f,g;
-                    if( bookingclass.getSatchecked()){ a="Saturday";}else{a="no";}
-                    if( bookingclass.getSunchecked()){ b="Sunday";}else{b="no";}
-                    if( bookingclass.getMonchecked()){ c="Monday";}else{c="no";}
-                    if( bookingclass.getTuschecked()){ d="Tuesday";}else{d="no";}
-                    if(bookingclass.getWedchecked()){ e="Wednesday";}else{e="no";}
-                    if(bookingclass.getThuchecked()){ f="Thursday";}else{f="no";}
-                    if( bookingclass.getFrichecked()){ g="Friday";}else{g="no";}
-                    if(dayname.equalsIgnoreCase(a)||dayname.equalsIgnoreCase(b)||dayname.equalsIgnoreCase(c)||dayname.equalsIgnoreCase(d)
-                            ||dayname.equalsIgnoreCase(e)||dayname.equalsIgnoreCase(f)||dayname.equalsIgnoreCase(g) ){
+                    String a, b, c, d, e, f, g;
+                    if (bookingclass.getSatchecked()) {
+                        a = "Saturday";
+                    } else {
+                        a = "no";
+                    }
+                    if (bookingclass.getSunchecked()) {
+                        b = "Sunday";
+                    } else {
+                        b = "no";
+                    }
+                    if (bookingclass.getMonchecked()) {
+                        c = "Monday";
+                    } else {
+                        c = "no";
+                    }
+                    if (bookingclass.getTuschecked()) {
+                        d = "Tuesday";
+                    } else {
+                        d = "no";
+                    }
+                    if (bookingclass.getWedchecked()) {
+                        e = "Wednesday";
+                    } else {
+                        e = "no";
+                    }
+                    if (bookingclass.getThuchecked()) {
+                        f = "Thursday";
+                    } else {
+                        f = "no";
+                    }
+                    if (bookingclass.getFrichecked()) {
+                        g = "Friday";
+                    } else {
+                        g = "no";
+                    }
+                    if (dayname.equalsIgnoreCase(a) || dayname.equalsIgnoreCase(b) || dayname.equalsIgnoreCase(c) || dayname.equalsIgnoreCase(d)
+                            || dayname.equalsIgnoreCase(e) || dayname.equalsIgnoreCase(f) || dayname.equalsIgnoreCase(g)) {
                         makepatientbooking(timeID, datedmy, position);
-                    }else{Toast.makeText(context, R.string.not_match, Toast.LENGTH_LONG).show();}
+                    } else {
+                        Toast.makeText(context, R.string.not_match, Toast.LENGTH_LONG).show();
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -806,7 +913,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 // Toast.makeText(context, id+doctorID, Toast.LENGTH_LONG).show();
 
                 //editTextcal.setText(Year+"_"+ ((Month/10)+1)+"_"+Day);
-                mCurrentDate.set(Year, ((Month+1)),Day);
+                mCurrentDate.set(Year, ((Month + 1)), Day);
                 //   mImageGenerator.generateDateImage(mCurrentDate, R.drawable.empty_calendar);
             }
         }, year, month, day);
@@ -819,15 +926,17 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final String  picuri,mDate;
+                final String picuri, mDate;
                 final String patientName = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
                 final String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
 
                 final BookingClass currentBooking = bookingList.get(position);
                 String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cpatentphoto").getValue(String.class);
-                if(patientpic != null){
-                    picuri=patientpic;
-                }else{picuri="https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";}
+                if (patientpic != null) {
+                    picuri = patientpic;
+                } else {
+                    picuri = "https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";
+                }
                 // Toast.makeText(DoctorProfileActivity.this, picuri, Toast.LENGTH_LONG).show();
 
                 Calendar calendar = Calendar.getInstance();
@@ -836,15 +945,15 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                 ////**************for user*********************/
 
-                databasetimeBooking.child(DoctorID).child(timeID) .child(datedmy).addListenerForSingleValueEvent(new ValueEventListener() {
+                databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // for (DataSnapshot snap: dataSnapshot.getChildren()) {
                         //  dataSnapshot.getChildrenCount();
                         // Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
                         arrange = String.valueOf(dataSnapshot.getChildrenCount() + 1);
-                      //  if(MaxNo == null){
-                        if ((MaxNo == null)||((dataSnapshot.getChildrenCount() + 1) <= (Integer.parseInt(MaxNo)) )) {
+                        //  if(MaxNo == null){
+                        if ((MaxNo == null) || ((dataSnapshot.getChildrenCount() + 1) <= (Integer.parseInt(MaxNo)))) {
                             Toast.makeText(context, context.getString(R.string.your_arrangement_is_the) + arrange, Toast.LENGTH_LONG).show();
                             //  databasetimeBooking.child(DoctorID).child(timeID).child(datedmy).child(mAuth.getCurrentUser().getUid()).child("ctArrangement").setValue(String.valueOf( dataSnapshot.getChildrenCount() ));
                             //String.valueOf( arrange )
@@ -886,18 +995,19 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                                                 // mDate or datedmy // currentBooking.getCbtimestart() // arrange
 
                                                 String datedmy2 = datedmy.replaceAll("_", "-");
-                                                System.out.println("booking_databasetimebooking_2"+",, datedmy: " + datedmy2+",, mDate: "
-                                                        +mDate +",, getCbtimestart: " + currentBooking.getCbtimestart()+",, arrange: " + arrange);
+                                                System.out.println("booking_databasetimebooking_2" + ",, datedmy: " + datedmy2 + ",, mDate: "
+                                                        + mDate + ",, getCbtimestart: " + currentBooking.getCbtimestart() + ",, arrange: " + arrange);
 
-                                                String msg = context.getString(R.string.booking_time_with_you)+" , on "+datedmy2+" - "+
-                                                                currentBooking.getCbtimestart()+" , No. "+arrange;
+                                                String msg = context.getString(R.string.booking_time_with_you) + " , on " + datedmy2 + " - " +
+                                                        currentBooking.getCbtimestart() + " , No. " + arrange;
                                                 sendNotifiaction(DoctorID, patientName, msg);
                                             }
                                             notify = false;
                                         }
                                     }
                             );
-                        }else{Toast.makeText(context, R.string.doctor_reach_to_the_max_no_of_bookings_in_this_time_try_with_another_time, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(context, R.string.doctor_reach_to_the_max_no_of_bookings_in_this_time_try_with_another_time, Toast.LENGTH_LONG).show();
                         }//here
 
                         //////////////////////***fordoctor****-----------------
@@ -912,18 +1022,18 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 ////**************for user*********************/
 
 
-
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
             }
         };
-        databaseChat .addValueEventListener(postListener);
+        databaseChat.addValueEventListener(postListener);
 
         /*************************************/
     }
+
     private void sendNotifiaction(final String receiver, final String username, final String message) {
 
         final String rec = receiver;
@@ -937,9 +1047,9 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(fuser.getUid(),  R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking", receiver,"b");
-                    Sender sender = new Sender(data,token.getToken());
+                    Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
+                            username + ": " + message, "Booking", receiver, "b");
+                    Sender sender = new Sender(data, token.getToken());
                     // Sender sender = new Sender(data, token.getToken());
 
                     System.out.println("D push noti method: token :" + token.getToken() +
@@ -977,22 +1087,17 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     }
 
 
-
-
-
-
-
     //-----------------------------add Gps----------------------------------
+
     /**
      * Request the Location Permission
      */
-    private void requestPermission(){
+    private void requestPermission() {
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, theRequestCodeForLocation);
-        }
-        else{
+        } else {
             isPermissionGranted = true;
         }
 
@@ -1002,6 +1107,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
      * this method gets the location of the user then
      * Calls the showAddress Method and pass to it the Latitude
      * and the Longitude
+     *
      * @param dialog
      */
     private void getLocation(final Dialog dialog) {
@@ -1015,8 +1121,8 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    showAddress(latitude,longitude,dialog);
-                }else{
+                    showAddress(latitude, longitude, dialog);
+                } else {
                     Toast.makeText(context, R.string.error_we_didnot_get_the_location_please_try_again_after_few_seconds, Toast.LENGTH_LONG).show();
                 }
             }
@@ -1027,15 +1133,16 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     /**
      * this method shows the User's address to the screen, it calls the getAddress which returns a string
      * contains the address then changes the TextView text to it.
-     * @param latitude is the latitude of the location
+     *
+     * @param latitude  is the latitude of the location
      * @param longitude is the longitude of the location
      * @param dialog
      */
-    private void showAddress(double latitude, double longitude, Dialog dialog){
+    private void showAddress(double latitude, double longitude, Dialog dialog) {
         String msg = "";
 
         try {
-            msg = getAddress(latitude, longitude,dialog);
+            msg = getAddress(latitude, longitude, dialog);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1046,12 +1153,13 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     /**
      * this method takes the longitude and latitude of the location then convert them into real address
      * and return it as string
-     * @param latitude the Latitude
+     *
+     * @param latitude  the Latitude
      * @param longitude the Longitude
      * @return the address as String
      * @throws IOException
      */
-    private String getAddress(double latitude, double longitude,Dialog dialog) throws IOException {
+    private String getAddress(double latitude, double longitude, Dialog dialog) throws IOException {
 
         //Geocoder class helps us to convert longitude and latitude into Address
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -1059,18 +1167,18 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         List<Address> addresses;
         addresses = geocoder.getFromLocation(latitude, longitude, 1);
 
-        address =  addresses.get(0).getAddressLine(0);
+        address = addresses.get(0).getAddressLine(0);
         String city = addresses.get(0).getLocality();
-        String state =  addresses.get(0).getAdminArea();
+        String state = addresses.get(0).getAdminArea();
         String country = "Country: " + addresses.get(0).getCountryName();
         // String wholeAddress = address + "\n" + city + "\n" + state + "\n" + country;
-        String wholeAddress = address ;
+        String wholeAddress = address;
         // pcity.setText(address);
         dialogAddress = (EditText) dialog.findViewById(R.id.dialog_address);
         dialogAddress.setEnabled(true);
-        dialogAddress.setText(state+" - "+city);
+        dialogAddress.setText(state + " - " + city);
         dialogAddress.setEnabled(false);
-        return  state+" - "+city;
+        return state + " - " + city;
 
     }
 
@@ -1081,27 +1189,25 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
      * the permission or not
      */
     /**
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch(requestCode){
-            case theRequestCodeForLocation:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    isPermissionGranted = true;
-                }else{
-                    Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT).show();
-                    isPermissionGranted = false;
-                }
-                break;
-        }
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp(){
-        context.finish();
-        return true;
-    }**/
+     * @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+     * @NonNull int[] grantResults) {
+     * switch(requestCode){
+     * case theRequestCodeForLocation:
+     * if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+     * isPermissionGranted = true;
+     * }else{
+     * Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT).show();
+     * isPermissionGranted = false;
+     * }
+     * break;
+     * }
+     * <p>
+     * }
+     * @Override public boolean onSupportNavigateUp(){
+     * context.finish();
+     * return true;
+     * }
+     **/
     @SuppressLint("ResourceType")
     private void inflateDocMapFragment() {
         getAllDoctorsMap();
@@ -1114,15 +1220,16 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         bundle.putParcelableArrayList("intent_user_locs", mUserLocations);
         //bundle.putString("YourKey1", "YourValue");
         //docLatitude , docLongitude
-        System.out.println("BookingAdapterList : lat: "+docLatitude+" ,lng: "+docLongitude);
+        System.out.println("BookingAdapterList : lat: " + docLatitude + " ,lng: " + docLongitude);
         bundle.putDouble("lat", docLatitude);
         bundle.putDouble("lng", docLongitude);
         fragment.setArguments(bundle);
 
-        fragmentTransaction.add(R.id.activity_booking_list_frame_id, fragment,"User List");
+        fragmentTransaction.add(R.id.activity_booking_list_frame_id, fragment, "User List");
         fragmentTransaction.addToBackStack("User List");
         fragmentTransaction.commit();
     }
+
     //get all doc data
     private void getAllDoctorsMap() {
         if (UtilClass.isNetworkConnected(getContext())) {
