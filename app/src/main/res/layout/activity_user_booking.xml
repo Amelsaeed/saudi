@@ -41,6 +41,7 @@
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
+        android:visibility="gone"
         app:cardUseCompatPadding="true"
         app:contentPadding="10dp">
 
@@ -66,7 +67,6 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
         android:layout_below="@+id/card_ussaa"
         android:id="@+id/swipeLayout2">
     <ListView

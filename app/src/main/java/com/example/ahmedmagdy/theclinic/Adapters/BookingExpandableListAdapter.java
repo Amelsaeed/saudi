@@ -298,7 +298,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
 
                 if (lastseen != null) {
                     bookingLastSeen.setText(lastseen);
-                }else{bookingLastSeen.setText("First Seen");}
+                }else{bookingLastSeen.setText(R.string.frist_seen);}
 
 
             }

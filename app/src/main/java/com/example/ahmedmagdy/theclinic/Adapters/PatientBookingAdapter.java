@@ -213,8 +213,8 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                     // .apply(requestOptions)
                     .into(apphoto);
         }
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.scale);
-        listViewItem.startAnimation(animation);
+ /*       Animation animation = AnimationUtils.loadAnimation(context,R.anim.scale);
+        listViewItem.startAnimation(animation);*/
         return listViewItem;
     }
 
