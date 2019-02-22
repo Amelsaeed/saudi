@@ -177,7 +177,7 @@ public class HospitalProfileFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // TODO Auto-generated method stub
                         databaseDoctor.child(doctorId).child("cCity").setValue(listCityItems[i]);
-                        databaseChat.child(doctorId).child("cCity").setValue(listCityItems[i]);
+                        databaseChat.child(doctorId).child("ccity").setValue(listCityItems[i]);
                         City.setText(listCityItems[i]);
 
                     }
@@ -530,7 +530,7 @@ public class HospitalProfileFragment extends Fragment {
 
                                 mTrampPhotoUrl = taskSnapshot.getDownloadUrl().toString();
                                 databaseDoctor.child(FUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
-                                databaseChat.child(FUser.getUid()).child("curi").setValue(mTrampPhotoUrl);
+                               // databaseChat.child(FUser.getUid()).child("curi").setValue(mTrampPhotoUrl);
                                 databaseChat.child(FUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
 
                                 if (!mTrampPhotoUrl.equals("")) {

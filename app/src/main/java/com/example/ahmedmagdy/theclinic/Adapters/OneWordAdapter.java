@@ -53,7 +53,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseUserReg;
     private DatabaseReference databasetimeBooking;
-    DatabaseReference bookforuser;
+    DatabaseReference bookforuser,databaseChat;
     String   picuri,mDate;
     String userid;
     private FirebaseUser fuser;
@@ -121,6 +121,8 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
         final CardView cardview= (CardView) listViewItem.findViewById(R.id.cv);
 
         mAuth = FirebaseAuth.getInstance();
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        databaseChat.keepSynced(true);
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");databaseUserReg.keepSynced(true);
         databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");databasetimeBooking.keepSynced(true);
         userid = mAuth.getCurrentUser().getUid();
@@ -286,7 +288,6 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                     final String patientName = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cname").getValue(String.class);
                     String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
 
-
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 mDate = sdf.format(calendar.getTime());
@@ -302,7 +303,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                 ////to do/////////------------doctor booking table-------------------------------------------------
 
                     //final BookingClass currentBooking = bookingList.get(position);
-                    String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cpatentphoto").getValue(String.class);
+                    String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cUri").getValue(String.class);
                     if(patientpic != null){
                         picuri=patientpic;
                     }else{picuri="https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";}
@@ -393,7 +394,7 @@ public class OneWordAdapter extends ArrayAdapter<OneWordClass> {
                     // Getting Post failed, log a message
                 }
             };
-            databaseUserReg .addValueEventListener(postListener);
+                    databaseChat .addValueEventListener(postListener);
 
         }
 

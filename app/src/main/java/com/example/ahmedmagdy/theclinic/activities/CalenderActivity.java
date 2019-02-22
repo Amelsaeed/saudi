@@ -136,14 +136,6 @@ public class CalenderActivity extends AppCompatActivity {
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
-
-            }
-            @Override
-            public void onCalendarScroll(HorizontalCalendarView calendarView,int dx, int dy) {
-            }
-
-            @Override
-            public boolean onDateLongClicked(Calendar date, int position) {
                 selectedDateStr = DateFormat.format("EEE, MMM d, yyyy", date).toString();
                 selectedDateStrForFirebase = DateFormat.format("yyyy_MM_d", date).toString();
 
@@ -191,7 +183,61 @@ public class CalenderActivity extends AppCompatActivity {
                 //startActivity(getIntent());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+            }
+            @Override
+            public void onCalendarScroll(HorizontalCalendarView calendarView,int dx, int dy) {
+            }
 
+            @Override
+            public boolean onDateLongClicked(Calendar date, int position) {/**
+                selectedDateStr = DateFormat.format("EEE, MMM d, yyyy", date).toString();
+                selectedDateStrForFirebase = DateFormat.format("yyyy_MM_d", date).toString();
+
+                // SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM d, yyyy");
+                //Toast.makeText(CalenderActivity.this, formatter+ " selected!", Toast.LENGTH_SHORT).show();
+                Log.i("onDateSelected", selectedDateStr + " - Position = " + position);
+                Toast.makeText(CalenderActivity.this, selectedDateStrForFirebase+ getString(R.string.selected), Toast.LENGTH_SHORT).show();
+
+                String dayname = DateFormat.format("EEE", date).toString();
+                // month = Integer.parseInt(DateFormat.format("MMM", defaultSelectedDate).toString());
+                // day = Integer.parseInt(DateFormat.format("d", defaultSelectedDate).toString());
+                String year = DateFormat.format("yyyy", date).toString();
+                String month = DateFormat.format("MM", date).toString();
+                String day = DateFormat.format("d", date).toString();
+
+                String comefrom="0";
+                Intent intent = new Intent(CalenderActivity.this,CalenderActivity.class);
+                intent.putExtra("year", year);
+                intent.putExtra("month", month);
+                intent.putExtra("day", day);
+
+                intent.putExtra("comefrom", comefrom);
+
+                intent.putExtra("DoctorID", DoctorID);
+                intent.putExtra("TimeID", TimeID);
+                intent.putExtra("StartingTime", StartTime);
+                intent.putExtra("EndingTime", Endtime);
+                intent.putExtra("DoctorAddress", DoctorAddress);
+                intent.putExtra("patientName",patientName);
+                intent.putExtra("patientAge",patientAge);
+
+                intent.putExtra("StepTime", String.valueOf(step));
+
+
+                intent.putExtra("Satchecked", Satchecked);
+                intent.putExtra("Sunchecked", Sunchecked);
+                intent.putExtra("Monchecked", Monchecked);
+                intent.putExtra("Tuschecked", Tuschecked);
+                intent.putExtra("Wedchecked", Wedchecked);
+                intent.putExtra("Thuchecked", Thuchecked);
+                intent.putExtra("Frichecked", Frichecked);
+
+
+                finish();
+                //startActivity(getIntent());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+**/
                 return true;
             }
 

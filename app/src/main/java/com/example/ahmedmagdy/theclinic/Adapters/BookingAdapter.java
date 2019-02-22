@@ -100,7 +100,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
     private EditText dialogAddress;
 
    private double latitude, longitude;
-   private double docLatitude, docLongitude;
+   //private double docLatitude, docLongitude;
    private final int theRequestCodeForLocation = 1;
    private Boolean isPermissionGranted;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -196,7 +196,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         dlocationcardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inflateDocMapFragment();
+                inflateDocMapFragment(Double.valueOf(bookingclass.getCblatitude()),Double.valueOf(bookingclass.getCblongitude()));
             }
         });
         if (!DoctorID.equals(mAuth.getCurrentUser().getUid())) {
@@ -931,7 +931,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 final String patientBirthday = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cbirthday").getValue(String.class);
 
                 final BookingClass currentBooking = bookingList.get(position);
-                String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cpatentphoto").getValue(String.class);
+                String patientpic = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("cUri").getValue(String.class);
                 if (patientpic != null) {
                     picuri = patientpic;
                 } else {
@@ -1209,8 +1209,10 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
      * }
      **/
     @SuppressLint("ResourceType")
-    private void inflateDocMapFragment() {
+    private void inflateDocMapFragment(double docLatitude,double docLongitude) {
         getAllDoctorsMap();
+        Toast.makeText(context,docLatitude+"/"+docLongitude , Toast.LENGTH_SHORT).show();
+
         android.support.v4.app.FragmentTransaction fragmentTransaction = ((AppCompatActivity)
                 context).getSupportFragmentManager().beginTransaction();
 

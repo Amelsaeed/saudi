@@ -687,7 +687,7 @@ editDialog(whatData);
                         // TODO Auto-generated method stub
 
                         databaseDoctor.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
-                        databaseChat.child(doctorId).child("cSpecialty").setValue(listSpecialityItems[i]);
+                        databaseChat.child(doctorId).child("cspecialty").setValue(listSpecialityItems[i]);
                         databaseMap.child(idm).child("cmdoctorspecialty").setValue(listSpecialityItems[i]);
                         pspeciality.setText(listSpecialityItems[i]);
 
@@ -960,8 +960,8 @@ editDialog(whatData);
 
                                 mTrampPhotoUrl = taskSnapshot.getDownloadUrl().toString();
                                 databaseDoctor.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
-                                databaseChat.child(fUser.getUid()).child("curi").setValue(mTrampPhotoUrl);
                                 databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
+                               // databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
                                 databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image", "Upload end");
@@ -1090,13 +1090,13 @@ editDialog(whatData);
 
         if (whatdata.equals("Name")) {
             databaseDoctor.child(doctorId).child("cName").setValue(editfield1);
-            databaseChat.child(doctorId).child("cName").setValue(editfield1);
+            databaseChat.child(doctorId).child("cname").setValue(editfield1);
             databaseMap.child(idm).child("cmname").setValue(editfield1);
             pname.setText(editfield1);
 
         } else if (whatdata.equals("Phone Number")) {
             databaseDoctor.child(doctorId).child("cPhone").setValue(editfield1);
-            databaseChat.child(doctorId).child("cPhone").setValue(editfield1);
+            databaseChat.child(doctorId).child("cphone").setValue(editfield1);
             pphone.setText(editfield1);
 
         } else if (whatdata.equals("Detection price")) {
