@@ -162,7 +162,13 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
 
         initGoogleMap(savedInstanceState);
 
+
+
         return view;
+    }
+
+    public void zoomUser(double lat ,double lng){
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)), 4000 , null);
     }
 
     private void goToMap() {
@@ -187,8 +193,13 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
                 new LatLng(mTopBoundry, mRightBoundry)
         );
 
-        System.out.println(TAG + " mMapBoundary " + mMapBoundary);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 20));
+
+            System.out.println(TAG + " mMapBoundary " + mMapBoundary);
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 20));
+        if(mDoctorBookingLocLat > 0 && mDoctorBookingLocLng > 0){
+            System.out.println("zoomUser lng-lat :"+mDoctorBookingLocLng + mDoctorBookingLocLat);
+            zoomUser(mDoctorBookingLocLat , mDoctorBookingLocLng);
+        }
 
     }
 
