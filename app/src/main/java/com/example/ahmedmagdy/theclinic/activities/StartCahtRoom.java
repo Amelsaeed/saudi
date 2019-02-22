@@ -54,7 +54,7 @@ public class StartCahtRoom extends AppCompatActivity {
         setContentView(R.layout.activity_start_caht_room);
         Toolbar toolbar = findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
-        StatusProfile = (ImageView) findViewById(R.id.status_profile);
+      //  StatusProfile = (ImageView) findViewById(R.id.status_profile);
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         mAuth = FirebaseAuth.getInstance();

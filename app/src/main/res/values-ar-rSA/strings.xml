@@ -411,4 +411,12 @@
     <string name="stop">تم وقف حسابك لحين سداد المستحق عليك
 شكراً لتفهمك ذلك</string>
     <string name="frist_seen">الرؤية الأولى</string>
+
+
+
+    <string name="chat_time">توقيت المحادثة</string>
+    <string name="max_num">اقصي عدد للكشف اليومي</string>
+    <string name="use_timing_booking_not_arrange_booking">إستخدام الحجز بنظام التوقيت وليس بنظام الدور</string>
+    <string name="what_about_you">نبذة عنك</string>
+    <string name="speciality_details">تفاصيل التخصص</string>
 </resources>
