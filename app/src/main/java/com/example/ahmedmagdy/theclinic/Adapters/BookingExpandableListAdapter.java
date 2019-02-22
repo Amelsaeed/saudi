@@ -269,7 +269,8 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
         patientName.setText(currentChild.getCtname());
         bookingHour.setText(currentChild.getCtPeriod());
         bookingTime.setText(currentChild.getCtdate());
-       String a11 = currentChild.getCtpicuri();
+        String a11 = currentChild.getCtpicuri();
+       // String a11 = "https://firebasestorage.googleapis.com/v0/b/the-clinic-66fa1.appspot.com/o/user_logo_m.jpg?alt=media&token=ff53fa61-0252-43a4-8fa3-0eb3a3976ee5";
         if (a11 != null) {
 
             /** RequestOptions requestOptions = new RequestOptions();

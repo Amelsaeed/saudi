@@ -751,16 +751,16 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
         if (whatdata.equals("Name")) {
             databaseDoctor.child(DoctorID).child("cName").setValue(editfield1);
-            databaseChat.child(DoctorID).child("cName").setValue(editfield1);
+            databaseChat.child(DoctorID).child("cname").setValue(editfield1);
             databaseMap.child(idm).child("cmname").setValue(editfield1);
 
         } else if (whatdata.equals("State/ City/ Region")) {
             databaseDoctor.child(DoctorID).child("cCity").setValue(editfield1);
-            databaseChat.child(DoctorID).child("cCity").setValue(editfield1);
+            databaseChat.child(DoctorID).child("ccity").setValue(editfield1);
 
         } else if (whatdata.equals("Specialty")) {
             databaseDoctor.child(DoctorID).child("cSpecialty").setValue(editfield1);
-            databaseChat.child(DoctorID).child("cSpecialty").setValue(editfield1);
+            databaseChat.child(DoctorID).child("cspecialty").setValue(editfield1);
             databaseMap.child(idm).child("cmdoctorspecialty").setValue(editfield1);
 
         } else if (whatdata.equals("Degree")) {
@@ -769,7 +769,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
         } else if (whatdata.equals("Phone Number")) {
             databaseDoctor.child(DoctorID).child("cPhone").setValue(editfield1);
-            databaseChat.child(DoctorID).child("cPhone").setValue(editfield1);
+            databaseChat.child(DoctorID).child("cphone").setValue(editfield1);
 
         } else if (whatdata.equals("Detection price")) {
             databaseDoctor.child(DoctorID).child("cPrice").setValue(editfield1);
