@@ -68,14 +68,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorProfileFragment extends Fragment {
 
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,pbirthdayedit;
+    ImageView  editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,pbirthdayedit;
     TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,pbirthday;
     ImageView chatstarttimeedit, maxnoedit;
     TextView chatstarttime, maxnotv, maxnoet;
     EditText peditbox;
     CheckBox bookingtypecheck;
     private ProgressBar progressBarImage;
-    CircleImageView StatusProfile;
+    CircleImageView ppicuri;
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
@@ -128,8 +128,8 @@ public class DoctorProfileFragment extends Fragment {
 
         progressBarImage = rootView.findViewById(R.id.progressbar_image);
 
-        StatusProfile = rootView.findViewById(R.id.status_profile);
-        StatusProfile.setVisibility(View.VISIBLE);
+      //  StatusProfile = rootView.findViewById(R.id.status_profile);
+//        StatusProfile.setVisibility(View.VISIBLE);
         editName = rootView.findViewById(R.id.name_edit);
         editCity = rootView.findViewById(R.id.city_edit);
         editPhone = rootView.findViewById(R.id.phone_edit);
