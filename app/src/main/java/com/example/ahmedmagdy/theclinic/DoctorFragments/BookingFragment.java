@@ -82,7 +82,12 @@ public class BookingFragment extends Fragment {
         doctorId = mAuth.getCurrentUser().getUid();
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
         mBookingRef.keepSynced(true);
-        selectedDate = UtilClass.getInstanceDate();
+        Intent intent = getActivity().getIntent();
+        selectedDate = intent.getStringExtra("datedmy");
+
+        if(selectedDate.equalsIgnoreCase(" ")){
+            selectedDate = UtilClass.getInstanceDate();}
+        System.out.println("selectdatefromintent :"+selectedDate);
         vDate = UtilClass.dateFormat(UtilClass.getInstanceDate());
 
         try {

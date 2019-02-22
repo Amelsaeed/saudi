@@ -1334,7 +1334,7 @@ mCurrentDate.set(Year, ((Month+1)),Day);
         return dayName;
     }
 
-    private void sendNotifiaction(final String receiver, final String username, final String message) {
+    private void sendNotifiaction(final String receiver, final String username, final String message, final String datedmy) {
 
         final String rec = receiver;
 
@@ -1351,7 +1351,7 @@ mCurrentDate.set(Year, ((Month+1)),Day);
                             username + ": " + message, "Booking",
                             receiver);*/
                     Data data = new Data(fuser.getUid(),  R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking", receiver,"b");
+                            username + ": " + message, "Booking", receiver,"b", datedmy);
                     Sender sender = new Sender(data, token.getToken());
                     // Sender sender = new Sender(data, token.getToken());
 

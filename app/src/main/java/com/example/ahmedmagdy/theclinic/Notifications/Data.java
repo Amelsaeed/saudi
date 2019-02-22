@@ -7,17 +7,36 @@ public class Data {
     private String title;
     private String sented;
     private String type;
+    private String datedmy;
 
-    public Data(String user, int icon, String body, String title, String sented , String type) {
+    public Data(String user, int icon, String body, String title, String sented , String type , String datedmy) {
         this.user = user;
         this.icon = icon;
         this.body = body;
         this.title = title;
         this.sented = sented;
         this.type = type;
+        this.datedmy = datedmy;
+    }
+    public Data(String user, int icon, String body, String title, String sented , String type ) {
+        this.user = user;
+        this.icon = icon;
+        this.body = body;
+        this.title = title;
+        this.sented = sented;
+        this.type = type;
+        this.datedmy = datedmy;
     }
 
     public Data() {
+    }
+
+    public String getDatedmy() {
+        return datedmy;
+    }
+
+    public void setDatedmy(String datedmy) {
+        this.datedmy = datedmy;
     }
 
     public String getType() {
