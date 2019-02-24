@@ -88,16 +88,9 @@ public class BookingFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         selectedDate = intent.getStringExtra("datedmy");
 
-<<<<<<< HEAD
-        if(selectedDate == null){
-=======
         if (selectedDate == null){
             selectedDate = UtilClass.getInstanceDate();
         }
-        if(selectedDate.equalsIgnoreCase(" ")){
->>>>>>> 9bd69a76efe2b7d5135699c78a4145a26ba08c66
-            selectedDate = UtilClass.getInstanceDate();}
-        System.out.println("selectdatefromintent :"+selectedDate);
 
         //  Toast.makeText(getContext(), selectedDate, Toast.LENGTH_LONG).show();
         //  System.out.println("booking_databasetimebooking_2" +selectedDate);

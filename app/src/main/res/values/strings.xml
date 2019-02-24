@@ -410,6 +410,7 @@ Thanks for your understanding</string>
     <string name="use_timing_booking_not_arrange_booking">use timing booking not arrange booking</string>
     <string name="what_about_you">What about you</string>
     <string name="speciality_details">Speciality details</string>
-
+    <string name="block_user">Block</string>
+    <string name="delete_booking"> Delete book</string>
 
 </resources>

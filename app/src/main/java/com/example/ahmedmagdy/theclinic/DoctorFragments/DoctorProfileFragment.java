@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -76,6 +77,7 @@ public class DoctorProfileFragment extends Fragment {
     TextView chatstarttime, maxnotv, maxnoet;
     EditText peditbox;
     CheckBox bookingtypecheck;
+    CardView maxnocard;
     private ProgressBar progressBarImage;
     CircleImageView ppicuri;
     private Uri imagePath;
@@ -163,7 +165,7 @@ public class DoctorProfileFragment extends Fragment {
         maxnoedit = rootView.findViewById(R.id.max_no_edit);
         maxnoet = rootView.findViewById(R.id.max_no);
         maxnotv = rootView.findViewById(R.id.max_no_tv);
-
+        maxnocard= rootView.findViewById(R.id.max_no_card);
 
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
@@ -446,14 +448,16 @@ public class DoctorProfileFragment extends Fragment {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(true);
-                    maxnoedit.setVisibility(GONE);
-                    maxnoet.setVisibility(GONE);
-                    maxnotv.setVisibility(GONE);
+                    maxnocard.setVisibility(GONE);
+//                    maxnoedit.setVisibility(GONE);
+//                    maxnoet.setVisibility(GONE);
+//                    maxnotv.setVisibility(GONE);
                 } else {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(false);
-                    maxnoedit.setVisibility(rootView.VISIBLE);
-                    maxnoet.setVisibility(rootView.VISIBLE);
-                    maxnotv.setVisibility(rootView.VISIBLE);
+                    maxnocard.setVisibility(rootView.VISIBLE);
+//                    maxnoedit.setVisibility(rootView.VISIBLE);
+//                    maxnoet.setVisibility(rootView.VISIBLE);
+//                    maxnotv.setVisibility(rootView.VISIBLE);
                 }
             }
         });
@@ -784,7 +788,7 @@ editDialog(whatData);
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle(R.string.creat_a_call);
-                alert.setMessage(getString(R.string.are_you_sure_you_want_to_dialling) + pname.getText().toString() + "?");
+                alert.setMessage(getString(R.string.are_you_sure_you_want_to_dialling)+" " + pname.getText().toString() + "?");
 // Create TextView
                 final TextView input = new TextView(getActivity());
                 alert.setView(input);
@@ -1232,13 +1236,16 @@ editDialog(whatData);
                 if (bookingtype != null) {
                     bookingtypecheck.setChecked(bookingtype);
                     if (bookingtype) {
-                        maxnoedit.setVisibility(View.GONE);
-                        maxnoet.setVisibility(View.GONE);
-                        maxnotv.setVisibility(View.GONE);
+                        maxnocard.setVisibility(View.GONE);
+//                        maxnoedit.setVisibility(View.GONE);
+//                        maxnoet.setVisibility(View.GONE);
+//                        maxnotv.setVisibility(View.GONE);
                     }else{
-                        maxnoedit.setVisibility(View.VISIBLE);
-                        maxnoet.setVisibility(View.VISIBLE);
-                        maxnotv.setVisibility(View.VISIBLE);
+                        maxnocard.setVisibility(View.VISIBLE);
+
+//                        maxnoedit.setVisibility(View.VISIBLE);
+//                        maxnoet.setVisibility(View.VISIBLE);
+//                        maxnotv.setVisibility(View.VISIBLE);
                     }
                 }
 
