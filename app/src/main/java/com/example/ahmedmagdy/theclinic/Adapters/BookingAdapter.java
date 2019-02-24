@@ -196,6 +196,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         dlocationcardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("bookingAdapter lat-lng :"+Double.valueOf(bookingclass.getCblatitude())+Double.valueOf(bookingclass.getCblongitude()));
                 inflateDocMapFragment(Double.valueOf(bookingclass.getCblatitude()),Double.valueOf(bookingclass.getCblongitude()));
             }
         });

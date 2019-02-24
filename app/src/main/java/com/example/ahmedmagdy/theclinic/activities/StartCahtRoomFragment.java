@@ -61,7 +61,7 @@ public class StartCahtRoomFragment extends Fragment {
         rootView = inflater.inflate(R.layout.activity_start_caht_room, container, false);
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
-        StatusProfile = (ImageView) rootView.findViewById(R.id.status_profile);
+       // StatusProfile = (ImageView) rootView.findViewById(R.id.status_profile);
         profile_image = rootView.findViewById(R.id.profile_image);
         username = rootView.findViewById(R.id.username);
         thiscontext = container.getContext();

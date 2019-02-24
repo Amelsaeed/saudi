@@ -15,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -110,7 +108,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView ahospitalname = (TextView) listViewItem.findViewById(R.id.hospital_name);
         final ImageView ahospitalpic = (ImageView) listViewItem.findViewById(R.id.hospital_pic);
         final RelativeLayout relativeLayout = (RelativeLayout) listViewItem.findViewById(R.id.relativeFav);
-        final LinearLayout lineardoctorsalary = listViewItem.findViewById(R.id.linear_doctor_salary);
+        final RelativeLayout lineardoctorsalary = listViewItem.findViewById(R.id.linear_doctor_salary);
         final LinearLayout lineardoctordegree = listViewItem.findViewById(R.id.linear_doctor_degree);
         //   GridView listview=(GridView)listViewItem.findViewById(R.id.in_list);
         // final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);

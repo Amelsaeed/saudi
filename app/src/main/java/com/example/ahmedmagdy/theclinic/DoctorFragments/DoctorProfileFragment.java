@@ -70,14 +70,14 @@ import static android.view.View.GONE;
 
 public class DoctorProfileFragment extends Fragment {
 
-    ImageView ppicuri, editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,pbirthdayedit;
+    ImageView  editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,pbirthdayedit;
     TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,pbirthday;
     ImageView chatstarttimeedit, maxnoedit;
     TextView chatstarttime, maxnotv, maxnoet;
     EditText peditbox;
     CheckBox bookingtypecheck;
     private ProgressBar progressBarImage;
-    CircleImageView StatusProfile;
+    CircleImageView ppicuri;
     private Uri imagePath;
     private final int GALLERY_REQUEST_CODE = 1;
     private final int CAMERA_REQUEST_CODE = 2;
@@ -130,8 +130,8 @@ public class DoctorProfileFragment extends Fragment {
 
         progressBarImage = rootView.findViewById(R.id.progressbar_image);
 
-        StatusProfile = rootView.findViewById(R.id.status_profile);
-        StatusProfile.setVisibility(View.VISIBLE);
+      //  StatusProfile = rootView.findViewById(R.id.status_profile);
+//        StatusProfile.setVisibility(View.VISIBLE);
         editName = rootView.findViewById(R.id.name_edit);
         editCity = rootView.findViewById(R.id.city_edit);
         editPhone = rootView.findViewById(R.id.phone_edit);
@@ -469,6 +469,7 @@ public class DoctorProfileFragment extends Fragment {
 
                 final EditText dialogmaxno = dialog.findViewById(R.id.max_data_tv_e);
 
+                dialogmaxno.setText(maxnoet.getText().toString());
 
                 TextView cancelmax = (TextView) dialog.findViewById(R.id.cancel_tv_max);
                 TextView closemax = (TextView) dialog.findViewById(R.id.close_tv_max);
@@ -1003,10 +1004,16 @@ editDialog(whatData);
         final LinearLayout linear = dialog.findViewById(R.id.linear_discount);
         editField.setHint(whatdata);
 
+        if(whatdata.equals("Name")){
+            editField.setText(pname.getText().toString());
+        }
 
         if (whatdata.equals("Phone Number")) {
             editField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_DATETIME_VARIATION_NORMAL);
-            editField.setText(pphone.getText().toString().trim());
+            if (!TextUtils.isEmpty(pphone.getText().toString().trim())){
+                editField.setText(pphone.getText().toString().trim());
+            }
+
         }
 
 
@@ -1016,7 +1023,7 @@ editDialog(whatData);
             editField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
             if (!pprice.getText().toString().equals("Detection price")) {
-                editField.setText(pprice.getText().toString().trim().replace("$", ""));
+                editField.setText(pprice.getText().toString().trim().replace("SAR", ""));
             }
             if (!drDiscountPrice.equals("0") && !drDiscountPrice.equals("0.0") && drDiscountPrice != null) {
                 linear.setVisibility(View.VISIBLE);

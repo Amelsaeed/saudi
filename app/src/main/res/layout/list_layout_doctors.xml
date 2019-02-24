@@ -137,17 +137,18 @@
                                 android:textColor="#fff" />
                         </LinearLayout>
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/linear_doctor_salary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            >
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:id="@+id/pr_img"
                                 android:layout_margin="5dp"
                                 android:background="@drawable/ic_price" />
 
@@ -155,16 +156,18 @@
                                 android:id="@+id/doctor_salary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/pr_img"
+                                android:layout_marginTop="6dp"
                                 android:textColor="#fff" />
 
                             <TextView
                                 android:id="@+id/doctor_disc_salary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
+                                android:layout_toRightOf="@id/pr_img"
+                                android:layout_below="@id/doctor_salary"
                                 android:textColor="@android:color/holo_green_dark" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"

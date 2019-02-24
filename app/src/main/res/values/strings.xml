@@ -405,6 +405,11 @@
     <string name="stop">Your account has been suspended pending payment of your due \n
 Thanks for your understanding</string>
     <string name="frist_seen">First Seen</string>
+    <string name="chat_time">Chat Time</string>
+    <string name="max_num">Max. reservations no.</string>
+    <string name="use_timing_booking_not_arrange_booking">use timing booking not arrange booking</string>
+    <string name="what_about_you">What about you</string>
+    <string name="speciality_details">Speciality details</string>
 
 
 </resources>
