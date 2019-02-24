@@ -85,6 +85,9 @@ public class BookingFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         selectedDate = intent.getStringExtra("datedmy");
 
+        if (selectedDate == null){
+            selectedDate = UtilClass.getInstanceDate();
+        }
         if(selectedDate.equalsIgnoreCase(" ")){
             selectedDate = UtilClass.getInstanceDate();}
         System.out.println("selectdatefromintent :"+selectedDate);

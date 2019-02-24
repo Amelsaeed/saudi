@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -519,6 +520,19 @@ public class UserProfileFragment extends Fragment {
         TextView cancel = (TextView) dialog.findViewById(R.id.cancel_tv_et);
         TextView submit = (TextView) dialog.findViewById(R.id.submit_tv_et);
         editfield.setHint(whatdata);
+        if (whatdata.equals("Name")){
+            if (!TextUtils.isEmpty(nameEditUser.getText().toString())){
+                editfield.setText(nameEditUser.getText().toString());
+            }
+        }
+
+        if (whatdata.equals("Phone Number")){
+            if (!TextUtils.isEmpty(phoneEditUser.getText().toString()))
+            editfield.setText(phoneEditUser.getText().toString());
+        }
+
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
