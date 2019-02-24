@@ -175,12 +175,37 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
                 for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                     DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
+					// check if doctor blocked this user
+                    DatabaseReference blockDB = FirebaseDatabase.getInstance()
+                            .getReference("Block").child(doctorclass.getcId())
+                            .child("booking");
 
-                    if (isFavourite(doctorclass)) {
-                        doctorclass.checked = true;
-                    }
+                    blockDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot1) {
+                            boolean blocked = false;
+                           for(DataSnapshot data : dataSnapshot1.getChildren()) {
+                               if (data.getKey().equals(mAuth.getCurrentUser().getUid())) {
+                                   blocked = true;
+                                   break;
+                               }
+                           }
+                             // not blocked by doctor
+                            if (!blocked) {
+                                // in favourite list
+                                if (isFavourite(doctorclass)) {
+                                    doctorclass.checked = true;
+                                }
 
-                    doctorList.add(0, doctorclass);// i= 0  (index)to start from top
+                                doctorList.add(0, doctorclass);// i= 0  (index)to start from top
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError1) {
+
+                        }
+                    });
                 }
 
                 DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
