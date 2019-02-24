@@ -1000,7 +1000,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
 
                                                 String msg = context.getString(R.string.booking_time_with_you) + " , on " + datedmy2 + " - " +
                                                         currentBooking.getCbtimestart() + " , No. " + arrange;
-                                                sendNotifiaction(DoctorID, patientName, msg);
+                                                sendNotifiaction(DoctorID, patientName, msg , datedmy);
                                             }
                                             notify = false;
                                         }
@@ -1034,7 +1034,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
         /*************************************/
     }
 
-    private void sendNotifiaction(final String receiver, final String username, final String message) {
+    private void sendNotifiaction(final String receiver, final String username, final String message , final String datedmy) {
 
         final String rec = receiver;
 
@@ -1048,7 +1048,7 @@ public class BookingAdapter extends ArrayAdapter<BookingClass> {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(), R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking", receiver, "b");
+                            username + ": " + message, "Booking", receiver, "b" , datedmy);
                     Sender sender = new Sender(data, token.getToken());
                     // Sender sender = new Sender(data, token.getToken());
 

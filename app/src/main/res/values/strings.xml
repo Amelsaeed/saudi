@@ -404,6 +404,7 @@
     <string name="seen2">Last seen :</string>
     <string name="stop">Your account has been suspended pending payment of your due \n
 Thanks for your understanding</string>
+    <string name="frist_seen">First Seen</string>
 
 
 </resources>

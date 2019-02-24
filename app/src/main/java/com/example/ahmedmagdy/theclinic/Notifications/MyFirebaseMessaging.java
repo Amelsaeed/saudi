@@ -53,6 +53,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
         String type = remoteMessage.getData().get("type");
+        String datedmy = remoteMessage.getData().get("datedmy");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();/*
         int j = convertStringToInteger(user.replaceAll("[\\D]", ""));*/
@@ -62,8 +63,9 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             intent = new Intent(this, MessageActivity.class);
         }
         else{
+            System.out.println("MyFirebaseMessaging oreo datemy :"+datedmy);
             intent = new Intent(this, DoctorBookingsActivity.class);
-            //intent.putExtra("selectedDate", sessionId);
+            intent.putExtra("datedmy", datedmy);
         }
         Bundle bundle = new Bundle();
         bundle.putString("userid", user);
@@ -92,6 +94,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
         String type = remoteMessage.getData().get("type");
+        String datedmy = remoteMessage.getData().get("datedmy");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         /*System.out.println("excp1 : "+user.replaceAll("[\\D]",""));
@@ -104,7 +107,9 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             intent = new Intent(this, MessageActivity.class);
         }
         else{
+            System.out.println("MyFirebaseMessaging not oreo datemy :"+datedmy);
             intent = new Intent(this, DoctorBookingsActivity.class);
+            intent.putExtra("datedmy", datedmy);
         }
         Bundle bundle = new Bundle();
         bundle.putString("userid", user);

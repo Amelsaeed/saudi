@@ -568,8 +568,8 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         }
 
 
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale);
-        listViewItem.startAnimation(animation);
+    /*    Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale);
+        listViewItem.startAnimation(animation);*/
 
 
         return listViewItem;

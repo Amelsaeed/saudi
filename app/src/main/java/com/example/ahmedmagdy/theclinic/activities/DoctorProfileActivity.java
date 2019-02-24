@@ -654,7 +654,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
 
 
     }*/
-    private void sendNotifiaction(final String receiver, final String username, final String message) {
+    private void sendNotifiaction(final String receiver, final String username, final String message, final String datedmy) {
 
         final String rec = receiver;
 
@@ -668,7 +668,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     final Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(),  R.drawable.ic_stat_name,
-                            username + ": " + message, "Booking", receiver,"b");
+                            username + ": " + message, "Booking", receiver,"b", datedmy);
 
 
                     Sender sender = new Sender(data, token.getToken());

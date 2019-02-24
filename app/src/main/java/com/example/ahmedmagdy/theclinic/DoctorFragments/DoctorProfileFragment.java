@@ -64,6 +64,8 @@ import java.util.NoSuchElementException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.View.GONE;
+
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
 public class DoctorProfileFragment extends Fragment {
@@ -444,9 +446,9 @@ public class DoctorProfileFragment extends Fragment {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(true);
-                    maxnoedit.setVisibility(rootView.GONE);
-                    maxnoet.setVisibility(rootView.GONE);
-                    maxnotv.setVisibility(rootView.GONE);
+                    maxnoedit.setVisibility(GONE);
+                    maxnoet.setVisibility(GONE);
+                    maxnotv.setVisibility(GONE);
                 } else {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(false);
                     maxnoedit.setVisibility(rootView.VISIBLE);
@@ -812,7 +814,7 @@ editDialog(whatData);
             public void afterTextChanged(Editable s) {
                 // if(doctorId.equals(uid)) {
 
-                final String about1 = peditbox.getText().toString().trim();
+                final String about1 = peditbox.getText().toString();
                 databaseDoctor.child(doctorId).child("cAbout").setValue(about1);
                 //  }else{peditbox.setEnabled(false);}
                 /**else {
@@ -956,7 +958,7 @@ editDialog(whatData);
 
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                progressBarImage.setVisibility(View.GONE);
+                                progressBarImage.setVisibility(GONE);
 
                                 mTrampPhotoUrl = taskSnapshot.getDownloadUrl().toString();
                                 databaseDoctor.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
@@ -973,7 +975,7 @@ editDialog(whatData);
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                progressBarImage.setVisibility(View.GONE);
+                                progressBarImage.setVisibility(GONE);
                                 Toast.makeText(getContext(), R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                             }
@@ -1029,7 +1031,7 @@ editDialog(whatData);
                         linear.setVisibility(View.VISIBLE);
                         disChecked = true;
                     } else {
-                        linear.setVisibility(View.GONE);
+                        linear.setVisibility(GONE);
                         disChecked = false;
                     }
                 }
@@ -1222,6 +1224,15 @@ editDialog(whatData);
 
                 if (bookingtype != null) {
                     bookingtypecheck.setChecked(bookingtype);
+                    if (bookingtype) {
+                        maxnoedit.setVisibility(View.GONE);
+                        maxnoet.setVisibility(View.GONE);
+                        maxnotv.setVisibility(View.GONE);
+                    }else{
+                        maxnoedit.setVisibility(View.VISIBLE);
+                        maxnoet.setVisibility(View.VISIBLE);
+                        maxnotv.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 if (DoctorName != null) {

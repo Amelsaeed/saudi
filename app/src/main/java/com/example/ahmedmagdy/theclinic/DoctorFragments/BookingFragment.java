@@ -84,8 +84,23 @@ public class BookingFragment extends Fragment {
         doctorId = mAuth.getCurrentUser().getUid();
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
         mBookingRef.keepSynced(true);
-        selectedDate = UtilClass.getInstanceDate();
+       // selectedDate = UtilClass.getInstanceDate();
+        Intent intent = getActivity().getIntent();
+        selectedDate = intent.getStringExtra("datedmy");
 
+        if(selectedDate == null){
+            selectedDate = UtilClass.getInstanceDate();}
+        System.out.println("selectdatefromintent :"+selectedDate);
+
+        //  Toast.makeText(getContext(), selectedDate, Toast.LENGTH_LONG).show();
+        //  System.out.println("booking_databasetimebooking_2" +selectedDate);
+/**
+        Intent intent = getActivity().getIntent();
+        selectedDate = intent.getStringExtra("datedmy");
+
+        if(selectedDate.equalsIgnoreCase(" ")){
+            selectedDate = UtilClass.getInstanceDate();}
+        System.out.println("selectdatefromintent :"+selectedDate);**/
         vDate = UtilClass.dateFormat(UtilClass.getInstanceDate());
 
         try {
