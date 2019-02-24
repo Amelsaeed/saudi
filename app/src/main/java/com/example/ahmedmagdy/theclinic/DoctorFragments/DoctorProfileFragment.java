@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -41,6 +43,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.BookingListActivity;
+import com.example.ahmedmagdy.theclinic.activities.DoctorProfileActivity;
 import com.example.ahmedmagdy.theclinic.activities.InsuranceListActivity;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,11 +71,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorProfileFragment extends Fragment {
 
-    ImageView  editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit,pbirthdayedit;
-    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView,pbirthday;
+    ImageView editName, editCity, editPhone, editDegree, editSpeciality, editPrice, insuranceEdit, pbirthdayedit;
+    TextView pname, pcity, pspeciality, pdegree, pphone, pprice, ptime, drEmail, insuranceView, pbirthday;
     ImageView chatstarttimeedit, maxnoedit;
     TextView chatstarttime, maxnotv, maxnoet;
-    EditText peditbox;
+    TextView peditbox;
     CheckBox bookingtypecheck;
     private ProgressBar progressBarImage;
     CircleImageView ppicuri;
@@ -89,7 +92,7 @@ public class DoctorProfileFragment extends Fragment {
     String doctorId, drDiscountPrice = "0";
     Boolean bookingtype;
     String DoctorName, insuranceItems = "";
-    String  cityItems = "";
+    String cityItems = "";
     byte[] byteImageData;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -128,7 +131,7 @@ public class DoctorProfileFragment extends Fragment {
 
         progressBarImage = rootView.findViewById(R.id.progressbar_image);
 
-      //  StatusProfile = rootView.findViewById(R.id.status_profile);
+        //  StatusProfile = rootView.findViewById(R.id.status_profile);
 //        StatusProfile.setVisibility(View.VISIBLE);
         editName = rootView.findViewById(R.id.name_edit);
         editCity = rootView.findViewById(R.id.city_edit);
@@ -186,7 +189,7 @@ public class DoctorProfileFragment extends Fragment {
                 String bbirthday = dataSnapshot1.child(doctorId).child("cbirthday").getValue(String.class);
                 if (bbirthday != null) {
                     pbirthday.setText(bbirthday);
-                }else{
+                } else {
                     pbirthday.setText("");
                 }
 
@@ -552,7 +555,7 @@ public class DoctorProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), BookingListActivity.class);
                 intent.putExtra("DoctorID", doctorId);
-               // intent.putExtra("DoctorName", DoctorName);
+                // intent.putExtra("DoctorName", DoctorName);
                 intent.putExtra("BookingType", bookingtype);
                 intent.putExtra("MaxNo", maxnoofpatients);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -631,37 +634,34 @@ editDialog(whatData);
 
             }
         });
-      /**  listCityItems = getResources().getStringArray(R.array.countries_array);
-        editCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        /**  listCityItems = getResources().getStringArray(R.array.countries_array);
+         editCity.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
 
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                mBuilder.setTitle(R.string.select_city);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+        mBuilder.setTitle(R.string.select_city);
 
-                mBuilder.setSingleChoiceItems(listCityItems, -1, new DialogInterface.OnClickListener() {
+        mBuilder.setSingleChoiceItems(listCityItems, -1, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO Auto-generated method stub
-                        databaseDoctor.child(doctorId).child("cCity").setValue(listCityItems[i]);
-                        databaseChat.child(doctorId).child("cCity").setValue(listCityItems[i]);
-                        pcity.setText(listCityItems[i]);
+        @Override public void onClick(DialogInterface dialogInterface, int i) {
+        // TODO Auto-generated method stub
+        databaseDoctor.child(doctorId).child("cCity").setValue(listCityItems[i]);
+        databaseChat.child(doctorId).child("cCity").setValue(listCityItems[i]);
+        pcity.setText(listCityItems[i]);
 
-                    }
-                });
+        }
+        });
 
 
-                mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+        mBuilder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+        @Override public void onClick(DialogInterface dialogInterface, int i) {
+        dialogInterface.dismiss();
+        }
+        });
 
-                AlertDialog mDialog = mBuilder.create();
-                mDialog.show();
-            }
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
+        }
         });**/
         listSpecialityItems = getResources().getStringArray(R.array.spiciality_array);
         editSpeciality.setOnClickListener(new View.OnClickListener() {
@@ -673,8 +673,8 @@ editDialog(whatData);
 
                 String spec = pspeciality.getText().toString();
                 int checkedSpec = -1;
-                for (int i=0 ; i< listSpecialityItems.length; i++){
-                    if (listSpecialityItems[i].equals(spec) ){
+                for (int i = 0; i < listSpecialityItems.length; i++) {
+                    if (listSpecialityItems[i].equals(spec)) {
                         checkedSpec = i;
                         break;
                     }
@@ -732,8 +732,8 @@ editDialog(whatData);
                 String deg = pdegree.getText().toString();
                 int checkedDegree = -1;
 
-                for (int i =0 ; i< listDegreeItems.length; i++){
-                    if (listDegreeItems[i].equals(deg)){
+                for (int i = 0; i < listDegreeItems.length; i++) {
+                    if (listDegreeItems[i].equals(deg)) {
                         checkedDegree = i;
                         break;
                     }
@@ -807,6 +807,37 @@ editDialog(whatData);
         });
         // if(!doctorId.equals(uid)){peditbox.setEnabled(false);}
         //--------------------------------------
+
+
+        peditbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.dialog_1);
+                Button btn_OK = (Button) dialog.findViewById(R.id.btn_ok);
+                Button btn_close = (Button) dialog.findViewById(R.id.btn_close);
+                final EditText about = (EditText) dialog.findViewById(R.id.textView);
+
+                btn_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btn_OK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        peditbox.setText(about.getText());
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+            }
+        });
+
+
         peditbox.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -815,21 +846,21 @@ editDialog(whatData);
                 final String about1 = peditbox.getText().toString().trim();
                 databaseDoctor.child(doctorId).child("cAbout").setValue(about1);
                 //  }else{peditbox.setEnabled(false);}
-                /**else {
-                 //////////////////////////////
-                 Toast.makeText(DoctorProfileActivity.this, "You can't change it", Toast.LENGTH_LONG).show();
-                 final ValueEventListener postListener1 = new ValueEventListener() {
-                @Override public void onDataChange(DataSnapshot dataSnapshot1) {
-                String DoctorAbout = dataSnapshot1.child(DoctorID).child("cAbout").getValue(String.class);
-                if (DoctorAbout != null) {peditbox.setText(DoctorAbout);}
-                }
-                @Override public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                }
-                };
-                 databaseDoctor.addValueEventListener(postListener1);
-                 ////////////////////////////////////
-                 }**/
+      /*          *else {
+         //////////////////////////////
+         Toast.makeText(DoctorProfileActivity.this, "You can't change it", Toast.LENGTH_LONG).show();
+         final ValueEventListener postListener1 = new ValueEventListener() {
+        @Override public void onDataChange(DataSnapshot dataSnapshot1) {
+        String DoctorAbout = dataSnapshot1.child(DoctorID).child("cAbout").getValue(String.class);
+        if (DoctorAbout != null) {peditbox.setText(DoctorAbout);}
+        }
+        @Override public void onCancelled(DatabaseError databaseError) {
+        // Getting Post failed, log a message
+        }
+        };
+         databaseDoctor.addValueEventListener(postListener1);
+         ////////////////////////////////////
+         }*/
             }
 
             @Override
@@ -961,7 +992,7 @@ editDialog(whatData);
                                 mTrampPhotoUrl = taskSnapshot.getDownloadUrl().toString();
                                 databaseDoctor.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
                                 databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
-                               // databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
+                                // databaseChat.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
                                 databaseMap.child(idm).child("cmdoctorpic").setValue(mTrampPhotoUrl);
                                 if (!mTrampPhotoUrl.equals("")) {
                                     Log.v("Image", "Upload end");
@@ -1409,6 +1440,7 @@ editDialog(whatData);
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
+
     private void displayInsurancesDialog() {
         final String[] insuranceList = getResources().getStringArray(R.array.insurance_array);
 

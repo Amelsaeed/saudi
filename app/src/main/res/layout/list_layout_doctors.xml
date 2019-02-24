@@ -173,12 +173,26 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/doctor_specialty_all"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:background="@drawable/ic_sp" />
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/doctor_specialty_all"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:background="@drawable/ic_sp" />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="3dp"
+                                    android:background="#fc0404" />
+
+
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/doctor_specialty"
@@ -222,12 +236,24 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/doctor_Insurance_all"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:background="@drawable/ic_in" />
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/doctor_Insurance_all"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:background="@drawable/ic_in" />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="3dp"
+                                    android:background="#fc0404" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/doctor_Insurance"
@@ -275,10 +301,10 @@
                                 android:layout_marginTop="29dp"
                                 android:layout_marginBottom="52dp"
                                 android:text="@string/book"
-                                android:textStyle="bold"
-                                android:textSize="10dp"
                                 android:textAllCaps="true"
-                                android:textColor="#fff" />
+                                android:textColor="#fff"
+                                android:textSize="10dp"
+                                android:textStyle="bold" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -316,6 +342,7 @@
                                     android:textSize="10dp" />
 
                             </RelativeLayout>
+
                             <RelativeLayout
                                 android:id="@+id/chatroom"
                                 android:layout_width="wrap_content"
@@ -334,6 +361,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginBottom="-42dp"
                                     android:background="@drawable/log_chat" />
+
                                 <TextView
                                     android:id="@+id/ssss"
                                     android:layout_width="wrap_content"
