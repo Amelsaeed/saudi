@@ -416,4 +416,6 @@
     <string name="use_timing_booking_not_arrange_booking">إستخدام الحجز بنظام التوقيت وليس بنظام الدور</string>
     <string name="what_about_you">نبذة عنك</string>
     <string name="speciality_details">تفاصيل التخصص</string>
+    <string name="block_user">حظر</string>
+    <string name="delete_booking">حذف الحجز</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.ahmedmagdy.theclinic.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +66,14 @@ public class DoctorBookingsActivity extends AppCompatActivity {
 
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
         mBookingRef.keepSynced(true);
-        selectedDate = UtilClass.getInstanceDate();
+        //selectedDate = UtilClass.getInstanceDate();
+        Intent intent = getIntent();
+        selectedDate = intent.getStringExtra("datedmy");
+
+        if(selectedDate == null){
+            selectedDate = UtilClass.getInstanceDate();}
+        System.out.println("selectdatefromintent :"+selectedDate);
+
         try {
             selectedDay = UtilClass.getDayNameFromDate(selectedDate);
         } catch (ParseException e) {

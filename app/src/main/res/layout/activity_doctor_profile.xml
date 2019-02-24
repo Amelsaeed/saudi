@@ -31,6 +31,93 @@
                 android:gravity="left"
                 android:orientation="vertical">
 
+<<<<<<< HEAD
+=======
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textStyle="italic"
+                    android:textColor="#2e2e2e"
+                    android:text="@string/speciality_details"/>
+
+                <EditText
+                    android:id="@+id/peditbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/what_about_you"
+                    android:textColor="#2e2e2e"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:textSize="16dp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/a"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/liner"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:background="#8f8c8c" />
+    <Button
+        android:id="@+id/doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_round_blue"
+        android:onClick="chat"
+        android:text="chat"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/ptime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="10 min"
+        android:visibility="gone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#000"
+
+        />
+    <Button
+        android:id="@+id/working_hours_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/a"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_round_red"
+        android:text="@string/add_time" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/working_hours_btn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/max_no_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
+
+>>>>>>> e9277ef805feee472199e683b9656a2e5e70d4fc
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

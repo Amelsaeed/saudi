@@ -339,7 +339,7 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
     private void showDialog(String type, final BookingTimesClass item, final int position) {
         final Dialog dialog = new Dialog(mContext);
         final String userId = mAuth.getCurrentUser().getUid();
-        Button create,show,cancel,submit;
+        Button create,show,cancel,submit, block, delete;
 
         final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Notes");
 
@@ -350,6 +350,8 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
             dialog.setTitle(R.string.what_do_you_want_to_do);
             create = dialog.findViewById(R.id.add_btn_select_note_dialog);
             show = dialog.findViewById(R.id.show_btn_select_note_dialog);
+            block = dialog.findViewById(R.id.block_btn_select_note_dialog);
+            delete = dialog.findViewById(R.id.delete_btn_select_note_dialog);
             cancel = dialog.findViewById(R.id.cancel_btn_select_note_dialog);
             // show all notes
             show.setOnClickListener(new View.OnClickListener() {
@@ -368,6 +370,22 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                 public void onClick(View v) {
                     showDialog("create",item,position);
                     dialog.dismiss();
+                }
+            });
+			// block user and delete all his/her booking
+            block.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   // block user
+                   DatabaseReference blockDB = FirebaseDatabase.getInstance().getReference("Block");
+                   blockDB.child(userId).child("booking")
+                           .child(item.getCtid()).setValue(true);
+                   // remove from Fav db
+                    DatabaseReference databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
+                            .child(item.getCtid()).child(userId);
+                    databaseDoctorFav.removeValue();
+                   // delete all booking
+
                 }
             });
             // cancel dialog

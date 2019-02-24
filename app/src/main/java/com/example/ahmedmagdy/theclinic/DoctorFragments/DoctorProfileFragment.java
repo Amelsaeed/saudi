@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -67,6 +68,8 @@ import java.util.NoSuchElementException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.View.GONE;
+
 //import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 
 public class DoctorProfileFragment extends Fragment {
@@ -77,6 +80,7 @@ public class DoctorProfileFragment extends Fragment {
     TextView chatstarttime, maxnotv, maxnoet;
     TextView peditbox;
     CheckBox bookingtypecheck;
+    CardView maxnocard;
     private ProgressBar progressBarImage;
     CircleImageView ppicuri;
     private Uri imagePath;
@@ -164,7 +168,7 @@ public class DoctorProfileFragment extends Fragment {
         maxnoedit = rootView.findViewById(R.id.max_no_edit);
         maxnoet = rootView.findViewById(R.id.max_no);
         maxnotv = rootView.findViewById(R.id.max_no_tv);
-
+        maxnocard= rootView.findViewById(R.id.max_no_card);
 
         editName.setVisibility(View.VISIBLE);
         editPhone.setVisibility(View.VISIBLE);
@@ -447,14 +451,16 @@ public class DoctorProfileFragment extends Fragment {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(true);
-                    maxnoedit.setVisibility(rootView.GONE);
-                    maxnoet.setVisibility(rootView.GONE);
-                    maxnotv.setVisibility(rootView.GONE);
+                    maxnocard.setVisibility(GONE);
+//                    maxnoedit.setVisibility(GONE);
+//                    maxnoet.setVisibility(GONE);
+//                    maxnotv.setVisibility(GONE);
                 } else {
                     databaseDoctor.child(doctorId).child("cbookingtypestate").setValue(false);
-                    maxnoedit.setVisibility(rootView.VISIBLE);
-                    maxnoet.setVisibility(rootView.VISIBLE);
-                    maxnotv.setVisibility(rootView.VISIBLE);
+                    maxnocard.setVisibility(rootView.VISIBLE);
+//                    maxnoedit.setVisibility(rootView.VISIBLE);
+//                    maxnoet.setVisibility(rootView.VISIBLE);
+//                    maxnotv.setVisibility(rootView.VISIBLE);
                 }
             }
         });
@@ -470,6 +476,7 @@ public class DoctorProfileFragment extends Fragment {
 
                 final EditText dialogmaxno = dialog.findViewById(R.id.max_data_tv_e);
 
+                dialogmaxno.setText(maxnoet.getText().toString());
 
                 TextView cancelmax = (TextView) dialog.findViewById(R.id.cancel_tv_max);
                 TextView closemax = (TextView) dialog.findViewById(R.id.close_tv_max);
@@ -781,7 +788,7 @@ editDialog(whatData);
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle(R.string.creat_a_call);
-                alert.setMessage(getString(R.string.are_you_sure_you_want_to_dialling) + pname.getText().toString() + "?");
+                alert.setMessage(getString(R.string.are_you_sure_you_want_to_dialling)+" " + pname.getText().toString() + "?");
 // Create TextView
                 final TextView input = new TextView(getActivity());
                 alert.setView(input);
@@ -843,7 +850,7 @@ editDialog(whatData);
             public void afterTextChanged(Editable s) {
                 // if(doctorId.equals(uid)) {
 
-                final String about1 = peditbox.getText().toString().trim();
+                final String about1 = peditbox.getText().toString();
                 databaseDoctor.child(doctorId).child("cAbout").setValue(about1);
                 //  }else{peditbox.setEnabled(false);}
       /*          *else {
@@ -987,7 +994,7 @@ editDialog(whatData);
 
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                progressBarImage.setVisibility(View.GONE);
+                                progressBarImage.setVisibility(GONE);
 
                                 mTrampPhotoUrl = taskSnapshot.getDownloadUrl().toString();
                                 databaseDoctor.child(fUser.getUid()).child("cUri").setValue(mTrampPhotoUrl);
@@ -1004,7 +1011,7 @@ editDialog(whatData);
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                progressBarImage.setVisibility(View.GONE);
+                                progressBarImage.setVisibility(GONE);
                                 Toast.makeText(getContext(), R.string.an_error_occurred_while_uploading_image, Toast.LENGTH_LONG).show();
 
                             }
@@ -1032,10 +1039,16 @@ editDialog(whatData);
         final LinearLayout linear = dialog.findViewById(R.id.linear_discount);
         editField.setHint(whatdata);
 
+        if(whatdata.equals("Name")){
+            editField.setText(pname.getText().toString());
+        }
 
         if (whatdata.equals("Phone Number")) {
             editField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_DATETIME_VARIATION_NORMAL);
-            editField.setText(pphone.getText().toString().trim());
+            if (!TextUtils.isEmpty(pphone.getText().toString().trim())){
+                editField.setText(pphone.getText().toString().trim());
+            }
+
         }
 
 
@@ -1045,7 +1058,7 @@ editDialog(whatData);
             editField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
             if (!pprice.getText().toString().equals("Detection price")) {
-                editField.setText(pprice.getText().toString().trim().replace("$", ""));
+                editField.setText(pprice.getText().toString().trim().replace("SAR", ""));
             }
             if (!drDiscountPrice.equals("0") && !drDiscountPrice.equals("0.0") && drDiscountPrice != null) {
                 linear.setVisibility(View.VISIBLE);
@@ -1060,7 +1073,7 @@ editDialog(whatData);
                         linear.setVisibility(View.VISIBLE);
                         disChecked = true;
                     } else {
-                        linear.setVisibility(View.GONE);
+                        linear.setVisibility(GONE);
                         disChecked = false;
                     }
                 }
@@ -1253,6 +1266,18 @@ editDialog(whatData);
 
                 if (bookingtype != null) {
                     bookingtypecheck.setChecked(bookingtype);
+                    if (bookingtype) {
+                        maxnocard.setVisibility(View.GONE);
+//                        maxnoedit.setVisibility(View.GONE);
+//                        maxnoet.setVisibility(View.GONE);
+//                        maxnotv.setVisibility(View.GONE);
+                    }else{
+                        maxnocard.setVisibility(View.VISIBLE);
+
+//                        maxnoedit.setVisibility(View.VISIBLE);
+//                        maxnoet.setVisibility(View.VISIBLE);
+//                        maxnotv.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 if (DoctorName != null) {
