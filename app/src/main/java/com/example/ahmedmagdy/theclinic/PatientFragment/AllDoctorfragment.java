@@ -142,10 +142,10 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
      **/
     public void onStart() {
         super.onStart();
-
+     /*
         if (isSearching) {
             return;
-        }
+        } */
         progressBar.setVisibility(View.VISIBLE);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
