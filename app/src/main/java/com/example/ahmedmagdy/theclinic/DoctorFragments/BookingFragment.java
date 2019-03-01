@@ -41,6 +41,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BookingFragment extends Fragment {
 
@@ -82,12 +84,23 @@ public class BookingFragment extends Fragment {
         doctorId = mAuth.getCurrentUser().getUid();
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
         mBookingRef.keepSynced(true);
+       // selectedDate = UtilClass.getInstanceDate();
+        Intent intent = getActivity().getIntent();
+        selectedDate = intent.getStringExtra("datedmy");
+
+        if (selectedDate == null){
+            selectedDate = UtilClass.getInstanceDate();
+        }
+
+        //  Toast.makeText(getContext(), selectedDate, Toast.LENGTH_LONG).show();
+        //  System.out.println("booking_databasetimebooking_2" +selectedDate);
+/**
         Intent intent = getActivity().getIntent();
         selectedDate = intent.getStringExtra("datedmy");
 
         if(selectedDate.equalsIgnoreCase(" ")){
             selectedDate = UtilClass.getInstanceDate();}
-        System.out.println("selectdatefromintent :"+selectedDate);
+        System.out.println("selectdatefromintent :"+selectedDate);**/
         vDate = UtilClass.dateFormat(UtilClass.getInstanceDate());
 
         try {
