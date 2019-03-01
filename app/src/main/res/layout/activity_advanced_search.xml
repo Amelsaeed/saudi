@@ -1,123 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_marginTop="15dp"
 
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     tools:context=".AdvancedSearchActivity">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        app:iconifiedByDefault="false"
-        app:queryHint="@string/search_by_name" />
     <LinearLayout
-
+        android:id="@+id/search_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <EditText
+            android:id="@+id/search_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="2"
+            android:background="@drawable/search_field_layout"
+            android:ems="10"
+            android:hint="Search here"
+            android:inputType="textPersonName"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:textColor="#999999"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            app:srcCompat="@mipmap/search_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/row_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_row"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp">
+        android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/spinner_specialty"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:spinnerMode="dropdown"
-            android:textAlignment="viewStart"
-            android:textColor="#9c9999"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:textSize="13dp"
+            android:layout_gravity="start"
             android:layout_weight="2"
             android:gravity="start"
-            android:layout_gravity="start" />
-        <Spinner
-            android:id="@+id/spinner_hospital_clinic"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:spinnerMode="dropdown"
             android:textAlignment="viewStart"
             android:textColor="#9c9999"
+            android:textSize="13dp" />
+
+        <Spinner
+            android:id="@+id/spinner_hospital_clinic"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:textSize="13dp"
+            android:layout_gravity="start"
             android:layout_weight="1"
             android:gravity="start"
-            android:layout_gravity="start" />
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:spinnerMode="dropdown"
+            android:textAlignment="viewStart"
+            android:textColor="#9c9999"
+            android:textSize="13dp" />
 
     </LinearLayout>
-    <LinearLayout
 
+    <LinearLayout
+        android:id="@+id/row_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@id/row_one"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp">
-
-
-
+        android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/spinner_degree"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:spinnerMode="dropdown"
-            android:textAlignment="viewStart"
-            android:textColor="#9c9999"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:textSize="13dp"
+            android:layout_alignStart="@+id/row_two"
+            android:layout_gravity="start"
             android:layout_weight="2"
             android:gravity="start"
-            android:layout_gravity="start" />
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:spinnerMode="dropdown"
+            android:textAlignment="viewStart"
+            android:textColor="#9c9999"
+            android:textSize="13dp" />
+
         <Spinner
             android:id="@+id/spinner_insurance"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:gravity="start"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:spinnerMode="dropdown"
             android:textAlignment="viewStart"
             android:textColor="#9c9999"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:textSize="13dp"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:layout_gravity="start" />
+            android:textSize="13dp" />
+
         <Spinner
             android:id="@+id/spinner_city"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:gravity="start"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:spinnerMode="dropdown"
             android:textAlignment="viewStart"
             android:textColor="#9c9999"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:textSize="13dp"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:layout_gravity="start" />
-
+            android:textSize="13dp" />
 
     </LinearLayout>
-    <ListView
-        android:id="@+id/list_view_search"
-        style="@style/Widget.AppCompat.Light.ListView.DropDown"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/result_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/add_tramp_h" />
+        android:layout_height="475dp"
+        android:layout_below="@+id/row_two"
+        android:layout_marginTop="50dp" />
+
     <ProgressBar
         android:id="@+id/search_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

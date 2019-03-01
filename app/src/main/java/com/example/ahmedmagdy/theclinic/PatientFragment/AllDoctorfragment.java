@@ -173,7 +173,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 doctorList.clear();
                 for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
-                    DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
+                    final DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
 					// check if doctor blocked this user
                     DatabaseReference blockDB = FirebaseDatabase.getInstance()
