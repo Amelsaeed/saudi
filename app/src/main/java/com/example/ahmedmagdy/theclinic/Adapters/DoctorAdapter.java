@@ -83,9 +83,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
 
         DoctorFirebaseClass doctorclasss = doctorList.get(position);
 
-
         if (doctorclasss.getstatus()) {
-
             StatusDoctcr.setVisibility(View.VISIBLE);
         } else {
             StatusDoctcr.setVisibility(View.GONE);
