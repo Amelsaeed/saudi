@@ -1,22 +1,15 @@
 package com.example.ahmedmagdy.theclinic.Adapters;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -26,7 +19,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.activities.NoteActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
@@ -146,11 +138,8 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                 }else {
                     final BookingTimesClass doctorclass = doctorList.get(position);
 
-
-
                     DatabaseReference databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");
                     DatabaseReference bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser");
-
 
                     bookforuser.child(userid).child(doctorclass.getCtid() + doctorclass.getCtbookingdate()).setValue(null);
                     //doctorclass.getCtPeriod()= time date ID
@@ -186,13 +175,10 @@ public class PatientBookingAdapter extends ArrayAdapter<BookingTimesClass> imple
                     }
                 };
                 databaseChat.addValueEventListener(postListener1);
-
-
             }
         });
 
         // favcheckbox.setChecked(doctorclass.getChecked());//normal code retrive status of checkbox from firebase
-
 
         a1 = doctorclass.getCtpicuri();
         if (a1 != null) {
