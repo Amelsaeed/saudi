@@ -1,14 +1,8 @@
 package com.example.ahmedmagdy.theclinic.PatientFragment;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
@@ -17,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,11 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
 import com.example.ahmedmagdy.theclinic.R;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
-import com.example.ahmedmagdy.theclinic.classes.RegisterClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
 import com.example.ahmedmagdy.theclinic.map.DoctorMapFrag;
 import com.example.ahmedmagdy.theclinic.map.UserLocation;
@@ -145,10 +136,10 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
      **/
     public void onStart() {
         super.onStart();
-
+     /*
         if (isSearching) {
             return;
-        }
+        } */
         progressBar.setVisibility(View.VISIBLE);
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits").child(mAuth.getCurrentUser().getUid());
@@ -173,7 +164,8 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                doctorList.clear();
+                // doctorList.clear();
+
                 for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                     final DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
 
@@ -185,13 +177,18 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
                     blockDB.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot1) {
+                            progressBar.setVisibility(View.GONE);
+
                             boolean blocked = false;
-                           for(DataSnapshot data : dataSnapshot1.getChildren()) {
-                               if (data.getKey().equals(mAuth.getCurrentUser().getUid())) {
-                                   blocked = true;
-                                   break;
-                               }
-                           }
+
+                            if (dataSnapshot1.exists()) {
+                                for (DataSnapshot data : dataSnapshot1.getChildren()) {
+                                    if (data.getKey().equals(mAuth.getCurrentUser().getUid())) {
+                                        blocked = true;
+                                        break;
+                                    }
+                                }
+                            }
                              // not blocked by doctor
                             if (!blocked) {
                                 // in favourite list
@@ -225,8 +222,6 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        //  }// network
-
     }
 
     private void maketableoffav() {
@@ -237,7 +232,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                         DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
@@ -252,10 +247,7 @@ public class AllDoctorfragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        //  }// network
-
     }
-
 
     private boolean isFavourite(DoctorFirebaseClass doctorclass) {
         for (DoctorFirebaseClass f : favList) {

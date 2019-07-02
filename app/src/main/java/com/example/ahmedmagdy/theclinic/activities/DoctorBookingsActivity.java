@@ -119,7 +119,6 @@ public class DoctorBookingsActivity extends AppCompatActivity {
 
                     for (DataSnapshot booking : dataSnapshot.getChildren()){
 
-
                         if (booking.child(selectedDate).exists()) {
 
                             String tempAddress = "";
@@ -220,18 +219,13 @@ public class DoctorBookingsActivity extends AppCompatActivity {
                 dateView.setText(selectedDate);
                 dayView.setText(selectedDay);
 
-
                 progressBar.setVisibility(View.VISIBLE);
                 makeTable();
-
-
 
             }
         }, year, month, day);
         mPickerDialog.show();
     }
-
-
 
     @Override
     protected void onDestroy() {
@@ -239,6 +233,5 @@ public class DoctorBookingsActivity extends AppCompatActivity {
         if (mBookingListener != null){
             mBookingRef.removeEventListener(mBookingListener);
         }
-
     }
 }

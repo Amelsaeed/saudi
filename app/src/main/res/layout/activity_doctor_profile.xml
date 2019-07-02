@@ -115,7 +115,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/working_hours_btn"/>
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86
 
 
     <View
@@ -383,6 +387,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
+<<<<<<< HEAD
 
                     <ImageView
                         android:id="@+id/degree_edit"
@@ -391,6 +396,16 @@
                         android:layout_marginRight="10dp"
                         android:background="@drawable/ic_edit" />
 
+=======
+
+                    <ImageView
+                        android:id="@+id/degree_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -411,6 +426,7 @@
                         android:textStyle="italic" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+<<<<<<< HEAD
 
             <View
                 android:layout_width="match_parent"
@@ -426,6 +442,23 @@
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
+=======
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
+
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -448,6 +481,7 @@
                         android:textColor="#2e2e2e"
                         android:textSize="16dp"
                         android:textStyle="italic" />
+<<<<<<< HEAD
 
                     <TextView
                         android:id="@+id/pphone"
@@ -474,6 +508,34 @@
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
+=======
+
+                    <TextView
+                        android:id="@+id/pphone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
+
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -527,6 +589,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
+<<<<<<< HEAD
 
                     <ImageView
                         android:id="@+id/insurance_edit"
@@ -535,6 +598,16 @@
                         android:layout_marginRight="10dp"
                         android:background="@drawable/ic_edit" />
 
+=======
+
+                    <ImageView
+                        android:id="@+id/insurance_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -560,6 +633,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#8f8c8c" />
+<<<<<<< HEAD
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -570,6 +644,18 @@
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
+=======
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
+
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -616,4 +702,8 @@
 
 
 </RelativeLayout>
+<<<<<<< HEAD
     </ScrollView>
+=======
+    </ScrollView>
+>>>>>>> 0843485dbfa2601de86b371b7feeeb1625101e86

@@ -3,7 +3,6 @@ package com.example.ahmedmagdy.theclinic.Adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +19,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.ahmedmagdy.theclinic.DoctorHome;
-import com.example.ahmedmagdy.theclinic.HospitalHome;
-import com.example.ahmedmagdy.theclinic.PatientHome;
 import com.example.ahmedmagdy.theclinic.R;
-import com.example.ahmedmagdy.theclinic.activities.LoginActivity;
 import com.example.ahmedmagdy.theclinic.activities.NoteActivity;
 import com.example.ahmedmagdy.theclinic.classes.BookingTimesClass;
 import com.example.ahmedmagdy.theclinic.classes.NoteClass;
 import com.example.ahmedmagdy.theclinic.classes.UtilClass;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -385,7 +378,14 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
                             .child(item.getCtid()).child(userId);
                     databaseDoctorFav.removeValue();
                    // delete all booking
-
+                    deleteBooking(userId, item, "one");
+                }
+            });
+            // delete one book
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteBooking(userId, item, "one");
                 }
             });
             // cancel dialog
@@ -447,5 +447,23 @@ public class BookingExpandableListAdapter extends BaseExpandableListAdapter {
         dialog.setCanceledOnTouchOutside(false);
         // show dialog view
         dialog.show();
+    }
+
+    // delete booking
+    private void deleteBooking(String doctorID, BookingTimesClass bookingTimesClass, String deleteType) {
+        DatabaseReference bookingTimeDB = FirebaseDatabase.getInstance().getReference("bookingtimes");
+        DatabaseReference bookForUserDB = FirebaseDatabase.getInstance().getReference("bookforuser");
+
+        // delete one booking
+        if (deleteType.equals("one")) {
+            bookForUserDB.child(bookingTimesClass.getCtid()).child(doctorID + bookingTimesClass.getCtbookingdate()).removeValue();
+
+            bookingTimeDB.child(doctorID).child(bookingTimesClass.getCttimeid())
+                    .child(bookingTimesClass.getCtbookingdate())
+                    .child(bookingTimesClass.getCtid()).removeValue();
+        } else {
+            // delete all booking
+
+        }
     }
 }
