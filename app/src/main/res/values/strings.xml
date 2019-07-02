@@ -325,6 +325,7 @@
     <string name="today">Today</string>
     <string name="no_data">No data!</string>
     <string name="no_data_added_to_favorites">No data added to favorites!</string>
+    <string name="no_data_added">No data!</string>
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

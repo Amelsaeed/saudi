@@ -74,7 +74,7 @@ public class AllHospitalfragment extends Fragment implements View.OnClickListene
         progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         listViewDoctor= (ListView) rootView.findViewById(R.id.list_view_doctor);
         searchView = (SearchView)  rootView.findViewById(R.id.search);
@@ -104,7 +104,7 @@ public class AllHospitalfragment extends Fragment implements View.OnClickListene
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits").child(mAuth.getCurrentUser().getUid());
-            databaseDoctorFav.keepSynced(true);
+            /*databaseDoctorFav.keepSynced(true);*/
 
             maketableoffav();
         } else {
@@ -134,7 +134,7 @@ public class AllHospitalfragment extends Fragment implements View.OnClickListene
                         doctorclass.checked = true;
                     }
 
-                    doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                    doctorList.add(doctorclass);// i= 0  (index)to start from top
                 }
 
                 DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
@@ -169,7 +169,7 @@ public class AllHospitalfragment extends Fragment implements View.OnClickListene
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                         DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
-                        favList.add(0, doctorclass);// i= 0  (index)to start from top
+                        favList.add( doctorclass);// i= 0  (index)to start from top
                     }
                 }
                 maketableofall();

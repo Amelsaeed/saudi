@@ -51,12 +51,12 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
         progressBar =  findViewById(R.id.data_progress_bar);
         mAuth = FirebaseAuth.getInstance();
          databasePatient = FirebaseDatabase.getInstance().getReference("Doctorpatientdb")
-                .child(mAuth.getCurrentUser().getUid()); databasePatient.keepSynced(true);
+                .child(mAuth.getCurrentUser().getUid()); /*databasePatient.keepSynced(true);*/
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
-        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data"); databaseUserReg.keepSynced(true);
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb"); databaseDoctor.keepSynced(true);
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom"); databaseChat.keepSynced(true);
+        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data"); /*databaseUserReg.keepSynced(true);*/
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb"); /*databaseDoctor.keepSynced(true);*/
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");/* databaseChat.keepSynced(true);*/
 
 
         listViewpatient= findViewById(R.id.list_view_data);
@@ -96,7 +96,7 @@ public class DoctorDatabaseActivity extends AppCompatActivity {
                                 String Puri = dataSnapshot1.child(PID).child("cUri").getValue(String.class);
 
                                 BookingTimesClass doctorclass = new BookingTimesClass(PID, Pname, LastBookingDate,Pphone, Puri);
-                                doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                                doctorList.add(doctorclass);// i= 0  (index)to start from top
 
                                 DoctorDatabaseAdapter adapter = new DoctorDatabaseAdapter(DoctorDatabaseActivity.this, doctorList);
                                 listViewpatient.setAdapter(adapter);

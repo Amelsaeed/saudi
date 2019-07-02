@@ -135,6 +135,9 @@ public class RegisterClass {
     public void setCUri(String cUri) {
         this.cUri = cUri;
     }
+
+
+
     public Boolean getstatus() {
             return status;
     }

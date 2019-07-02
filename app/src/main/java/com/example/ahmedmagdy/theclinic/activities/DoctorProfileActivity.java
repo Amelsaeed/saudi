@@ -73,7 +73,7 @@ import retrofit2.Response;
 public class DoctorProfileActivity extends AppCompatActivity implements OnRequestPermissionsResultCallback {
     ImageView ppicuri;
     TextView pname,pcity,pspeciality,pdegree,pphone,pprice,ptime;
-    EditText peditbox ;
+    TextView peditbox ;
     EditText dialogAddress;
     private ProgressBar progressBarBooking, progressBarImage;
     Button Doc;
@@ -117,13 +117,13 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
 
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
-        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");databaseUserReg.keepSynced(true);
-        databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");databasetimeBooking.keepSynced(true);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");/*databaseDoctor.keepSynced(true);*/
+        databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");/*databaseUserReg.keepSynced(true);*/
+        databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");/*databasetimeBooking.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
 
-        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");databaseChat.keepSynced(true);
-        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");databaseMap.keepSynced(true);
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");/*databaseChat.keepSynced(true);*/
+        databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");/*databaseMap.keepSynced(true);*/
         DatabaseReference reference = databaseMap.push();
          idm = reference.getKey();
 
@@ -141,7 +141,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnReques
         pprice = (TextView) findViewById(R.id.pprice);
         ptime = (TextView) findViewById(R.id.ptime);
         Doc = (Button) findViewById(R.id.doc);
-        peditbox = (EditText) findViewById(R.id.peditbox);
+        peditbox = (TextView) findViewById(R.id.peditbox);
         ppicuri = (ImageView) findViewById(R.id.edit_photo);
 
         FirebaseUser user = mAuth.getCurrentUser();//mAuth.getCurrentUser().getUid()

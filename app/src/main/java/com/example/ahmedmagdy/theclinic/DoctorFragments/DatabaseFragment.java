@@ -64,9 +64,9 @@ public class DatabaseFragment extends Fragment {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseUserReg.keepSynced(true);
+        /*databaseUserReg.keepSynced(true);*/
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
@@ -118,7 +118,7 @@ public class DatabaseFragment extends Fragment {
                         String Puri = bookingtimesclass.getCtpicuri();
 
                         BookingTimesClass doctorclass = new BookingTimesClass(PID, Pname, LastBookingDate, PAge, Puri);
-                        doctorList.add(0, doctorclass);// i= 0  (index)to start from top
+                        doctorList.add( doctorclass);// i= 0  (index)to start from top
 
                         DoctorDatabaseAdapter adapter = new DoctorDatabaseAdapter(getActivity(), doctorList);
                         filter = adapter.getFilter();

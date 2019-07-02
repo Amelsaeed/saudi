@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -18,6 +20,7 @@ android {
         }
     }
 }
+
 
 dependencies {
 
@@ -75,8 +78,6 @@ dependencies {
 
     //Refresh
     implementation 'com.cjj.materialrefeshlayout:library:1.3.0'
-
-
 
 
 }

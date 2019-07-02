@@ -64,12 +64,12 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeLayout2);
         swipeLayout.setOnRefreshListener(this);
         bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser").child(mAuth.getCurrentUser().getUid());
-        bookforuser.keepSynced(true);
+        /*bookforuser.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseUserReg.keepSynced(true);
+        /*databaseUserReg.keepSynced(true);*/
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
@@ -132,7 +132,7 @@ public class UserBookingFragment extends Fragment implements SwipeRefreshLayout.
                                 String DUri = dataSnapshot1.child(DID).child("cUri").getValue(String.class);
                                 BookingTimesClass bookingtimesclass = new BookingTimesClass(DID, DName,LastBookingDate, Daddress,timeID, DUri,Ddate,Darrange, DSpecialty);
 
-                                doctorList.add(0,bookingtimesclass);// i= 0  (index)to start from top
+                                doctorList.add(bookingtimesclass);// i= 0  (index)to start from top
 
                                 PatientBookingAdapter adapter = new PatientBookingAdapter(getActivity(), doctorList);
                                 filter = adapter.getFilter();

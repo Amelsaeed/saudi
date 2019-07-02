@@ -81,8 +81,8 @@ public class FavFragment extends Fragment {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
-        databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");databaseHospital.keepSynced(true);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");/*databaseDoctor.keepSynced(true);*/
+        databaseHospital = FirebaseDatabase.getInstance().getReference("Hospitaldb");/*databaseHospital.keepSynced(true);*/
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
@@ -146,7 +146,7 @@ public class FavFragment extends Fragment {
         // databaseDoctorFav.keepSynced(true);
         // databaseDoctor.keepSynced(true);
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                .child(mAuth.getCurrentUser().getUid());databaseDoctorFav.keepSynced(true);
+                .child(mAuth.getCurrentUser().getUid());/*databaseDoctorFav.keepSynced(true);*/
         databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -180,7 +180,7 @@ public class FavFragment extends Fragment {
                             String DMaxno = dataSnapshot1.child(DID).child("cMaxno").getValue(String.class);
                             String Dabout = dataSnapshot1.child(DID).child("cAbout").getValue(String.class);
                             DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,bookingtype,DChatstart,DChatend,DMaxno,Dabout);
-                            doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                            doctorList.add(doctorclass);// i= 0  (index)to start from top
 
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
                             filter = adapter.getFilter();
@@ -238,7 +238,7 @@ public class FavFragment extends Fragment {
             }
 
 
-        });databaseDoctorFav.keepSynced(true);
+        });/*databaseDoctorFav.keepSynced(true);*/
         progressBar.setVisibility(View.GONE);
 
 

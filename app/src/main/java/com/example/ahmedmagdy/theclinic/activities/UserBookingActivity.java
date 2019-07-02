@@ -48,10 +48,10 @@ public class UserBookingActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
          bookforuser = FirebaseDatabase.getInstance().getReference("bookforuser").child(mAuth.getCurrentUser().getUid());
-        bookforuser.keepSynced(true);
+        /*bookforuser.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");/*databaseDoctor.keepSynced(true);*/
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
@@ -98,7 +98,7 @@ public class UserBookingActivity extends AppCompatActivity {
                                 String DUri = dataSnapshot1.child(DID).child("cUri").getValue(String.class);
                                 BookingTimesClass bookingtimesclass = new BookingTimesClass( DID,DName,LastBookingDate, Daddress,Dperiod, DUri,Ddate,Darrange, DSpecialty);
 
-                                doctorList.add(0,bookingtimesclass);// i= 0  (index)to start from top
+                                doctorList.add(bookingtimesclass);// i= 0  (index)to start from top
 
                                 PatientBookingAdapter adapter = new PatientBookingAdapter(UserBookingActivity.this, doctorList);
                                 listViewuserbook.setAdapter(adapter);

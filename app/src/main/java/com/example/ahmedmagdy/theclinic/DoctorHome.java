@@ -23,6 +23,7 @@ import com.example.ahmedmagdy.theclinic.DoctorFragments.BookingFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DatabaseFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.DoctorProfileFragment;
 import com.example.ahmedmagdy.theclinic.DoctorFragments.MoreFragment;
+import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
 import com.example.ahmedmagdy.theclinic.classes.DoctorFirebaseClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,17 +33,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 public class DoctorHome extends AppCompatActivity {
-    private DatabaseReference databaseDoctor, databaseChat,databaseDoctor1, databaseChat1;
+    private DatabaseReference databaseDoctor, databaseChat, databaseDoctor1, databaseChat1;
     FirebaseUser fuser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
         loadLocale();
         setContentView(R.layout.activity_doctor_home);
         final Button Stop = findViewById(R.id.btn_stop);
@@ -122,31 +125,39 @@ public class DoctorHome extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new AllDoctorFragment()).commit();
     }
+
     public void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration configuration = new Configuration();
         configuration.locale = locale;
-        getResources().updateConfiguration(configuration,getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor = getSharedPreferences("Setting",Context.MODE_PRIVATE).edit();
-        editor.putString("My_Lang",lang);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Setting", Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang", lang);
         editor.apply();
 
     }
-    public void  loadLocale(){
-        SharedPreferences pref = getSharedPreferences("Setting",Activity.MODE_PRIVATE);
-        String language = pref.getString("My_Lang","");
+
+    public void loadLocale() {
+        SharedPreferences pref = getSharedPreferences("Setting", Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang", "");
         setLocale(language);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-            databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-            databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-            fuser = FirebaseAuth.getInstance().getCurrentUser();
-            databaseChat.child(fuser.getUid()).child("status").setValue(true);
-            databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
+        if (fuser != null) {
+            String Token = FirebaseInstanceId.getInstance().getToken();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+            Token token1 = new Token(Token);
+            reference.child(fuser.getUid()).setValue(token1);
+        }
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
+        databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseChat.child(fuser.getUid()).child("status").setValue(true);
+        databaseDoctor.child(fuser.getUid()).child("status").setValue(true);
     }
 
     @Override
@@ -159,10 +170,10 @@ public class DoctorHome extends AppCompatActivity {
                 .setPositiveButton(R.string.yes,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                    databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
-                                    databaseDoctor1 = FirebaseDatabase.getInstance().getReference("Doctordb");
-                                    databaseChat1.child(fuser.getUid()).child("status").setValue(false);
-                                    databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
+                                databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
+                                databaseDoctor1 = FirebaseDatabase.getInstance().getReference("Doctordb");
+                                databaseChat1.child(fuser.getUid()).child("status").setValue(false);
+                                databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
 
                                 moveTaskToBack(true);
                                 Process.killProcess(Process.myPid());
@@ -207,7 +218,6 @@ public class DoctorHome extends AppCompatActivity {
         databaseDoctor1.child(fuser.getUid()).child("status").setValue(false);
     }
 */
-
 
 
 }

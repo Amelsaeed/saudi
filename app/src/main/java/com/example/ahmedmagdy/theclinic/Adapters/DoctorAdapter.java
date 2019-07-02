@@ -1,5 +1,7 @@
 package com.example.ahmedmagdy.theclinic.Adapters;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Display;
@@ -102,6 +105,7 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         final TextView adoctorsalary = (TextView) listViewItem.findViewById(R.id.doctor_salary);
         final TextView doctorDiscPrice = listViewItem.findViewById(R.id.doctor_disc_salary);
         final RelativeLayout Book = (RelativeLayout) listViewItem.findViewById(R.id.book123);
+        final ImageView Book1 = (ImageView)listViewItem.findViewById(R.id.book13);
         final RelativeLayout ChatRoom = (RelativeLayout) listViewItem.findViewById(R.id.chatroom);
         final TextView adoctordegree = (TextView) listViewItem.findViewById(R.id.doctor_degree);
         final TextView adoctorinsurance = (TextView) listViewItem.findViewById(R.id.doctor_Insurance);
@@ -114,8 +118,6 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
         // final TableLayout tableLayout = (TableLayout) listViewItem.findViewById(R.id.in_list);
         final TextView TypeList = (TextView) listViewItem.findViewById(R.id.type_list);
         final CheckBox favcheckbox = (CheckBox) listViewItem.findViewById(R.id.fav_checkbox);
-        final RelativeLayout relativeLayoutbook = listViewItem.findViewById(R.id.rilative_book);
-        final RelativeLayout relativeLayoutfav = listViewItem.findViewById(R.id.rilative_fav);
         mAuth = FirebaseAuth.getInstance();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         final CircleImageView adoctorphoto = (CircleImageView) listViewItem.findViewById(R.id.doctor_photo);
@@ -142,6 +144,16 @@ public class DoctorAdapter extends ArrayAdapter<DoctorFirebaseClass> implements 
                 loadPhoto(ahospitalpic, width, height);
             }
         });
+
+
+
+
+
+
+
+
+
+
         /**  final Button singout = (Button) listViewItem.findViewById(R.id.singout);
          singout.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {

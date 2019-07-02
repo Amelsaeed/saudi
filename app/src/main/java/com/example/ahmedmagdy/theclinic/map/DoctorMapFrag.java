@@ -195,7 +195,7 @@ public class DoctorMapFrag extends Fragment implements OnMapReadyCallback,
 
 
             System.out.println(TAG + " mMapBoundary " + mMapBoundary);
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 20));
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 12));
         if(mDoctorBookingLocLat > 0 && mDoctorBookingLocLng > 0){
             System.out.println("zoomUser lng-lat :"+mDoctorBookingLocLng + mDoctorBookingLocLat);
             zoomUser(mDoctorBookingLocLat , mDoctorBookingLocLng);

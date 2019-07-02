@@ -61,10 +61,10 @@ public class FavActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                .child(mAuth.getCurrentUser().getUid());databaseDoctorFav.keepSynced(true);
+                .child(mAuth.getCurrentUser().getUid());/*databaseDoctorFav.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
+        databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");/*databaseDoctor.keepSynced(true);*/
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
 
 
@@ -149,7 +149,7 @@ public class FavActivity extends AppCompatActivity {
 
                                 String DType = dataSnapshot1.child(DID).child("cType").getValue(String.class);
                                 DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,DType,false,false);
-                                doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                                doctorList.add(doctorclass);// i= 0  (index)to start from top
                                 DoctorAdapter adapter = new DoctorAdapter(FavActivity.this, doctorList);
                                 listViewDoctor.setAdapter(adapter);
                                 setupSearchView();

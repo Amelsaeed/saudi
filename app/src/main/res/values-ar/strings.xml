@@ -329,6 +329,7 @@
     <string name="today">اليوم</string>
     <string name="no_data">لايوجد بيانات!</string>
     <string name="no_data_added_to_favorites">لا توجد بيانات تضاف إلى المفضلة!</string>
+    <string name="no_data_added">لا توجد بيانات!</string>
     <string name="login">تسجيل الدخول</string>
     <string name="email">البريد الالكتروني</string>
     <string name="password">الرقم السري</string>

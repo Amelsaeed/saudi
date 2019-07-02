@@ -74,10 +74,10 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         mAuth = FirebaseAuth.getInstance();
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseUserReg.keepSynced(true);
+        /*databaseUserReg.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseChat.keepSynced(true);
+        /*databaseChat.keepSynced(true);*/
         Userid = mAuth.getCurrentUser().getUid();
 
         edit1 = (TextView) findViewById(R.id.edit1);

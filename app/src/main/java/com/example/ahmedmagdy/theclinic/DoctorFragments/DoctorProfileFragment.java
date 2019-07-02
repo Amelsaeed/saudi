@@ -1,5 +1,7 @@
 package com.example.ahmedmagdy.theclinic.DoctorFragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -120,13 +123,21 @@ public class DoctorProfileFragment extends Fragment {
         final View rootView = getLayoutInflater().inflate(R.layout.activity_doctor_profile, container, false);
 
 
+
+
+
+
+
+
+
+
         mAuth = FirebaseAuth.getInstance();
         fUser = mAuth.getCurrentUser();
         if (fUser != null) {
             doctorId = fUser.getUid();
         }
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");//Photos
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");

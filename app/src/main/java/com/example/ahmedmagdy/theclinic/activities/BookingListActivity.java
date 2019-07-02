@@ -118,16 +118,16 @@ public class BookingListActivity extends AppCompatActivity implements ActivityCo
         fuser = mAuth.getInstance().getCurrentUser();
         userid = mAuth.getCurrentUser().getUid();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseUserReg.keepSynced(true);
+        /*databaseUserReg.keepSynced(true);*/
         databasetimeBooking = FirebaseDatabase.getInstance().getReference("bookingtimes");
-        databasetimeBooking.keepSynced(true);
+        /*databasetimeBooking.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseChat.keepSynced(true);
+        /*databaseChat.keepSynced(true);*/
         databaseMap = FirebaseDatabase.getInstance().getReference("mapdb");
-        databaseMap.keepSynced(true);
+        /*databaseMap.keepSynced(true);*/
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         DatabaseReference reference = databaseMap.push();

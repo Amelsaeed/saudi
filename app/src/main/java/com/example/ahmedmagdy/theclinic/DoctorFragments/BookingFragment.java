@@ -71,7 +71,7 @@ public class BookingFragment extends Fragment {
         calendarPick = rootView.findViewById(R.id.calendar_pick);
 
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
         progressBar = rootView.findViewById(R.id.dr_booking_pb);
         dateView = rootView.findViewById(R.id.booking_date);
@@ -83,7 +83,7 @@ public class BookingFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         doctorId = mAuth.getCurrentUser().getUid();
         mBookingRef = FirebaseDatabase.getInstance().getReference("bookingtimes").child(mAuth.getCurrentUser().getUid());
-        mBookingRef.keepSynced(true);
+        /*mBookingRef.keepSynced(true);*/
        // selectedDate = UtilClass.getInstanceDate();
         Intent intent = getActivity().getIntent();
         selectedDate = intent.getStringExtra("datedmy");

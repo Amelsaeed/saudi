@@ -31,93 +31,6 @@
                 android:gravity="left"
                 android:orientation="vertical">
 
-<<<<<<< HEAD
-=======
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:textStyle="italic"
-                    android:textColor="#2e2e2e"
-                    android:text="@string/speciality_details"/>
-
-                <EditText
-                    android:id="@+id/peditbox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/what_about_you"
-                    android:textColor="#2e2e2e"
-                    android:gravity="left"
-                    android:padding="10dp"
-                    android:textSize="16dp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        android:id="@+id/a"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/liner"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="10dp"
-        android:background="#8f8c8c" />
-    <Button
-        android:id="@+id/doc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_round_blue"
-        android:onClick="chat"
-        android:text="chat"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/ptime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:text="10 min"
-        android:visibility="gone"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textColor="#000"
-
-        />
-    <Button
-        android:id="@+id/working_hours_btn"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/a"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button_round_red"
-        android:text="@string/add_time" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/working_hours_btn">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/max_no_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true"
-                app:contentPadding="10dp">
-
->>>>>>> e9277ef805feee472199e683b9656a2e5e70d4fc
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -192,505 +105,515 @@
                         android:textStyle="italic" />
 
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:id="@+id/a"
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/working_hours_btn"/>
+
+
+
+    <View
+        android:id="@+id/a"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/liner"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:background="#8f8c8c" />
+
+    <Button
+        android:id="@+id/doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_round_blue"
+        android:onClick="chat"
+        android:text="chat"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/ptime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="10 min"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#000"
+        android:visibility="gone"
+
+        />
+
+    <Button
+        android:id="@+id/working_hours_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/a"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_round_red"
+        android:text="@string/add_time" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/working_hours_btn">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/liner"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp"
-            android:background="#8f8c8c" />
-
-        <Button
-            android:id="@+id/doc"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_round_blue"
-            android:onClick="chat"
-            android:text="chat"
-            android:visibility="gone" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/ptime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="10 min"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000"
-            android:visibility="gone"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:id="@+id/max_no_card"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-            />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/working_hours_btn"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/a"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/button_round_red"
-            android:text="@string/add_time" />
+                    <ImageView
+                        android:id="@+id/max_no_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/working_hours_btn">
+                    <TextView
+                        android:id="@+id/max_no_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/max_num"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-            <LinearLayout
+                    <TextView
+                        android:id="@+id/max_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="10dp"
+                android:background="#8f8c8c" />
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/price_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/detection_price"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/max_no_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/pprice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/max_no_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/max_num"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/max_no"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="10dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/city_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/state_city_region"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/price_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/ppcity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/detection_price"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/pprice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/speciality_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/specialty"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/city_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/pspeciality"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/state_city_region"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/ppcity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/degree_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/degree"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/speciality_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/pdegree"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/specialty"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/pspeciality"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/phone_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/phone_number"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/degree_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/pphone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/degree"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/pdegree"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/ch_start_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/chat_time"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/phone_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/ch_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/phone_number"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/pphone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/insurance_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/insurance"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/ch_start_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
+                    <TextView
+                        android:id="@+id/insur"
+                        android:layout_width="100dp"
+                        android:layout_height="22dp"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/chat_time"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#8f8c8c" />
 
-                        <TextView
-                            android:id="@+id/ch_start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/birthday_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_edit" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/birthday"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
 
-                        <ImageView
-                            android:id="@+id/insurance_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/insurance"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:id="@+id/insur"
-                            android:layout_width="100dp"
-                            android:layout_height="22dp"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#8f8c8c" />
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="10dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/birthday"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:layout_marginRight="5dp"
+                        android:textColor="#2e2e2e"
+                        android:textSize="16dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
-                        <ImageView
-                            android:id="@+id/birthday_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_edit" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="@string/birthday"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:id="@+id/birthday"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#2e2e2e"
-                            android:textSize="16dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
-        </ScrollView>
-
-        <ProgressBar
-            android:id="@+id/progressbar_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
+    <ProgressBar
+        android:id="@+id/progressbar_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
 
-    </RelativeLayout>
-</ScrollView>
-
+</RelativeLayout>
+    </ScrollView>

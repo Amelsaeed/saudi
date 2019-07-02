@@ -15,6 +15,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahmedmagdy.theclinic.Adapters.DoctorAdapter;
@@ -73,7 +74,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
         progressBar = (ProgressBar)  rootView.findViewById(R.id.home_progress_bar);
         mAuth = FirebaseAuth.getInstance();
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");
-        databaseDoctor.keepSynced(true);
+        /*databaseDoctor.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         listViewDoctor=  rootView.findViewById(R.id.list_view_doctor);
         searchView =   rootView.findViewById(R.id.search);
@@ -83,6 +84,8 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
         removeFocus();
         btnproceed= (ImageView)  rootView.findViewById(R.id.map);
         btnproceed.setOnClickListener(this);
+        TextView noDataMsg = rootView.findViewById(R.id.no_data_msg1);
+        listViewDoctor.setEmptyView(noDataMsg);
         return rootView;
     }
 
@@ -102,7 +105,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits").child(mAuth.getCurrentUser().getUid());
-            databaseDoctorFav.keepSynced(true);
+         /*   databaseDoctorFav.keepSynced(true);*/
 
             maketableoffav();
         } else {
@@ -131,7 +134,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
                         doctorclass.checked = true;
                     }
 
-                    doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                    doctorList.add(doctorclass);// i= 0  (index)to start from top
                 }
 
                 DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
@@ -164,7 +167,7 @@ public class HospitalAllDoctorFragment extends Fragment implements View.OnClickL
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot doctorSnapshot : dataSnapshot.getChildren()) {
                         DoctorFirebaseClass doctorclass = doctorSnapshot.getValue(DoctorFirebaseClass.class);
-                        favList.add(0, doctorclass);// i= 0  (index)to start from top
+                        favList.add( doctorclass);// i= 0  (index)to start from top
                     }
                 }
                 maketableofall();

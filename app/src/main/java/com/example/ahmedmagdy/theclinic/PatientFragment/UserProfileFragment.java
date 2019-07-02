@@ -79,10 +79,10 @@ public class UserProfileFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FUser = mAuth.getCurrentUser();
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
-        databaseUserReg.keepSynced(true);
+        /*databaseUserReg.keepSynced(true);*/
         mStorageRef = FirebaseStorage.getInstance().getReference("Photos");
         databaseChat = FirebaseDatabase.getInstance().getReference("ChatRoom");
-        databaseChat.keepSynced(true);
+        /*databaseChat.keepSynced(true);*/
         Userid = mAuth.getCurrentUser().getUid();
         Email = (TextView) rootView.findViewById(R.id.email_user);
         Email.setText(FUser.getEmail());

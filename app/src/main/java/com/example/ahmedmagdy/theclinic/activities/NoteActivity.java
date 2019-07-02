@@ -50,7 +50,7 @@ public class NoteActivity  extends AppCompatActivity {
         String name = intent.getStringExtra("nameuser");
         iddoctor = intent.getStringExtra("iddoctor");
         // init var's
-        mDatabase = FirebaseDatabase.getInstance().getReference("Notes");mDatabase.keepSynced(true);
+        mDatabase = FirebaseDatabase.getInstance().getReference("Notes");/*mDatabase.keepSynced(true);*/
         mAuth = FirebaseAuth.getInstance();
         mList = new ArrayList<>();
         mListView = findViewById(R.id.list_view_note);

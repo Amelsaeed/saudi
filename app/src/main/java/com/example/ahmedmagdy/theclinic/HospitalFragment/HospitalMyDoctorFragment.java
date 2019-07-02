@@ -68,7 +68,8 @@ public class HospitalMyDoctorFragment extends Fragment {
 
 
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                .child(mAuth.getCurrentUser().getUid());databaseDoctorFav.keepSynced(true);
+                .child(mAuth.getCurrentUser().getUid());
+        /*databaseDoctorFav.keepSynced(true);*/
         databaseUserReg = FirebaseDatabase.getInstance().getReference("user_data");
         databaseDoctor = FirebaseDatabase.getInstance().getReference("Doctordb");databaseDoctor.keepSynced(true);
 
@@ -141,7 +142,8 @@ public class HospitalMyDoctorFragment extends Fragment {
         // databaseDoctorFav.keepSynced(true);
         // databaseDoctor.keepSynced(true);
         databaseDoctorFav = FirebaseDatabase.getInstance().getReference("Favourits")
-                .child(mAuth.getCurrentUser().getUid());databaseDoctorFav.keepSynced(true);
+                .child(mAuth.getCurrentUser().getUid());
+        /*databaseDoctorFav.keepSynced(true);*/
         databaseDoctorFav.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -170,7 +172,7 @@ public class HospitalMyDoctorFragment extends Fragment {
                             String HospitalID = dataSnapshot1.child(DID).child("cHospitalID").getValue(String.class);
                             String DType = dataSnapshot1.child(DID).child("cType").getValue(String.class);
                             DoctorFirebaseClass doctorclass = new DoctorFirebaseClass(DID, DName, DSpecialty, DCity, DUri,DInsurance,DDegree,DPrice,checked,HospitalID,DType,DType,false,false);
-                            doctorList.add(0,doctorclass);// i= 0  (index)to start from top
+                            doctorList.add(doctorclass);// i= 0  (index)to start from top
                             DoctorAdapter adapter = new DoctorAdapter(getActivity(), doctorList);
                             filter = adapter.getFilter();
                             listViewDoctor.setAdapter(adapter);

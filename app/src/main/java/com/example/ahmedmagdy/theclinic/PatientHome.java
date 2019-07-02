@@ -22,6 +22,7 @@ import android.support.v7.view.ActionMode;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.ahmedmagdy.theclinic.Notifications.Token;
 import com.example.ahmedmagdy.theclinic.PatientFragment.AllDoctorfragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.FavFragment;
 import com.example.ahmedmagdy.theclinic.PatientFragment.MoreFragmentPatient;
@@ -33,6 +34,7 @@ import com.example.ahmedmagdy.theclinic.PatientFragment.UserBookingFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -124,6 +126,10 @@ public class PatientHome extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (fuser != null) {
+            String Token = FirebaseInstanceId.getInstance().getToken();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+            Token token1 = new Token(Token);
+            reference.child(fuser.getUid()).setValue(token1);
             status(true);
         }
 
@@ -142,6 +148,7 @@ public class PatientHome extends AppCompatActivity {
                                 if (fuser !=null) {
                                     databaseChat1 = FirebaseDatabase.getInstance().getReference("ChatRoom");
                                     databaseChat1.child(fuser.getUid()).child("status").setValue(false);
+
                                 }
                                 moveTaskToBack(true);
                                 Process.killProcess(Process.myPid());
